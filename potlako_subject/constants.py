@@ -1,2 +1,2 @@
-DOCTOR_OTHER = 'Doctor - Other type (specify)'
-NURSE_OTHER = 'Nurse - Other type (specify)'
+DOCTOR_OTHER = 'doc_other'
+NURSE_OTHER = 'nurse_other'
