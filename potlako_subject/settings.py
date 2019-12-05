@@ -2,7 +2,10 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+APP_NAME = 'potlako_subject'
+SITE_ID = 1
 
+ETC_DIR = os.path.join(BASE_DIR, 'etc')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -12,6 +15,9 @@ SECRET_KEY = 'gc2s5qt4g7(&scfo8xqra6wrn0%a!io4)g^yp@*nwa4e1hre7_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+AUTO_CREATE_KEYS = False
+
+# KEY_PATH = os.path.join(BASE_DIR, 'crypto_fields')
 
 ALLOWED_HOSTS = []
 
@@ -25,6 +31,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django_crypto_fields.apps.AppConfig',
+    'django_extensions',
+    'edc_device.apps.AppConfig',
+    'potlako_subject.apps.AppConfig',
 ]
 
 MIDDLEWARE = [
@@ -93,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Gaborone'
 
 USE_I18N = True
 
