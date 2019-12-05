@@ -1,5 +1,5 @@
-from .constants import DOCTOR_OTHER, NURSE_OTHER
-from edc_constants.constants import OTHER
+from .constants import DOCTOR_OTHER, MISSING, NURSE_OTHER
+from edc_constants.constants import OTHER, POS, NEG, UNKNOWN
 
 CLINICIAN_TYPE = (
     ('med_officer', 'Medical Officer'),
@@ -11,7 +11,7 @@ CLINICIAN_TYPE = (
     ('pathologist', 'Specialist - Pathologist'),
     ('hematologist', 'Specialist - Hematologist'),
     ('palliative_care', 'Specialist - Palliative care'),
-    (DOCTOR_OTHER, 'Doctor - Other type (specify)')
+    (DOCTOR_OTHER, 'Doctor - Other type (specify)'),
     ('FNP', 'Nurse - FNP'),
     ('midwife', 'Nurse - Midwife'),
     ('community_health', 'Nurse - Community health'),
@@ -150,4 +150,29 @@ KIN_RELATIONSHIP = (
     ('grandparents', 'Grandparents'),
     ('grandchild', 'Grandchild'),
     (OTHER, 'Other')
+)
+
+SEVERITY_LEVEL = (
+    ('low', 'Low'),
+    ('moderate', 'Moderate'),
+    ('high', 'High')
+)
+
+POS_NEG_UNKNOWN_MISSING = (
+    (POS, 'Positive'),
+    (NEG, 'Negative'),
+    (UNKNOWN, 'Unknown'),
+    (MISSING, 'Missing'),
+)
+
+DISPOSITION = (
+    ('return', 'Return'),
+    ('refer', 'Refer'),
+    ('discharge', 'Discharge'),
+)
+
+TRIAGE_STATUS = (
+    ('emergency', 'Emergency'),
+    ('urgent', 'Urgent'),
+    ('routine', 'Routine'),
 )
