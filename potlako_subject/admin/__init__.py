@@ -1,3 +1,4 @@
 from .clinician_call_enrollment_admin import ClinicianCallEnrollmentAdmin
+from .clinician_call_followup_admin import ClinicianCallFollowUpAdmin
 from .missed_visit_admin import MissedVisitAdmin
 from .transport_admin import TransportAdmin

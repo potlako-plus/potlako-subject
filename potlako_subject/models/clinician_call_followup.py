@@ -9,7 +9,7 @@ from ..choices import CLINICIAN_TYPE, DISPOSITION, FACILITY, FACILITY_UNIT
 from ..choices import TRIAGE_STATUS
 
 
-class PatientCallFollowUp(models.Model):
+class ClinicianCallFollowUp(models.Model):
 
     visit_date_time = models.DateTimeField(
         verbose_name='Date of Visit',
@@ -127,5 +127,5 @@ class PatientCallFollowUp(models.Model):
 
     class Meta:
         app_label = 'potlako_subject'
-        verbose_name = 'Patient Call - FollowUp'
+        verbose_name = 'Clinician Call - FollowUp'
 

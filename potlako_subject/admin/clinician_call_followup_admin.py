@@ -1,14 +1,14 @@
 from django.contrib import admin
 
 from ..admin_site import potlako_subject_admin
-from ..forms import PatientCallFollowUpForm
-from ..models import PatientCallFollowUp
+from ..forms import ClinicianCallFollowUpForm
+from ..models import ClinicianCallFollowUp
 
 
-@admin.register(PatientCallFollowUp, site=potlako_subject_admin)
-class PatientCallFollowUpAdmin(admin.ModelAdmin):
+@admin.register(ClinicianCallFollowUp, site=potlako_subject_admin)
+class ClinicianCallFollowUpAdmin(admin.ModelAdmin):
 
-    form = PatientCallFollowUpForm
+    form = ClinicianCallFollowUpForm
 
     fieldsets = (
         (None, {
