@@ -1,5 +1,5 @@
 from .constants import DOCTOR_OTHER, MISSING, NURSE_OTHER
-from edc_constants.constants import OTHER, POS, NEG, UNKNOWN
+from edc_constants.constants import OTHER, POS, NEG, UNKNOWN, NOT_APPLICABLE
 
 CLINICIAN_TYPE = (
     ('med_officer', 'Medical Officer'),
@@ -175,4 +175,67 @@ TRIAGE_STATUS = (
     ('emergency', 'Emergency'),
     ('urgent', 'Urgent'),
     ('routine', 'Routine'),
+)
+
+HOUSEMATE = (
+    ('parents', 'Parents'),
+    ('siblings', 'Siblings'),
+    ('children', 'Children'),
+    (OTHER, 'Other friend or relative'),
+)
+
+TRANSPORT_CRITERIA = (
+    ('social_welfare_assistance', 'On social welfare assistance'),
+    ('disability', 'Unable to work due to physical or mental disability'),
+    ('residing_in_mobile_stop_area', 'Residing in mobile stop area'),
+    ('no_public_transport', 'Residing in area with no public transport'),
+    ('lives_far', 'Lives >= 20km away from nearest health facility'),
+    ('missed_visits_due_trans_challenges',
+     'Has missed appointments due to transportation challenges'),
+    (OTHER, 'Other'),
+)
+
+TRANSPORT_TYPE = (
+    ('facility_vehicle', 'Facility Vehicle - Arranged by RC'),
+    ('bus', 'Bus Voucher'),
+    ('cash', 'Cash transfer to patient'),
+    ('patient_arranged_vehicle',
+     'Facility Vehicle - Arranged by Patient or Clinician'),
+)
+
+
+VEHICLE_ARR_STATUS = (
+    ('in_progress', 'Request made to facility, arrangement in progress'),
+    ('to_be_communicated',
+     'Arrangement confirmed by facility but not yet communicated with '
+     'patient or clinician'),
+    ('confirmed_communicated',
+     'Arrangement confirmed by facility and communicated to the patient '
+     'and clinician'),
+    ('vehicle_cannot_be_provided', 'Request made facility NOT able to '
+     'provide transport/vehicle for patient'),
+    (OTHER, 'Other (specify)'),
+    (NOT_APPLICABLE, 'N/A'),
+)
+
+BUS_VOUCHER_STATUS = (
+    ('not_drafted', 'Letter not yet drafted'),
+    ('not_sent', 'Letter completed but not yet sent to facility'),
+    ('not_received', 'Letter sent to facility (but not yet received)'),
+    ('patient_received', 'Letter received by patient'),
+    (OTHER, 'Other (specify)'),
+    (NOT_APPLICABLE, 'N/A'),
+)
+
+CASH_TRANSFER_STATUS = (
+    ('not_initiated', 'Transaction not yet initiated'),
+    ('successful_confirmed', 'Transaction successful and patient confirmed'),
+    ('successful_unconfirmed', 'Transaction successful but no patient confirmation'),
+    ('not_successful', 'Transaction not successful (specify)'),
+    (NOT_APPLICABLE, 'N/A'),
+)
+
+MISSED_VISIT_TYPE = (
+    ('referral', 'Referral'),
+    ('return', 'Return'),
 )
