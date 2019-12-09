@@ -9,7 +9,7 @@ from ..choices import CLINICIAN_TYPE, DISPOSITION, FACILITY, FACILITY_UNIT
 from ..choices import TRIAGE_STATUS
 
 
-class ClinicalCallEnrollment(models.Model):
+class PatientCallFollowUp(models.Model):
 
     visit_date_time = models.DateTimeField(
         verbose_name='Date of Visit',
@@ -92,7 +92,8 @@ class ClinicalCallEnrollment(models.Model):
         verbose_name=('Name of referral clinician discussed with '
                       '(and indicate whether nurse or doctor)'),
         max_length=25,
-        help_text='(If referral clinician name is missing, please write "UNK")')
+        help_text='(If referral clinician name is missing, please write "UNK")'
+    )
 
     return_visit_scheduled = models.CharField(
         verbose_name=('If not discharged, does patient have return visit '
@@ -123,4 +124,8 @@ class ClinicalCallEnrollment(models.Model):
         choices=YES_NO,
         max_length=3,
         help_text='(IF YES, COMPLETE \'TRANSPORT FORM\')')
+
+    class Meta:
+        app_label = 'potlako_subject'
+        verbose_name = 'Patient Call - FollowUp'
 
