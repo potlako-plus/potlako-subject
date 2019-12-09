@@ -1,5 +1,6 @@
-from .constants import DOCTOR_OTHER, MISSING, NURSE_OTHER
 from edc_constants.constants import OTHER, POS, NEG, UNKNOWN, NOT_APPLICABLE
+
+from .constants import DOCTOR_OTHER, MISSING, NURSE_OTHER
 
 CLINICIAN_TYPE = (
     ('med_officer', 'Medical Officer'),
@@ -184,6 +185,13 @@ HOUSEMATE = (
     (OTHER, 'Other friend or relative'),
 )
 
+POS_NEG_MISSING_UNKNOWN = (
+    (POS, 'Positive'),
+    (NEG, 'Negative'),
+    ('MISSING', 'Missing'),
+    (UNKNOWN, 'Unknown'),
+)
+
 TRANSPORT_CRITERIA = (
     ('social_welfare_assistance', 'On social welfare assistance'),
     ('disability', 'Unable to work due to physical or mental disability'),
@@ -202,7 +210,6 @@ TRANSPORT_TYPE = (
     ('patient_arranged_vehicle',
      'Facility Vehicle - Arranged by Patient or Clinician'),
 )
-
 
 VEHICLE_ARR_STATUS = (
     ('in_progress', 'Request made to facility, arrangement in progress'),
