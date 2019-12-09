@@ -235,7 +235,39 @@ CASH_TRANSFER_STATUS = (
     (NOT_APPLICABLE, 'N/A'),
 )
 
-MISSED_VISIT_TYPE = (
+VISIT_TYPE = (
     ('referral', 'Referral'),
     ('return', 'Return'),
+)
+
+DETERMINE_MISSED_VISIT = (
+    ('database',
+     'Coordinator referenced database and contacted clinician/facility'),
+    ('clinic_register',
+     'Clinician referenced clinic register and contacted clinician'),
+    ('clinician_contacted', 'Patient contacted clinician'),
+    ('coordinator_contacted', 'Patient contacted coordinator'),
+    (OTHER, 'Other')
+)
+
+PEOPLE_INQUIRED_FROM = (
+    ('patient_called', 'Patient called (phone answered)'),
+    ('kin1_called',
+     'Next of kin 1 called (phone answered) after patient called (NO answer, SMS sent)'),
+    ('kin2_called', 'Next of kin 2 called (phone answered) after patient and next of '
+                    'kin 1 called (NO answer for both, SMS sent to both)'),
+    ('unreachable', 'Unable to reach patient or next of kin'),
+)
+
+REASON_MISSED_VISIT = (
+    ('no_appointment_knowledge', 'Did not know about appointment'),
+    ('forgot_appointment', 'Did not remember appointment date'),
+    ('no_transport_fare', 'Could not afford transport fee'),
+    ('no_access_to_transport', 'Did not have access to transportation'),
+    ('different_facility', 'Went to a different facility'),
+    ('felt_better', 'Did not think they had to come in because feeling better'),
+    ('didnt_think_theyd_get_help',
+     'Did not wish to return because they did not think they would get help'),
+    ('deceased', 'Patient deceased'),
+    (OTHER, 'Other (specify)'),
 )
