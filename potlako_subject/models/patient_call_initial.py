@@ -7,9 +7,10 @@ from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import datetime_not_before_study_start
 
-from ..choices import CALL_ACHIEVEMENTS, FACILITY_UNIT, SEVERITY_LEVEL
 from ..choices import DELAYED_REASON, HEALTH_FACCTOR, PATIENT_FACTOR
 from ..choices import DISTRICT, FACILITY, POS_NEG_UNKNOWN_MISSING, TEST_TYPE
+from ..choices import FACILITY_UNIT, SEVERITY_LEVEL
+from .list_models import CallAchievements
 
 
 class PatientCallInitial(models.Model):
@@ -18,10 +19,9 @@ class PatientCallInitial(models.Model):
         verbose_name='Date of Visit',
         validators=[datetime_not_before_study_start, datetime_not_future])
 
-    start_time = models.IntegerField(
+    start_time = models.TimeField(
         verbose_name='Time at START of encounter',
-        default=0,
-        validators=[MinValueValidator(0), MaxValueValidator(60)]
+        help_text='Minutes'
     )
 
     dob_known = models.CharField(
@@ -91,12 +91,12 @@ class PatientCallInitial(models.Model):
         choices=YES_NO,
         max_length=3)
 
-    next_keen_number_first = EncryptedCharField(
+    next_of_keen_contact_first = EncryptedCharField(
         verbose_name='Please enter next of kin 1 phone number',
         max_length=8,
         validators=[CellNumber, ])
 
-    next_keen_number_second = EncryptedCharField(
+    next_of_keen_contact_second = EncryptedCharField(
         verbose_name='Please enter next of kin 2 phone number',
         max_length=8,
         validators=[CellNumber, ])
@@ -132,6 +132,7 @@ class PatientCallInitial(models.Model):
     previous_facility_period = models.CharField(
         verbose_name=('For how long was he/she seen at facilities '
                       'before enrollment visit?'),
+        max_length=15,
         help_text='specify variable (days, weeks, months, years)')
 
     perfomance_status = models.IntegerField(
@@ -290,11 +291,9 @@ class PatientCallInitial(models.Model):
         max_length=3,
         help_text='IF YES, COMPLETE TRANSPORT FORM')
 
-    call_acievements = models.CharField(
-        verbose_name='What has been achieved during the call',
-        max_length=25,
-        choices=CALL_ACHIEVEMENTS,
-        help_text='Select all that apply')
+    call_achievements = models.ManyToManyField(
+        CallAchievements,
+        verbose_name='What has been achieved during the call')
 
     clinician_information = models.CharField(
         verbose_name=('Any information to be passed back to clinician?'),
@@ -312,7 +311,7 @@ class PatientCallInitial(models.Model):
         choices=SEVERITY_LEVEL,
         max_length=10)
 
-    ecounter_end_time = models.TimeField(
+    encounter_end_time = models.TimeField(
         verbose_name='Time at END of encounter',
     )
 

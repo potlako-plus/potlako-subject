@@ -18,14 +18,6 @@ BUS_VOUCHER_STATUS = (
     (NOT_APPLICABLE, 'N/A'),
 )
 
-CALL_ACHIEVEMENTS = (
-    ('communicate_results', 'Communicate results'),
-    ('reschedule_change_appointment', 'Reschedule/change appointment'),
-    ('confirm_appointment_date', 'Confirm appointment date'),
-    ('arrange_transportation', 'Arrange transportation'),
-    (OTHER, 'Other')
-)
-
 CANCER_DIAGNOSIS = (
     ('cervical', 'Cervical Cancer'),
     ('breast', 'Breast Cancer'),
