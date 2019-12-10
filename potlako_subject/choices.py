@@ -18,6 +18,41 @@ BUS_VOUCHER_STATUS = (
     (NOT_APPLICABLE, 'N/A'),
 )
 
+CANCER_DIAGNOSIS = (
+    ('cervical', 'Cervical Cancer'),
+    ('breast', 'Breast Cancer'),
+    ('head_n_neck', 'Head and Neck Cancer'),
+    ('non_hodgkin_lymph', 'Non-Hodgkin Lymphoma'),
+    ('hodgkin_lymph', 'Hodgkin Lymphoma'),
+    ('esophageal', 'Esophageal'),
+    ('vuginal', 'Vulvar/Vaginal Cancer'),
+    ('anal', 'Anal Cancer'),
+    ('kaposis_sarcoma', 'Kaposi\'s sarcoma'),
+    ('penile', 'Penile Cancer'),
+    ('prostate', 'Prostate Cancer'),
+    ('colorectal', 'Colorectal Cancer'),
+    (OTHER, 'Other'),
+)
+
+CANCER_EVALUATION = (
+    ('complete', 'Complete'),
+    ('unable_to_complete',
+     'Incomplete, but unable to complete (i.e. death, refusal)'),
+    ('incomplete_needs_priority',
+     'Incomplete, needs priority Potlako follow-up'),
+    ('complete_needs_priority', 'Complete, needs priority Potlako follow-up')
+)
+
+CANCER_STATUS = (
+    ('confirmed', 'Confirmed cancer'),
+    ('probable', 'Probable cancer'),
+    ('possible_not', 'Possible not cancer'),
+    ('probable_not', 'Probable not cancer, no alternative dx'),
+    ('confirmed_not', 'Confirmed not cancer, alternative dx'),
+    ('incomplete_dx', 'Incomplete dx'),
+)
+
+
 CASH_TRANSFER_STATUS = (
     ('not_initiated', 'Transaction not yet initiated'),
     ('successful_confirmed', 'Transaction successful and patient confirmed'),
@@ -205,6 +240,17 @@ KIN_RELATIONSHIP = (
     (OTHER, 'Other')
 )
 
+NON_CANCER_DIAGNOSIS = (
+    ('fibroadenoma', 'Fibroadenoma'),
+    ('breast_cyst', 'Breast cyst'),
+    ('breast_abscess', 'Breast Abscess'),
+    ('tb', 'Tuberculosis'),
+    ('skin_ulcer', 'Non-healing skin ulcer'),
+    ('pre_cancerous_lesion', 'Cervical pre-cancerous lesion'),
+    ('no_alt_diagnosis_est', 'No alternative diagnosis established'),
+    (OTHER, 'Other'),
+)
+
 PATIENT_FACTOR = (
     ('patient_work_obligations', 'Patient work obligations (formal '
      'and informal work, including lands and cattle post)'),
@@ -246,6 +292,12 @@ REASON_MISSED_VISIT = (
      'Did not wish to return because they did not think they would get help'),
     ('deceased', 'Patient deceased'),
     (OTHER, 'Other (specify)'),
+)
+
+REVIEWER = (
+    ('neo', 'Neo'),
+    ('scott', 'Scott'),
+    (OTHER, 'Other')
 )
 
 SEVERITY_LEVEL = (
