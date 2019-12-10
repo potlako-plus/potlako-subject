@@ -2,5 +2,6 @@ from .clinician_call_enrollment_form import ClinicianCallEnrollmentForm
 from .clinician_call_followup_form import ClinicianCallFollowUpForm
 from .home_visit_form import HomeVisitForm
 from .missed_visit_form import MissedVisitForm
+from .physician_review_form import PhysicianReviewForm
 from .sms_form import SMSForm
 from .transport_form import TransportForm
