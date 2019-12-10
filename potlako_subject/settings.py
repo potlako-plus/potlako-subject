@@ -15,7 +15,6 @@ SECRET_KEY = 'gc2s5qt4g7(&scfo8xqra6wrn0%a!io4)g^yp@*nwa4e1hre7_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-AUTO_CREATE_KEYS = False
 
 # KEY_PATH = os.path.join(BASE_DIR, 'crypto_fields')
 
@@ -81,18 +80,18 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME':
+     'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'
+     },
+    {'NAME':
+     'django.contrib.auth.password_validation.MinimumLengthValidator',
+     },
+    {'NAME':
+     'django.contrib.auth.password_validation.CommonPasswordValidator',
+     },
+    {'NAME':
+     'django.contrib.auth.password_validation.NumericPasswordValidator',
+     },
 ]
 
 # Internationalization
