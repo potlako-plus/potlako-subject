@@ -1,4 +1,4 @@
-from edc_constants.constants import OTHER, POS, NEG, UNKNOWN, NOT_APPLICABLE
+from edc_constants.constants import ALIVE, DEAD, OTHER, POS, NEG, UNKNOWN, NOT_APPLICABLE
 
 from .constants import DOCTOR_OTHER, MISSING, NURSE_OTHER
 
@@ -277,4 +277,10 @@ REASON_MISSED_VISIT = (
      'Did not wish to return because they did not think they would get help'),
     ('deceased', 'Patient deceased'),
     (OTHER, 'Other (specify)'),
+)
+
+ALIVE_DEAD_LTFU = (
+    (ALIVE, 'Patient alive (specify)'),
+    (DEAD, 'Patient died'),
+    ('ltfu', 'Patient lost to follow up')
 )
