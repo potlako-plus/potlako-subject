@@ -18,6 +18,14 @@ BUS_VOUCHER_STATUS = (
     (NOT_APPLICABLE, 'N/A'),
 )
 
+CALL_ACHIEVEMENTS = (
+    ('communicate_results', 'Communicate results'),
+    ('reschedule_change_appointment', 'Reschedule/change appointment'),
+    ('confirm_appointment_date', 'Confirm appointment date'),
+    ('arrange_transportation', 'Arrange transportation'),
+    (OTHER, 'Other')
+)
+
 CASH_TRANSFER_STATUS = (
     ('not_initiated', 'Transaction not yet initiated'),
     ('successful_confirmed', 'Transaction successful and patient confirmed'),
@@ -188,6 +196,24 @@ FACILITY_UNIT = (
     (OTHER, 'Other'),
 )
 
+HEALTH_FACCTOR = (
+    ('clinic_hospital_unable_schedule_2_weeks', 'Clinic/hospital unable to '
+     'schedule within 2 weeks (overbooked, uncertain schedule, etc)'),
+    ('clinic_hospital_did_not_schedule_2_weeks', 'Clinic/hospital did not '
+     'schedule within 2 weeks (unwilling, low priority case, etc)'),
+    ('clinic_no_transport', 'Clinic/hospital provided transportation not '
+     'available (needed for other clinic use, broken, driver on leave, etc)'),
+    ('service_unavailable',
+     'Clinic/hospital service no available on scheduled date (surgical '
+     'consultation, biopsy clinic, etc)'),
+    ('service_provider_not_available',
+     'Clinic/hospital provider not  available on scheduled date (provider '
+     'called to emergency, provider on leave, etc)'),
+    ('supplies_not_available', 'Clinic/hospital supplies not available on '
+     'scheduled date (no biopsy needles, out of stock chemotherapy, etc)'),
+    (OTHER, 'other clinic or hospital related reason (specify)')
+)
+
 HOUSEMATE = (
     ('parents', 'Parents'),
     ('siblings', 'Siblings'),
@@ -214,8 +240,8 @@ PATIENT_FACTOR = (
      'transportation, including family member to accompany'),
     ('patient_finding_tarnsport_difficulty', 'Patient difficulty finding '
      'transportation or family member to accompany'),
-    ('other_patient_related_reason', 'Other patient related reason (specify)')
-    )
+    (OTHER, 'Other patient related reason (specify)')
+)
 
 PEOPLE_INQUIRED_FROM = (
     ('patient_called', 'Patient called (phone answered)'),

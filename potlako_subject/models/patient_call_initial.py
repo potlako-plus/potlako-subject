@@ -7,7 +7,8 @@ from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import datetime_not_before_study_start
 
-from ..choices import DELAYED_REASON, PATIENT_FACTOR
+from ..choices import CALL_ACHIEVEMENTS, FACILITY_UNIT, SEVERITY_LEVEL
+from ..choices import DELAYED_REASON, HEALTH_FACCTOR, PATIENT_FACTOR
 from ..choices import DISTRICT, FACILITY, POS_NEG_UNKNOWN_MISSING, TEST_TYPE
 
 
@@ -243,10 +244,85 @@ class PatientCallInitial(models.Model):
     health_system_factor = models.CharField(
         verbose_name=('Which health system factor best describes reason '
                       'for delayed, missed, or rescheduled visit?'),
-        choices=PATIENT_FACTOR,
+        choices=HEALTH_FACCTOR,
         max_length=50,
         null=True,
         blank=True)
+
+    health_system_factor_other = OtherCharField(
+        verbose_name='Please describe other health system factor',
+        max_length=50,
+        blank=True,
+        null=True)
+
+    delayed_visit_description = models.TextField(
+        verbose_name=('Please briefly describe the situation resulting in '
+                      'the delayed, missed, or rescheduled visit'),
+        max_length=150)
+
+    next_appointment_facility = models.CharField(
+        verbose_name='Next appointment facility',
+        choices=FACILITY,
+        max_length=30,
+        help_text='per patient report')
+
+    next_appointment_facility_unit = models.CharField(
+        choices=FACILITY_UNIT,
+        max_length=20)
+
+    next_appointment_facility_unit_other = OtherCharField(
+        max_length=50,
+        blank=True,
+        null=True)
+
+    patient_understanding = models.CharField(
+        verbose_name=('Is patient\'s understanding of the next appointment '
+                      '(date and location) the same as clinicians?'),
+        choices=YES_NO,
+        max_length=3,
+        help_text=('If not, inform patient of the date as specified by the '
+                   'clinician. If there is a discrepancy, call clinician '
+                   'to verify'))
+
+    transport_support = models.CharField(
+        verbose_name=('Has patient expressed need for transport support?'),
+        choices=YES_NO,
+        max_length=3,
+        help_text='IF YES, COMPLETE TRANSPORT FORM')
+
+    call_acievements = models.CharField(
+        verbose_name='What has been achieved during the call',
+        max_length=25,
+        choices=CALL_ACHIEVEMENTS,
+        help_text='Select all that apply')
+
+    clinician_information = models.CharField(
+        verbose_name=('Any information to be passed back to clinician?'),
+        choices=YES_NO,
+        max_length=3)
+
+    comments = models.TextField(
+        verbose_name=('Any other general comments regarding patient encouter'),
+        max_length=100,
+        blank=True,
+        null=True)
+
+    cancer_probability = models.CharField(
+        verbose_name='Cancer probability (baseline)',
+        choices=SEVERITY_LEVEL,
+        max_length=10)
+
+    ecounter_end_time = models.TimeField(
+        verbose_name='Time at END of encounter',
+    )
+
+    initial_call_end_time = models.TimeField(
+        verbose_name='End of patient initial call (timestamp)',
+    )
+
+    call_duration = models.DurationField(
+        verbose_name='Duration of patient initial call',
+    )
 
     class Meta:
         app_label = 'potlako_subject'
