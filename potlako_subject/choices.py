@@ -2,6 +2,23 @@ from edc_constants.constants import OTHER, POS, NEG, UNKNOWN, NOT_APPLICABLE
 
 from .constants import DOCTOR_OTHER, MISSING, NURSE_OTHER
 
+BUS_VOUCHER_STATUS = (
+    ('not_drafted', 'Letter not yet drafted'),
+    ('not_sent', 'Letter completed but not yet sent to facility'),
+    ('not_received', 'Letter sent to facility (but not yet received)'),
+    ('patient_received', 'Letter received by patient'),
+    (OTHER, 'Other (specify)'),
+    (NOT_APPLICABLE, 'N/A'),
+)
+
+CASH_TRANSFER_STATUS = (
+    ('not_initiated', 'Transaction not yet initiated'),
+    ('successful_confirmed', 'Transaction successful and patient confirmed'),
+    ('successful_unconfirmed', 'Transaction successful but no patient confirmation'),
+    ('not_successful', 'Transaction not successful (specify)'),
+    (NOT_APPLICABLE, 'N/A'),
+)
+
 CLINICIAN_TYPE = (
     ('med_officer', 'Medical Officer'),
     ('fam_medicine', 'Specialist - Family Medicine'),
@@ -18,6 +35,46 @@ CLINICIAN_TYPE = (
     ('community_health', 'Nurse - Community health'),
     (NURSE_OTHER, 'Nurse - Other type (specify)'),
     ('RN', 'Nurse - RN')
+)
+
+DETERMINE_MISSED_VISIT = (
+    ('database',
+     'Coordinator referenced database and contacted clinician/facility'),
+    ('clinic_register',
+     'Clinician referenced clinic register and contacted clinician'),
+    ('clinician_contacted', 'Patient contacted clinician'),
+    ('coordinator_contacted', 'Patient contacted coordinator'),
+    (OTHER, 'Other')
+)
+
+DISPOSITION = (
+    ('return', 'Return'),
+    ('refer', 'Refer'),
+    ('discharge', 'Discharge'),
+)
+
+DISTRICT = (
+    ('chobe', 'Chobe - Chobe'),
+    ('bobonong', 'Central - Bobonong'),
+    ('boteti', 'Central - Boteti'),
+    ('mahalapye', 'Central - Mahalapye'),
+    ('orapa', 'Central - Orapa'),
+    ('serowe_palapye', 'Central - Serowe/Palapye'),
+    ('tutume', 'Central - Tutume'),
+    ('CKGR', 'ghanzi - CKGR'),
+    ('ghanzi', 'ghanzi - Ghanzi'),
+    ('kgalagdi_north', 'Kgalagadi North'),
+    ('kgalagadi_south', 'Kgalagadi South'),
+    ('kgatleng', 'Kgatleng'),
+    ('kweneng_east', 'Kweneng - East'),
+    ('kweneng_west', 'Kweneng - West'),
+    ('delta', 'north West - Delta'),
+    ('ngamiland_north', 'North West - Ngamiland Nort'),
+    ('ngamiland_south', 'North East - Ngamiland South'),
+    ('north_east', 'North East'),
+    ('barolong', 'Southern - Barolong'),
+    ('ngwaketse', 'Southern - Ngwaketse'),
+    ('ngwaketse_west', 'Southern - Ngwaketse West'),
 )
 
 FACILITY = (
@@ -119,28 +176,11 @@ FACILITY_UNIT = (
     (OTHER, 'Other'),
 )
 
-DISTRICT = (
-    ('chobe', 'Chobe - Chobe'),
-    ('bobonong', 'Central - Bobonong'),
-    ('boteti', 'Central - Boteti'),
-    ('mahalapye', 'Central - Mahalapye'),
-    ('orapa', 'Central - Orapa'),
-    ('serowe_palapye', 'Central - Serowe/Palapye'),
-    ('tutume', 'Central - Tutume'),
-    ('CKGR', 'ghanzi - CKGR'),
-    ('ghanzi', 'ghanzi - Ghanzi'),
-    ('kgalagdi_north', 'Kgalagadi North'),
-    ('kgalagadi_south', 'Kgalagadi South'),
-    ('kgatleng', 'Kgatleng'),
-    ('kweneng_east', 'Kweneng - East'),
-    ('kweneng_west', 'Kweneng - West'),
-    ('delta', 'north West - Delta'),
-    ('ngamiland_north', 'North West - Ngamiland Nort'),
-    ('ngamiland_south', 'North East - Ngamiland South'),
-    ('north_east', 'North East'),
-    ('barolong', 'Southern - Barolong'),
-    ('ngwaketse', 'Southern - Ngwaketse'),
-    ('ngwaketse_west', 'Southern - Ngwaketse West'),
+HOUSEMATE = (
+    ('parents', 'Parents'),
+    ('siblings', 'Siblings'),
+    ('children', 'Children'),
+    (OTHER, 'Other friend or relative'),
 )
 
 KIN_RELATIONSHIP = (
@@ -153,10 +193,13 @@ KIN_RELATIONSHIP = (
     (OTHER, 'Other')
 )
 
-SEVERITY_LEVEL = (
-    ('low', 'Low'),
-    ('moderate', 'Moderate'),
-    ('high', 'High')
+PEOPLE_INQUIRED_FROM = (
+    ('patient_called', 'Patient called (phone answered)'),
+    ('kin1_called',
+     'Next of kin 1 called (phone answered) after patient called (NO answer, SMS sent)'),
+    ('kin2_called', 'Next of kin 2 called (phone answered) after patient and next of '
+                    'kin 1 called (NO answer for both, SMS sent to both)'),
+    ('unreachable', 'Unable to reach patient or next of kin'),
 )
 
 POS_NEG_UNKNOWN_MISSING = (
@@ -166,31 +209,31 @@ POS_NEG_UNKNOWN_MISSING = (
     (MISSING, 'Missing'),
 )
 
-DISPOSITION = (
-    ('return', 'Return'),
-    ('refer', 'Refer'),
-    ('discharge', 'Discharge'),
+REASON_MISSED_VISIT = (
+    ('no_appointment_knowledge', 'Did not know about appointment'),
+    ('forgot_appointment', 'Did not remember appointment date'),
+    ('no_transport_fare', 'Could not afford transport fee'),
+    ('no_access_to_transport', 'Did not have access to transportation'),
+    ('different_facility', 'Went to a different facility'),
+    ('felt_better', 'Did not think they had to come in because feeling better'),
+    ('didnt_think_theyd_get_help',
+     'Did not wish to return because they did not think they would get help'),
+    ('deceased', 'Patient deceased'),
+    (OTHER, 'Other (specify)'),
 )
 
-TRIAGE_STATUS = (
-    ('emergency', 'Emergency'),
-    ('urgent', 'Urgent'),
-    ('routine', 'Routine'),
+SEVERITY_LEVEL = (
+    ('low', 'Low'),
+    ('moderate', 'Moderate'),
+    ('high', 'High')
 )
 
-HOUSEMATE = (
-    ('parents', 'Parents'),
-    ('siblings', 'Siblings'),
-    ('children', 'Children'),
-    (OTHER, 'Other friend or relative'),
-)
-
-POS_NEG_MISSING_UNKNOWN = (
-    (POS, 'Positive'),
-    (NEG, 'Negative'),
-    ('MISSING', 'Missing'),
-    (UNKNOWN, 'Unknown'),
-)
+TEST_TYPE = (('blood_test', 'Blood test'),
+             ('biopsy', 'Biopsy (specify body part)'),
+             ('chest_xray', 'Chest X-Ray'),
+             ('ultrasound', 'Ultrasound'),
+             ('ct', 'CT'),
+             (OTHER, 'Other'))
 
 TRANSPORT_CRITERIA = (
     ('social_welfare_assistance', 'On social welfare assistance'),
@@ -211,6 +254,12 @@ TRANSPORT_TYPE = (
      'Facility Vehicle - Arranged by Patient or Clinician'),
 )
 
+TRIAGE_STATUS = (
+    ('emergency', 'Emergency'),
+    ('urgent', 'Urgent'),
+    ('routine', 'Routine'),
+)
+
 VEHICLE_ARR_STATUS = (
     ('in_progress', 'Request made to facility, arrangement in progress'),
     ('to_be_communicated',
@@ -225,56 +274,8 @@ VEHICLE_ARR_STATUS = (
     (NOT_APPLICABLE, 'N/A'),
 )
 
-BUS_VOUCHER_STATUS = (
-    ('not_drafted', 'Letter not yet drafted'),
-    ('not_sent', 'Letter completed but not yet sent to facility'),
-    ('not_received', 'Letter sent to facility (but not yet received)'),
-    ('patient_received', 'Letter received by patient'),
-    (OTHER, 'Other (specify)'),
-    (NOT_APPLICABLE, 'N/A'),
-)
-
-CASH_TRANSFER_STATUS = (
-    ('not_initiated', 'Transaction not yet initiated'),
-    ('successful_confirmed', 'Transaction successful and patient confirmed'),
-    ('successful_unconfirmed', 'Transaction successful but no patient confirmation'),
-    ('not_successful', 'Transaction not successful (specify)'),
-    (NOT_APPLICABLE, 'N/A'),
-)
-
 VISIT_TYPE = (
     ('referral', 'Referral'),
     ('return', 'Return'),
 )
 
-DETERMINE_MISSED_VISIT = (
-    ('database',
-     'Coordinator referenced database and contacted clinician/facility'),
-    ('clinic_register',
-     'Clinician referenced clinic register and contacted clinician'),
-    ('clinician_contacted', 'Patient contacted clinician'),
-    ('coordinator_contacted', 'Patient contacted coordinator'),
-    (OTHER, 'Other')
-)
-
-PEOPLE_INQUIRED_FROM = (
-    ('patient_called', 'Patient called (phone answered)'),
-    ('kin1_called',
-     'Next of kin 1 called (phone answered) after patient called (NO answer, SMS sent)'),
-    ('kin2_called', 'Next of kin 2 called (phone answered) after patient and next of '
-                    'kin 1 called (NO answer for both, SMS sent to both)'),
-    ('unreachable', 'Unable to reach patient or next of kin'),
-)
-
-REASON_MISSED_VISIT = (
-    ('no_appointment_knowledge', 'Did not know about appointment'),
-    ('forgot_appointment', 'Did not remember appointment date'),
-    ('no_transport_fare', 'Could not afford transport fee'),
-    ('no_access_to_transport', 'Did not have access to transportation'),
-    ('different_facility', 'Went to a different facility'),
-    ('felt_better', 'Did not think they had to come in because feeling better'),
-    ('didnt_think_theyd_get_help',
-     'Did not wish to return because they did not think they would get help'),
-    ('deceased', 'Patient deceased'),
-    (OTHER, 'Other (specify)'),
-)
