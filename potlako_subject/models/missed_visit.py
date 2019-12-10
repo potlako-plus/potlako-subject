@@ -24,7 +24,7 @@ class MissedVisit(models.Model):
     facility_scheduled = models.CharField(
         verbose_name='Facility where missed appointment was scheduled',
         choices=FACILITY,
-        max_length=100,)
+        max_length=30,)
 
     visit_type = models.CharField(
         verbose_name='Type of visit missed',
@@ -66,7 +66,7 @@ class MissedVisit(models.Model):
     next_ap_facility = models.CharField(
         verbose_name='Facility at next appointment',
         choices=FACILITY,
-        max_length=100,)
+        max_length=30,)
 
     next_ap_type = models.CharField(
         verbose_name='Type of next appointment',
@@ -89,12 +89,12 @@ class MissedVisit(models.Model):
     clinician_name = models.CharField(
         verbose_name='Name of clinician (and indicate whether doctor or '
                      'nurse) that coordinator discussed missed visit with',
-        max_length=100,)
+        max_length=50,)
 
     comments = models.TextField(
         verbose_name='Any other general comments about missed visit '
                      'encounter?',
-        max_length=250,
+        max_length=150,
         help_text='(Note that this form may involve multiple phone'
                   'calls (e.g. with clinician, patient and then'
                   'clinician again))')

@@ -1,6 +1,12 @@
-from edc_constants.constants import OTHER, POS, NEG, UNKNOWN, NOT_APPLICABLE
+from edc_constants.constants import ALIVE, DEAD, OTHER, POS, NEG, UNKNOWN, NOT_APPLICABLE
 
 from .constants import DOCTOR_OTHER, MISSING, NURSE_OTHER
+
+ALIVE_DEAD_LTFU = (
+    (ALIVE, 'Patient alive (specify)'),
+    (DEAD, 'Patient died'),
+    ('ltfu', 'Patient lost to follow up')
+)
 
 BUS_VOUCHER_STATUS = (
     ('not_drafted', 'Letter not yet drafted'),
@@ -228,6 +234,17 @@ SEVERITY_LEVEL = (
     ('high', 'High')
 )
 
+SMS_OUTCOME = (
+    ('patient_sent_sms_received', 'SMS sent to patient and receipt confirmed'),
+    ('patient_sent_sms_not_received', 'SMS sent to patient and receipt NOT confirmed'),
+    ('kin1_sent_sms_received', 'SMS sent to next of kin 1 and receipt confirmed'),
+    ('kin1_sent_sms_not_received',
+     'SMS sent to next of kin 1 and receipt NOT confirmed'),
+    ('kin2_sent_sms_received', 'SMS sent to next of kin 2 and receipt confirmed'),
+    ('kin2_sent_sms_not_received',
+     'SMS sent to next of kin 2 and receipt NOT confirmed'),
+)
+
 TEST_TYPE = (('blood_test', 'Blood test'),
              ('biopsy', 'Biopsy (specify body part)'),
              ('chest_xray', 'Chest X-Ray'),
@@ -278,4 +295,3 @@ VISIT_TYPE = (
     ('referral', 'Referral'),
     ('return', 'Return'),
 )
-

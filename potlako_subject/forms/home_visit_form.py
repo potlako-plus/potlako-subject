@@ -1,15 +1,15 @@
 from django import forms
-from edc_base.sites import SiteModelFormMixin
 from edc_form_validators import FormValidatorMixin
+from edc_base.sites import SiteModelFormMixin
 
-from ..models import Transport
+from ..models import HomeVisit
 
 
-class TransportForm(
+class HomeVisitForm(
         SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
 
-    # form_validator_cls = TransportFormValidator
+    # form_validator_cls = HomeVisitFormValidator
 
     class Meta:
-        model = Transport
+        model = HomeVisit
         fields = '__all__'
