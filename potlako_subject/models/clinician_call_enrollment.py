@@ -36,7 +36,7 @@ class ClinicianCallEnrollment(BaseUuidModel):
     call_clinician = models.CharField(
         verbose_name='Name of clinician spoken to on the phone '
                      'for initial call',
-        max_length=150,)
+        max_length=25,)
 
     call_clinician_type = models.CharField(
         verbose_name='Type of clinician spoken to on the phone',
@@ -96,8 +96,7 @@ class ClinicianCallEnrollment(BaseUuidModel):
         null=True,)
 
     dob = models.DateField(
-        verbose_name='Patient Date of Birth',
-        blank=False,)
+        verbose_name='Patient Date of Birth',)
 
     age_in_years = models.IntegerField(
         verbose_name='Patient age',
@@ -253,9 +252,8 @@ class ClinicianCallEnrollment(BaseUuidModel):
         validators=[MaxValueValidator(5), MinValueValidator(0)],)
 
     pain_score = models.IntegerField(
-        verbose_name='Pain Score',
-        default=1,
-        validators=[MaxValueValidator(5), MinValueValidator(1)],
+        default=0,
+        validators=[MaxValueValidator(5), MinValueValidator(0)],
         help_text='(confirm with clinician that this is out of total '
                   'score of 5)',)
 

@@ -6,7 +6,7 @@ from ..models import HomeVisit
 
 
 class HomeVisitForm(
-        SiteModelFormMixin, FormValidatorMixin, forms.Form):
+        SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
 
     # form_validator_cls = HomeVisitFormValidator
 

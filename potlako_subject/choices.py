@@ -284,3 +284,14 @@ ALIVE_DEAD_LTFU = (
     (DEAD, 'Patient died'),
     ('ltfu', 'Patient lost to follow up')
 )
+
+SMS_OUTCOME = (
+    ('patient_sent_sms_received', 'SMS sent to patient and receipt confirmed'),
+    ('patient_sent_sms_not_received', 'SMS sent to patient and receipt NOT confirmed'),
+    ('kin1_sent_sms_received', 'SMS sent to next of kin 1 and receipt confirmed'),
+    ('kin1_sent_sms_not_received',
+     'SMS sent to next of kin 1 and receipt NOT confirmed'),
+    ('kin2_sent_sms_received', 'SMS sent to next of kin 2 and receipt confirmed'),
+    ('kin2_sent_sms_not_received',
+     'SMS sent to next of kin 2 and receipt NOT confirmed'),
+)

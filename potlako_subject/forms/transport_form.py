@@ -6,7 +6,7 @@ from ..models import Transport
 
 
 class TransportForm(
-        SiteModelFormMixin, FormValidatorMixin, forms.Form):
+        SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
 
     # form_validator_cls = TransportFormValidator
 
