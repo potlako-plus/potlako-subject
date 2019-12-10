@@ -1,4 +1,5 @@
-from edc_constants.constants import ALIVE, DEAD, OTHER, POS, NEG, UNKNOWN, NOT_APPLICABLE
+from edc_constants.constants import ALIVE, DEAD, OTHER, POS, NEG
+from edc_constants.constants import UNKNOWN, NOT_APPLICABLE
 
 from .constants import DOCTOR_OTHER, MISSING, NURSE_OTHER
 
@@ -20,7 +21,8 @@ BUS_VOUCHER_STATUS = (
 CASH_TRANSFER_STATUS = (
     ('not_initiated', 'Transaction not yet initiated'),
     ('successful_confirmed', 'Transaction successful and patient confirmed'),
-    ('successful_unconfirmed', 'Transaction successful but no patient confirmation'),
+    ('successful_unconfirmed', 'Transaction successful but no patient '
+     'confirmation'),
     ('not_successful', 'Transaction not successful (specify)'),
     (NOT_APPLICABLE, 'N/A'),
 )
@@ -52,6 +54,10 @@ DETERMINE_MISSED_VISIT = (
     ('coordinator_contacted', 'Patient contacted coordinator'),
     (OTHER, 'Other')
 )
+
+DELAYED_REASON = (
+    ('patient_factor', 'Patient Factor'),
+    ('health_system_factor', 'Health System Factor'))
 
 DISPOSITION = (
     ('return', 'Return'),
@@ -199,12 +205,25 @@ KIN_RELATIONSHIP = (
     (OTHER, 'Other')
 )
 
+PATIENT_FACTOR = (
+    ('patient_work_obligations', 'Patient work obligations (formal '
+     'and informal work, including lands and cattle post)'),
+    ('patient_family_obligations', 'Patient family obligations '
+     '(childcare, funeral, illness in family, etc)'),
+    ('patient_paying_transport_difficulty', 'Patient difficulty paying for '
+     'transportation, including family member to accompany'),
+    ('patient_finding_tarnsport_difficulty', 'Patient difficulty finding '
+     'transportation or family member to accompany'),
+    ('other_patient_related_reason', 'Other patient related reason (specify)')
+    )
+
 PEOPLE_INQUIRED_FROM = (
     ('patient_called', 'Patient called (phone answered)'),
     ('kin1_called',
-     'Next of kin 1 called (phone answered) after patient called (NO answer, SMS sent)'),
-    ('kin2_called', 'Next of kin 2 called (phone answered) after patient and next of '
-                    'kin 1 called (NO answer for both, SMS sent to both)'),
+     'Next of kin 1 called (phone answered) after patient called (NO answer, '
+     'SMS sent)'),
+    ('kin2_called', 'Next of kin 2 called (phone answered) after patient and '
+     'next of kin 1 called (NO answer for both, SMS sent to both)'),
     ('unreachable', 'Unable to reach patient or next of kin'),
 )
 
@@ -221,7 +240,8 @@ REASON_MISSED_VISIT = (
     ('no_transport_fare', 'Could not afford transport fee'),
     ('no_access_to_transport', 'Did not have access to transportation'),
     ('different_facility', 'Went to a different facility'),
-    ('felt_better', 'Did not think they had to come in because feeling better'),
+    ('felt_better',
+     'Did not think they had to come in because feeling better'),
     ('didnt_think_theyd_get_help',
      'Did not wish to return because they did not think they would get help'),
     ('deceased', 'Patient deceased'),
@@ -236,11 +256,14 @@ SEVERITY_LEVEL = (
 
 SMS_OUTCOME = (
     ('patient_sent_sms_received', 'SMS sent to patient and receipt confirmed'),
-    ('patient_sent_sms_not_received', 'SMS sent to patient and receipt NOT confirmed'),
-    ('kin1_sent_sms_received', 'SMS sent to next of kin 1 and receipt confirmed'),
+    ('patient_sent_sms_not_received', 'SMS sent to patient and receipt NOT '
+     'confirmed'),
+    ('kin1_sent_sms_received', 'SMS sent to next of kin 1 and receipt '
+     'confirmed'),
     ('kin1_sent_sms_not_received',
      'SMS sent to next of kin 1 and receipt NOT confirmed'),
-    ('kin2_sent_sms_received', 'SMS sent to next of kin 2 and receipt confirmed'),
+    ('kin2_sent_sms_received', 'SMS sent to next of kin 2 and receipt '
+     'confirmed'),
     ('kin2_sent_sms_not_received',
      'SMS sent to next of kin 2 and receipt NOT confirmed'),
 )

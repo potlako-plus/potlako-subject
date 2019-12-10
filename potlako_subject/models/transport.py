@@ -4,8 +4,9 @@ from edc_base.model_validators import date_is_future
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 
-from ..choices import (HOUSEMATE, TRANSPORT_CRITERIA, FACILITY, TRANSPORT_TYPE,
-                       VEHICLE_ARR_STATUS, BUS_VOUCHER_STATUS, CASH_TRANSFER_STATUS)
+from ..choices import CASH_TRANSFER_STATUS
+from ..choices import HOUSEMATE, TRANSPORT_CRITERIA, FACILITY, TRANSPORT_TYPE
+from ..choices import VEHICLE_ARR_STATUS, BUS_VOUCHER_STATUS
 
 
 class Transport(models.Model):

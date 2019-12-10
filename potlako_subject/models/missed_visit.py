@@ -1,6 +1,6 @@
 from django.db import models
-from edc_base.model_validators import date_not_future, date_is_future
 from edc_base.model_fields import OtherCharField
+from edc_base.model_validators import date_not_future, date_is_future
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 
@@ -13,7 +13,7 @@ class MissedVisit(models.Model):
     report_datetime = models.DateTimeField(
         verbose_name='Datetime \'missed visit\' form entered',
         default=get_utcnow,
-        )
+    )
 
     missed_visit_date = models.DateField(
         verbose_name='Date of reference missed visit (visit previously '

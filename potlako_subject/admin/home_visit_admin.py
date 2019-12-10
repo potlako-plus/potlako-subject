@@ -27,7 +27,7 @@ class HomeVisitAdmin(admin.ModelAdmin):
                        'next_ap_facility',
                        'nex_ap_type',
                        'general_comments'),
-            }),
+        }),
     )
 
     radio_fields = {

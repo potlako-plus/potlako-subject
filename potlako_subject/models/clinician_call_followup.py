@@ -128,4 +128,3 @@ class ClinicianCallFollowUp(models.Model):
     class Meta:
         app_label = 'potlako_subject'
         verbose_name = 'Clinician Call - FollowUp'
-

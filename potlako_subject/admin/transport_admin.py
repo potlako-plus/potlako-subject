@@ -31,7 +31,7 @@ class TransportAdmin(admin.ModelAdmin):
                        'cash_status_other',
                        'comments',
                        )
-            }),
+        }),
     )
 
     radio_fields = {
@@ -46,4 +46,5 @@ class TransportAdmin(admin.ModelAdmin):
         'cash_transfer_status': admin.VERTICAL,
     }
 
-    list_display = ('report_datetime', 'is_criteria_met', 'criteria_met', 'transport_type')
+    list_display = ('report_datetime', 'is_criteria_met',
+                    'criteria_met', 'transport_type')

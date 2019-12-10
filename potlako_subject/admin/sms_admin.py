@@ -16,7 +16,7 @@ class SMSAdmin(admin.ModelAdmin):
                        'next_ap_date',
                        'date_reminder_sent',
                        'sms_outcome'),
-            }),
+        }),
     )
 
     radio_fields = {'sms_outcome': admin.VERTICAL}

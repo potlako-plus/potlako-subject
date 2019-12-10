@@ -3,15 +3,16 @@ from django.db import models
 from django_crypto_fields.fields import (
     IdentityField, FirstnameField, LastnameField)
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
-from edc_base.utils import get_utcnow
 from edc_base.model_mixins import BaseUuidModel
-from edc_base.model_validators import CellNumber, date_not_future, date_is_future
+from edc_base.model_validators import CellNumber, date_not_future
+from edc_base.model_validators import date_is_future
+from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO, GENDER
 
-from .list_models import Disposition
 from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT,
                        DISTRICT, KIN_RELATIONSHIP, SEVERITY_LEVEL,
                        POS_NEG_UNKNOWN_MISSING, TRIAGE_STATUS)
+from .list_models import Disposition
 
 
 class ClinicianCallEnrollment(BaseUuidModel):
@@ -340,7 +341,8 @@ class ClinicianCallEnrollment(BaseUuidModel):
         max_length=3,)
 
     comments = models.TextField(
-        verbose_name='Are there any other comments regarding this enrollment vist?',
+        verbose_name=('Are there any other comments regarding this '
+                      'enrollment vist?'),
         max_length=250,)
 
     call_end = models.DateTimeField(

@@ -28,7 +28,7 @@ class MissedVisitAdmin(admin.ModelAdmin):
                        'transport_need',
                        'clinician_name',
                        'comments'),
-            }),
+        }),
     )
 
     radio_fields = {'facility_scheduled': admin.VERTICAL,
