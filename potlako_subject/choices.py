@@ -222,7 +222,7 @@ FACILITY_UNIT = (
     (OTHER, 'Other'),
 )
 
-HEALTH_FACCTOR = (
+HEALTH_FACTOR = (
     ('clinic_hospital_unable_schedule_2_weeks', 'Clinic/hospital unable to '
      'schedule within 2 weeks (overbooked, uncertain schedule, etc)'),
     ('clinic_hospital_did_not_schedule_2_weeks', 'Clinic/hospital did not '
