@@ -1,4 +1,5 @@
 from django.db import models
+from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import datetime_not_future
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
@@ -21,7 +22,7 @@ class PhysicianReview(models.Model):
         choices=REVIEWER,
         max_length=5,)
 
-    reviewer_other = models.CharField(
+    reviewer_other = OtherCharField(
         verbose_name='Physician reviewer (other - specify)',
         max_length=25,
         blank=True,
@@ -63,11 +64,9 @@ class PhysicianReview(models.Model):
         blank=True,
         null=True,)
 
-    non_cancer_diagnosis_other = models.CharField(
+    non_cancer_diagnosis_other = OtherCharField(
         verbose_name='Final Non-Cancer Diagnosis, Other',
-        max_length=40,
-        blank=True,
-        null=True,)
+        max_length=40,)
 
     cancer_diagnosis = models.CharField(
         verbose_name='Final Cancer Diagnosis',
@@ -76,7 +75,7 @@ class PhysicianReview(models.Model):
         blank=True,
         null=True,)
 
-    cancer_diagnosis_other = models.CharField(
+    cancer_diagnosis_other = OtherCharField(
         verbose_name='Final Cancer Diagnosis, Other',
         max_length=40,
         blank=True,
