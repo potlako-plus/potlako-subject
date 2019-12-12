@@ -12,7 +12,8 @@ class PatientCallInitialAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('patient_call_date_time',
+            'fields': ('patient_call_date',
+                       'patient_call_time',
                        'start_time',
                        'dob_known',
                        'dob',

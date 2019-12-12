@@ -5,6 +5,7 @@ from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import CellNumber, datetime_not_future
 from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
+from edc_protocol.validators import date_not_before_study_start
 from edc_protocol.validators import datetime_not_before_study_start
 
 from ..choices import DELAYED_REASON, HEALTH_FACTOR, PATIENT_FACTOR
@@ -15,9 +16,12 @@ from .list_models import CallAchievements
 
 class PatientCallInitial(models.Model):
 
-    patient_call_date_time = models.DateTimeField(
-        verbose_name='Date of Visit',
-        validators=[datetime_not_before_study_start, datetime_not_future])
+    patient_call_time = models.TimeField(
+        verbose_name='Start of patient initial call (timestamp)')
+
+    patient_call_date = models.DateField(
+        verbose_name='Date of initial patient call',
+        validators=[date_not_before_study_start, date_not_future])
 
     start_time = models.TimeField(
         verbose_name='Time at START of encounter',
@@ -29,9 +33,9 @@ class PatientCallInitial(models.Model):
         choices=YES_NO,
         max_length=3,)
 
-    dob = models.DateTimeField(
+    dob = models.DateField(
         verbose_name='If yes, please enter date of birth',
-        validators=[datetime_not_future],
+        validators=[date_not_future],
         blank=True,
         null=True)
 
@@ -89,14 +93,16 @@ class PatientCallInitial(models.Model):
         verbose_name=('Any changes to be made to next of kin contact '
                       'information (patient phone)?'),
         choices=YES_NO,
-        max_length=3)
+        max_length=3,
+        blank=True,
+        null=True)
 
     primary_keen_contact = EncryptedCharField(
         verbose_name='Please enter next of kin 1 phone number',
         max_length=8,
         validators=[CellNumber, ])
 
-    secondary_keen_contact_second = EncryptedCharField(
+    secondary_keen_contact = EncryptedCharField(
         verbose_name='Please enter next of kin 2 phone number',
         max_length=8,
         validators=[CellNumber, ])
@@ -163,6 +169,8 @@ class PatientCallInitial(models.Model):
     hiv_test_date = models.DateField(
         verbose_name=('If patient knows date of last HIV test, please record'),
         validators=[date_not_future, ],
+        blank=True,
+        null=True,
         help_text=('If positive test, date of positive test, if negative, '
                    'date of most recent negative test'))
 
@@ -259,7 +267,9 @@ class PatientCallInitial(models.Model):
     delayed_visit_description = models.TextField(
         verbose_name=('Please briefly describe the situation resulting in '
                       'the delayed, missed, or rescheduled visit'),
-        max_length=150)
+        max_length=150,
+        blank=True,
+        null=True)
 
     next_appointment_facility = models.CharField(
         verbose_name='Next appointment facility',
