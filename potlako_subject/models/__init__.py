@@ -1,5 +1,6 @@
 from .clinician_call_enrollment import ClinicianCallEnrollment
 from .clinician_call_followup import ClinicianCallFollowUp
+from .exit_from_study import ExitFromStudy
 from .home_visit import HomeVisit
 from .missed_call import MissedCall
 from .missed_visit import MissedVisit

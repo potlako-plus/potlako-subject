@@ -1,5 +1,5 @@
 from edc_constants.constants import ALIVE, DEAD, OTHER, POS, NEG
-from edc_constants.constants import UNKNOWN, NOT_APPLICABLE
+from edc_constants.constants import UNKNOWN, NOT_APPLICABLE, NONE
 
 from .constants import DOCTOR_OTHER, MISSING, NURSE_OTHER
 
@@ -77,6 +77,27 @@ CLINICIAN_TYPE = (
     ('community_health', 'Nurse - Community health'),
     (NURSE_OTHER, 'Nurse - Other type (specify)'),
     ('RN', 'Nurse - RN')
+)
+
+COMPONENTS_RECEIVED = (
+    ('provider_edication', 'Provider education'),
+    ('diagnostic_facilitation', 'Diagnostic facilitation (pre-biopsy/test)'),
+    ('access_to_diagnostic_results',
+     'Access to diagnostic results (e.g. histology)'),
+    ('cancer_treatment_facilitation_post_test_results',
+     'Cancer treatment facilitation post-test results'),
+    ('retention_or_completion_of_cancer_treatment',
+     'Retention or completion of cancer treatment'),
+    (NONE, 'None'),
+    (OTHER, 'Other (specify)'),
+)
+
+DEATH_INFO_SOURCE = (
+    ('clinician', 'Clinician'),
+    ('next_of_kin1', 'Next of kin 1'),
+    ('next_of_kin2', 'Next of kin 2'),
+    ('other_fam_member', 'Other family member'),
+    (OTHER, 'Other (specify)'),
 )
 
 DETERMINE_MISSED_VISIT = (
@@ -212,6 +233,14 @@ FACILITY = (
     ('princess_marina', 'Princess Marina Hospital'),
 )
 
+FACILITY_TYPE = (
+    ('health_post', 'health post'),
+    ('primary_clinic', 'primary clinic'),
+    ('primary_hospital', 'primary hospital'),
+    ('secondary_hospital', 'secondary hospital'),
+    ('referral_hospital', 'referral hospital')
+)
+
 FACILITY_UNIT = (
     ('OPD', 'OPD'),
     ('A&E', 'A&E'),
@@ -257,6 +286,17 @@ KIN_RELATIONSHIP = (
     (OTHER, 'Other')
 )
 
+LTFU_CRITERIA = (
+    ('missed_visits', 'Missed visits'),
+    ('attempted_calls_to_patient',
+     'attempted calls to patient x 3 or 3 different days'),
+    ('attempted_calls_to_next_kin1',
+     'attempted calls to next of kin 1 x 3 or 3 different days'),
+    ('attempted_calls_to_next_kin2',
+     'attempted calls to next of kin 2 x 3 or 3 different days'),
+    ('home_visit_done_unable_to_trace', 'home visit done and unable to trace'),
+)
+
 NON_CANCER_DIAGNOSIS = (
     ('fibroadenoma', 'Fibroadenoma'),
     ('breast_cyst', 'Breast cyst'),
@@ -290,11 +330,27 @@ PEOPLE_INQUIRED_FROM = (
     ('unreachable', 'Unable to reach patient or next of kin'),
 )
 
+PLACE_OF_DEATH = (
+    ('home', 'At home or in the community'),
+    ('facility', 'At facility'),
+    (UNKNOWN, 'Place of death unknown'),
+)
+
 POS_NEG_UNKNOWN_MISSING = (
     (POS, 'Positive'),
     (NEG, 'Negative'),
     (UNKNOWN, 'Unknown'),
     (MISSING, 'Missing'),
+)
+
+REASON_FOR_EXIT = (
+    ('death', 'Patient death'),
+    ('ltfu', 'Patient lost to follow-up'),
+    ('eval_complete', 'Cancer evaluation complete'),
+    ('declines_further_eval',
+     'Patient or clinician declines further evaluation'),
+    ('patient_requests_removal', 'Patient requests removal from Potlako'),
+    ('clinician_requests_removal', 'Clinician requests removal from Potlako'),
 )
 
 REASON_MISSED_VISIT = (
@@ -361,6 +417,12 @@ TRANSPORT_TYPE = (
     ('cash', 'Cash transfer to patient'),
     ('patient_arranged_vehicle',
      'Facility Vehicle - Arranged by Patient or Clinician'),
+)
+
+TREATMENT_INTENT = (
+    ('curative', 'Curative'),
+    ('palliative', 'Palliative'),
+    ('uncertain', 'Uncertain'),
 )
 
 TRIAGE_STATUS = (

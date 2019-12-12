@@ -1,5 +1,6 @@
 from .clinician_call_enrollment_form import ClinicianCallEnrollmentForm
 from .clinician_call_followup_form import ClinicianCallFollowUpForm
+from .exit_from_study_form import ExitFromStudyForm
 from .home_visit_form import HomeVisitForm
 from .missed_call_form import MissedCallForm
 from .missed_visit_form import MissedVisitForm

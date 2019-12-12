@@ -1,5 +1,6 @@
 from .clinician_call_enrollment_admin import ClinicianCallEnrollmentAdmin
 from .clinician_call_followup_admin import ClinicianCallFollowUpAdmin
+from .exit_from_study_admin import ExitFromStudyAdmin
 from .home_visit_admin import HomeVisitAdmin
 from .missed_call_admin import MissedCallAdmin
 from .missed_visit_admin import MissedVisitAdmin
