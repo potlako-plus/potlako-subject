@@ -28,3 +28,6 @@ class PatientStatusAdmin(admin.ModelAdmin):
                        'missed_visits',),
         }),
     )
+
+    radio_fields = {'deceased': admin.VERTICAL,
+                    'seen_at_marina': admin.VERTICAL, }

@@ -1,10 +1,10 @@
 from django.db import models
+from edc_constants.choices import YES_NO
 
 
 class PatientStatus(models.Model):
 
-    last_encounter = models.CharField(
-        max_length=25,)
+    last_encounter = models.DateField()
 
     sms_due = models.CharField(
         verbose_name='Due for SMS prior to visit',
@@ -24,6 +24,7 @@ class PatientStatus(models.Model):
         max_length=10,)
 
     deceased = models.CharField(
+        choices=YES_NO,
         max_length=10,)
 
     days_from_death_report = models.PositiveIntegerField()
@@ -36,7 +37,8 @@ class PatientStatus(models.Model):
         verbose_name='Number of missed calls',)
 
     seen_at_marina = models.CharField(
-        max_length=10,)
+        choices=YES_NO,
+        max_length=3,)
 
     exit_status = models.CharField(
         max_length=10)
