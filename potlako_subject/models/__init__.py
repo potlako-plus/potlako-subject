@@ -5,6 +5,7 @@ from .missed_call import MissedCall
 from .missed_visit import MissedVisit
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
+from .patient_status import PatientStatus
 from .physician_review import PhysicianReview
 from .sms import SMS
 from .transport import Transport
