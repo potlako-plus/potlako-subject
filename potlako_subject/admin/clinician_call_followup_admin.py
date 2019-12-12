@@ -12,10 +12,10 @@ class ClinicianCallFollowUpAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('visit_date_time',
+            'fields': ('visit_date',
+                       'start_time',
                        'facility_visited',
                        'call_clinician',
-                       'call_clinician_type',
                        'facility_unit',
                        'facility_unit_other',
                        'visit_type',
@@ -32,13 +32,13 @@ class ClinicianCallFollowUpAdmin(admin.ModelAdmin):
                        'return_visit_date',
                        'investigation_ordered',
                        'triage_status',
-                       'transport_support'
+                       'transport_support',
+                       'followup_end_time'
                        )
         }),
     )
 
     radio_fields = {'facility_visited': admin.VERTICAL,
-                    'call_clinician_type': admin.VERTICAL,
                     'facility_unit': admin.VERTICAL,
                     'visit_type': admin.VERTICAL,
                     'patient_disposition': admin.VERTICAL,
