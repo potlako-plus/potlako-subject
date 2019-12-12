@@ -7,7 +7,7 @@ from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import datetime_not_before_study_start
 
-from ..choices import DELAYED_REASON, HEALTH_FACCTOR, PATIENT_FACTOR
+from ..choices import DELAYED_REASON, HEALTH_FACTOR, PATIENT_FACTOR
 from ..choices import DISTRICT, FACILITY, POS_NEG_UNKNOWN_MISSING, TEST_TYPE
 from ..choices import FACILITY_UNIT, SEVERITY_LEVEL
 from .list_models import CallAchievements
@@ -91,12 +91,12 @@ class PatientCallInitial(models.Model):
         choices=YES_NO,
         max_length=3)
 
-    next_of_keen_contact_first = EncryptedCharField(
+    primary_keen_contact = EncryptedCharField(
         verbose_name='Please enter next of kin 1 phone number',
         max_length=8,
         validators=[CellNumber, ])
 
-    next_of_keen_contact_second = EncryptedCharField(
+    secondary_keen_contact_second = EncryptedCharField(
         verbose_name='Please enter next of kin 2 phone number',
         max_length=8,
         validators=[CellNumber, ])
@@ -245,7 +245,7 @@ class PatientCallInitial(models.Model):
     health_system_factor = models.CharField(
         verbose_name=('Which health system factor best describes reason '
                       'for delayed, missed, or rescheduled visit?'),
-        choices=HEALTH_FACCTOR,
+        choices=HEALTH_FACTOR,
         max_length=50,
         null=True,
         blank=True)

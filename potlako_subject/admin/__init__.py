@@ -3,8 +3,10 @@ from .clinician_call_followup_admin import ClinicianCallFollowUpAdmin
 from .home_visit_admin import HomeVisitAdmin
 from .missed_call_admin import MissedCallAdmin
 from .missed_visit_admin import MissedVisitAdmin
+from .patient_call_followup_admin import PatientCallFollowUpAdmin
 from .patient_call_initial_admin import PatientCallInitialAdmin
 from .patient_status_admin import PatientStatusAdmin
 from .physician_review_admin import PhysicianReviewAdmin
 from .sms_admin import SMSAdmin
 from .transport_admin import TransportAdmin
+
