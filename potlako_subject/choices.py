@@ -43,6 +43,15 @@ CANCER_EVALUATION = (
     ('complete_needs_priority', 'Complete, needs priority Potlako follow-up')
 )
 
+CANCER_STAGES = (
+    ('stage_0', 'Stage 0'),
+    ('stage_I', 'Stage I'),
+    ('stage_II', 'Stage II'),
+    ('stage_III', 'Stage III'),
+    ('stage_IV', 'Stage IV'),
+    (OTHER, 'Other'),
+)
+
 CANCER_STATUS = (
     ('confirmed', 'Confirmed cancer'),
     ('probable', 'Probable cancer'),
@@ -91,7 +100,15 @@ DETERMINE_MISSED_VISIT = (
 
 DELAYED_REASON = (
     ('patient_factor', 'Patient Factor'),
-    ('health_system_factor', 'Health System Factor'))
+    ('health_system_factor', 'Health System Factor')
+)
+
+DIAGNOSIS_RESULTS = (
+    ('not_cancer', 'NOT cancer'),
+    ('cancer', 'cancer'),
+    ('non_diagnostic', 'Non-diagnostic'),
+    ('specimen_not_recieved', 'Specimen lost or not received')
+)
 
 DISPOSITION = (
     ('return', 'Return'),
@@ -247,6 +264,21 @@ HOUSEMATE = (
     (OTHER, 'Other friend or relative'),
 )
 
+IMAGING_STATUS = (
+    ('ordered', 'Ordered'),
+    ('performed', 'Performed')
+)
+
+IMAGING_TESTS = (
+    ('xray_chest', 'Xray - chest'),
+    ('xray_other', 'Xray - other (specify)'),
+    ('ultrasound_abdomen', 'Ultrasound - abdomen'),
+    ('ultrasound_other', 'Ultrasound - other (specify)'),
+    ('CT', 'CT (specify)'),
+    ('MRI', 'MRI (specify)'),
+    (OTHER, 'Other imaging test (specify)')
+)
+
 KIN_RELATIONSHIP = (
     ('spouse', 'Spouse'),
     ('child', 'Child'),
@@ -255,6 +287,32 @@ KIN_RELATIONSHIP = (
     ('grandparents', 'Grandparents'),
     ('grandchild', 'Grandchild'),
     (OTHER, 'Other')
+)
+
+LAB_TESTS = (
+    ('FBC', 'FBC'),
+    ('RFT', 'RFT'),
+    ('LFT', 'LFT'),
+    ('HIV', 'HIV'),
+    ('WBC', 'WBC'),
+    ('Hb', 'Hb'),
+    ('Plt', 'Plt'),
+    ('Cr', 'Cr'),
+    ('K', 'K'),
+    ('Na', 'Na'),
+    ('Glu', 'Glu'),
+    ('pap_smear', 'Pap Smear'),
+    (OTHER, 'Other lab test (specify)')
+)
+
+LAB_TESTS_STATUS = (
+    ('ordered', 'Ordered'),
+    ('specimen_taken', 'Specimen taken'),
+    ('specimen_logged_ipms', 'Specimen logged into IPMS'),
+    ('specimen_recieved_nhl', 'Specimen received at NHL (for pathology only)'),
+    ('results_available_ipms', 'Results available on IPMS'),
+    ('results_available_paper', 'Results available on paper'),
+    (OTHER, 'Other (specify)')
 )
 
 NON_CANCER_DIAGNOSIS = (
@@ -297,6 +355,14 @@ POS_NEG_UNKNOWN_MISSING = (
     (MISSING, 'Missing'),
 )
 
+PATHOLOGY_TEST_TYPE = (
+    ('biopsy_bone_marrow', 'Biopsy - bone marrow'),
+    ('biopsy_lymph_node', 'Biopsy - lymph node'),
+    ('biopsy_other', 'Biopsy - other (specify)'),
+    ('FNA', 'FNA'),
+    ('pap_smear', 'Pap smear')
+)
+
 REASON_MISSED_VISIT = (
     ('no_appointment_knowledge', 'Did not know about appointment'),
     ('forgot_appointment', 'Did not remember appointment date'),
@@ -337,12 +403,14 @@ SMS_OUTCOME = (
      'SMS sent to next of kin 2 and receipt NOT confirmed'),
 )
 
-TEST_TYPE = (('blood_test', 'Blood test'),
-             ('biopsy', 'Biopsy (specify body part)'),
-             ('chest_xray', 'Chest X-Ray'),
-             ('ultrasound', 'Ultrasound'),
-             ('ct', 'CT'),
-             (OTHER, 'Other'))
+TEST_TYPE = (
+    ('blood_test', 'Blood test'),
+    ('biopsy', 'Biopsy (specify body part)'),
+    ('chest_xray', 'Chest X-Ray'),
+    ('ultrasound', 'Ultrasound'),
+    ('ct', 'CT'),
+    (OTHER, 'Other')
+)
 
 TRANSPORT_CRITERIA = (
     ('social_welfare_assistance', 'On social welfare assistance'),

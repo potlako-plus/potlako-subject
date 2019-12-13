@@ -5,7 +5,7 @@ from edc_base.model_validators import date_is_future, date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
-from ..choices import CLINICIAN_TYPE, DISPOSITION, FACILITY, FACILITY_UNIT
+from ..choices import DISPOSITION, FACILITY, FACILITY_UNIT
 from ..choices import TRIAGE_STATUS
 
 
@@ -19,7 +19,7 @@ class ClinicianCallFollowUp(models.Model):
         verbose_name='Clinician follow-up: start time')
 
     facility_visited = models.CharField(
-        verbose_name="Name and type  of facility visited",
+        verbose_name='Name and type  of facility visited',
         max_length=25,
         choices=FACILITY)
 

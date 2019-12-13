@@ -6,3 +6,4 @@ git+https://github.com/botswana-harvard/edc-device.git@develop#egg=edc_device
 git+https://github.com/botswana-harvard/edc-form-validators.git@develop#egg=edc_form_validators
 git+https://github.com/botswana-harvard/edc-list-data.git@develop#egg=edc_list_data
 git+https://github.com/botswana-harvard/edc-protocol.git@develop#egg=edc_protocol
+git+https://github.com/botswana-harvard/edc-model-admin.git@develop#egg=edc_model_admin
