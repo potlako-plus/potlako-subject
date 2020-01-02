@@ -13,3 +13,4 @@ from .physician_review import PhysicianReview
 from .sms import SMS
 from .subject_consent import SubjectConsent
 from .transport import Transport
+from .subject_screening import SubjectScreening
