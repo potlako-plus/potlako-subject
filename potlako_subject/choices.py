@@ -517,3 +517,10 @@ VISIT_TYPE = (
     ('referral', 'Referral'),
     ('return', 'Return'),
 )
+
+IDENTITY_TYPE = (
+    ('country_id', 'Country ID number'),
+    ('country_id_rcpt', 'Country ID receipt'),
+    ('passport', 'Passport'),
+    (OTHER, 'Other'),
+)

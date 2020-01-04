@@ -15,6 +15,7 @@ from edc_registration.model_mixins import (
     UpdatesOrCreatesRegistrationModelMixin)
 from edc_search.model_mixins import SearchSlugManager
 
+from ..choices import IDENTITY_TYPE
 from ..subject_identifier import SubjectIdentifier
 from .model_mixins import SearchSlugModelMixin
 
@@ -44,6 +45,11 @@ class SubjectConsent(
         null=True,
         blank=True,
         max_length=50)
+
+    identity_type = models.CharField(
+        verbose_name='What type of identity number is this?',
+        max_length=25,
+        choices=IDENTITY_TYPE)
 
     consent = SubjectConsentManager()
 
