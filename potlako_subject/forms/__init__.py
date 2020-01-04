@@ -11,5 +11,6 @@ from .patient_call_initial_form import PatientCallInitialForm
 from .patient_status_form import PatientStatusForm
 from .physician_review_form import PhysicianReviewForm
 from .sms_form import SMSForm
+from .subject_consent_form import SubjectConsentForm
 from .subject_screening_form import SubjectScreeningForm
 from .transport_form import TransportForm
