@@ -64,6 +64,17 @@ class SubjectScreening(
         default=False,
         editable=False)
 
+    ineligibility = models.TextField(
+        verbose_name="Reason not eligible",
+        max_length=150,
+        null=True,
+        editable=False)
+
+    # is updated via signal once subject is consented
+    is_consented = models.BooleanField(
+        default=False,
+        editable=False)
+
     objects = EnrollmentManager()
 
     def __str__(self):

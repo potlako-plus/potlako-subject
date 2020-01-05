@@ -10,7 +10,8 @@ from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
 from .patient_status import PatientStatus
 from .physician_review import PhysicianReview
+from .signals import subject_consent_on_post_save
 from .sms import SMS
 from .subject_consent import SubjectConsent
-from .transport import Transport
 from .subject_screening import SubjectScreening
+from .transport import Transport
