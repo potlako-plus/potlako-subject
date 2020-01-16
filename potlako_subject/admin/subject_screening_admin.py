@@ -30,7 +30,7 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
     next_form_getter_cls = NextFormGetter
 
 
-@admin.register(SubjectScreening, site=potlako_subject_admin    )
+@admin.register(SubjectScreening, site=potlako_subject_admin)
 class SubjectScreeningAdmin(
         ModelAdminMixin, admin.ModelAdmin):
 
@@ -55,5 +55,4 @@ class SubjectScreeningAdmin(
     readonly_fields = ('screening_identifier', 'subject_identifier')
 
     def get_readonly_fields(self, request, obj=None):
-        return (super().get_readonly_fields(request, obj=obj)
-                + audit_fields)
+        return (super().get_readonly_fields(request, obj=obj) + audit_fields)

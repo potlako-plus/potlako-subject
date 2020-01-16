@@ -93,7 +93,6 @@ class SubjectScreening(
             self.screening_identifier = self.identifier_cls().identifier
         super().save(*args, **kwargs)
 
-
     class Meta:
         app_label = 'potlako_subject'
         verbose_name = "Potlako Eligibility"
