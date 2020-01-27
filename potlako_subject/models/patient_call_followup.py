@@ -4,6 +4,7 @@ from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import CellNumber
 from edc_base.model_validators import date_not_future
+from edc_base.model_mixins import BaseUuidModel
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
@@ -12,7 +13,7 @@ from ..choices import HEALTH_FACTOR, PATIENT_FACTOR
 from .list_models import CallAchievements
 
 
-class PatientCallFollowUp(models.Model):
+class PatientCallFollowUp(BaseUuidModel):
 
     coordinator_encounter_date = models.DateField(
         verbose_name='Date of coordinator encounter',

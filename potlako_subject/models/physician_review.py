@@ -3,14 +3,16 @@ from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import datetime_not_future
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
+from edc_base.model_mixins import BaseUuidModel
 from edc_protocol.validators import datetime_not_before_study_start
 
 from ..choices import (
     CANCER_DIAGNOSIS, CANCER_EVALUATION, CANCER_STATUS, NON_CANCER_DIAGNOSIS,
     REVIEWER)
+from .model_mixins import CrfModelMixin
 
 
-class PhysicianReview(models.Model):
+class PhysicianReview(CrfModelMixin, BaseUuidModel):
 
     review_date_time = models.DateTimeField(
         verbose_name='Date time of physician review',

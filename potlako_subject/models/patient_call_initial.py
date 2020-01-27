@@ -7,6 +7,7 @@ from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 from edc_protocol.validators import datetime_not_before_study_start
+from edc_base.model_mixins import BaseUuidModel
 
 from ..choices import DELAYED_REASON, HEALTH_FACTOR, PATIENT_FACTOR
 from ..choices import DISTRICT, FACILITY, POS_NEG_UNKNOWN_MISSING, TEST_TYPE
@@ -14,7 +15,7 @@ from ..choices import FACILITY_UNIT, SEVERITY_LEVEL
 from .list_models import CallAchievements
 
 
-class PatientCallInitial(models.Model):
+class PatientCallInitial(BaseUuidModel):
 
     patient_call_time = models.TimeField(
         verbose_name='Start of patient initial call (timestamp)')

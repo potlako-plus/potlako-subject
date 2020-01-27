@@ -1,5 +1,5 @@
-from edc_constants.constants import ALIVE, DEAD, OTHER, POS, NEG
-from edc_constants.constants import UNKNOWN, NOT_APPLICABLE, NONE
+from edc_constants.constants import (
+    ALIVE, DEAD, OTHER, POS, NEG, OFF_STUDY, UNKNOWN, NOT_APPLICABLE, NONE)
 
 from .constants import DOCTOR_OTHER, MISSING, NURSE_OTHER
 
@@ -523,4 +523,39 @@ IDENTITY_TYPE = (
     ('country_id_rcpt', 'Country ID receipt'),
     ('passport', 'Passport'),
     (OTHER, 'Other'),
+)
+
+VISIT_UNSCHEDULED_REASON_CHOICE = (
+    ('Routine oncology clinic visit (i.e. planned chemo, follow-up)',
+     'Routine oncology clinic visit (i.e. planned chemo, follow-up)'),
+    ('Ill oncology clinic visit', 'Ill oncology clinic visit'),
+    ('Patient called to come for visit', 'Patient called to come for visit'),
+    ('Other, specify: ', 'Other, specify: '),
+)
+
+VISIT_UNSCHEDULED_REASON = (
+    ('Routine oncology', 'Routine oncology clinic visit (i.e. planned chemo, follow-up)'),
+    ('Ill oncology', 'Ill oncology clinic visit'),
+    ('Patient called', 'Patient called to come for visit'),
+    (NOT_APPLICABLE, 'Not Applicable'),
+    ('OTHER', 'Other, specify:'),
+)
+
+VISIT_REASON = (
+    ('Quarterly visit/contact', 'Quarterly visit/contact'),
+    ('Unscheduled visit/contact', 'Unscheduled visit/contact'),
+    ('Missed quarterly visit', 'Missed quarterly visit'),
+    ('Lost to follow-up', 'Lost to follow-up (use only when taking subject off study)'),
+    ('Death', 'Death'),
+    (OFF_STUDY, 'Off study'),
+    ('deferred', 'Deferred'),
+)
+
+VISIT_INFO_SOURCE = (
+    ('Clinic visit w/ subject', 'Clinic visit with participant'),
+    ('Other contact w/ subject', 'Other contact with participant (i.e telephone call)'),
+    ('Contact w/ health worker', 'Contact with health care worker'),
+    ('Contact w/ family/design',
+     'Contact with family or designated person who can provide information'),
+    ('OTHER', 'Other,specify'),
 )

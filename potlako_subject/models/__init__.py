@@ -15,4 +15,5 @@ from .signals import subject_consent_on_post_save
 from .sms import SMS
 from .subject_consent import SubjectConsent
 from .subject_screening import SubjectScreening
+from .subject_visit import SubjectVisit
 from .transport import Transport

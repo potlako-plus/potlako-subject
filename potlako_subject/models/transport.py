@@ -1,6 +1,7 @@
 from django.db import models
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_is_future
+from edc_base.model_mixins import BaseUuidModel
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 
@@ -9,7 +10,7 @@ from ..choices import HOUSEMATE, TRANSPORT_CRITERIA, FACILITY, TRANSPORT_TYPE
 from ..choices import VEHICLE_ARR_STATUS, BUS_VOUCHER_STATUS
 
 
-class Transport(models.Model):
+class Transport(BaseUuidModel):
 
     report_datetime = models.DateTimeField(
         verbose_name='Datetime transport form entered',

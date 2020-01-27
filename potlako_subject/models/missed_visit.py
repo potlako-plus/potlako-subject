@@ -2,13 +2,14 @@ from django.db import models
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_not_future, date_is_future
 from edc_base.utils import get_utcnow
+from edc_base.model_mixins import BaseUuidModel
 from edc_constants.choices import YES_NO
 
 from ..choices import (FACILITY, VISIT_TYPE, DETERMINE_MISSED_VISIT,
                        PEOPLE_INQUIRED_FROM, REASON_MISSED_VISIT)
 
 
-class MissedVisit(models.Model):
+class MissedVisit(BaseUuidModel):
 
     report_datetime = models.DateTimeField(
         verbose_name='Datetime \'missed visit\' form entered',
