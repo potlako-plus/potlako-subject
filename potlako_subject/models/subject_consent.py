@@ -85,6 +85,10 @@ class SubjectConsent(
             site=self.site)
         return subject_identifier.identifier
 
+    @property
+    def consent_version(self):
+        return self.version
+
     class Meta(ConsentModelMixin.Meta):
         app_label = 'potlako_subject'
         get_latest_by = 'consent_datetime'
