@@ -1,17 +1,17 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from edc_base.model_fields import OtherCharField
+from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_is_future, date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
-from edc_base.model_mixins import BaseUuidModel
 
 from ..choices import DISPOSITION, FACILITY, FACILITY_UNIT
 from ..choices import TRIAGE_STATUS
 from .model_mixins import CrfModelMixin
 
 
-class ClinicianCallFollowUp(CrfModelMixin, BaseUuidModel):
+class ClinicianCallFollowUp(CrfModelMixin):
 
     visit_date = models.DateField(
         verbose_name='Date of Visit',

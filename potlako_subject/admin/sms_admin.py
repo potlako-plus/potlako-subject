@@ -1,12 +1,12 @@
 from django.contrib import admin
-
+from import_export.admin import ImportExportActionModelAdmin
 from ..admin_site import potlako_subject_admin
 from ..forms import SMSForm
 from ..models import SMS
 
 
 @admin.register(SMS, site=potlako_subject_admin)
-class SMSAdmin(admin.ModelAdmin):
+class SMSAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 
     form = SMSForm
 
