@@ -1,4 +1,5 @@
 from django.contrib import admin
+from import_export.admin import ImportExportActionModelAdmin
 
 from ..admin_site import potlako_subject_admin
 from ..forms import ExitFromStudyForm
@@ -6,7 +7,8 @@ from ..models import ExitFromStudy
 
 
 @admin.register(ExitFromStudy, site=potlako_subject_admin)
-class ExitFromStudyAdmin(admin.ModelAdmin):
+class ExitFromStudyAdmin(ImportExportActionModelAdmin,
+                         admin.ModelAdmin):
 
     form = ExitFromStudyForm
 

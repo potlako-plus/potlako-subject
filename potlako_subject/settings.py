@@ -37,6 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django_crypto_fields.apps.AppConfig',
+    'django_extensions',
+    'edc_device.apps.AppConfig',
+    'edc_visit_tracking.apps.AppConfig',
+    'edc_protocol.apps.AppConfig',
+    'edc_timepoint.apps.AppConfig',
+    'potlako_subject.apps.AppConfig',
 ]
 
 MIDDLEWARE = [

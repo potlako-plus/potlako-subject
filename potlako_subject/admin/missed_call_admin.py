@@ -1,4 +1,5 @@
 from django.contrib import admin
+from import_export.admin import ImportExportActionModelAdmin
 
 from ..admin_site import potlako_subject_admin
 from ..forms import MissedCallForm
@@ -6,7 +7,7 @@ from ..models import MissedCall
 
 
 @admin.register(MissedCall, site=potlako_subject_admin)
-class MissedCallAdmin(admin.ModelAdmin):
+class MissedCallAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 
     form = MissedCallForm
 

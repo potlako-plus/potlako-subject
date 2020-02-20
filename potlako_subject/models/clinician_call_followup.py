@@ -1,7 +1,10 @@
+from datetime import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from edc_base.model_fields import OtherCharField
+from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_is_future, date_not_future
+from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
@@ -14,10 +17,12 @@ class ClinicianCallFollowUp(CrfModelMixin):
 
     visit_date = models.DateField(
         verbose_name='Date of Visit',
-        validators=[date_not_before_study_start, date_not_future])
+        validators=[date_not_before_study_start, date_not_future],
+        default=get_utcnow)
 
     start_time = models.TimeField(
-        verbose_name='Clinician follow-up: start time')
+        verbose_name='Clinician follow-up: start time',
+        default=datetime.now,)
 
     facility_visited = models.CharField(
         verbose_name='Name and type  of facility visited',
@@ -135,6 +140,7 @@ class ClinicianCallFollowUp(CrfModelMixin):
 
     followup_end_time = models.TimeField(
         verbose_name='Clinician follow-up: end time',
+        default=datetime.now,
     )
 
     class Meta:
