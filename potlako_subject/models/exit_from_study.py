@@ -1,6 +1,7 @@
 from django.db import models
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_not_future
+from edc_base.model_mixins import BaseUuidModel     
 from edc_constants.choices import YES_NO, YES_NO_UNKNOWN
 
 from ..choices import (
@@ -9,7 +10,7 @@ from ..choices import (
     TREATMENT_INTENT)
 
 
-class ExitFromStudy(models.Model):
+class ExitFromStudy(BaseUuidModel):
 
     exit_reason = models.CharField(
         verbose_name='Reason for exit',

@@ -8,9 +8,10 @@ from edc_protocol.validators import datetime_not_before_study_start
 from ..choices import (
     CANCER_DIAGNOSIS, CANCER_EVALUATION, CANCER_STATUS, NON_CANCER_DIAGNOSIS,
     REVIEWER)
+from .model_mixins import CrfModelMixin
 
 
-class PhysicianReview(models.Model):
+class PhysicianReview(CrfModelMixin):
 
     review_date_time = models.DateTimeField(
         verbose_name='Date time of physician review',

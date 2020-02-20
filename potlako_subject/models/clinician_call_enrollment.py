@@ -13,6 +13,7 @@ from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT,
                        DISTRICT, KIN_RELATIONSHIP, SEVERITY_LEVEL,
                        POS_NEG_UNKNOWN_MISSING, TRIAGE_STATUS)
 from .list_models import Disposition
+from .model_mixins import CrfModelMixin
 
 
 class ClinicianCallEnrollment(BaseUuidModel):

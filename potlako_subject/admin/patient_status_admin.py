@@ -1,12 +1,12 @@
 from django.contrib import admin
-
+from import_export.admin import ImportExportActionModelAdmin
 from ..admin_site import potlako_subject_admin
 from ..forms import PatientStatusForm
 from ..models import PatientStatus
 
 
 @admin.register(PatientStatus, site=potlako_subject_admin)
-class PatientStatusAdmin(admin.ModelAdmin):
+class PatientStatusAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 
     form = PatientStatusForm
 

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from edc_model_admin import TabularInlineMixin
+from import_export.admin import ImportExportActionModelAdmin
 
 from ..admin_site import potlako_subject_admin
 from ..forms import InvestigationsForm, LabTestForm
@@ -24,7 +25,7 @@ class LabTestInlineAdmin(TabularInlineMixin, admin.TabularInline):
 
 
 @admin.register(Investigations, site=potlako_subject_admin)
-class InvestigationsAdmin(admin.ModelAdmin):
+class InvestigationsAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 
     form = InvestigationsForm
 

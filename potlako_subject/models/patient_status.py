@@ -1,8 +1,9 @@
 from django.db import models
 from edc_constants.choices import YES_NO
+from edc_base.model_mixins import BaseUuidModel
 
 
-class PatientStatus(models.Model):
+class PatientStatus(BaseUuidModel):
 
     last_encounter = models.DateField()
 

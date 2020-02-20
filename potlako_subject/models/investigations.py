@@ -9,8 +9,10 @@ from edc_protocol.validators import date_not_before_study_start
 from ..choices import CANCER_STAGES, FACILITY, LAB_TESTS, LAB_TESTS_STATUS
 from ..choices import IMAGING_STATUS, IMAGING_TESTS, PATHOLOGY_TEST_TYPE
 
+from .model_mixins import CrfModelMixin
 
-class Investigations(BaseUuidModel):
+
+class Investigations(CrfModelMixin):
 
     start_time = models.TimeField(
         verbose_name='Investigations: start time')

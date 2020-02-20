@@ -1,4 +1,5 @@
 from django.contrib import admin
+from import_export.admin import ImportExportActionModelAdmin
 
 from ..admin_site import potlako_subject_admin
 from ..forms import HomeVisitForm
@@ -6,7 +7,7 @@ from ..models import HomeVisit
 
 
 @admin.register(HomeVisit, site=potlako_subject_admin)
-class HomeVisitAdmin(admin.ModelAdmin):
+class HomeVisitAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 
     form = HomeVisitForm
 

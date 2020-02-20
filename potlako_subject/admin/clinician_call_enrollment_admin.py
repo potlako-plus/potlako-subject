@@ -1,12 +1,15 @@
 from django.contrib import admin
+from import_export.admin import ImportExportActionModelAdmin
 
 from ..admin_site import potlako_subject_admin
 from ..forms import ClinicianCallEnrollmentForm
 from ..models import ClinicianCallEnrollment
+from .export_form_mixin import ExportCrfMixin
 
 
 @admin.register(ClinicianCallEnrollment, site=potlako_subject_admin)
-class ClinicianCallEnrollmentAdmin(admin.ModelAdmin):
+class ClinicianCallEnrollmentAdmin(ImportExportActionModelAdmin,
+                                   ExportCrfMixin, admin.ModelAdmin):
 
     form = ClinicianCallEnrollmentForm
 
@@ -75,4 +78,6 @@ class ClinicianCallEnrollmentAdmin(admin.ModelAdmin):
                     'clinician_type': admin.VERTICAL,
                     }
 
-    filter_horizontal = ('patient_disposition', )
+    filter_horizontal = ('patient_disposition',)
+
+    actions = ['export_crf_as_csv']

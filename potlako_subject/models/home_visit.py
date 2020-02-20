@@ -1,11 +1,12 @@
 from django.db import models
 from edc_base.model_validators import datetime_not_future, date_is_future
 from edc_protocol.validators import datetime_not_before_study_start
+from edc_base.model_mixins import BaseUuidModel
 
 from ..choices import ALIVE_DEAD_LTFU, CLINICIAN_TYPE, FACILITY, VISIT_TYPE
 
 
-class HomeVisit(models.Model):
+class HomeVisit(BaseUuidModel):
 
     visit_date_time = models.DateTimeField(
         verbose_name='Date of Visit',
