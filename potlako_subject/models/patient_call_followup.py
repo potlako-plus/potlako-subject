@@ -11,9 +11,12 @@ from edc_protocol.validators import date_not_before_study_start
 from ..choices import DELAYED_REASON, DISPOSITION, DISTRICT, FACILITY
 from ..choices import HEALTH_FACTOR, PATIENT_FACTOR
 from .list_models import CallAchievements
+from .model_mixins import ModelCsvFormExportMixin
 
 
 class PatientCallFollowUp(BaseUuidModel):
+
+    model_csv_form_export = ModelCsvFormExportMixin
 
     coordinator_encounter_date = models.DateField(
         verbose_name='Date of coordinator encounter',

@@ -4,9 +4,12 @@ from edc_base.model_validators import date_is_future, date_not_future
 from edc_base.model_mixins import BaseUuidModel
 
 from ..choices import SMS_OUTCOME
+from .model_mixins import ModelCsvFormExportMixin
 
 
 class SMS(BaseUuidModel):
+
+    model_csv_form_export = ModelCsvFormExportMixin
 
     date_time_form_filled = models.DateTimeField(
         verbose_name='Date SMS form filled',

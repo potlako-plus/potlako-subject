@@ -3,7 +3,6 @@ from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import datetime_not_future
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
-from edc_base.model_mixins import BaseUuidModel
 from edc_protocol.validators import datetime_not_before_study_start
 
 from ..choices import (
@@ -12,7 +11,7 @@ from ..choices import (
 from .model_mixins import CrfModelMixin
 
 
-class PhysicianReview(CrfModelMixin, BaseUuidModel):
+class PhysicianReview(CrfModelMixin):
 
     review_date_time = models.DateTimeField(
         verbose_name='Date time of physician review',

@@ -1,5 +1,4 @@
 from django.db import models
-from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites import CurrentSiteManager
 from edc_base.sites.site_model_mixin import SiteModelMixin
@@ -17,7 +16,7 @@ from edc_search.model_mixins import SearchSlugManager
 
 from ..choices import IDENTITY_TYPE
 from ..subject_identifier import SubjectIdentifier
-from .model_mixins import SearchSlugModelMixin
+from .model_mixins import SearchSlugModelMixin, ModelCsvFormExportMixin
 
 
 class ConsentManager(SubjectConsentManager, SearchSlugManager):
@@ -39,6 +38,7 @@ class SubjectConsent(
         VulnerabilityFieldsMixin, SearchSlugModelMixin, BaseUuidModel):
 
     # subject_screening_model = 'potlako_subject.subjectscreening'
+    model_csv_form_export = ModelCsvFormExportMixin
 
     screening_identifier = models.CharField(
         verbose_name='Screening identifier',
@@ -54,8 +54,6 @@ class SubjectConsent(
     consent = SubjectConsentManager()
 
     objects = ConsentManager()
-
-    history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
 

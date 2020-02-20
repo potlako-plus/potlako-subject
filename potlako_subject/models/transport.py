@@ -8,9 +8,12 @@ from edc_constants.choices import YES_NO
 from ..choices import CASH_TRANSFER_STATUS
 from ..choices import HOUSEMATE, TRANSPORT_CRITERIA, FACILITY, TRANSPORT_TYPE
 from ..choices import VEHICLE_ARR_STATUS, BUS_VOUCHER_STATUS
+from .model_mixins import ModelCsvFormExportMixin
 
 
 class Transport(BaseUuidModel):
+
+    model_csv_form_export = ModelCsvFormExportMixin
 
     report_datetime = models.DateTimeField(
         verbose_name='Datetime transport form entered',

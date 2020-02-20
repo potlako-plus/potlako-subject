@@ -10,6 +10,7 @@ from edc_visit_tracking.model_mixins import CrfModelMixin as BaseCrfModelMixin
 from edc_visit_tracking.model_mixins import PreviousVisitModelMixin
 
 from ..subject_visit import SubjectVisit
+from .model_csv_form_export import ModelCsvFormExportMixin
 
 
 class CrfModelMixin(BaseCrfModelMixin, SubjectScheduleCrfModelMixin,
@@ -19,6 +20,7 @@ class CrfModelMixin(BaseCrfModelMixin, SubjectScheduleCrfModelMixin,
 
     """ Base model for all scheduled models
     """
+    model_csv_form_export = ModelCsvFormExportMixin
 
     subject_visit = models.OneToOneField(SubjectVisit, on_delete=PROTECT)
 

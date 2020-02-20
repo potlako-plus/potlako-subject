@@ -13,10 +13,12 @@ from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT,
                        DISTRICT, KIN_RELATIONSHIP, SEVERITY_LEVEL,
                        POS_NEG_UNKNOWN_MISSING, TRIAGE_STATUS)
 from .list_models import Disposition
-from .model_mixins import CrfModelMixin
+from .model_mixins import ModelCsvFormExportMixin
 
 
 class ClinicianCallEnrollment(BaseUuidModel):
+
+    model_csv_form_export = ModelCsvFormExportMixin
 
     reg_date = models.DateField(
         verbose_name='Date of visit when patient was registered '

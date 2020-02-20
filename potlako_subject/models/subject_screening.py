@@ -9,7 +9,7 @@ from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 from edc_search.model_mixins import SearchSlugManager
 
 from ..eligibility import Eligibility
-from ..models.model_mixins import SearchSlugModelMixin
+from ..models.model_mixins import SearchSlugModelMixin, ModelCsvFormExportMixin
 from ..screening_identifier import ScreeningIdentifier
 
 
@@ -35,6 +35,7 @@ class SubjectScreening(
 
     eligibility_cls = Eligibility
     identifier_cls = ScreeningIdentifier
+    model_csv_form_export = ModelCsvFormExportMixin
 
     screening_identifier = models.CharField(
         verbose_name="Eligibility Identifier",
@@ -82,8 +83,6 @@ class SubjectScreening(
 
     def natural_key(self):
         return (self.subject_identifier,)
-
-    history = HistoricalRecords()
 
     def save(self, *args, **kwargs):
         eligibility_obj = self.eligibility_cls(

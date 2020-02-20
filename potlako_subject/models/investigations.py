@@ -12,7 +12,7 @@ from ..choices import IMAGING_STATUS, IMAGING_TESTS, PATHOLOGY_TEST_TYPE
 from .model_mixins import CrfModelMixin
 
 
-class Investigations(CrfModelMixin, BaseUuidModel):
+class Investigations(CrfModelMixin):
 
     start_time = models.TimeField(
         verbose_name='Investigations: start time')
@@ -175,7 +175,7 @@ class Investigations(CrfModelMixin, BaseUuidModel):
         pass
 
 
-class LabTest(BaseUuidModel):
+class LabTest(CrfModelMixin):
 
     investigations = models.ForeignKey(Investigations, on_delete=PROTECT)
 

@@ -13,9 +13,12 @@ from ..choices import DELAYED_REASON, HEALTH_FACTOR, PATIENT_FACTOR
 from ..choices import DISTRICT, FACILITY, POS_NEG_UNKNOWN_MISSING, TEST_TYPE
 from ..choices import FACILITY_UNIT, SEVERITY_LEVEL
 from .list_models import CallAchievements
+from .model_mixins import ModelCsvFormExportMixin
 
 
 class PatientCallInitial(BaseUuidModel):
+
+    model_csv_form_export = ModelCsvFormExportMixin
 
     patient_call_time = models.TimeField(
         verbose_name='Start of patient initial call (timestamp)')

@@ -4,8 +4,12 @@ from edc_base.utils import get_utcnow
 from edc_base.model_mixins import BaseUuidModel
 from edc_protocol.validators import date_not_before_study_start
 
+from .model_mixins import ModelCsvFormExportMixin
+
 
 class MissedCall(BaseUuidModel):
+
+    model_csv_form_export = ModelCsvFormExportMixin
 
     entry_date = models.DateField(
         verbose_name='Date of entry',
