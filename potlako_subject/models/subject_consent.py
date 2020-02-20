@@ -16,7 +16,7 @@ from edc_search.model_mixins import SearchSlugManager
 
 from ..choices import IDENTITY_TYPE
 from ..subject_identifier import SubjectIdentifier
-from .model_mixins import SearchSlugModelMixin, ModelCsvFormExportMixin
+from .model_mixins import SearchSlugModelMixin
 
 
 class ConsentManager(SubjectConsentManager, SearchSlugManager):

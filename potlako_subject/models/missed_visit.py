@@ -7,12 +7,9 @@ from edc_constants.choices import YES_NO
 
 from ..choices import (FACILITY, VISIT_TYPE, DETERMINE_MISSED_VISIT,
                        PEOPLE_INQUIRED_FROM, REASON_MISSED_VISIT)
-from .model_mixins import ModelCsvFormExportMixin
 
 
 class MissedVisit(BaseUuidModel):
-
-    model_csv_form_export = ModelCsvFormExportMixin
 
     report_datetime = models.DateTimeField(
         verbose_name='Datetime \'missed visit\' form entered',

@@ -49,8 +49,6 @@ class SubjectVisit(
         VisitModelMixin, CreatesMetadataModelMixin,
         ReferenceModelMixin, RequiresConsentFieldsModelMixin,
         SiteModelMixin, BaseUuidModel):
-
-    model_csv_form_export = ModelCsvFormExportMixin
     
 
     """A model completed by the user that captures the covering

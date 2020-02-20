@@ -2,12 +2,8 @@ from django.db import models
 from edc_constants.choices import YES_NO
 from edc_base.model_mixins import BaseUuidModel
 
-from .model_mixins import ModelCsvFormExportMixin
-
 
 class PatientStatus(BaseUuidModel):
-
-    model_csv_form_export = ModelCsvFormExportMixin
 
     last_encounter = models.DateField()
 

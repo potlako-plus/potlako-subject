@@ -8,12 +8,10 @@ from ..choices import (
     COMPONENTS_RECEIVED, DEATH_INFO_SOURCE, DISTRICT, FACILITY, FACILITY_TYPE,
     LTFU_CRITERIA, PLACE_OF_DEATH, POS_NEG_UNKNOWN_MISSING, REASON_FOR_EXIT,
     TREATMENT_INTENT)
-from .model_mixins import ModelCsvFormExportMixin
 
 
 class ExitFromStudy(BaseUuidModel):
 
-    model_csv_form_export = ModelCsvFormExportMixin
 
     exit_reason = models.CharField(
         verbose_name='Reason for exit',

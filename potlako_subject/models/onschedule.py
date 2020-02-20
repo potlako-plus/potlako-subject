@@ -6,12 +6,9 @@ from edc_identifier.managers import SubjectIdentifierManager
 from edc_visit_schedule.model_mixins import OnScheduleModelMixin
 
 # from .subject_consent import SubjectConsent
-from .model_mixins import ModelCsvFormExportMixin
 
 
 class Onschedule(RequiresConsentFieldsModelMixin, OnScheduleModelMixin, BaseUuidModel):
-
-    model_csv_form_export = ModelCsvFormExportMixin
 
     onsite = CurrentSiteManager()
 
