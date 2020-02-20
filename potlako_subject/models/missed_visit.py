@@ -97,7 +97,9 @@ class MissedVisit(models.Model):
         max_length=150,
         help_text='(Note that this form may involve multiple phone'
                   'calls (e.g. with clinician, patient and then'
-                  'clinician again))')
+                  'clinician again))',
+        blank=True,
+        null=True,)
 
     class Meta:
         app_label = 'potlako_subject'

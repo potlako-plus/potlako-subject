@@ -20,3 +20,6 @@ class SMSAdmin(admin.ModelAdmin):
     )
 
     radio_fields = {'sms_outcome': admin.VERTICAL}
+
+    list_display = ('date_time_form_filled', 'next_ap_date',
+                    'date_reminder_sent', 'sms_outcome')

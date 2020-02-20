@@ -38,7 +38,7 @@ class SubjectConsent(
         SampleCollectionFieldsMixin, CitizenFieldsMixin,
         VulnerabilityFieldsMixin, SearchSlugModelMixin, BaseUuidModel):
 
-    # subject_screening_model = 'potlako_subject.subjectscreening'
+    subject_screening_model = 'potlako_subject.subjectscreening'
 
     screening_identifier = models.CharField(
         verbose_name='Screening identifier',
