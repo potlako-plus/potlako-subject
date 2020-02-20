@@ -15,6 +15,11 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+APP_NAME = 'potlako_subject'
+
+SITE_ID = 1
+
+ETC_DIR = os.path.join(BASE_DIR, 'etc')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -40,16 +45,19 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_crypto_fields.apps.AppConfig',
     'django_extensions',
+    'edc_base.apps.AppConfig',
     'edc_device.apps.AppConfig',
-    'edc_visit_tracking.apps.AppConfig',
-    'edc_protocol.apps.AppConfig',
     'edc_timepoint.apps.AppConfig',
+    'potlako_subject.apps.EdcAppointmentAppConfig',
+    'potlako_subject.apps.EdcProtocolAppConfig',
+    'potlako_subject.apps.EdcVisitTrackingAppConfig',
     'potlako_subject.apps.AppConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -93,18 +101,14 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+     },
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+     },
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+     },
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+     },
 ]
 
 
@@ -113,13 +117,20 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Gaborone'
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
+
+# dashboards
+DASHBOARD_URL_NAMES = {
+    'subject_listboard_url': 'potlako_dashboard:subject_listboard_url',
+    'screening_listboard_url': 'potlako_dashboard:screening_listboard_url',
+    'subject_dashboard_url': 'potlako_dashboard:subject_dashboard_url',
+}
 
 
 # Static files (CSS, JavaScript, Images)

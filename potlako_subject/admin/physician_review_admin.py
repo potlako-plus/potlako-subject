@@ -3,15 +3,18 @@ from ..admin_site import potlako_subject_admin
 from ..forms import PhysicianReviewForm
 from ..models import PhysicianReview
 
+from .modeladmin_mixins import CrfModelAdminMixin
+
 
 @admin.register(PhysicianReview, site=potlako_subject_admin)
-class PhysicianReviewAdmin(admin.ModelAdmin):
+class PhysicianReviewAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = PhysicianReviewForm
 
     fieldsets = (
         (None, {
-            'fields': ('review_date_time',
+            'fields': ('subject_visit',
+                       'review_date_time',
                        'reviewer_name',
                        'reviewer_other',
                        'physician_summary',

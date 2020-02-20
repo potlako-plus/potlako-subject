@@ -1,12 +1,10 @@
 from django import forms
-from edc_base.sites import SiteModelFormMixin
-from edc_form_validators import FormValidatorMixin
 
 from ..models import PhysicianReview
+from .form_mixins import SubjectModelFormMixin
 
 
-class PhysicianReviewForm(
-        SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
+class PhysicianReviewForm(SubjectModelFormMixin, forms.ModelForm):
 
     # form_validator_cls
 

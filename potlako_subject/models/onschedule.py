@@ -8,17 +8,16 @@ from edc_visit_schedule.model_mixins import OnScheduleModelMixin
 # from .subject_consent import SubjectConsent
 
 
-class Onschedule(RequiresConsentFieldsModelMixin, OnScheduleModelMixin, BaseUuidModel):
+class Onschedule(
+        RequiresConsentFieldsModelMixin, OnScheduleModelMixin, BaseUuidModel):
 
     onsite = CurrentSiteManager()
 
     objects = SubjectIdentifierManager()
 
-
 #     @property
 #     def consent_version(self):
 #         return self.get_consent_version()
-# 
 #     def get_consent_version(self):
 #         try:
 #             subject_consent_obj = SubjectConsent.objects.get(

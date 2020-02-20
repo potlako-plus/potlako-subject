@@ -4,15 +4,18 @@ from ..admin_site import potlako_subject_admin
 from ..forms import ClinicianCallFollowUpForm
 from ..models import ClinicianCallFollowUp
 
+from .modeladmin_mixins import CrfModelAdminMixin
+
 
 @admin.register(ClinicianCallFollowUp, site=potlako_subject_admin)
-class ClinicianCallFollowUpAdmin(admin.ModelAdmin):
+class ClinicianCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = ClinicianCallFollowUpForm
 
     fieldsets = (
         (None, {
-            'fields': ('visit_date',
+            'fields': ('subject_visit',
+                       'visit_date',
                        'start_time',
                        'facility_visited',
                        'call_clinician',

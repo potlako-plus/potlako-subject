@@ -87,6 +87,6 @@ class PhysicianReview(CrfModelMixin):
         choices=YES_NO,
         max_length=3,)
 
-    class Meta:
+    class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Physician Review'

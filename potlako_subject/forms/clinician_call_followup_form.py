@@ -1,12 +1,10 @@
 from django import forms
-from edc_base.sites import SiteModelFormMixin
-from edc_form_validators import FormValidatorMixin
 
 from ..models import ClinicianCallFollowUp
+from .form_mixins import SubjectModelFormMixin
 
 
-class ClinicianCallFollowUpForm(
-        SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
+class ClinicianCallFollowUpForm(SubjectModelFormMixin, forms.ModelForm):
 
     # form_validator_cls = ClinicianCallEnrollmentFormValidator
 

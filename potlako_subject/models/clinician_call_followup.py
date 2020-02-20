@@ -142,6 +142,6 @@ class ClinicianCallFollowUp(CrfModelMixin):
         default=datetime.now,
     )
 
-    class Meta:
+    class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Clinician Call - FollowUp'

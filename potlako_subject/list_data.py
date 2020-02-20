@@ -7,7 +7,7 @@ list_data = {
         ('refer', 'Refer'),
         ('discharge', 'Discharge')
     ],
-    'potlako_subject.call_achievements': [
+    'potlako_subject.callachievements': [
         ('communicate_results', 'Communicate results'),
         ('reschedule_change_appointment', 'Reschedule/change appointment'),
         ('confirm_appointment_date', 'Confirm appointment date'),

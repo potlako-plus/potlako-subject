@@ -3,15 +3,18 @@ from ..admin_site import potlako_subject_admin
 from ..forms import TransportForm
 from ..models import Transport
 
+from .modeladmin_mixins import CrfModelAdminMixin
+
 
 @admin.register(Transport, site=potlako_subject_admin)
-class TransportAdmin(admin.ModelAdmin):
+class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = TransportForm
 
     fieldsets = (
         (None, {
-            'fields': ('report_datetime',
+            'fields': ('subject_visit',
+                       'report_datetime',
                        'is_criteria_met',
                        'qualification',
                        'housemate',

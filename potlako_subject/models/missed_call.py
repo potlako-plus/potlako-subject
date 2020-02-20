@@ -7,7 +7,6 @@ from edc_protocol.validators import date_not_before_study_start
 
 class MissedCall(BaseUuidModel):
 
-
     entry_date = models.DateField(
         verbose_name='Date of entry',
         default=get_utcnow,

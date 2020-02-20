@@ -4,17 +4,16 @@ from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import CellNumber
 from edc_base.model_validators import date_not_future
-from edc_base.model_mixins import BaseUuidModel
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DELAYED_REASON, DISPOSITION, DISTRICT, FACILITY
 from ..choices import HEALTH_FACTOR, PATIENT_FACTOR
 from .list_models import CallAchievements
+from .model_mixins import CrfModelMixin
 
 
-class PatientCallFollowUp(BaseUuidModel):
-
+class PatientCallFollowUp(CrfModelMixin):
 
     coordinator_encounter_date = models.DateField(
         verbose_name='Date of coordinator encounter',
@@ -298,6 +297,6 @@ class PatientCallFollowUp(BaseUuidModel):
         verbose_name='Patient follow up: end time',
     )
 
-    class Meta:
+    class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Patient call - FollowUp'

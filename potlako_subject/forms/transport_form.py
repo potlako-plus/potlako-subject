@@ -1,12 +1,10 @@
 from django import forms
-from edc_base.sites import SiteModelFormMixin
-from edc_form_validators import FormValidatorMixin
 
 from ..models import Transport
+from .form_mixins import SubjectModelFormMixin
 
 
-class TransportForm(
-        SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
+class TransportForm(SubjectModelFormMixin, forms.ModelForm):
 
     # form_validator_cls = TransportFormValidator
 

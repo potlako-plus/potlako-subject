@@ -1,11 +1,14 @@
 from django.contrib import admin
+
 from ..admin_site import potlako_subject_admin
 from ..forms import PatientCallFollowUpForm
 from ..models import PatientCallFollowUp
 
+from .modeladmin_mixins import CrfModelAdminMixin
+
 
 @admin.register(PatientCallFollowUp, site=potlako_subject_admin)
-class PatientCallFollowUpAdmin(admin.ModelAdmin):
+class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = PatientCallFollowUpForm
 

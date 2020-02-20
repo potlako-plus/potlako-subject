@@ -1,7 +1,6 @@
 from django.db import models
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_is_future
-from edc_base.model_mixins import BaseUuidModel
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 
@@ -9,8 +8,10 @@ from ..choices import CASH_TRANSFER_STATUS
 from ..choices import HOUSEMATE, TRANSPORT_CRITERIA, FACILITY, TRANSPORT_TYPE
 from ..choices import VEHICLE_ARR_STATUS, BUS_VOUCHER_STATUS
 
+from .model_mixins import CrfModelMixin
 
-class Transport(BaseUuidModel):
+
+class Transport(CrfModelMixin):
 
     report_datetime = models.DateTimeField(
         verbose_name='Datetime transport form entered',
@@ -73,12 +74,16 @@ class Transport(BaseUuidModel):
         null=True,)
 
     vehicle_request_date = models.DateField(
-        verbose_name='Date of initial request for facility vehicle',)
+        verbose_name='Date of initial request for facility vehicle',
+        blank=True,
+        null=True,)
 
     facility_personnel = models.CharField(
         verbose_name='Facility transport office personnel who received '
                      'the request',
-        max_length=25,)
+        max_length=25,
+        blank=True,
+        null=True,)
 
     bus_voucher_status = models.CharField(
         verbose_name='Status of bus voucher arrangement at end '
@@ -111,7 +116,7 @@ class Transport(BaseUuidModel):
         max_length=150,
         help_text='(IF NOTHING TO REPORT, PLEASE WRITE "NA")',)
 
-    class Meta:
+    class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Transport'
         verbose_name_plural = 'Transport'
