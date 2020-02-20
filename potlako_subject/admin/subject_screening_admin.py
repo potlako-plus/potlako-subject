@@ -10,7 +10,6 @@ from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fields, audit_fieldset_tuple)
 
 from edc_metadata import NextFormGetter
-from import_export.admin import ImportExportActionModelAdmin
 
 from ..admin_site import potlako_subject_admin
 from ..forms import SubjectScreeningForm
@@ -23,7 +22,6 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
                       ModelAdminAuditFieldsMixin, ModelAdminReadOnlyMixin,
                       ModelAdminInstitutionMixin,
                       ModelAdminRedirectOnDeleteMixin,
-                      ImportExportActionModelAdmin,
                       ModelAdminSiteMixin):
 
     list_per_page = 10

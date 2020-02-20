@@ -1,15 +1,12 @@
 from django.contrib import admin
-from import_export.admin import ImportExportActionModelAdmin
 
 from ..admin_site import potlako_subject_admin
 from ..forms import ClinicianCallEnrollmentForm
 from ..models import ClinicianCallEnrollment
-from .export_form_mixin import ExportCrfMixin
 
 
 @admin.register(ClinicianCallEnrollment, site=potlako_subject_admin)
-class ClinicianCallEnrollmentAdmin(ImportExportActionModelAdmin,
-                                   ExportCrfMixin, admin.ModelAdmin):
+class ClinicianCallEnrollmentAdmin(admin.ModelAdmin):
 
     form = ClinicianCallEnrollmentForm
 

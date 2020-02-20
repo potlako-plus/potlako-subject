@@ -12,7 +12,6 @@ from simple_history.admin import SimpleHistoryAdmin
 
 from edc_consent.actions import (
     flag_as_verified_against_paper, unflag_as_verified_against_paper)
-from import_export.admin import ImportExportActionModelAdmin
 
 from ..admin_site import potlako_subject_admin
 from ..forms import SubjectConsentForm
@@ -46,7 +45,7 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
 
 @admin.register(SubjectConsent, site=potlako_subject_admin)
 class SubjectConsentAdmin(ModelAdminBasicMixin, ModelAdminMixin,
-                          SimpleHistoryAdmin, ImportExportActionModelAdmin,
+                          SimpleHistoryAdmin,
                           admin.ModelAdmin):
 
     form = SubjectConsentForm

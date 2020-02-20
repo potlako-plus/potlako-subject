@@ -7,7 +7,6 @@ from edc_model_admin import (
     ModelAdminRedirectOnDeleteMixin)
 
 from edc_metadata import NextFormGetter
-from import_export.admin import ImportExportActionModelAdmin
 
 
 class ModelAdminMixin(
@@ -15,7 +14,7 @@ class ModelAdminMixin(
         ModelAdminFormAutoNumberMixin, ModelAdminRevisionMixin,
         ModelAdminAuditFieldsMixin, ModelAdminReadOnlyMixin,
         ModelAdminInstitutionMixin, ModelAdminRedirectOnDeleteMixin,
-        ModelAdminSiteMixin, ImportExportActionModelAdmin):
+        ModelAdminSiteMixin):
 
     list_per_page = 10
     date_hierarchy = 'modified'
