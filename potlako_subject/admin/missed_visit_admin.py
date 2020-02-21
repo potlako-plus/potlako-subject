@@ -4,15 +4,18 @@ from ..admin_site import potlako_subject_admin
 from ..forms import MissedVisitForm
 from ..models import MissedVisit
 
+from .modeladmin_mixins import CrfModelAdminMixin
+
 
 @admin.register(MissedVisit, site=potlako_subject_admin)
-class MissedVisitAdmin(admin.ModelAdmin):
+class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = MissedVisitForm
 
     fieldsets = (
         (None, {
-            'fields': ('report_datetime',
+            'fields': ('subject_visit',
+                       'report_datetime',
                        'missed_visit_date',
                        'facility_scheduled',
                        'visit_type',

@@ -3,15 +3,18 @@ from ..admin_site import potlako_subject_admin
 from ..forms import PatientCallInitialForm
 from ..models import PatientCallInitial
 
+from .modeladmin_mixins import CrfModelAdminMixin
+
 
 @admin.register(PatientCallInitial, site=potlako_subject_admin)
-class PatientCallInitialAdmin(admin.ModelAdmin):
+class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = PatientCallInitialForm
 
     fieldsets = (
         (None, {
-            'fields': ('patient_call_date',
+            'fields': ('subject_visit',
+                       'patient_call_date',
                        'patient_call_time',
                        'start_time',
                        'dob_known',

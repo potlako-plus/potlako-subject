@@ -4,15 +4,18 @@ from ..admin_site import potlako_subject_admin
 from ..forms import HomeVisitForm
 from ..models import HomeVisit
 
+from .modeladmin_mixins import CrfModelAdminMixin
+
 
 @admin.register(HomeVisit, site=potlako_subject_admin)
-class HomeVisitAdmin(admin.ModelAdmin):
+class HomeVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = HomeVisitForm
 
     fieldsets = (
         (None, {
-            'fields': ('visit_date_time',
+            'fields': ('subject_visit',
+                       'visit_date_time',
                        'clinician_name',
                        'clinician_type',
                        'facility_clinician_works',

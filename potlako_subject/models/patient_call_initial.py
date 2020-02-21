@@ -2,20 +2,19 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from edc_base.model_fields import OtherCharField
-from edc_base.model_validators import CellNumber, datetime_not_future
+from edc_base.model_validators import CellNumber
 from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
-from edc_protocol.validators import datetime_not_before_study_start
-from edc_base.model_mixins import BaseUuidModel
 
 from ..choices import DELAYED_REASON, HEALTH_FACTOR, PATIENT_FACTOR
 from ..choices import DISTRICT, FACILITY, POS_NEG_UNKNOWN_MISSING, TEST_TYPE
 from ..choices import FACILITY_UNIT, SEVERITY_LEVEL
 from .list_models import CallAchievements
+from .model_mixins import CrfModelMixin
 
 
-class PatientCallInitial(BaseUuidModel):
+class PatientCallInitial(CrfModelMixin):
 
     patient_call_time = models.TimeField(
         verbose_name='Start of patient initial call (timestamp)')
@@ -334,7 +333,7 @@ class PatientCallInitial(BaseUuidModel):
         verbose_name='Duration of patient initial call',
     )
 
-    class Meta:
+    class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Patient call - Initial'
         verbose_name_plural = 'Patient call - Initial'

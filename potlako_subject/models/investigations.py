@@ -170,8 +170,10 @@ class Investigations(CrfModelMixin):
         verbose_name='Investigations: end time',
     )
 
-    class Meta:
-        pass
+    class Meta(CrfModelMixin.Meta):
+        app_label = 'potlako_subject'
+        verbose_name = 'Investigations'
+        verbose_name_plural = 'Investigations'
 
 
 class LabTest(CrfModelMixin):

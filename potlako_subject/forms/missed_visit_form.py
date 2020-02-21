@@ -1,12 +1,10 @@
 from django import forms
-from edc_base.sites import SiteModelFormMixin
-from edc_form_validators import FormValidatorMixin
 
 from ..models import MissedVisit
+from .form_mixins import SubjectModelFormMixin
 
 
-class MissedVisitForm(
-        SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
+class MissedVisitForm(SubjectModelFormMixin, forms.ModelForm):
 
     # form_validator_cls = MissedVisitFormValidator
 

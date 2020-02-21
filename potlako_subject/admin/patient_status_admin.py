@@ -3,15 +3,18 @@ from ..admin_site import potlako_subject_admin
 from ..forms import PatientStatusForm
 from ..models import PatientStatus
 
+from .modeladmin_mixins import CrfModelAdminMixin
+
 
 @admin.register(PatientStatus, site=potlako_subject_admin)
-class PatientStatusAdmin(admin.ModelAdmin):
+class PatientStatusAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = PatientStatusForm
 
     fieldsets = (
         (None, {
-            'fields': ('last_encounter',
+            'fields': ('subject_visit',
+                       'last_encounter',
                        'sms_due',
                        'days_from_recent_visit',
                        'physician_flag',

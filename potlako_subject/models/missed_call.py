@@ -1,11 +1,12 @@
 from django.db import models
 from edc_base.model_validators import date_not_future, date_is_future
 from edc_base.utils import get_utcnow
-from edc_base.model_mixins import BaseUuidModel
 from edc_protocol.validators import date_not_before_study_start
 
+from .model_mixins import CrfModelMixin
 
-class MissedCall(BaseUuidModel):
+
+class MissedCall(CrfModelMixin):
 
     entry_date = models.DateField(
         verbose_name='Date of entry',
@@ -19,6 +20,6 @@ class MissedCall(BaseUuidModel):
         verbose_name='When to schedule repeat call?',
         validators=[date_is_future, ],)
 
-    class Meta:
+    class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Missed Call'

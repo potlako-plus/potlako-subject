@@ -1,12 +1,12 @@
 from django.db import models
 from edc_base.model_validators import datetime_not_future, date_is_future
 from edc_protocol.validators import datetime_not_before_study_start
-from edc_base.model_mixins import BaseUuidModel
 
 from ..choices import ALIVE_DEAD_LTFU, CLINICIAN_TYPE, FACILITY, VISIT_TYPE
+from .model_mixins import CrfModelMixin
 
 
-class HomeVisit(BaseUuidModel):
+class HomeVisit(CrfModelMixin):
 
     visit_date_time = models.DateTimeField(
         verbose_name='Date of Visit',
@@ -87,6 +87,6 @@ class HomeVisit(BaseUuidModel):
         blank=True,
         null=True)
 
-    class Meta:
+    class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Home Visit'

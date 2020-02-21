@@ -1,12 +1,12 @@
 from django.db import models
 from edc_base.utils import get_utcnow
 from edc_base.model_validators import date_is_future, date_not_future
-from edc_base.model_mixins import BaseUuidModel
 
 from ..choices import SMS_OUTCOME
+from .model_mixins import CrfModelMixin
 
 
-class SMS(BaseUuidModel):
+class SMS(CrfModelMixin):
 
     date_time_form_filled = models.DateTimeField(
         verbose_name='Date SMS form filled',
@@ -25,7 +25,7 @@ class SMS(BaseUuidModel):
         choices=SMS_OUTCOME,
         max_length=50,)
 
-    class Meta:
+    class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'SMS'
         verbose_name_plural = 'SMSes'

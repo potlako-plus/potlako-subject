@@ -1,10 +1,10 @@
 from django import forms
-from edc_base.sites import SiteModelFormMixin
 
 from ..models import MissedCall
+from .form_mixins import SubjectModelFormMixin
 
 
-class MissedCallForm(SiteModelFormMixin, forms.ModelForm):
+class MissedCallForm(SubjectModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = MissedCall

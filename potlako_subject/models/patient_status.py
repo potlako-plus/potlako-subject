@@ -1,9 +1,10 @@
 from django.db import models
 from edc_constants.choices import YES_NO
-from edc_base.model_mixins import BaseUuidModel
+
+from .model_mixins import CrfModelMixin
 
 
-class PatientStatus(BaseUuidModel):
+class PatientStatus(CrfModelMixin):
 
     last_encounter = models.DateField()
 
@@ -51,7 +52,7 @@ class PatientStatus(BaseUuidModel):
     missed_visits = models.PositiveIntegerField(
         verbose_name='Number of missed visits',)
 
-    class Meta:
+    class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Status'
         verbose_name_plural = 'Status'

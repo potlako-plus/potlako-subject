@@ -4,15 +4,18 @@ from ..admin_site import potlako_subject_admin
 from ..forms import MissedCallForm
 from ..models import MissedCall
 
+from .modeladmin_mixins import CrfModelAdminMixin
+
 
 @admin.register(MissedCall, site=potlako_subject_admin)
-class MissedCallAdmin(admin.ModelAdmin):
+class MissedCallAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = MissedCallForm
 
     fieldsets = (
         (None, {
-            'fields': ('entry_date',
+            'fields': ('subject_visit',
+                       'entry_date',
                        'notes',
                        'repeat_call'),
         }),

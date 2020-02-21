@@ -1,17 +1,17 @@
 from django import forms
-from edc_base.sites import SiteModelFormMixin
 
 from ..models import Investigations, LabTest
+from .form_mixins import SubjectModelFormMixin
 
 
-class InvestigationsForm(SiteModelFormMixin, forms.ModelForm):
+class InvestigationsForm(SubjectModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Investigations
         fields = '__all__'
 
 
-class LabTestForm(SiteModelFormMixin, forms.ModelForm):
+class LabTestForm(SubjectModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = LabTest

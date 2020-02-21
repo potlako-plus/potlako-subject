@@ -4,6 +4,7 @@ from edc_model_admin import TabularInlineMixin
 from ..admin_site import potlako_subject_admin
 from ..forms import InvestigationsForm, LabTestForm
 from ..models import Investigations, LabTest
+from .modeladmin_mixins import CrfModelAdminMixin
 
 
 class LabTestInlineAdmin(TabularInlineMixin, admin.TabularInline):
@@ -24,7 +25,7 @@ class LabTestInlineAdmin(TabularInlineMixin, admin.TabularInline):
 
 
 @admin.register(Investigations, site=potlako_subject_admin)
-class InvestigationsAdmin(admin.ModelAdmin):
+class InvestigationsAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = InvestigationsForm
 
