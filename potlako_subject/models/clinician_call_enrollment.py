@@ -6,16 +6,27 @@ from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future
 from edc_base.model_validators import date_is_future
+from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO, GENDER
+
+from edc_consent.model_mixins import RequiresConsentFieldsModelMixin
+from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 
 from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT,
                        DISTRICT, KIN_RELATIONSHIP, SEVERITY_LEVEL,
                        POS_NEG_UNKNOWN_MISSING, TRIAGE_STATUS)
 from .list_models import Disposition
+from .model_mixins import SearchSlugModelMixin
 
 
-class ClinicianCallEnrollment(BaseUuidModel):
+class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin, SiteModelMixin,
+                              SearchSlugModelMixin, BaseUuidModel):
+
+    report_datetime = models.DateTimeField(
+        verbose_name='Report Date and Time',
+        default=get_utcnow,
+        help_text='Date and time of report.')
 
     reg_date = models.DateField(
         verbose_name='Date of visit when patient was registered '
@@ -183,7 +194,9 @@ class ClinicianCallEnrollment(BaseUuidModel):
     other_kin_rel = models.CharField(
         verbose_name='Next of kin 2 relationship',
         choices=KIN_RELATIONSHIP,
-        max_length=20,)
+        max_length=20,
+        blank=True,
+        null=True,)
 
     other_kin_rel_other = models.CharField(
         verbose_name='If other, describe next of kin 2 relationship',
