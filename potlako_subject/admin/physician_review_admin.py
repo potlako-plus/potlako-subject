@@ -14,7 +14,7 @@ class PhysicianReviewAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
-                       'review_date_time',
+                       'report_datetime',
                        'reviewer_name',
                        'reviewer_other',
                        'physician_summary',

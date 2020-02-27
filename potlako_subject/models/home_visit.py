@@ -1,16 +1,11 @@
 from django.db import models
-from edc_base.model_validators import datetime_not_future, date_is_future
-from edc_protocol.validators import datetime_not_before_study_start
+from edc_base.model_validators import date_is_future
 
 from ..choices import ALIVE_DEAD_LTFU, CLINICIAN_TYPE, FACILITY, VISIT_TYPE
 from .model_mixins import CrfModelMixin
 
 
 class HomeVisit(CrfModelMixin):
-
-    visit_date_time = models.DateTimeField(
-        verbose_name='Date of Visit',
-        validators=[datetime_not_before_study_start, datetime_not_future])
 
     clinician_name = models.CharField(
         verbose_name='Name of clinician1 who made the home visit',

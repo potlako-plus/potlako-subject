@@ -13,9 +13,6 @@ from .model_mixins import CrfModelMixin
 
 class Investigations(CrfModelMixin):
 
-    start_time = models.TimeField(
-        verbose_name='Investigations: start time')
-
     facility_ordered = models.CharField(
         verbose_name='Facility where labs were ordered',
         max_length=25,
@@ -164,7 +161,9 @@ class Investigations(CrfModelMixin):
 
     bpcc_identifier = models.CharField(
         verbose_name='BPCC identifier (BID)',
-        max_length=25)
+        max_length=25,
+        blank=True,
+        null=True)
 
     end_time = models.DurationField(
         verbose_name='Investigations: end time',

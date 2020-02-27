@@ -46,9 +46,17 @@ INSTALLED_APPS = [
     'django_crypto_fields.apps.AppConfig',
     'django_extensions',
     'edc_base.apps.AppConfig',
+    'edc_consent.apps.AppConfig',
     'edc_device.apps.AppConfig',
+    'edc_identifier.apps.AppConfig',
+    'edc_reference.apps.AppConfig',
+    'edc_registration.apps.AppConfig',
     'edc_timepoint.apps.AppConfig',
+    'edc_visit_schedule.apps.AppConfig',
+    'potlako_reference.apps.AppConfig',
+    'potlako_visit_schedule.apps.AppConfig',
     'potlako_subject.apps.EdcAppointmentAppConfig',
+    'potlako_subject.apps.EdcFacilityAppConfig',
     'potlako_subject.apps.EdcProtocolAppConfig',
     'potlako_subject.apps.EdcVisitTrackingAppConfig',
     'potlako_subject.apps.AppConfig',
@@ -125,12 +133,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+COUNTRY = 'botswana'
+
 # dashboards
 DASHBOARD_URL_NAMES = {
     'subject_listboard_url': 'potlako_dashboard:subject_listboard_url',
     'screening_listboard_url': 'potlako_dashboard:screening_listboard_url',
     'subject_dashboard_url': 'potlako_dashboard:subject_dashboard_url',
 }
+
+HOLIDAY_FILE = os.path.join(BASE_DIR, 'holidays.csv')
 
 
 # Static files (CSS, JavaScript, Images)

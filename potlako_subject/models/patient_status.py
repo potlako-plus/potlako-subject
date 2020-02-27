@@ -19,7 +19,9 @@ class PatientStatus(CrfModelMixin):
         max_length=10,)
 
     bpcc_bid_entered = models.CharField(
-        max_length=10,)
+        max_length=10,
+        blank=True,
+        null=True)
 
     bcpp_enrolled = models.CharField(
         verbose_name='Marked BCPP enrolled',
@@ -29,7 +31,9 @@ class PatientStatus(CrfModelMixin):
         choices=YES_NO,
         max_length=10,)
 
-    days_from_death_report = models.PositiveIntegerField()
+    days_from_death_report = models.PositiveIntegerField(
+        blank=True,
+        null=True)
 
     calc_hiv_status = models.CharField(
         verbose_name='Calculated HIV status',
@@ -43,7 +47,7 @@ class PatientStatus(CrfModelMixin):
         max_length=3,)
 
     exit_status = models.CharField(
-        max_length=10)
+        max_length=10,)
 
     first_last_visit_days = models.PositiveIntegerField(
         verbose_name='Days from first to last visit in Potlako (if not '

@@ -1,9 +1,6 @@
 from django.db import models
 from edc_base.model_fields import OtherCharField
-from edc_base.model_validators import datetime_not_future
-from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
-from edc_protocol.validators import datetime_not_before_study_start
 
 from ..choices import (
     CANCER_DIAGNOSIS, CANCER_EVALUATION, CANCER_STATUS, NON_CANCER_DIAGNOSIS,
@@ -12,11 +9,6 @@ from .model_mixins import CrfModelMixin
 
 
 class PhysicianReview(CrfModelMixin):
-
-    review_date_time = models.DateTimeField(
-        verbose_name='Date time of physician review',
-        default=get_utcnow,
-        validators=[datetime_not_before_study_start, datetime_not_future])
 
     reviewer_name = models.CharField(
         verbose_name='Name of reviewer',

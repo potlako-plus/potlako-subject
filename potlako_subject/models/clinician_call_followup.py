@@ -2,10 +2,8 @@ from datetime import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from edc_base.model_fields import OtherCharField
-from edc_base.model_validators import date_is_future, date_not_future
-from edc_base.utils import get_utcnow
+from edc_base.model_validators import date_is_future
 from edc_constants.choices import YES_NO
-from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DISPOSITION, FACILITY, FACILITY_UNIT
 from ..choices import TRIAGE_STATUS
@@ -13,15 +11,6 @@ from .model_mixins import CrfModelMixin
 
 
 class ClinicianCallFollowUp(CrfModelMixin):
-
-    visit_date = models.DateField(
-        verbose_name='Date of Visit',
-        validators=[date_not_before_study_start, date_not_future],
-        default=get_utcnow)
-
-    start_time = models.TimeField(
-        verbose_name='Clinician follow-up: start time',
-        default=datetime.now,)
 
     facility_visited = models.CharField(
         verbose_name='Name and type  of facility visited',
@@ -75,13 +64,17 @@ class ClinicianCallFollowUp(CrfModelMixin):
 
     referral_date = models.DateField(
         verbose_name='Referral appointment date',
-        validators=[date_is_future])
+        validators=[date_is_future],
+        blank=True,
+        null=True)
 
     referral_facility = models.CharField(
         verbose_name=('Name and type of facility patient being referred'
                       ' to (referral facility)'),
         choices=FACILITY_UNIT,
-        max_length=25)
+        max_length=25,
+        blank=True,
+        null=True)
 
     referral_reason = models.CharField(
         verbose_name='If referred, reason for referral',

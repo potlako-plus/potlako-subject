@@ -14,6 +14,7 @@ class PatientStatusAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
+                       'report_datetime',
                        'last_encounter',
                        'sms_due',
                        'days_from_recent_visit',

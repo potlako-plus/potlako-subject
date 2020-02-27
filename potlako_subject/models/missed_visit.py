@@ -13,13 +13,13 @@ class MissedVisit(CrfModelMixin):
 
     report_datetime = models.DateTimeField(
         verbose_name='Datetime \'missed visit\' form entered',
-        default=get_utcnow,
+        default=get_utcnow(),
     )
 
     missed_visit_date = models.DateField(
         verbose_name='Date of reference missed visit (visit previously '
                      'scheduled that patient missed)',
-        default=get_utcnow,
+        default=get_utcnow(),
         validators=[date_not_future, ],)
 
     facility_scheduled = models.CharField(
@@ -61,7 +61,7 @@ class MissedVisit(CrfModelMixin):
 
     next_appointment = models.DateField(
         verbose_name='Date of next appointment',
-        default=get_utcnow,
+        default=get_utcnow(),
         validators=[date_is_future, ],)
 
     next_ap_facility = models.CharField(

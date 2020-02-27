@@ -10,7 +10,7 @@ class MissedCall(CrfModelMixin):
 
     entry_date = models.DateField(
         verbose_name='Date of entry',
-        default=get_utcnow,
+        default=get_utcnow(),
         validators=[date_not_before_study_start, date_not_future, ],)
 
     notes = models.TextField(

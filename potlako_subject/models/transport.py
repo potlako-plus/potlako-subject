@@ -13,10 +13,6 @@ from .model_mixins import CrfModelMixin
 
 class Transport(CrfModelMixin):
 
-    report_datetime = models.DateTimeField(
-        verbose_name='Datetime transport form entered',
-        default=get_utcnow,)
-
     is_criteria_met = models.CharField(
         verbose_name='Does the patient meet the criteria '
                      'for transport support',

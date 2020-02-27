@@ -13,4 +13,5 @@ from .physician_review_admin import PhysicianReviewAdmin
 from .sms_admin import SMSAdmin
 from .subject_consent_admin import SubjectConsentAdmin
 from .subject_screening_admin import SubjectScreeningAdmin
+from .subject_visit_admin import SubjectVisitAdmin
 from .transport_admin import TransportAdmin

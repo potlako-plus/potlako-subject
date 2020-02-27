@@ -100,12 +100,16 @@ class PatientCallInitial(CrfModelMixin):
     primary_keen_contact = EncryptedCharField(
         verbose_name='Please enter next of kin 1 phone number',
         max_length=8,
-        validators=[CellNumber, ])
+        validators=[CellNumber, ],
+        blank=True,
+        null=True)
 
     secondary_keen_contact = EncryptedCharField(
         verbose_name='Please enter next of kin 2 phone number',
         max_length=8,
-        validators=[CellNumber, ])
+        validators=[CellNumber, ],
+        blank=True,
+        null=True)
 
     patient_symptoms = models.TextField(
         max_length=250,
