@@ -1,17 +1,15 @@
 from django import forms
+from edc_base.sites import SiteModelFormMixin
+from edc_form_validators import FormValidatorMixin
 
 from ..models import SubjectScreening
 
 
-class SubjectModelFormMixin(forms.ModelForm):
+class SubjectScreeningForm(SiteModelFormMixin, FormValidatorMixin,
+                           forms.ModelForm):
 
-    pass
-
-
-class SubjectScreeningForm(SubjectModelFormMixin):
-
-    subject_identifier = forms.CharField(
-        label='Subject identifier',
+    screening_identifier = forms.CharField(
+        label='Screening Identifier',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
     class Meta:

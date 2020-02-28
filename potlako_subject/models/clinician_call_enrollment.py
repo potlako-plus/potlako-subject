@@ -10,28 +10,35 @@ from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO, GENDER
 
-from edc_consent.model_mixins import RequiresConsentFieldsModelMixin
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 
 from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT,
                        DISTRICT, KIN_RELATIONSHIP, SEVERITY_LEVEL,
                        POS_NEG_UNKNOWN_MISSING, TRIAGE_STATUS)
+from ..screening_identifier import ScreeningIdentifier
 from .list_models import Disposition
 from .model_mixins import SearchSlugModelMixin
 
 
-class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin, SiteModelMixin,
-                              SearchSlugModelMixin, BaseUuidModel):
+class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
+
+    identifier_cls = ScreeningIdentifier
 
     report_datetime = models.DateTimeField(
         verbose_name='Report Date and Time',
-        default=get_utcnow,
+        default=get_utcnow(),
         help_text='Date and time of report.')
+
+    screening_identifier = models.CharField(
+        verbose_name="Eligibility Identifier",
+        max_length=36,
+        unique=True,
+        editable=False)
 
     reg_date = models.DateField(
         verbose_name='Date of visit when patient was registered '
                      'at facility',
-        default=get_utcnow,
+        default=get_utcnow(),
         validators=[date_not_future, ],)
 
     record_id = IdentityField(
@@ -40,7 +47,7 @@ class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin, SiteModelMix
 
     call_start = models.DateTimeField(
         verbose_name='Clinical Enrollment Call: Start Time',
-        default=get_utcnow)
+        default=get_utcnow())
 
     contact_date = models.DateField(
         verbose_name='Date of communication of patient to coordinator')
@@ -284,44 +291,58 @@ class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin, SiteModelMix
 
     referral_reason = models.TextField(
         verbose_name='Reason for referral',
-        max_length=250)
+        max_length=250,
+        blank=True,
+        null=True,)
 
     referral_date = models.DateField(
         verbose_name='Referral appointment date',
-        default=get_utcnow,
-        validators=[date_is_future, ],)
+        default=get_utcnow(),
+        validators=[date_is_future, ],
+        blank=True,
+        null=True,)
 
     referral_facility = models.CharField(
         verbose_name='Name and type of facility patient being referred to'
                      '(referral facility)',
-        max_length=100)
+        max_length=100,
+        blank=True,
+        null=True,)
 
     referral_unit = models.CharField(
         verbose_name='Unit where patient is being referred to',
         choices=FACILITY_UNIT,
-        max_length=20,)
+        max_length=20,
+        blank=True,
+        null=True,)
 
     referral_discussed = models.CharField(
         verbose_name='Was referral discussed with referral clinician?',
         choices=YES_NO,
-        max_length=3,)
+        max_length=3,
+        blank=True,
+        null=True,)
 
     referral_name = models.CharField(
         verbose_name='Name of referral clinician patient discussed with',
-        blank=False,
         help_text='(If name is not specified or unknown, plese write "UNK")',
-        max_length=100,)
+        max_length=100,
+        blank=True,
+        null=True,)
 
     referral_fu = models.CharField(
         verbose_name='Does the patient have a return follow-up visit at the'
                      'referring facility?',
         choices=YES_NO,
-        max_length=3,)
+        max_length=3,
+        blank=True,
+        null=True,)
 
     referral_fu_date = models.DateField(
         verbose_name='Date of appointment for return visit to referring '
                      'facility',
-        default=get_utcnow)
+        blank=True,
+        null=True,)
 
     triage_status = models.CharField(
         verbose_name='What is patient\'s triage status?',
@@ -356,11 +377,13 @@ class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin, SiteModelMix
     comments = models.TextField(
         verbose_name=('Are there any other comments regarding this '
                       'enrollment vist?'),
-        max_length=250,)
+        max_length=250,
+        blank=True,
+        null=True,)
 
     call_end = models.DateTimeField(
         verbose_name='Clinician initial call : End time (date/time)',
-        default=get_utcnow,)
+        default=get_utcnow(),)
 
     call_duration = models.IntegerField(
         verbose_name='Duration of clinician enrollment call')
@@ -369,3 +392,8 @@ class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin, SiteModelMix
         app_label = 'potlako_subject'
         verbose_name = 'Clinician call - Enrollment'
         verbose_name_plural = 'Clinician call - Enrollment'
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.screening_identifier = self.identifier_cls().identifier
+        super(ClinicianCallEnrollment, self).save(*args, **kwargs)

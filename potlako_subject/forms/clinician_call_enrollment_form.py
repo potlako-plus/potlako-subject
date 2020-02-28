@@ -9,6 +9,9 @@ class ClinicianCallEnrollmentForm(
         SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
 
     # form_validator_cls = ClinicianCallEnrollmentFormValidator
+    screening_identifier = forms.CharField(
+        label='Screening Identifier',
+        widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
     class Meta:
         model = ClinicianCallEnrollment

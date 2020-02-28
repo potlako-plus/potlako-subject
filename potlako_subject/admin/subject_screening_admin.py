@@ -40,7 +40,8 @@ class SubjectScreeningAdmin(
         (None, {
             'fields': (
                 'report_datetime',
-                'subject_identifier',
+                'screening_identifier',
+                'age_in_years',
                 'has_diagnosis',
                 'enrollment_site',
             )}),
@@ -51,8 +52,6 @@ class SubjectScreeningAdmin(
     radio_fields = {
         'has_diagnosis': admin.VERTICAL,
         'enrollment_site': admin.VERTICAL, }
-
-    readonly_fields = ('screening_identifier', 'subject_identifier')
 
     def get_readonly_fields(self, request, obj=None):
         return (super().get_readonly_fields(request, obj=obj) + audit_fields)

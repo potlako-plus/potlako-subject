@@ -1,16 +1,15 @@
 from django.db import models
-from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import eligible_if_yes
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
+
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 from edc_search.model_mixins import SearchSlugManager
 
 from ..eligibility import Eligibility
-from ..models.model_mixins import SearchSlugModelMixin
-from ..screening_identifier import ScreeningIdentifier
+from .model_mixins import SearchSlugModelMixin
 
 ENROLLMENT_SITES = (
     ('gaborone_private_hospital', 'Gaborone Private Hospital (GPH)'),
@@ -33,13 +32,13 @@ class SubjectScreening(
         SearchSlugModelMixin, BaseUuidModel):
 
     eligibility_cls = Eligibility
-    identifier_cls = ScreeningIdentifier
+
+    clinician_enrollment_model = 'potlako_subject.cliniciancallenrollment'
 
     screening_identifier = models.CharField(
-        verbose_name="Eligibility Identifier",
+        verbose_name="Screening Identifier",
         max_length=36,
-        unique=True,
-        editable=False)
+        unique=True,)
 
     report_datetime = models.DateTimeField(
         verbose_name='Report Date and Time',
@@ -53,13 +52,17 @@ class SubjectScreening(
         validators=[eligible_if_yes, ],
         help_text="( if 'NO' STOP patient cannot be enrolled )",)
 
+    age_in_years = models.IntegerField(
+        verbose_name='Patient age',
+        help_text='(Years)',)
+
     enrollment_site = models.CharField(
         max_length=100,
         null=True,
         choices=ENROLLMENT_SITES,
         help_text="Hospital where subject is recruited")
 
-    eligible = models.BooleanField(
+    is_eligible = models.BooleanField(
         default=False,
         editable=False)
 
@@ -83,11 +86,10 @@ class SubjectScreening(
         return (self.subject_identifier,)
 
     def save(self, *args, **kwargs):
+
         eligibility_obj = self.eligibility_cls(
             cancer_status=self.has_diagnosis)
         self.eligible = eligibility_obj.eligible
-        if not self.id:
-            self.screening_identifier = self.identifier_cls().identifier
         super().save(*args, **kwargs)
 
     class Meta:
