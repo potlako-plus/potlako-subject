@@ -1,5 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.utils import timezone
 from django_crypto_fields.fields import (
     IdentityField, FirstnameField, LastnameField)
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
@@ -7,17 +8,13 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future
 from edc_base.model_validators import date_is_future
 from edc_base.sites.site_model_mixin import SiteModelMixin
-from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO, GENDER
-
-from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 
 from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT,
                        DISTRICT, KIN_RELATIONSHIP, SEVERITY_LEVEL,
                        POS_NEG_UNKNOWN_MISSING, TRIAGE_STATUS)
 from ..screening_identifier import ScreeningIdentifier
 from .list_models import Disposition
-from .model_mixins import SearchSlugModelMixin
 
 
 class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
@@ -26,7 +23,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     report_datetime = models.DateTimeField(
         verbose_name='Report Date and Time',
-        default=get_utcnow(),
+        default=timezone.now,
         help_text='Date and time of report.')
 
     screening_identifier = models.CharField(
@@ -38,7 +35,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     reg_date = models.DateField(
         verbose_name='Date of visit when patient was registered '
                      'at facility',
-        default=get_utcnow(),
+        default=timezone.now,
         validators=[date_not_future, ],)
 
     record_id = IdentityField(
@@ -47,7 +44,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     call_start = models.DateTimeField(
         verbose_name='Clinical Enrollment Call: Start Time',
-        default=get_utcnow())
+        default=timezone.now)
 
     contact_date = models.DateField(
         verbose_name='Date of communication of patient to coordinator')
@@ -297,7 +294,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     referral_date = models.DateField(
         verbose_name='Referral appointment date',
-        default=get_utcnow(),
+        default=timezone.now,
         validators=[date_is_future, ],
         blank=True,
         null=True,)
@@ -383,7 +380,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     call_end = models.DateTimeField(
         verbose_name='Clinician initial call : End time (date/time)',
-        default=get_utcnow(),)
+        default=timezone.now,)
 
     call_duration = models.IntegerField(
         verbose_name='Duration of clinician enrollment call')

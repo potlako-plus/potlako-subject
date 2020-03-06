@@ -1,7 +1,8 @@
 from django.db import models
+from django.utils import timezone
+
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_not_future, date_is_future
-from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 
 from ..choices import (FACILITY, VISIT_TYPE, DETERMINE_MISSED_VISIT,
@@ -13,13 +14,13 @@ class MissedVisit(CrfModelMixin):
 
     report_datetime = models.DateTimeField(
         verbose_name='Datetime \'missed visit\' form entered',
-        default=get_utcnow(),
+        default=timezone.now,
     )
 
     missed_visit_date = models.DateField(
         verbose_name='Date of reference missed visit (visit previously '
                      'scheduled that patient missed)',
-        default=get_utcnow(),
+        default=timezone.now,
         validators=[date_not_future, ],)
 
     facility_scheduled = models.CharField(
@@ -61,7 +62,7 @@ class MissedVisit(CrfModelMixin):
 
     next_appointment = models.DateField(
         verbose_name='Date of next appointment',
-        default=get_utcnow(),
+        default=timezone.now,
         validators=[date_is_future, ],)
 
     next_ap_facility = models.CharField(
