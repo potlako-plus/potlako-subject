@@ -11,7 +11,7 @@ from .modeladmin_mixins import ModelAdminMixin
 
 @admin.register(SubjectVisit, site=potlako_subject_admin)
 class SubjectVisitAdmin(
-        ModelAdminMixin, VisitModelAdminMixin, admin.ModelAdmin):
+        VisitModelAdminMixin, ModelAdminMixin, admin.ModelAdmin):
 
     form = SubjectVisitForm
 

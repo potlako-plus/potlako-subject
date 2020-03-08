@@ -46,10 +46,8 @@ class CurrentSiteManager(VisitModelManager, BaseCurrentSiteManager):
     pass
 
 
-class SubjectVisit(
-        VisitModelMixin, CreatesMetadataModelMixin,
-        ReferenceModelMixin, RequiresConsentFieldsModelMixin,
-        SiteModelMixin, BaseUuidModel):
+class SubjectVisit(VisitModelMixin, ReferenceModelMixin, CreatesMetadataModelMixin,
+                   SiteModelMixin, RequiresConsentFieldsModelMixin, BaseUuidModel):
 
     """A model completed by the user that captures the covering
     information for the data collected for this timepoint/appointment,

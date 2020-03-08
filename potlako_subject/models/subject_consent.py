@@ -9,13 +9,13 @@ from edc_consent.field_mixins import ReviewFieldsMixin, PersonalFieldsMixin
 from edc_consent.field_mixins import VulnerabilityFieldsMixin
 from edc_consent.managers import ConsentManager as SubjectConsentManager
 from edc_consent.model_mixins import ConsentModelMixin
+from edc_identifier.subject_identifier import SubjectIdentifier
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierModelMixin
 from edc_registration.model_mixins import (
     UpdatesOrCreatesRegistrationModelMixin)
 from edc_search.model_mixins import SearchSlugManager
 
 from ..choices import IDENTITY_TYPE
-from ..subject_identifier import SubjectIdentifier
 from .model_mixins import SearchSlugModelMixin
 
 
