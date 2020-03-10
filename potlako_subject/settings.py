@@ -129,11 +129,16 @@ TIME_ZONE = 'Africa/Gaborone'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
 COUNTRY = 'botswana'
+
+DATE_FORMAT = "d/m/Y"
+DATE_INPUT_FORMATS = ['%d/%m/%Y']
+DATETIME_FORMAT = "d/m/Y H:i"
+DATETIME_INPUT_FORMATS = ['%d/%m/%Y %H:%M']
 
 # dashboards
 DASHBOARD_URL_NAMES = {

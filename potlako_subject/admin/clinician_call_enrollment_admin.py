@@ -19,8 +19,6 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                        'report_datetime',
                        'screening_identifier',
                        'record_id',
-                       'call_start',
-                       'contact_date',
                        'call_clinician',
                        'call_clinician_type',
                        'call_clinician_other',

@@ -42,10 +42,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         verbose_name='Record Id',
         unique=True)
 
-    call_start = models.DateTimeField(
-        verbose_name='Clinical Enrollment Call: Start Time',
-        default=timezone.now)
-
     contact_date = models.DateField(
         verbose_name='Date of communication of patient to coordinator')
 
@@ -393,4 +389,5 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     def save(self, *args, **kwargs):
         if not self.id:
             self.screening_identifier = self.identifier_cls().identifier
+            self.contact_date = self.report_datetime
         super(ClinicianCallEnrollment, self).save(*args, **kwargs)
