@@ -45,10 +45,24 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     contact_date = models.DateField(
         verbose_name='Date Potlako+ staff member learnt of the cancer suspect')
 
+    info_from_clinician = models.CharField(
+        verbose_name='Did the team learn of the cancer suspect through a call '
+                     'with the clinician ? ',
+        max_length=3,
+        choices=YES_NO,)
+
     call_clinician = models.CharField(
         verbose_name='Name of clinician spoken to on the phone '
                      'for initial call',
-        max_length=25,)
+        max_length=25,
+        blank=True,
+        null=True)
+
+    info_source_specify = models.CharField(
+        verbose_name='Specify how the team learnt of the cancer suspect',
+        max_length=50,
+        blank=True,
+        null=True)
 
     call_clinician_type = models.CharField(
         verbose_name='Type of clinician spoken to on the phone',
@@ -56,15 +70,21 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         max_length=50,)
 
     received_training = models.CharField(
-        verbose_name='Has the participant received Potlako training',
+        verbose_name='Has the clinician received Potlako training',
         choices=YES_NO,
         max_length=3,)
 
-    call_clinician_other = models.TextField(
-        max_length=250,
-        verbose_name='If \'Other type\', describe the type of clinician',
+    call_clinician_other = models.CharField(
+        max_length=50,
+        verbose_name='If \'Other type\', specify the type of clinician',
         blank=True,
         null=True)
+
+    consented_contact = models.CharField(
+        verbose_name='Did the potential participant, consent to being '
+                     'contacted by Potlako+ team',
+        max_length=3,
+        choices=YES_NO)
 
     facility = models.CharField(
         verbose_name='Name of facility visited at enrollment',
