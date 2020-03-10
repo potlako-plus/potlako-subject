@@ -15,7 +15,7 @@ class Investigations(CrfModelMixin):
 
     facility_ordered = models.CharField(
         verbose_name='Facility where labs were ordered',
-        max_length=25,
+        max_length=30,
         choices=FACILITY)
 
     ordered_date = models.DateField(

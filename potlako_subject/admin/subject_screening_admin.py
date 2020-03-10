@@ -41,6 +41,8 @@ class SubjectScreeningAdmin(
             'fields': (
                 'report_datetime',
                 'screening_identifier',
+                'residency',
+                'nationality',
                 'age_in_years',
                 'has_diagnosis',
                 'enrollment_site',
@@ -50,6 +52,8 @@ class SubjectScreeningAdmin(
     search_fields = ('subject_identifier',)
 
     radio_fields = {
+        'residency': admin.VERTICAL,
+        'nationality': admin.VERTICAL,
         'has_diagnosis': admin.VERTICAL,
         'enrollment_site': admin.VERTICAL, }
 

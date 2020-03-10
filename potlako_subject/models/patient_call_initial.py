@@ -136,7 +136,7 @@ class PatientCallInitial(CrfModelMixin):
     facility_previously_visited = models.CharField(
         verbose_name=('Which facilities has the patient '
                       'been seen for similar symptoms?'),
-        max_length=25,
+        max_length=30,
         choices=FACILITY)
 
     previous_facility_period = models.CharField(

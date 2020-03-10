@@ -12,10 +12,30 @@ from ..eligibility import Eligibility
 from .model_mixins import SearchSlugModelMixin
 
 ENROLLMENT_SITES = (
-    ('gaborone_private_hospital', 'Gaborone Private Hospital (GPH)'),
-    ('nyangabgwe_referral_Hospital', 'Nyangabgwe Referral Hospital (NRH)'),
-    ('princess_marina_hospital', 'Princess Marina Hospital (PMH)'),
-    ('bokamoso_private_hospital', 'Bokamoso Private Hospital (BPH)'),
+    ('mmathethe_clinic', 'Mmathethe clinic'),
+    ('molapowabojang_clinic', 'Molapowabojang clinic'),
+    ('otse_clinic', 'Otse clinic'),
+    ('mmankgodi_clinic', 'Mmankgodi clinic'),
+    ('leentsweletau_clinic', 'Lentsweletau clinic'),
+    ('letlhakeng_clinic', 'Letlhakeng clinic'),
+    ('oodi_clinic', 'Oodi clinic'),
+    ('bokaa_clinic', 'Bokaa clinic'),
+    ('metsimotlhabe_clinic', 'Metsimotlhabe clinic'),
+    ('shoshong_clinic', 'Shoshong clinic'),
+    ('sheleketla_clinic', 'Sheleketla clinic'),
+    ('ramokgonami_clinic', 'Ramokgonami clinic'),
+    ('lerala_clinic', 'Lerala clinic'),
+    ('maunatlala_clinic', 'Maunatlala clinic'),
+    ('sefophe_clinic', 'Sefophe clinic'),
+    ('mmadianare_primary_hospital', 'Mmadinare Primary Hospital'),
+    ('manga_clinic', 'Manga clinic'),
+    ('mandunyane_clinic', 'Mandunyane clinic'),
+    ('mathangwane_clinic', 'Mathangwane clinic'),
+    ('tati_siding_clinic', 'Tati Siding clinic'),
+    ('masunga_primary_hospital', 'Masunga Primary Hospital'),
+    ('masunga_clinic', 'Masunga clinic'),
+    ('nata_clinic', 'Nata clinic')
+
 )
 
 
@@ -45,8 +65,19 @@ class SubjectScreening(
         default=get_utcnow,
         help_text='Date and time of report.')
 
+    residency = models.CharField(
+        verbose_name=("Does the potential participant spend atleast 14 nights "
+                      "in the study community?"),
+        max_length=3,
+        choices=YES_NO)
+
+    nationality = models.CharField(
+        verbose_name=("Is the potential participant a motswana?"),
+        max_length=3,
+        choices=YES_NO)
+
     has_diagnosis = models.CharField(
-        verbose_name="Has a cancer diagnosis been documented? ",
+        verbose_name="Is the potential participant a cancer suspect? ",
         max_length=3,
         choices=YES_NO,
         validators=[eligible_if_yes, ],
