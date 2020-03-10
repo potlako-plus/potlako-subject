@@ -43,7 +43,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         unique=True)
 
     contact_date = models.DateField(
-        verbose_name='Date of communication of patient to coordinator')
+        verbose_name='Date Potlako+ staff member learnt of the cancer suspect')
 
     call_clinician = models.CharField(
         verbose_name='Name of clinician spoken to on the phone '
