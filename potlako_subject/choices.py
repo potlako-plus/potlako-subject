@@ -72,20 +72,8 @@ CASH_TRANSFER_STATUS = (
 
 CLINICIAN_TYPE = (
     ('med_officer', 'Medical Officer'),
-    ('fam_medicine', 'Specialist - Family Medicine'),
-    ('internal_medicine', 'Specialist - Internal Medicine'),
-    ('general_surgeon', 'Specialist - General Surgeon'),
-    ('ob_gyn', 'Specialist - Ob/GYN (Gynecologist)'),
-    ('oncologist', 'Specialist - Oncologist'),
-    ('pathologist', 'Specialist - Pathologist'),
-    ('hematologist', 'Specialist - Hematologist'),
-    ('palliative_care', 'Specialist - Palliative care'),
-    (DOCTOR_OTHER, 'Doctor - Other type (specify)'),
-    ('FNP', 'Nurse - FNP'),
-    ('midwife', 'Nurse - Midwife'),
-    ('community_health', 'Nurse - Community health'),
-    (NURSE_OTHER, 'Nurse - Other type (specify)'),
-    ('RN', 'Nurse - RN')
+    ('nurse', 'Nurse'),
+    (OTHER, 'Other (specify)')
 )
 
 COMPONENTS_RECEIVED = (

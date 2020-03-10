@@ -19,11 +19,12 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                        'report_datetime',
                        'screening_identifier',
                        'record_id',
-                       'call_start',
-                       'contact_date',
+                       'info_from_clinician',
                        'call_clinician',
+                       'info_source_specify',
                        'call_clinician_type',
                        'call_clinician_other',
+                       'consented_contact',
                        'received_training',
                        'facility',
                        'facility_unit',
@@ -89,7 +90,9 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
         audit_fieldset_tuple
     )
 
-    radio_fields = {'call_clinician_type': admin.VERTICAL,
+    radio_fields = {'info_from_clinician': admin.VERTICAL,
+                    'call_clinician_type': admin.VERTICAL,
+                    'consented_contact': admin.VERTICAL,
                     'received_training': admin.VERTICAL,
                     'facility': admin.VERTICAL,
                     'facility_unit': admin.VERTICAL,
