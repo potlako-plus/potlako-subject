@@ -38,7 +38,8 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
 
     local_clinic = models.CharField(
         verbose_name=(
-            "When you stay in the village, what clinic/health post do you normally go to?"),
+            "When you stay in the village, what clinic/health post do "
+            "you normally go to?"),
         max_length=75,
         validators=[RegexValidator(
             regex=r'^[0-9]{2}[-][0-9]{1}[-][0-9]{2}$',
@@ -54,9 +55,9 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
     has_alt_contact = models.CharField(
         max_length=25,
         choices=YES_NO,
-        verbose_name=("If we are unable to contact the person indicated above, is there another"
-                      " individual (including next of kin) with whom the study team can get"
-                      " in contact with?"),
+        verbose_name=("If we are unable to contact the person indicated above,"
+                      " is there another individual (including next of kin) "
+                      "with whom the study team can get in contact with?"),
         help_text="",
     )
 

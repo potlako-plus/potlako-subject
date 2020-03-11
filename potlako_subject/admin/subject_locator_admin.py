@@ -12,17 +12,19 @@ from edc_model_admin import (
 from edc_subject_dashboard import ModelAdminSubjectDashboardMixin
 
 from ..admin_site import potlako_subject_admin
-from ..fieldsets import other_indirect_contacts_fieldset, indirect_contacts_fieldset
+from ..fieldsets import (other_indirect_contacts_fieldset,
+                         indirect_contacts_fieldset)
 from ..fieldsets import subject_contacts_fieldset
 from ..forms import SubjectLocatorForm
 from ..models import SubjectLocator
 
 
-class ModelAdminMixin(ModelAdminNextUrlRedirectMixin, ModelAdminFormInstructionsMixin,
-                      ModelAdminFormAutoNumberMixin, ModelAdminRevisionMixin,
-                      ModelAdminAuditFieldsMixin, ModelAdminReadOnlyMixin,
-                      ModelAdminInstitutionMixin, ModelAdminRedirectOnDeleteMixin,
-                      ModelAdminSubjectDashboardMixin):
+class ModelAdminMixin(
+        ModelAdminNextUrlRedirectMixin, ModelAdminFormInstructionsMixin,
+        ModelAdminFormAutoNumberMixin, ModelAdminRevisionMixin,
+        ModelAdminAuditFieldsMixin, ModelAdminReadOnlyMixin,
+        ModelAdminInstitutionMixin, ModelAdminRedirectOnDeleteMixin,
+        ModelAdminSubjectDashboardMixin):
 
     list_per_page = 10
     date_hierarchy = 'modified'

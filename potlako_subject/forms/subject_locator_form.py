@@ -1,7 +1,8 @@
 from django import forms
 from edc_constants.constants import YES, NO
 from edc_form_validators import FormValidatorMixin
-from edc_locator.forms import SubjectLocatorFormValidator as BaseSubjectLocatorFormValidator
+from edc_locator.forms import (
+    SubjectLocatorFormValidator as BaseSubjectLocatorFormValidator)
 
 from ..models import SubjectLocator
 

@@ -13,7 +13,8 @@ from edc_constants.choices import YES_NO, GENDER
 
 from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT,
                        DISTRICT, KIN_RELATIONSHIP, SEVERITY_LEVEL,
-                       SUSPECTED_CANCER, POS_NEG_UNKNOWN_MISSING, TRIAGE_STATUS)
+                       SUSPECTED_CANCER, POS_NEG_UNKNOWN_MISSING,
+                       TRIAGE_STATUS)
 from ..screening_identifier import ScreeningIdentifier
 from .list_models import Disposition, Symptoms
 
