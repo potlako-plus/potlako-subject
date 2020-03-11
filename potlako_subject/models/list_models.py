@@ -7,3 +7,7 @@ class Disposition(ListModelMixin, BaseUuidModel):
 
 class CallAchievements(ListModelMixin, BaseUuidModel):
     pass
+
+
+class Symptoms(ListModelMixin, BaseUuidModel):
+    pass

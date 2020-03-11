@@ -1,7 +1,7 @@
 from edc_constants.constants import (
     ALIVE, DEAD, OTHER, POS, NEG, OFF_STUDY, UNKNOWN, NOT_APPLICABLE, NONE)
 
-from .constants import DOCTOR_OTHER, MISSING, NURSE_OTHER
+from .constants import MISSING, UNSURE
 
 ALIVE_DEAD_LTFU = (
     (ALIVE, 'Patient alive (specify)'),
@@ -383,6 +383,18 @@ SMS_OUTCOME = (
      'confirmed'),
     ('kin2_sent_sms_not_received',
      'SMS sent to next of kin 2 and receipt NOT confirmed'),
+)
+
+SUSPECTED_CANCER = (
+    ('breast', 'Breast'),
+    ('vulva', 'Vulva'),
+    ('penile', 'Penile'),
+    ('cervical', 'Cervical'),
+    ('head_neck', 'Head and Neck'),
+    ('vaginal', 'Vaginal'),
+    ('prostate', 'Prostate'),
+    ('kaposi_sarcoma', 'Kaposi Sarcoma'),
+    (UNSURE, 'Unsure'),
 )
 
 TEST_TYPE = (

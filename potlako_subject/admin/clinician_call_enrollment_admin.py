@@ -31,12 +31,11 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                        'unit_other',
                        'national_identity',
                        'hospital_identity',
-                       'same_clinician',
-                       'more_clinicians',
                        'clinician_name',
                        'clinician_type',
                        'clinician_other',
                        'symptoms',
+                       'symptoms_other',
                        'early_symptoms_date',
                        'symptoms_details',
                        'suspected_cancer',
@@ -102,9 +101,8 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'kin_relationship': admin.VERTICAL,
                     'other_kin_avail': admin.VERTICAL,
                     'other_kin_rel': admin.VERTICAL,
-                    'same_clinician': admin.VERTICAL,
-                    'more_clinicians': admin.VERTICAL,
                     'clinician_type': admin.VERTICAL,
+                    'suspected_cancer': admin.VERTICAL,
                     'suspicion_level': admin.VERTICAL,
                     'last_hiv_result': admin.VERTICAL,
                     'referral_unit': admin.VERTICAL,
@@ -118,7 +116,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     readonly_fields = ('screening_identifier',)
 
-    filter_horizontal = ('patient_disposition',)
+    filter_horizontal = ('patient_disposition', 'symptoms')
 
     actions = ['export_crf_as_csv']
 

@@ -14,6 +14,15 @@ list_data = {
         ('arrange_transportation', 'Arrange transportation'),
         (OTHER, 'Other')
     ],
+    'potlako_subject.symptoms': [
+        ('pain', 'Pain'),
+        ('mass', 'Mass'),
+        ('bleeding', 'Bleeding'),
+        ('weight_loss', 'Weight loss'),
+        ('dysphagia', 'Dysphagia'),
+        ('dysuria', 'Dysuria'),
+        (OTHER, 'Other (specify)')
+    ],
 }
 
 preload_data = PreloadData(

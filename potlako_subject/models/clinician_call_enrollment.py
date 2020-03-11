@@ -4,6 +4,7 @@ from django.utils import timezone
 from django_crypto_fields.fields import (
     IdentityField, FirstnameField, LastnameField)
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
+from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future
 from edc_base.model_validators import date_is_future
@@ -12,9 +13,9 @@ from edc_constants.choices import YES_NO, GENDER
 
 from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT,
                        DISTRICT, KIN_RELATIONSHIP, SEVERITY_LEVEL,
-                       POS_NEG_UNKNOWN_MISSING, TRIAGE_STATUS)
+                       SUSPECTED_CANCER, POS_NEG_UNKNOWN_MISSING, TRIAGE_STATUS)
 from ..screening_identifier import ScreeningIdentifier
-from .list_models import Disposition
+from .list_models import Disposition, Symptoms
 
 
 class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
@@ -111,7 +112,9 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     hospital_identity = IdentityField(
         verbose_name='Patient hospital ID number (if available)',
-        unique=True)
+        unique=True,
+        blank=True,
+        null=True)
 
     last_name = LastnameField(
         verbose_name='Patient surname',
@@ -218,29 +221,15 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         blank=True,
         null=True,)
 
-    other_kin_rel_other = models.CharField(
+    other_kin_rel_other = OtherCharField(
         verbose_name='If other, describe next of kin 2 relationship',
-        max_length=100,
-        blank=True,
-        null=True,)
+        max_length=100,)
 
     other_kin_cell = EncryptedCharField(
         verbose_name='Next of kin 2 phone number',
         validators=[CellNumber, ],
         blank=True,
         null=True,)
-
-    same_clinician = models.CharField(
-        verbose_name='Is the clinician speaking on the phone the same'
-                     ' one that was seen by the patient',
-        choices=YES_NO,
-        max_length=3,)
-
-    more_clinicians = models.CharField(
-        verbose_name='At enrollment, was the patient seen by more '
-                     'than one clinician',
-        choices=YES_NO,
-        max_length=3,)
 
     clinician_name = FirstnameField(
         verbose_name='Name of clinician (or most senior clinician) '
@@ -252,16 +241,17 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         choices=CLINICIAN_TYPE,
         max_length=50,)
 
-    clinician_other = models.CharField(
+    clinician_other = OtherCharField(
         verbose_name='If Other type, describe type of clinician (or the'
                      ' most senior clinician) who saw patient',
-        max_length=50,
-        blank=True,
-        null=True,)
+        max_length=50,)
 
-    symptoms = models.TextField(
-        max_length=150,
-        verbose_name='Presenting symptom(s)')
+    symptoms = models.ManyToManyField(
+        Symptoms,
+        verbose_name='Presenting symptom(s)',
+        help_text='(select all that apply)')
+
+    symptoms_other = OtherCharField()
 
     early_symptoms_date = models.DateField(
         verbose_name='Date of earliest onset symptom(s)')
@@ -273,7 +263,8 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     suspected_cancer = models.CharField(
         verbose_name='Suspected Cancer type',
         max_length=100,
-        help_text='((if clinician unsure, write \'unsure\'))',)
+        choices=SUSPECTED_CANCER,
+        help_text='((if clinician unsure, select \'unsure\'))',)
 
     suspicion_level = models.CharField(
         verbose_name='How strong is clinician\'s suspicion for cancer?',
