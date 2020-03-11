@@ -122,7 +122,6 @@ DIAGNOSIS_RESULTS = (
 DISPOSITION = (
     ('return', 'Return'),
     ('refer', 'Refer'),
-    ('discharge', 'Discharge'),
 )
 
 DISTRICT = (
@@ -363,6 +362,14 @@ REVIEWER = (
     ('neo', 'Neo'),
     ('scott', 'Scott'),
     (OTHER, 'Other')
+)
+
+SCALE = (
+    (1, '1'),
+    (2, '2'),
+    (3, '3'),
+    (4, '4'),
+    (5, '5')
 )
 
 SEVERITY_LEVEL = (

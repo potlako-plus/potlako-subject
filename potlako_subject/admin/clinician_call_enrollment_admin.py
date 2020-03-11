@@ -58,8 +58,6 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                        'vehicle_req',
                        'paper_register',
                        'comments',
-                       'call_end',
-                       'call_duration'
                        )
         }),
         ('Personal Details', {
@@ -68,11 +66,9 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                        'dob',
                        'age_in_years',
                        'gender',
-                       'residence',
                        'village_town',
                        'kgotla',
                        'nearest_facility',
-                       'near_facility_other',
                        'primary_cell',
                        'secondary_cell',
                        'kin_lastname',
@@ -96,7 +92,6 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'facility': admin.VERTICAL,
                     'facility_unit': admin.VERTICAL,
                     'gender': admin.VERTICAL,
-                    'residence': admin.VERTICAL,
                     'nearest_facility': admin.VERTICAL,
                     'kin_relationship': admin.VERTICAL,
                     'other_kin_avail': admin.VERTICAL,
@@ -104,7 +99,10 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'clinician_type': admin.VERTICAL,
                     'suspected_cancer': admin.VERTICAL,
                     'suspicion_level': admin.VERTICAL,
+                    'performance': admin.VERTICAL,
+                    'pain_score': admin.VERTICAL,
                     'last_hiv_result': admin.VERTICAL,
+                    'patient_disposition': admin.VERTICAL,
                     'referral_unit': admin.VERTICAL,
                     'referral_discussed': admin.VERTICAL,
                     'referral_fu': admin.VERTICAL,
@@ -116,7 +114,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     readonly_fields = ('screening_identifier',)
 
-    filter_horizontal = ('patient_disposition', 'symptoms')
+    filter_horizontal = ('symptoms', )
 
     actions = ['export_crf_as_csv']
 

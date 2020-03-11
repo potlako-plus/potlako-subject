@@ -9,14 +9,13 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future
 from edc_base.model_validators import date_is_future
 from edc_base.sites.site_model_mixin import SiteModelMixin
-from edc_constants.choices import YES_NO, GENDER
+from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN
 
-from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT,
-                       DISTRICT, KIN_RELATIONSHIP, SEVERITY_LEVEL,
-                       SUSPECTED_CANCER, POS_NEG_UNKNOWN_MISSING,
-                       TRIAGE_STATUS)
+from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION,
+                       DISTRICT, KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL,
+                       SUSPECTED_CANCER, TRIAGE_STATUS)
 from ..screening_identifier import ScreeningIdentifier
-from .list_models import Disposition, Symptoms
+from .list_models import Symptoms
 
 
 class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
@@ -143,11 +142,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         choices=GENDER,
         max_length=1,)
 
-    residence = models.CharField(
-        verbose_name='District where patient resides',
-        choices=DISTRICT,
-        max_length=50,)
-
     village_town = models.CharField(
         verbose_name='Village or Town where patient resides',
         max_length=100)
@@ -162,24 +156,17 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         choices=FACILITY,
         max_length=30,)
 
-    near_facility_other = models.CharField(
-        verbose_name='Nearest primary clinic or health post to where'
-                     ' patient resides (if outside Kweneng East)',
-        blank=True,
-        null=True,
-        max_length=30,)
-
     primary_cell = EncryptedCharField(
         verbose_name='Patient phone number 1 (Primary)',
         max_length=8,
-        validators=[CellNumber, ],)
+        validators=[CellNumber, ],
+        blank=False,
+        null=False)
 
     secondary_cell = EncryptedCharField(
         verbose_name='Patient phone number 2 (Secondary)',
         max_length=8,
-        validators=[CellNumber, ],
-        blank=True,
-        null=True)
+        validators=[CellNumber, ])
 
     kin_lastname = LastnameField(
         verbose_name='Next of kin 1 Surname',)
@@ -274,25 +261,27 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     performance = models.IntegerField(
         verbose_name='Performance Status (ECOG)',
-        default=0,
-        validators=[MaxValueValidator(5), MinValueValidator(0)],)
+        default=1,
+        choices=SCALE,
+        validators=[MaxValueValidator(5), MinValueValidator(1)],)
 
     pain_score = models.IntegerField(
-        default=0,
-        validators=[MaxValueValidator(5), MinValueValidator(0)],
+        default=1,
+        choices=SCALE,
+        validators=[MaxValueValidator(5), MinValueValidator(1)],
         help_text='(confirm with clinician that this is out of total '
                   'score of 5)',)
 
     last_hiv_result = models.CharField(
         verbose_name='What was the patient\'s last HIV result?',
-        choices=POS_NEG_UNKNOWN_MISSING,
+        choices=POS_NEG_UNKNOWN,
         max_length=10,)
 
-    patient_disposition = models.ManyToManyField(
-        Disposition,
+    patient_disposition = models.CharField(
         verbose_name='What was the patient\'s disposition at the end of '
                      'this visit?',
-        help_text='(select all that apply)')
+        max_length=6,
+        choices=DISPOSITION,)
 
     referral_reason = models.TextField(
         verbose_name='Reason for referral',
@@ -301,7 +290,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         null=True,)
 
     referral_date = models.DateField(
-        verbose_name='Referral appointment date',
+        verbose_name='Next appointment date',
         default=timezone.now,
         validators=[date_is_future, ],
         blank=True,
@@ -385,13 +374,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         max_length=250,
         blank=True,
         null=True,)
-
-    call_end = models.DateTimeField(
-        verbose_name='Clinician initial call : End time (date/time)',
-        default=timezone.now,)
-
-    call_duration = models.IntegerField(
-        verbose_name='Duration of clinician enrollment call')
 
     class Meta:
         app_label = 'potlako_subject'
