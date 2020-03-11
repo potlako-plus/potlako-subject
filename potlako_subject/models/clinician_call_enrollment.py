@@ -39,10 +39,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         default=timezone.now,
         validators=[date_not_future, ],)
 
-    record_id = IdentityField(
-        verbose_name='Record Id',
-        unique=True)
-
     contact_date = models.DateField(
         verbose_name='Date Potlako+ staff member learnt of the cancer suspect')
 
@@ -105,7 +101,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         blank=True,
         null=True)
 
-    """ Patient's Personal Details & Identity - move to::(patient consent)??"""
+    """ Patient's Personal Details & Identity """
     national_identity = IdentityField(
         verbose_name='Patient ID number (Omang)',
         unique=True)
@@ -169,10 +165,14 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         validators=[CellNumber, ])
 
     kin_lastname = LastnameField(
-        verbose_name='Next of kin 1 Surname',)
+        verbose_name='Next of kin 1 Surname',
+        blank=False,
+        null=False)
 
     kin_firstname = FirstnameField(
-        verbose_name='Next of kin 1 First name',)
+        verbose_name='Next of kin 1 First name',
+        blank=False,
+        null=False)
 
     kin_relationship = models.CharField(
         verbose_name='Next of kin 1 relationship',
@@ -188,8 +188,8 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     kin_cell = EncryptedCharField(
         verbose_name='Next of kin 1 phone number',
         validators=[CellNumber, ],
-        blank=True,
-        null=True)
+        blank=False,
+        null=False)
 
     other_kin_avail = models.CharField(
         verbose_name='Next of kin 2 details available?',
@@ -216,8 +216,8 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     other_kin_cell = EncryptedCharField(
         verbose_name='Next of kin 2 phone number',
         validators=[CellNumber, ],
-        blank=True,
-        null=True,)
+        blank=False,
+        null=False,)
 
     clinician_name = FirstnameField(
         verbose_name='Name of clinician (or most senior clinician) '
