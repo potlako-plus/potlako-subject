@@ -66,23 +66,23 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
         }),
         ('Personal Details', {
             'fields': (
-                       'village_town',
-                       'kgotla',
-                       'nearest_facility',
-                       'primary_cell',
-                       'secondary_cell',
-                       'kin_firstname',
-                       'kin_lastname',
-                       'kin_relationship',
-                       'kin_relation_other',
-                       'kin_cell',
-                       'other_kin_avail',
-                       'other_kin_lastname',
-                       'other_kin_firstname',
-                       'other_kin_rel',
-                       'other_kin_rel_other',
-                       'other_kin_cell',
-                       )
+                'village_town',
+                'kgotla',
+                'nearest_facility',
+                'primary_cell',
+                'secondary_cell',
+                'kin_firstname',
+                'kin_lastname',
+                'kin_relationship',
+                'kin_relation_other',
+                'kin_cell',
+                'other_kin_avail',
+                'other_kin_lastname',
+                'other_kin_firstname',
+                'other_kin_rel',
+                'other_kin_rel_other',
+                'other_kin_cell',
+            )
         }),
         audit_fieldset_tuple
     )
@@ -116,11 +116,11 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     readonly_fields = ('screening_identifier',)
 
-    filter_horizontal = ('symptoms', )
+    filter_horizontal = ('symptoms',)
 
     actions = ['export_crf_as_csv']
 
     search_fields = ('screening_identifier',)
 
     def get_readonly_fields(self, request, obj=None):
-        return (super().get_readonly_fields(request, obj=obj) + audit_fields)
+        return (super().get_readonly_fields(request, obj=obj) + ('age_in_years',) + audit_fields)

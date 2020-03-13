@@ -9,6 +9,7 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future
 from edc_base.model_validators import date_is_future
 from edc_base.sites.site_model_mixin import SiteModelMixin
+from edc_base.utils import age, get_utcnow
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN
 
 from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION,
@@ -131,7 +132,8 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     age_in_years = models.IntegerField(
         verbose_name='Patient age',
-        help_text='(Years)',)
+        help_text='(Years)',
+        blank=False)
 
     gender = models.CharField(
         verbose_name='Gender',
@@ -211,13 +213,13 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     other_kin_rel_other = OtherCharField(
         verbose_name='If other, describe next of kin 2 relationship',
-        max_length=100,)
+        max_length=100,
+        blank=False,
+        null=False)
 
     other_kin_cell = EncryptedCharField(
         verbose_name='Next of kin 2 phone number',
-        validators=[CellNumber, ],
-        blank=False,
-        null=False,)
+        validators=[CellNumber, ])
 
     clinician_name = FirstnameField(
         verbose_name='Name of clinician (or most senior clinician) '
@@ -325,7 +327,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         null=True,)
 
     referral_fu = models.CharField(
-        verbose_name='Does the patient have a return follow-up visit at the'
+        verbose_name='Does the patient have a return follow-up visit at the '
                      'referring facility?',
         choices=YES_NO,
         max_length=3,
@@ -381,6 +383,8 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         verbose_name_plural = 'Clinician call - Enrollment'
 
     def save(self, *args, **kwargs):
+        age_delta = age(dob, get_utcnow())
+        self.age_in_years = age_delta.years
         if not self.id:
             self.screening_identifier = self.identifier_cls().identifier
             self.contact_date = self.report_datetime
