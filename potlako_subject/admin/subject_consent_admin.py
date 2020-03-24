@@ -72,9 +72,7 @@ class SubjectConsentAdmin(ModelAdminBasicMixin, ModelAdminMixin,
             'fields': (
                 'consent_reviewed',
                 'study_questions',
-                'assessment_score',
-                'consent_signature',
-                'consent_copy'),
+                'assessment_score'),
             'description': (
                 'The following questions are directed to the interviewer.')}),
         audit_fieldset_tuple)
@@ -82,9 +80,7 @@ class SubjectConsentAdmin(ModelAdminBasicMixin, ModelAdminMixin,
     radio_fields = {
         'assessment_score': admin.VERTICAL,
         'citizen': admin.VERTICAL,
-        'consent_copy': admin.VERTICAL,
         'consent_reviewed': admin.VERTICAL,
-        'consent_signature': admin.VERTICAL,
         'gender': admin.VERTICAL,
         'identity_type': admin.VERTICAL,
         'is_dob_estimated': admin.VERTICAL,

@@ -3,12 +3,13 @@ from django.db import models
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites import CurrentSiteManager
 from edc_base.sites.site_model_mixin import SiteModelMixin
-from edc_consent.field_mixins import (SampleCollectionFieldsMixin,
-                                      CitizenFieldsMixin)
+from edc_consent.field_mixins import CitizenFieldsMixin
 from edc_consent.field_mixins import IdentityFieldsMixin
 from edc_consent.field_mixins import ReviewFieldsMixin, PersonalFieldsMixin
 from edc_consent.managers import ConsentManager as SubjectConsentManager
 from edc_consent.model_mixins import ConsentModelMixin
+from edc_consent.validators import eligible_if_yes
+from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierModelMixin
 from edc_identifier.subject_identifier import SubjectIdentifier
 from edc_registration.model_mixins import (
@@ -34,8 +35,7 @@ class SubjectConsent(
         UpdatesOrCreatesRegistrationModelMixin,
         NonUniqueSubjectIdentifierModelMixin,
         IdentityFieldsMixin, ReviewFieldsMixin, PersonalFieldsMixin,
-        SampleCollectionFieldsMixin, CitizenFieldsMixin,
-        SearchSlugModelMixin, BaseUuidModel):
+        CitizenFieldsMixin, SearchSlugModelMixin, BaseUuidModel):
 
     subject_screening_model = 'potlako_subject.subjectscreening'
 
@@ -58,6 +58,36 @@ class SubjectConsent(
             'The language used for the consent process will '
             'also be used during data collection.')
     )
+
+    consent_reviewed = models.CharField(
+        verbose_name='I have reviewed the consent with the participant',
+        max_length=3,
+        choices=YES_NO,
+        validators=[eligible_if_yes, ],
+        null=True,
+        blank=False,
+        help_text='If no, participant is not eligible.')
+
+    study_questions = models.CharField(
+        verbose_name=(
+            'I have answered all questions the participant had about the study'),
+        max_length=3,
+        choices=YES_NO,
+        validators=[eligible_if_yes, ],
+        null=True,
+        blank=False,
+        help_text='If no, participant is not eligible.')
+
+    assessment_score = models.CharField(
+        verbose_name=(
+            'I have asked the participant questions about this study and '
+            'the participant has demonstrated understanding'),
+        max_length=3,
+        choices=YES_NO,
+        validators=[eligible_if_yes, ],
+        null=True,
+        blank=False,
+        help_text='If no, participant is not eligible.')
 
     consent = SubjectConsentManager()
 
