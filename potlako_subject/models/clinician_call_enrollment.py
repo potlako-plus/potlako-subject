@@ -13,7 +13,7 @@ from edc_base.utils import age, get_utcnow
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN
 
 from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION,
-                       DISTRICT, KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL,
+                       KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL,
                        SUSPECTED_CANCER, TRIAGE_STATUS)
 from ..screening_identifier import ScreeningIdentifier
 from .list_models import Symptoms
@@ -356,7 +356,9 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
                      'only after tests have been done',
         max_length='250',
         help_text='(COMPLETE \'INVESTIGATIONS FORM\' AFTER TESTS HAVE BEEN '
-                  'COMLETED)',)
+                  'COMPLETED)',
+        blank=True,
+        null=True,)
 
     vehicle_req = models.CharField(
         verbose_name='Does patient require facility vehicle transport '
