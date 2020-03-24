@@ -8,7 +8,7 @@ class Eligibility:
             error message is the reason for eligibility test failed."""
 
         self.reasons_ineligible = []
-        if cancer_status == YES:
+        if cancer_status != YES:
             self.reasons_ineligible.append('not a cancer suspect')
         if age_in_years < 30:
             self.reasons_ineligible.append('younger than 30 years')

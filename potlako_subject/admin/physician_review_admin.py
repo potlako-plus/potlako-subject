@@ -20,7 +20,7 @@ class PhysicianReviewAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'physician_summary',
                        'diagnosis_plan',
                        'needs_discussion',
-                       'coordinator_summary',
+                       'research_staff_summary',
                        'cancer_eval',
                        'reason_fu_needed',
                        'final_status',

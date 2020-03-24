@@ -15,7 +15,7 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
-                       'coordinator_encounter_date',
+                       'encounter_date',
                        'start_time',
                        'encounter_duration',
                        'patient_residence_change',
@@ -53,8 +53,8 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'transport_details',
                        'clinician_communication_issues',
                        'clinician_issues_details',
-                       'coordinator_communication_issues',
-                       'coordinator_issues_details',
+                       'communication_issues',
+                       'issues_details',
                        'other_issues',
                        'other_issues_details',
                        'call_achievements',
@@ -85,7 +85,7 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'patient_understanding': admin.VERTICAL,
                     'transport_support_received': admin.VERTICAL,
                     'clinician_communication_issues': admin.VERTICAL,
-                    'coordinator_communication_issues': admin.VERTICAL,
+                    'communication_issues': admin.VERTICAL,
                     'other_issues': admin.VERTICAL,
                     'medical_evaluation_understanding': admin.VERTICAL,
                     'sms_received': admin.VERTICAL

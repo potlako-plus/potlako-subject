@@ -99,11 +99,11 @@ DEATH_INFO_SOURCE = (
 
 DETERMINE_MISSED_VISIT = (
     ('database',
-     'Coordinator referenced database and contacted clinician/facility'),
+     'Research staff referenced database and contacted clinician/facility'),
     ('clinic_register',
      'Clinician referenced clinic register and contacted clinician'),
     ('clinician_contacted', 'Patient contacted clinician'),
-    ('coordinator_contacted', 'Patient contacted coordinator'),
+    ('research_staff_contacted', 'Patient contacted research staff'),
     (OTHER, 'Other')
 )
 

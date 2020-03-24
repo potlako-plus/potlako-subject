@@ -121,8 +121,9 @@ class SubjectScreening(
         eligibility_obj = self.eligibility_cls(
             cancer_status=self.has_diagnosis,
             age_in_years=self.age_in_years)
-        self.eligible = eligibility_obj.eligible
-        self.ineligibility = eligibility_obj.reasons_ineligible
+        self.is_eligible = eligibility_obj.eligible
+        if eligibility_obj.reasons_ineligible:
+            self.ineligibility = eligibility_obj.reasons_ineligible
         super().save(*args, **kwargs)
 
     class Meta:

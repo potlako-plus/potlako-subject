@@ -90,7 +90,7 @@ class MissedVisit(CrfModelMixin):
 
     clinician_name = models.CharField(
         verbose_name='Name of clinician (and indicate whether doctor or '
-                     'nurse) that coordinator discussed missed visit with',
+                     'nurse) that research stuff discussed missed visit with',
         max_length=50,)
 
     comments = models.TextField(

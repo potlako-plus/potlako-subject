@@ -33,8 +33,8 @@ class PhysicianReview(CrfModelMixin):
         choices=YES_NO,
         max_length=3,)
 
-    coordinator_summary = models.CharField(
-        verbose_name='Research coordinator summary',
+    research_staff_summary = models.CharField(
+        verbose_name='Research staff summary',
         max_length=50,)
 
     cancer_eval = models.CharField(

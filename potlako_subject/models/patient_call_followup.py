@@ -15,8 +15,8 @@ from .model_mixins import CrfModelMixin
 
 class PatientCallFollowUp(CrfModelMixin):
 
-    coordinator_encounter_date = models.DateField(
-        verbose_name='Date of coordinator encounter',
+    encounter_date = models.DateField(
+        verbose_name='Date of research stuff encounter',
         validators=[date_not_future])
 
     start_time = models.TimeField(
@@ -241,13 +241,13 @@ class PatientCallFollowUp(CrfModelMixin):
         blank=True,
         null=True)
 
-    coordinator_communication_issues = models.CharField(
+    communication_issues = models.CharField(
         verbose_name=('Have there been any issues in communication with '
-                      'coordinator?'),
+                      'research staff?'),
         choices=YES_NO,
         max_length=3)
 
-    coordinator_issues_details = models.TextField(
+    issues_details = models.TextField(
         verbose_name=('Please provide details'),
         max_length=100,
         blank=True,

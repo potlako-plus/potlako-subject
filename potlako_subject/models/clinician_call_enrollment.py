@@ -109,7 +109,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     hospital_identity = IdentityField(
         verbose_name='Patient hospital ID number (if available)',
-        unique=True,
         blank=True,
         null=True)
 

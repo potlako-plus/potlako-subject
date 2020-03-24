@@ -1,19 +1,21 @@
 from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
 from django.test import TestCase
-from edc_appointment.models import Appointment
 from edc_base.utils import get_utcnow
 from edc_constants.constants import ALIVE, YES, NO, NOT_APPLICABLE, NEG
+from model_mommy import mommy
+
+from edc_appointment.models import Appointment
 from edc_facility.import_holidays import import_holidays
 from edc_visit_tracking.constants import UNSCHEDULED
-from model_mommy import mommy
 
 from ..forms import (
     ClinicianCallFollowUpForm, HomeVisitForm, InvestigationsForm, LabTestForm,
     PatientCallInitialForm, PatientStatusForm, PhysicianReviewForm, SMSForm,
     TransportForm, MissedCallForm, MissedVisitForm)
-from ..models.list_models import CallAchievements
 from ..models import Investigations
+from ..models.list_models import CallAchievements
 
 
 class Test_Crf_Creation(TestCase):
@@ -214,7 +216,7 @@ class Test_Crf_Creation(TestCase):
             physician_summary='very brief',
             diagnosis_plan='something very helpful, we hope',
             needs_discussion=YES,
-            coordinator_summary='another brief sum',
+            research_staff_summary='another brief sum',
             cancer_eval='complete',
             reason_fu_needed='to help, i assume',
             final_status='confirmed',
