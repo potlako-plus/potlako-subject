@@ -466,7 +466,7 @@ VISIT_TYPE = (
 IDENTITY_TYPE = (
     ('country_id', 'Country ID number'),
     ('passport', 'Passport'),
-    ('birth_certificate', 'Birth Certificate')
+    ('birth_certificate', 'Birth Certificate'),
     (OTHER, 'Other'),
 )
 
