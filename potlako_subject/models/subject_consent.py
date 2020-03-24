@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites import CurrentSiteManager
@@ -6,11 +7,10 @@ from edc_consent.field_mixins import (SampleCollectionFieldsMixin,
                                       CitizenFieldsMixin)
 from edc_consent.field_mixins import IdentityFieldsMixin
 from edc_consent.field_mixins import ReviewFieldsMixin, PersonalFieldsMixin
-from edc_consent.field_mixins import VulnerabilityFieldsMixin
 from edc_consent.managers import ConsentManager as SubjectConsentManager
 from edc_consent.model_mixins import ConsentModelMixin
-from edc_identifier.subject_identifier import SubjectIdentifier
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierModelMixin
+from edc_identifier.subject_identifier import SubjectIdentifier
 from edc_registration.model_mixins import (
     UpdatesOrCreatesRegistrationModelMixin)
 from edc_search.model_mixins import SearchSlugManager
@@ -35,7 +35,7 @@ class SubjectConsent(
         NonUniqueSubjectIdentifierModelMixin,
         IdentityFieldsMixin, ReviewFieldsMixin, PersonalFieldsMixin,
         SampleCollectionFieldsMixin, CitizenFieldsMixin,
-        VulnerabilityFieldsMixin, SearchSlugModelMixin, BaseUuidModel):
+        SearchSlugModelMixin, BaseUuidModel):
 
     subject_screening_model = 'potlako_subject.subjectscreening'
 
@@ -49,6 +49,15 @@ class SubjectConsent(
         verbose_name='What type of identity number is this?',
         max_length=25,
         choices=IDENTITY_TYPE)
+
+    language = models.CharField(
+        verbose_name='Language of consent',
+        max_length=25,
+        choices=settings.LANGUAGES,
+        help_text=(
+            'The language used for the consent process will '
+            'also be used during data collection.')
+    )
 
     consent = SubjectConsentManager()
 

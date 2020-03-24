@@ -1,17 +1,17 @@
 from collections import OrderedDict
+
 from django.contrib import admin
 from django.urls.base import reverse
 from django.urls.exceptions import NoReverseMatch
 from django_revision.modeladmin_mixin import ModelAdminRevisionMixin
+from edc_consent.actions import (
+    flag_as_verified_against_paper, unflag_as_verified_against_paper)
 from edc_model_admin import (
     ModelAdminFormAutoNumberMixin, ModelAdminInstitutionMixin,
     audit_fieldset_tuple, audit_fields, ModelAdminNextUrlRedirectMixin,
     ModelAdminNextUrlRedirectError, ModelAdminReplaceLabelTextMixin)
 from edc_model_admin import ModelAdminBasicMixin, ModelAdminReadOnlyMixin
 from simple_history.admin import SimpleHistoryAdmin
-
-from edc_consent.actions import (
-    flag_as_verified_against_paper, unflag_as_verified_against_paper)
 
 from ..admin_site import potlako_subject_admin
 from ..forms import SubjectConsentForm
@@ -60,8 +60,6 @@ class SubjectConsentAdmin(ModelAdminBasicMixin, ModelAdminMixin,
                 'initials',
                 'gender',
                 'language',
-                'is_literate',
-                'witness_name',
                 'consent_datetime',
                 'dob',
                 'is_dob_estimated',
@@ -87,10 +85,9 @@ class SubjectConsentAdmin(ModelAdminBasicMixin, ModelAdminMixin,
         'consent_copy': admin.VERTICAL,
         'consent_reviewed': admin.VERTICAL,
         'consent_signature': admin.VERTICAL,
-        "gender": admin.VERTICAL,
+        'gender': admin.VERTICAL,
         'identity_type': admin.VERTICAL,
         'is_dob_estimated': admin.VERTICAL,
-        'is_literate': admin.VERTICAL,
         'language': admin.VERTICAL,
         'study_questions': admin.VERTICAL}
 
@@ -108,7 +105,6 @@ class SubjectConsentAdmin(ModelAdminBasicMixin, ModelAdminMixin,
                     'user_modified')
     list_filter = ('language',
                    'is_verified',
-                   'is_literate',
                    'identity_type')
     search_fields = ('subject_identifier', 'dob',)
 
