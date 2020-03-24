@@ -44,7 +44,7 @@ if settings.APP_NAME == 'potlako_subject':
             AppointmentConfig(
                 model='edc_appointment.appointment',
                 related_visit_model='potlako_subject.subjectvisit')
-            ]
+        ]
 
     class EdcFacilityAppConfig(BaseEdcFacilityAppConfig):
         country = 'botswana'
