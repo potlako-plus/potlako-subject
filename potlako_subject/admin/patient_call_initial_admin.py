@@ -16,10 +16,7 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
             'fields': ('subject_visit',
                        'patient_call_date',
                        'patient_call_time',
-                       'start_time',
-                       'dob_known',
-                       'dob',
-                       'patient_contact_residence_change',
+                       'age_in_years',
                        'residential_district',
                        'patient_village',
                        'patient_kgotla',
@@ -34,7 +31,7 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'patient_symptoms_date',
                        'other_facility',
                        'facility_number',
-                       'facility_previously_visited',
+                       'facility_visited',
                        'previous_facility_period',
                        'perfomance_status',
                        'pain_score',
@@ -73,15 +70,12 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         }),
     )
 
-    radio_fields = {'dob_known': admin.VERTICAL,
-                    'patient_contact_residence_change': admin.VERTICAL,
-                    'residential_district': admin.VERTICAL,
+    radio_fields = {'residential_district': admin.VERTICAL,
                     'primary_clinic': admin.VERTICAL,
                     'patient_contact_change': admin.VERTICAL,
                     'next_of_kin': admin.VERTICAL,
                     'next_kin_contact_change': admin.VERTICAL,
                     'other_facility': admin.VERTICAL,
-                    'facility_previously_visited': admin.VERTICAL,
                     'hiv_status': admin.VERTICAL,
                     'hiv_test_date_known': admin.VERTICAL,
                     'cancer_suspicion_known': admin.VERTICAL,
@@ -99,4 +93,5 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'cancer_probability': admin.VERTICAL,
                     }
 
-    filter_horizontal = ('call_achievements',)
+    filter_horizontal = ('call_achievements',
+                         'facility_visited')

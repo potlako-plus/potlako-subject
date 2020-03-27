@@ -10,7 +10,7 @@ from edc_protocol.validators import date_not_before_study_start
 from ..choices import DELAYED_REASON, HEALTH_FACTOR, PATIENT_FACTOR
 from ..choices import DISTRICT, FACILITY, POS_NEG_UNKNOWN_MISSING, TEST_TYPE
 from ..choices import FACILITY_UNIT, SEVERITY_LEVEL
-from .list_models import CallAchievements
+from .list_models import CallAchievements, Facility
 from .model_mixins import CrfModelMixin
 
 
@@ -23,31 +23,12 @@ class PatientCallInitial(CrfModelMixin):
         verbose_name='Date of initial patient call',
         validators=[date_not_before_study_start, date_not_future])
 
-    start_time = models.TimeField(
-        verbose_name='Time at START of encounter',
-        help_text='Minutes'
-    )
-
-    dob_known = models.CharField(
-        verbose_name='Does the patient know their date of birth?',
-        choices=YES_NO,
-        max_length=3,)
-
-    dob = models.DateField(
-        verbose_name='If yes, please enter date of birth',
-        validators=[date_not_future],
-        blank=True,
-        null=True)
-
-    patient_contact_residence_change = models.CharField(
-        verbose_name=('Has there been any change in patient contact '
-                      'or residence information since the initial visit '
-                      'to health facility?'),
-        choices=YES_NO,
-        max_length=3)
+    age_in_years = models.IntegerField(
+        verbose_name='Patient age',
+        help_text='(Years)',)
 
     residential_district = models.CharField(
-        verbose_name='Enter the updated patient residential district',
+        verbose_name='where do you currently live?',
         choices=DISTRICT,
         max_length=50,
         blank=True,
@@ -133,11 +114,12 @@ class PatientCallInitial(CrfModelMixin):
         validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
 
-    facility_previously_visited = models.CharField(
+    facility_visited = models.ManyToManyField(
+        Facility,
         verbose_name=('Which facilities has the patient '
                       'been seen for similar symptoms?'),
         max_length=30,
-        choices=FACILITY)
+        help_text='(select all that apply)')
 
     previous_facility_period = models.CharField(
         verbose_name=('For how long was he/she seen at facilities '

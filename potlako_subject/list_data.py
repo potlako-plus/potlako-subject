@@ -23,6 +23,30 @@ list_data = {
         ('dysuria', 'Dysuria'),
         (OTHER, 'Other (specify)')
     ],
+
+    'potlako_subject.facility': [
+        ('chobe', 'Chobe - Chobe'),
+        ('bobonong', 'Central - Bobonong'),
+        ('boteti', 'Central - Boteti'),
+        ('mahalapye', 'Central - Mahalapye'),
+        ('orapa', 'Central - Orapa'),
+        ('serowe_palapye', 'Central - Serowe/Palapye'),
+        ('tutume', 'Central - Tutume'),
+        ('CKGR', 'ghanzi - CKGR'),
+        ('ghanzi', 'ghanzi - Ghanzi'),
+        ('kgalagdi_north', 'Kgalagadi North'),
+        ('kgalagadi_south', 'Kgalagadi South'),
+        ('kgatleng', 'Kgatleng'),
+        ('kweneng_east', 'Kweneng - East'),
+        ('kweneng_west', 'Kweneng - West'),
+        ('delta', 'north West - Delta'),
+        ('ngamiland_north', 'North West - Ngamiland Nort'),
+        ('ngamiland_south', 'North East - Ngamiland South'),
+        ('north_east', 'North East'),
+        ('barolong', 'Southern - Barolong'),
+        ('ngwaketse', 'Southern - Ngwaketse'),
+        ('ngwaketse_west', 'Southern - Ngwaketse West')
+    ],
 }
 
 preload_data = PreloadData(

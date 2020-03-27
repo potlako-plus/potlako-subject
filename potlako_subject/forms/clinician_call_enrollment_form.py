@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from edc_base.sites import SiteModelFormMixin
 from edc_form_validators import FormValidatorMixin
+from potlako_validations.form_validators import ClinicianCallEnrollmentFormValidator
 
 from ..models import ClinicianCallEnrollment
 
@@ -9,7 +10,7 @@ from ..models import ClinicianCallEnrollment
 class ClinicianCallEnrollmentForm(
         SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
 
-    # form_validator_cls = ClinicianCallEnrollmentFormValidator
+    form_validator_cls = ClinicianCallEnrollmentFormValidator
     screening_identifier = forms.CharField(
         label='Screening Identifier',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))

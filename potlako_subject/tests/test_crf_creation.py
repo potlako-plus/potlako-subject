@@ -2,13 +2,12 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 from django.test import TestCase
+from edc_appointment.models import Appointment
 from edc_base.utils import get_utcnow
 from edc_constants.constants import ALIVE, YES, NO, NOT_APPLICABLE, NEG
-from model_mommy import mommy
-
-from edc_appointment.models import Appointment
 from edc_facility.import_holidays import import_holidays
 from edc_visit_tracking.constants import UNSCHEDULED
+from model_mommy import mommy
 
 from ..forms import (
     ClinicianCallFollowUpForm, HomeVisitForm, InvestigationsForm, LabTestForm,
@@ -163,7 +162,7 @@ class Test_Crf_Creation(TestCase):
             patient_symptoms_date=get_utcnow() - relativedelta(months=5),
             other_facility=NO,
             facility_number=3,
-            facility_previously_visited='kgope_hp',
+            facility_visited='kgope_hp',
             previous_facility_period='2months',
             perfomance_status=2,
             pain_score=3,

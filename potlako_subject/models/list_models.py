@@ -5,6 +5,10 @@ class Disposition(ListModelMixin, BaseUuidModel):
     pass
 
 
+class Facility(ListModelMixin, BaseUuidModel):
+    pass
+
+
 class CallAchievements(ListModelMixin, BaseUuidModel):
     pass
 
