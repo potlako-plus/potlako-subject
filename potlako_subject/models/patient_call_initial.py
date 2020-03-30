@@ -4,13 +4,13 @@ from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import CellNumber
 from edc_base.model_validators import date_not_future
+from edc_constants.choices import POS_NEG_UNKNOWN
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DELAYED_REASON, HEALTH_FACTOR, PATIENT_FACTOR
-from ..choices import DISTRICT, FACILITY, POS_NEG_UNKNOWN_MISSING, TEST_TYPE
-from ..choices import FACILITY_UNIT, SEVERITY_LEVEL
-from .list_models import CallAchievements, Facility
+from ..choices import FACILITY_UNIT, SEVERITY_LEVEL, DISTRICT, FACILITY
+from .list_models import CallAchievements, Facility, TestType
 from .model_mixins import CrfModelMixin
 
 
@@ -121,6 +121,11 @@ class PatientCallInitial(CrfModelMixin):
         max_length=30,
         help_text='(select all that apply)')
 
+    facility_visited_other = OtherCharField(
+        max_length=30,
+        blank=True,
+        null=True)
+
     previous_facility_period = models.CharField(
         verbose_name=('For how long was he/she seen at facilities '
                       'before enrollment visit?'),
@@ -141,24 +146,21 @@ class PatientCallInitial(CrfModelMixin):
 
     hiv_status = models.CharField(
         verbose_name=('What is patient\'s current HIV status?'),
-        choices=POS_NEG_UNKNOWN_MISSING,
+        choices=POS_NEG_UNKNOWN,
         max_length=10)
 
-    hiv_test_date_known = models.CharField(
-        verbose_name=('If positive or negative, does patient know '
-                      'date of Yes last HIV test?'),
-        choices=YES_NO,
-        max_length=3,
-        blank=True,
-        null=True)
-
     hiv_test_date = models.DateField(
-        verbose_name=('If patient knows date of last HIV test, please record'),
+        verbose_name=('When was patient\'s last HIV test?'),
         validators=[date_not_future, ],
         blank=True,
         null=True,
         help_text=('If positive test, date of positive test, if negative, '
                    'date of most recent negative test'))
+
+    hiv_test_date_estimated = models.CharField(
+        verbose_name='Is the HIV test date estimated?',
+        choices=YES_NO,
+        max_length=3)
 
     cancer_suspicion_known = models.CharField(
         verbose_name=('Is patient aware that cancer is suspected '
@@ -181,9 +183,9 @@ class PatientCallInitial(CrfModelMixin):
         choices=YES_NO,
         max_length=3)
 
-    tests_type = models.CharField(
+    tests_type = models.ManyToManyField(
+        TestType,
         verbose_name=('If yes, type of test'),
-        choices=TEST_TYPE,
         max_length=15,
         blank=True,
         null=True)
@@ -210,8 +212,10 @@ class PatientCallInitial(CrfModelMixin):
 
     visit_delayed_count = models.IntegerField(
         verbose_name='If yes, how many times?',
-        blank=True,
-        null=True)
+        default=0,
+        validators=[MinValueValidator(0)],
+        null=True,
+        blank=True)
 
     visit_delayed_reason = models.CharField(
         verbose_name=('If yes, was delayed, missed, or rescheduled '

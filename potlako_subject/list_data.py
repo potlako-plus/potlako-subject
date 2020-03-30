@@ -14,16 +14,6 @@ list_data = {
         ('arrange_transportation', 'Arrange transportation'),
         (OTHER, 'Other')
     ],
-    'potlako_subject.symptoms': [
-        ('pain', 'Pain'),
-        ('mass', 'Mass'),
-        ('bleeding', 'Bleeding'),
-        ('weight_loss', 'Weight loss'),
-        ('dysphagia', 'Dysphagia'),
-        ('dysuria', 'Dysuria'),
-        (OTHER, 'Other (specify)')
-    ],
-
     'potlako_subject.facility': [
         ('chobe', 'Chobe - Chobe'),
         ('bobonong', 'Central - Bobonong'),
@@ -45,8 +35,26 @@ list_data = {
         ('north_east', 'North East'),
         ('barolong', 'Southern - Barolong'),
         ('ngwaketse', 'Southern - Ngwaketse'),
-        ('ngwaketse_west', 'Southern - Ngwaketse West')
+        ('ngwaketse_west', 'Southern - Ngwaketse West'),
+        (OTHER, 'Other (specify)')
     ],
+    'potlako_subject.symptoms': [
+        ('pain', 'Pain'),
+        ('mass', 'Mass'),
+        ('bleeding', 'Bleeding'),
+        ('weight_loss', 'Weight loss'),
+        ('dysphagia', 'Dysphagia'),
+        ('dysuria', 'Dysuria'),
+        (OTHER, 'Other (specify)')
+    ],
+    'potlako_subject.testtype': [
+        ('blood_test', 'Blood test'),
+        ('biopsy', 'Biopsy (specify body part)'),
+        ('chest_xray', 'Chest X-Ray'),
+        ('ultrasound', 'Ultrasound'),
+        ('ct', 'CT'),
+        (OTHER, 'Other')
+    ]
 }
 
 preload_data = PreloadData(

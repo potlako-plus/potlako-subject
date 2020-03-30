@@ -319,13 +319,6 @@ PLACE_OF_DEATH = (
     (UNKNOWN, 'Place of death unknown'),
 )
 
-POS_NEG_UNKNOWN_MISSING = (
-    (POS, 'Positive'),
-    (NEG, 'Negative'),
-    (UNKNOWN, 'Unknown'),
-    (MISSING, 'Missing'),
-)
-
 PATHOLOGY_TEST_TYPE = (
     ('biopsy_bone_marrow', 'Biopsy - bone marrow'),
     ('biopsy_lymph_node', 'Biopsy - lymph node'),
@@ -402,15 +395,6 @@ SUSPECTED_CANCER = (
     ('prostate', 'Prostate'),
     ('kaposi_sarcoma', 'Kaposi Sarcoma'),
     (UNSURE, 'Unsure'),
-)
-
-TEST_TYPE = (
-    ('blood_test', 'Blood test'),
-    ('biopsy', 'Biopsy (specify body part)'),
-    ('chest_xray', 'Chest X-Ray'),
-    ('ultrasound', 'Ultrasound'),
-    ('ct', 'CT'),
-    (OTHER, 'Other')
 )
 
 TRANSPORT_CRITERIA = (

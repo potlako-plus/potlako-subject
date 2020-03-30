@@ -32,12 +32,13 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'other_facility',
                        'facility_number',
                        'facility_visited',
+                       'facility_visited_other',
                        'previous_facility_period',
                        'perfomance_status',
                        'pain_score',
                        'hiv_status',
-                       'hiv_test_date_known',
                        'hiv_test_date',
+                       'hiv_test_date_estimated',
                        'cancer_suspicion_known',
                        'enrollment_clinic_visit_method',
                        'slh_travel',
@@ -77,10 +78,9 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'next_kin_contact_change': admin.VERTICAL,
                     'other_facility': admin.VERTICAL,
                     'hiv_status': admin.VERTICAL,
-                    'hiv_test_date_known': admin.VERTICAL,
+                    'hiv_test_date_estimated': admin.VERTICAL,
                     'cancer_suspicion_known': admin.VERTICAL,
                     'tests_ordered': admin.VERTICAL,
-                    'tests_type': admin.VERTICAL,
                     'next_visit_delayed': admin.VERTICAL,
                     'visit_delayed_reason': admin.VERTICAL,
                     'patient_factor': admin.VERTICAL,
@@ -94,4 +94,5 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     }
 
     filter_horizontal = ('call_achievements',
-                         'facility_visited')
+                         'facility_visited',
+                         'tests_type')

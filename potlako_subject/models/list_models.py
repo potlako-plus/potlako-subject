@@ -15,3 +15,7 @@ class CallAchievements(ListModelMixin, BaseUuidModel):
 
 class Symptoms(ListModelMixin, BaseUuidModel):
     pass
+
+
+class TestType(ListModelMixin, BaseUuidModel):
+    pass
