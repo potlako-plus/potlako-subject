@@ -187,8 +187,7 @@ class PatientCallInitial(CrfModelMixin):
         TestType,
         verbose_name=('If yes, type of test'),
         max_length=15,
-        blank=True,
-        null=True)
+        blank=True)
 
     tests_type_other = OtherCharField(
         max_length=15,
