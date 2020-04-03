@@ -1,8 +1,11 @@
+from potlako_subject.action_items import SUBJECT_LOCATOR_ACTION
+
 from django.contrib.sites.models import Site
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
 from django_crypto_fields.fields import EncryptedCharField
+from edc_action_item.model_mixins import ActionModelMixin
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import TelephoneNumber
@@ -11,9 +14,6 @@ from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_consent.model_mixins import RequiresConsentFieldsModelMixin
 from edc_constants.choices import YES_NO
 from edc_locator.model_mixins import LocatorModelMixin, LocatorManager
-
-from potlako_subject.action_items import SUBJECT_LOCATOR_ACTION
-from edc_action_item.model_mixins import ActionModelMixin
 
 
 class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
@@ -38,8 +38,7 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
 
     local_clinic = models.CharField(
         verbose_name=(
-            "When you stay in the village, what clinic/health post do "
-            "you normally go to?"),
+            "Which health facility do you normally go to, in this village?"),
         max_length=75,
         validators=[RegexValidator(
             regex=r'^[0-9]{2}[-][0-9]{1}[-][0-9]{2}$',
@@ -115,7 +114,8 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
         return '{}'.format(self.subject_identifier)
 
     def natural_key(self):
-        return (self.subject_identifier, )
+        return (self.subject_identifier,)
+
     natural_key.dependencies = ['sites.Site']
 
     class Meta:

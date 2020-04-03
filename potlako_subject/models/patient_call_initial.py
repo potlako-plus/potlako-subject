@@ -1,4 +1,4 @@
-from datetime import timedelta, time
+from datetime import timedelta
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -6,7 +6,6 @@ from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import CellNumber
 from edc_base.model_validators import date_not_future
-from edc_base.utils import get_utcnow
 from edc_constants.choices import POS_NEG_UNKNOWN
 from edc_constants.choices import YES_NO, YES_NO_UNSURE
 from edc_protocol.validators import date_not_before_study_start

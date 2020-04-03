@@ -4,7 +4,7 @@ from edc_base.model_validators import date_is_future
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 
-from ..choices import CASH_TRANSFER_STATUS
+from ..choices import CASH_TRANSFER_STATUS, QUALIFICATION
 from ..choices import HOUSEMATE, TRANSPORT_CRITERIA, FACILITY, TRANSPORT_TYPE
 from ..choices import VEHICLE_ARR_STATUS, BUS_VOUCHER_STATUS
 
@@ -21,12 +21,18 @@ class Transport(CrfModelMixin):
 
     qualification = models.CharField(
         verbose_name='What is your highest level of education?',
-        max_length=100,)
+        choices=QUALIFICATION,
+        max_length=15,
+        blank=True,
+        null=True,
+    )
 
     housemate = models.CharField(
         verbose_name='Who do you live with?',
         choices=HOUSEMATE,
         max_length=30,)
+
+    housemate_other = OtherCharField()
 
     car_ownership = models.CharField(
         verbose_name='Is there a car at home?',
@@ -37,7 +43,9 @@ class Transport(CrfModelMixin):
         verbose_name='What criteria has been met for transportation'
         ' support?',
         choices=TRANSPORT_CRITERIA,
-        max_length=100,)
+        max_length=50,)
+
+    criteria_met_other = OtherCharField()
 
     next_visit_date = models.DateField(
         verbose_name='Visit Date for which transportation is being '
@@ -49,20 +57,22 @@ class Transport(CrfModelMixin):
         verbose_name='Visit facility for which transport is being '
                      'planned',
         choices=FACILITY,
-        max_length=100,)
+        max_length=35,)
 
     visit_facility_other = OtherCharField()
 
     transport_type = models.CharField(
         verbose_name='Type of transport support being arranged',
         choices=TRANSPORT_TYPE,
-        max_length=100,)
+        max_length=50,)
 
     facility_vehicle_status = models.CharField(
         verbose_name='Status of facility vehicle arrangement at '
                      'end of transport planning encounter',
         choices=VEHICLE_ARR_STATUS,
         max_length=100,)
+
+    transport_type_other = OtherCharField()
 
     vehicle_status_other = OtherCharField(
         verbose_name='If other facility vehicle status, describe '

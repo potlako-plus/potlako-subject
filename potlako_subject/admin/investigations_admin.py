@@ -34,10 +34,12 @@ class InvestigationsAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
+                       'lab_tests_ordered',
                        'facility_ordered',
                        'facility_ordered_other',
                        'ordered_date',
-                       'lab_tests_ordered',
+                       'ordered_date_estimated',
+                       'ordered_date_estimation',
                        'pathology_tests_ordered',
                        'pathology_test',
                        'biopsy_other',
@@ -67,6 +69,7 @@ class InvestigationsAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     radio_fields = {'facility_ordered': admin.VERTICAL,
                     'lab_tests_ordered': admin.VERTICAL,
+                    'ordered_date_estimated': admin.VERTICAL,
                     'pathology_tests_ordered': admin.VERTICAL,
                     'pathology_test': admin.VERTICAL,
                     'imaging_tests': admin.VERTICAL,

@@ -13,7 +13,7 @@ from .model_mixins import CrfModelMixin
 class MissedVisit(CrfModelMixin):
 
     report_datetime = models.DateTimeField(
-        verbose_name='Datetime \'missed visit\' form entered',
+        verbose_name='Date and time \'missed visit\' form entered',
         default=timezone.now,
     )
 
@@ -36,20 +36,27 @@ class MissedVisit(CrfModelMixin):
         max_length=10,)
 
     determine_missed = models.CharField(
-        verbose_name='How was missed visit determined?',
+        verbose_name='What is the reason for the missed visit?',
         choices=DETERMINE_MISSED_VISIT,
         max_length=100,)
 
     inquired = models.CharField(
-        verbose_name='Was patient or next of kin called to inquire '
-                     'about the missed call',
+        verbose_name='Was patient or next of kin called to enquire '
+                     'about the missed visit?',
         choices=YES_NO,
         max_length=3,)
+
+    not_inquired_reason = models.CharField(
+        verbose_name='If no above, what was the reason?',
+        choices=DETERMINE_MISSED_VISIT,
+        max_length=50,)
 
     inquired_from = models.CharField(
         verbose_name='Who was the phone call to?',
         choices=PEOPLE_INQUIRED_FROM,
-        max_length=100,)
+        max_length=100,
+        blank=True,
+        null=True)
 
     reason_missed = models.CharField(
         verbose_name='Reason for missed visit',
@@ -65,37 +72,55 @@ class MissedVisit(CrfModelMixin):
     next_appointment = models.DateField(
         verbose_name='Date of next appointment',
         default=timezone.now,
-        validators=[date_is_future, ],)
+        validators=[date_is_future, ],
+        blank=True,
+        null=True,)
 
     next_ap_facility = models.CharField(
         verbose_name='Facility at next appointment',
         choices=FACILITY,
-        max_length=30,)
+        max_length=30,
+        blank=True,
+        null=True,)
 
     next_ap_facility_other = OtherCharField()
 
     next_ap_type = models.CharField(
         verbose_name='Type of next appointment',
         choices=VISIT_TYPE,
-        max_length=10,)
+        max_length=10,
+        blank=True,
+        null=True,)
 
     home_visit = models.CharField(
         verbose_name='Should home visit be arranged?',
         choices=YES_NO,
         max_length=3,
+        blank=True,
+        null=True,
         help_text='(After 3 patient and 3 next of kin phone attempts '
-                  'made)',)
+                  'made)')
 
     transport_need = models.CharField(
-        verbose_name='Has patient expressed need for transportation '
-                     'or is he/she already receiving transport support?',
+        verbose_name='Has patient expressed need for transportation?',
         choices=YES_NO,
-        max_length=3,)
+        max_length=3,
+        blank=True,
+        null=True,)
 
-    clinician_name = models.CharField(
-        verbose_name='Name of clinician (and indicate whether doctor or '
-                     'nurse) that research stuff discussed missed visit with',
-        max_length=50,)
+    transport_support = models.CharField(
+        verbose_name='Is the patient already receiving transport support?',
+        choices=YES_NO,
+        max_length=3,
+        blank=True,
+        null=True,)
+
+    clinician_designation = models.CharField(
+        verbose_name=('What is the designation of the clinician that research '
+                      'stuff discussed missed visit with'),
+        max_length=50,
+        blank=True,
+        null=True,)
 
     comments = models.TextField(
         verbose_name='Any other general comments about missed visit '

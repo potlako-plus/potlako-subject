@@ -6,28 +6,46 @@ from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import CANCER_STAGES, FACILITY, LAB_TESTS, LAB_TESTS_STATUS
+from ..choices import DURATION
 from ..choices import IMAGING_STATUS, IMAGING_TESTS, PATHOLOGY_TEST_TYPE
-
 from .model_mixins import CrfModelMixin
 
 
 class Investigations(CrfModelMixin):
 
+    lab_tests_ordered = models.CharField(
+        verbose_name='Were lab tests ordered??',
+        choices=YES_NO,
+        max_length=3)
+
     facility_ordered = models.CharField(
         verbose_name='Facility where labs were ordered',
         max_length=30,
-        choices=FACILITY)
+        choices=FACILITY,
+        blank=True,
+        null=True,)
 
     facility_ordered_other = OtherCharField()
 
     ordered_date = models.DateField(
         verbose_name='Date of clinic visit where labs were ordered',
-        validators=[date_not_before_study_start, date_not_future])
+        validators=[date_not_before_study_start, date_not_future],
+        blank=True,
+        null=True,)
 
-    lab_tests_ordered = models.CharField(
-        verbose_name='Were lab tests ordered??',
+    ordered_date_estimated = models.CharField(
+        verbose_name='Is the ordered date estimated?',
         choices=YES_NO,
-        max_length=3)
+        max_length=3,
+        blank=True,
+        null=True,)
+
+    ordered_date_estimation = models.CharField(
+        verbose_name='Which part of the date is estimated?',
+        choices=DURATION,
+        max_length=6,
+        blank=True,
+        null=True,)
 
     pathology_tests_ordered = models.CharField(
         verbose_name='Were pathology tests ordered?',

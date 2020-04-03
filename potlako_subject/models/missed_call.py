@@ -18,7 +18,7 @@ class MissedCall(CrfModelMixin):
         max_length=150,)
 
     repeat_call = models.DateField(
-        verbose_name='When to schedule repeat call?',
+        verbose_name='Scheduled date for repeat call',
         validators=[date_is_future, ],)
 
     class Meta(CrfModelMixin.Meta):

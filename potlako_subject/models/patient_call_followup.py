@@ -1,13 +1,13 @@
+from datetime import timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from edc_base.model_fields import OtherCharField
-from edc_base.model_validators import CellNumber
+from edc_base.model_validators import date_is_future
 from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
-from ..choices import DELAYED_REASON, DISPOSITION, DISTRICT, FACILITY
+from ..choices import DELAYED_REASON, DISPOSITION, FACILITY
 from ..choices import HEALTH_FACTOR, PATIENT_FACTOR
 from .list_models import CallAchievements
 from .model_mixins import CrfModelMixin
@@ -16,62 +16,29 @@ from .model_mixins import CrfModelMixin
 class PatientCallFollowUp(CrfModelMixin):
 
     encounter_date = models.DateField(
-        verbose_name='Date of research stuff encounter',
+        verbose_name='Date of research staff encounter',
         validators=[date_not_future])
 
     start_time = models.TimeField(
         verbose_name='Patient follow up: start time',
     )
 
-    encounter_duration = models.DurationField(
-        verbose_name='Duration of encounter',
-        help_text='Minutes'
-    )
-
     patient_residence_change = models.CharField(
-        verbose_name=('Has their been any change in patient '
+        verbose_name=('Has there been any change in patient '
                       'residence information?'),
         choices=YES_NO,
         max_length=3)
 
-    patient_district = models.CharField(
-        verbose_name='Patient residence (district)',
-        choices=DISTRICT,
-        max_length=50)
-
-    patient_village = models.CharField(
-        verbose_name='Patient residence (village)',
-        max_length=50)
-
-    patient_kgotla = models.CharField(
-        verbose_name='Patient residence (kgotla)',
-        max_length=50)
-
     phone_number_change = models.CharField(
-        verbose_name=('Has their been any change in patient phone number?'),
+        verbose_name=('Has there been any change in patient phone number?'),
         choices=YES_NO,
         max_length=3)
-
-    patient_number = EncryptedCharField(
-        verbose_name='Please enter updated patient phone number',
-        max_length=8,
-        validators=[CellNumber, ],)
 
     next_kin_contact_change = models.CharField(
         verbose_name=('Any changes to be made to next of kin contact '
                       'information (patient phone)?'),
         choices=YES_NO,
         max_length=3)
-
-    primary_keen_contact = EncryptedCharField(
-        verbose_name='Please enter next of kin 1 phone number',
-        max_length=8,
-        validators=[CellNumber, ])
-
-    secondary_keen_contact = EncryptedCharField(
-        verbose_name='Please enter next of kin 2 phone number',
-        max_length=8,
-        validators=[CellNumber, ])
 
     perfomance_status = models.IntegerField(
         verbose_name='Patient performance status',
@@ -147,10 +114,11 @@ class PatientCallFollowUp(CrfModelMixin):
         help_text='(IF YES, COMPLETE \'TRANSPORT FORM\')')
 
     next_appointment_date = models.DateField(
-        verbose_name='Next appointment date (per patient report)')
+        verbose_name='Next appointment date (per patient report)',
+        validators=[date_is_future])
 
     next_visit_delayed = models.CharField(
-        verbose_name=('Was the next visit date delayed, missed or '
+        verbose_name=('Was the last visit date delayed, missed or '
                       'rescheduled for this encounter?'),
         choices=YES_NO,
         max_length=3)
@@ -210,15 +178,6 @@ class PatientCallFollowUp(CrfModelMixin):
         max_length=30)
 
     next_ap_facility_other = OtherCharField()
-
-    patient_understanding = models.CharField(
-        verbose_name=('Is patient\'s understanding of the next appointment '
-                      '(date and location) the same as clinicians?'),
-        choices=YES_NO,
-        max_length=3,
-        help_text=('If not, inform patient of the date as specified by the '
-                   'clinician. If there is a discrepancy, call clinician '
-                   'to verify'))
 
     transport_support_received = models.CharField(
         verbose_name=('Did patient receive expected transportation support '
@@ -300,6 +259,28 @@ class PatientCallFollowUp(CrfModelMixin):
     patient_followup_end_time = models.TimeField(
         verbose_name='Patient follow up: end time',
     )
+
+    encounter_duration = models.DurationField(
+        verbose_name='Duration of encounter',
+        help_text='Minutes'
+    )
+
+    def get_call_duration(self):
+        call_end = timedelta(hours=self.patient_followup_end_time.hour,
+                             minutes=self.patient_followup_end_time.minute,
+                             seconds=self.patient_followup_end_time.second,
+                             microseconds=self.patient_followup_end_time.microsecond)
+
+        call_start = timedelta(hours=self.start_time.hour,
+                               minutes=self.start_time.minute,
+                               seconds=self.start_time.second,
+                               microseconds=self.start_time.microsecond)
+
+        return call_end - call_start
+
+    def save(self, *args, **kwargs):
+        self.encounter_duration = self.get_call_duration()
+        super().save(*args, **kwargs)
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'

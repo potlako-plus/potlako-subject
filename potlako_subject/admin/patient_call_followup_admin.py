@@ -17,16 +17,9 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
             'fields': ('subject_visit',
                        'encounter_date',
                        'start_time',
-                       'encounter_duration',
                        'patient_residence_change',
-                       'patient_district',
-                       'patient_village',
-                       'patient_kgotla',
                        'phone_number_change',
-                       'patient_number',
                        'next_kin_contact_change',
-                       'primary_keen_contact',
-                       'secondary_keen_contact',
                        'perfomance_status',
                        'pain_score',
                        'new_complaints',
@@ -50,7 +43,6 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'delayed_visit_description',
                        'next_ap_facility',
                        'next_ap_facility_other',
-                       'patient_understanding',
                        'transport_support_received',
                        'transport_details',
                        'clinician_communication_issues',
@@ -65,12 +57,12 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'sms_received',
                        'additional_comments',
                        'patient_followup_end_time'
+                       'encounter_duration',
                        ),
         }),
     )
 
     radio_fields = {'patient_residence_change': admin.VERTICAL,
-                    'patient_district': admin.VERTICAL,
                     'phone_number_change': admin.VERTICAL,
                     'next_kin_contact_change': admin.VERTICAL,
                     'new_complaints': admin.VERTICAL,
@@ -84,7 +76,6 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'patient_factor': admin.VERTICAL,
                     'health_system_factor': admin.VERTICAL,
                     'next_ap_facility': admin.VERTICAL,
-                    'patient_understanding': admin.VERTICAL,
                     'transport_support_received': admin.VERTICAL,
                     'clinician_communication_issues': admin.VERTICAL,
                     'communication_issues': admin.VERTICAL,
@@ -94,3 +85,5 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     }
 
     filter_horizontal = ('call_achievements',)
+
+    readonly_fields = ('encounter_duration',)

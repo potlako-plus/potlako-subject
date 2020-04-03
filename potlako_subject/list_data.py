@@ -24,8 +24,7 @@ list_data = {
         ('serowe_palapye', 'Central - Serowe/Palapye'),
         ('tutume', 'Central - Tutume'),
         ('chobe', 'Chobe - Chobe'),
-        ('deborah_reteif_memorial_hospital',
-         'Deborah. Reteif. Memorial Hospital')
+        ('deborah_reteif_memorial_hospital', 'Deborah. Reteif. Memorial Hospital'),
         ('CKGR', 'ghanzi - CKGR'),
         ('ghanzi', 'ghanzi - Ghanzi'),
         ('goodhope_hospital', 'Goodhope Hospital'),

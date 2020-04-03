@@ -1,12 +1,13 @@
 from edc_constants.constants import (
-    ALIVE, DEAD, OTHER, POS, NEG, OFF_STUDY, UNKNOWN, NOT_APPLICABLE, NONE)
+    ALIVE, DEAD, OTHER, OFF_STUDY, UNKNOWN, NOT_APPLICABLE, NONE)
 
-from .constants import MISSING, UNSURE
+from .constants import UNSURE
 
 ALIVE_DEAD_LTFU = (
     (ALIVE, 'Patient alive (specify)'),
     (DEAD, 'Patient died'),
-    ('ltfu', 'Patient lost to follow up')
+    ('ltfu', 'Patient lost to follow up'),
+    (OTHER, 'Other (specify)'),
 )
 
 BUS_VOUCHER_STATUS = (
@@ -73,6 +74,7 @@ CASH_TRANSFER_STATUS = (
 CLINICIAN_TYPE = (
     ('med_officer', 'Medical Officer'),
     ('nurse', 'Nurse'),
+    ('patient_navigator', 'Patient Navigator'),
     (OTHER, 'Other (specify)')
 )
 
@@ -244,7 +246,15 @@ HOUSEMATE = (
     ('parents', 'Parents'),
     ('siblings', 'Siblings'),
     ('children', 'Children'),
-    (OTHER, 'Other friend or relative'),
+    ('spouse', 'Spouse'),
+    (OTHER, 'Other (specify)'),
+)
+
+IDENTITY_TYPE = (
+    ('country_id', 'Country ID number'),
+    ('passport', 'Passport'),
+    ('birth_certificate', 'Birth Certificate'),
+    (OTHER, 'Other'),
 )
 
 IMAGING_STATUS = (
@@ -354,6 +364,14 @@ PATHOLOGY_TEST_TYPE = (
     ('biopsy_other', 'Biopsy - other (specify)'),
     ('FNA', 'FNA'),
     ('pap_smear', 'Pap smear')
+)
+
+QUALIFICATION = (
+    ('formal', 'Formal'),
+    ('non_formal', 'Non Formal'),
+    ('primary', 'Primary'),
+    ('secondary', 'Secondary'),
+    ('tertiary', 'Tertiary')
 )
 
 REASON_FOR_EXIT = (
@@ -475,13 +493,6 @@ VEHICLE_ARR_STATUS = (
 VISIT_TYPE = (
     ('referral', 'Referral'),
     ('return', 'Return'),
-)
-
-IDENTITY_TYPE = (
-    ('country_id', 'Country ID number'),
-    ('passport', 'Passport'),
-    ('birth_certificate', 'Birth Certificate'),
-    (OTHER, 'Other'),
 )
 
 VISIT_UNSCHEDULED_REASON_CHOICE = (
