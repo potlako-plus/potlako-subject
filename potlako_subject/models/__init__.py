@@ -8,7 +8,6 @@ from .missed_visit import MissedVisit
 from .onschedule import Onschedule
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
-from .patient_status import PatientStatus
 from .physician_review import PhysicianReview
 from .signals import subject_consent_on_post_save
 from .sms import SMS

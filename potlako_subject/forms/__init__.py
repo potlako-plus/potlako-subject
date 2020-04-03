@@ -7,7 +7,6 @@ from .missed_call_form import MissedCallForm
 from .missed_visit_form import MissedVisitForm
 from .patient_call_followup_form import PatientCallFollowUpForm
 from .patient_call_initial_form import PatientCallInitialForm
-from .patient_status_form import PatientStatusForm
 from .physician_review_form import PhysicianReviewForm
 from .sms_form import SMSForm
 from .subject_consent_form import SubjectConsentForm

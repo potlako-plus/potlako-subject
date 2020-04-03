@@ -149,8 +149,7 @@ class PatientCallInitial(CrfModelMixin):
                       'been seen for similar symptoms?'),
         max_length=30,
         help_text='(select all that apply)',
-        blank=True,
-        null=True,)
+        blank=True)
 
     facility_visited_other = OtherCharField(
         max_length=30,
