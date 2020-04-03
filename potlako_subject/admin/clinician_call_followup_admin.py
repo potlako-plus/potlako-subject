@@ -17,6 +17,7 @@ class ClinicianCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
             'fields': ('subject_visit',
                        'report_datetime',
                        'facility_visited',
+                       'facility_visited_other',
                        'call_clinician',
                        'facility_unit',
                        'facility_unit_other',

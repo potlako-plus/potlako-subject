@@ -39,8 +39,8 @@ CANCER_EVALUATION = (
     ('unable_to_complete',
      'Incomplete, but unable to complete (i.e. death, refusal)'),
     ('incomplete_needs_priority',
-     'Incomplete, needs priority Potlako follow-up'),
-    ('complete_needs_priority', 'Complete, needs priority Potlako follow-up')
+     'Incomplete, needs priority Potlako+ follow-up'),
+    ('complete_needs_priority', 'Complete, needs priority Potlako+ follow-up')
 )
 
 CANCER_STAGES = (
@@ -148,6 +148,34 @@ DISTRICT = (
     ('ngwaketse_west', 'Southern - Ngwaketse West'),
 )
 
+DURATION = (
+    ('days', 'Days'),
+    ('weeks', 'Weeks'),
+    ('months', 'Months'),
+    ('years', 'Years')
+)
+
+DATE_ESTIMATION = (
+    ('day', 'Day'),
+    ('month', 'Month'),
+    ('year', 'Year')
+)
+
+DATE_TIME_ESTIMATION = (
+    ('time', 'Time'),
+    ('day', 'Day'),
+    ('month', 'Month'),
+    ('year', 'Year')
+)
+
+ENROLLMENT_VISIT_METHOD = (
+    ('walked', 'Walked'),
+    ('patient_drove_themselves', 'Patient Drove Themselves'),
+    ('patient_driven_by_someone', 'Patient Was Driven By Someone'),
+    ('special_taxi', 'Special Taxi'),
+    (OTHER, 'Other (specify)')
+)
+
 FACILITY = (
     ('mmathethe_clinic', 'Mmathethe clinic'),
     ('molapowabojang_clinic', 'Molapowabojang clinic'),
@@ -171,7 +199,8 @@ FACILITY = (
     ('tati_siding_clinic', 'Tati Siding clinic'),
     ('masunga_primary_hospital', 'Masunga Primary Hospital'),
     ('masunga_clinic', 'Masunga clinic'),
-    ('nata_clinic', 'Nata clinic')
+    ('nata_clinic', 'Nata clinic'),
+    (OTHER, 'Other (specify)')
 
 )
 
@@ -333,8 +362,8 @@ REASON_FOR_EXIT = (
     ('eval_complete', 'Cancer evaluation complete'),
     ('declines_further_eval',
      'Patient or clinician declines further evaluation'),
-    ('patient_requests_removal', 'Patient requests removal from Potlako'),
-    ('clinician_requests_removal', 'Clinician requests removal from Potlako'),
+    ('patient_requests_removal', 'Patient requests removal from Potlako+'),
+    ('clinician_requests_removal', 'Clinician requests removal from Potlako+'),
 )
 
 REASON_MISSED_VISIT = (
@@ -395,6 +424,7 @@ SUSPECTED_CANCER = (
     ('prostate', 'Prostate'),
     ('kaposi_sarcoma', 'Kaposi Sarcoma'),
     (UNSURE, 'Unsure'),
+    (OTHER, 'Other (specify)'),
 )
 
 TRANSPORT_CRITERIA = (

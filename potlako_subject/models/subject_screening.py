@@ -1,10 +1,10 @@
+from django.apps import apps as django_apps
 from django.db import models
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import eligible_if_yes
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
-
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 from edc_search.model_mixins import SearchSlugManager
 
@@ -66,8 +66,8 @@ class SubjectScreening(
         help_text='Date and time of report.')
 
     residency = models.CharField(
-        verbose_name=("Does the potential participant spend atleast 14 nights "
-                      "in the study community?"),
+        verbose_name=('Does the potential participant spend or intend to spend'
+                      ' atleast 14 nights in the study community?'),
         max_length=3,
         choices=YES_NO)
 
@@ -116,7 +116,18 @@ class SubjectScreening(
     def natural_key(self):
         return (self.subject_identifier,)
 
+    def get_age(self):
+        enrollment_cls = django_apps.get_model(self.clinician_enrollment_model)
+        try:
+            enrollment_obj = enrollment_cls.objects.get(
+                screening_identifier=self.screening_identifier)
+        except enrollment_cls.DoesNotExist:
+            return self.age_in_years
+        else:
+            return enrollment_obj.age_in_years
+
     def save(self, *args, **kwargs):
+        self.age_in_years = self.get_age()
 
         eligibility_obj = self.eligibility_cls(
             cancer_status=self.has_diagnosis,
@@ -128,5 +139,5 @@ class SubjectScreening(
 
     class Meta:
         app_label = 'potlako_subject'
-        verbose_name = "Potlako Eligibility"
-        verbose_name_plural = "Potlako Eligibility"
+        verbose_name = "Potlako+ Eligibility"
+        verbose_name_plural = "Potlako+ Eligibility"

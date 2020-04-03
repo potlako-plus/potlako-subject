@@ -1,4 +1,5 @@
 from django.db import models
+from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_is_future
 
 from ..choices import ALIVE_DEAD_LTFU, CLINICIAN_TYPE, FACILITY, VISIT_TYPE
@@ -16,10 +17,12 @@ class HomeVisit(CrfModelMixin):
         choices=CLINICIAN_TYPE,
         max_length=50)
 
-    facility_clinician_works = models.CharField(
+    clinician_facility = models.CharField(
         verbose_name='Name of facility where clinician1 works',
         choices=FACILITY,
         max_length=30)
+
+    clinician_facility_other = OtherCharField()
 
     clinician_two_name = models.CharField(
         verbose_name='Name of clinician2 who made the home visit',
@@ -35,6 +38,8 @@ class HomeVisit(CrfModelMixin):
         choices=FACILITY,
         max_length=30)
 
+    clinician_two_facility_other = OtherCharField()
+
     clinician_three_name = models.CharField(
         verbose_name='Name of clinician3 who made the home visit',
         max_length=25,)
@@ -48,6 +53,8 @@ class HomeVisit(CrfModelMixin):
         verbose_name='Name of facility where clinician3 works',
         choices=FACILITY,
         max_length=30)
+
+    clinician_three_facility_other = OtherCharField()
 
     visit_outcome = models.CharField(
         verbose_name='Outcome of home visit',
@@ -67,6 +74,8 @@ class HomeVisit(CrfModelMixin):
         max_length=30,
         blank=True,
         null=True,)
+
+    next_ap_facility_other = OtherCharField()
 
     nex_ap_type = models.CharField(
         verbose_name='If alive, next appointment type',

@@ -35,6 +35,7 @@ class InvestigationsAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         (None, {
             'fields': ('subject_visit',
                        'facility_ordered',
+                       'facility_ordered_other',
                        'ordered_date',
                        'lab_tests_ordered',
                        'pathology_tests_ordered',

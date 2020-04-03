@@ -17,6 +17,8 @@ class ClinicianCallFollowUp(CrfModelMixin):
         max_length=30,
         choices=FACILITY)
 
+    facility_visited_other = OtherCharField()
+
     call_clinician = models.CharField(
         verbose_name='Name of clinician spoken to on the phone '
                      'for the follow up call',

@@ -43,7 +43,7 @@ class PhysicianReview(CrfModelMixin):
         max_length=50,)
 
     reason_fu_needed = models.CharField(
-        verbose_name='Why patient needs continued Potlako follow-up',
+        verbose_name='Why patient needs continued Potlako+ follow-up',
         max_length=100,)
 
     final_status = models.CharField(

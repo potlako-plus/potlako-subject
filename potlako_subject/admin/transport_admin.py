@@ -22,6 +22,7 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'criteria_met',
                        'next_visit_date',
                        'visit_facility',
+                       'visit_facility_other',
                        'transport_type',
                        'facility_vehicle_status',
                        'vehicle_status_other',

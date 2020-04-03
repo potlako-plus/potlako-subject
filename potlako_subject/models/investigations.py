@@ -18,6 +18,8 @@ class Investigations(CrfModelMixin):
         max_length=30,
         choices=FACILITY)
 
+    facility_ordered_other = OtherCharField()
+
     ordered_date = models.DateField(
         verbose_name='Date of clinic visit where labs were ordered',
         validators=[date_not_before_study_start, date_not_future])

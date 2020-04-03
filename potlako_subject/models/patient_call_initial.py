@@ -1,15 +1,18 @@
+from datetime import timedelta, time
+
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import CellNumber
 from edc_base.model_validators import date_not_future
+from edc_base.utils import get_utcnow
 from edc_constants.choices import POS_NEG_UNKNOWN
-from edc_constants.choices import YES_NO
+from edc_constants.choices import YES_NO, YES_NO_UNSURE
 from edc_protocol.validators import date_not_before_study_start
 
-from ..choices import DELAYED_REASON, HEALTH_FACTOR, PATIENT_FACTOR
-from ..choices import FACILITY_UNIT, SEVERITY_LEVEL, DISTRICT, FACILITY
+from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
+from ..choices import DURATION, FACILITY_UNIT, SEVERITY_LEVEL, DISTRICT
 from .list_models import CallAchievements, Facility, TestType
 from .model_mixins import CrfModelMixin
 
@@ -34,14 +37,8 @@ class PatientCallInitial(CrfModelMixin):
         blank=True,
         null=True)
 
-    patient_village = models.CharField(
-        verbose_name='Enter the updated patient village or town',
-        max_length=30,
-        blank=True,
-        null=True)
-
     patient_kgotla = models.CharField(
-        verbose_name='Enter the updated patient kgotla',
+        verbose_name='What is the name of the ward where you live?',
         max_length=30,
         blank=True,
         null=True)
@@ -51,6 +48,8 @@ class PatientCallInitial(CrfModelMixin):
                       'to where patient resides'),
         choices=FACILITY,
         max_length=30)
+
+    primary_clinic_other = OtherCharField()
 
     patient_contact_change = models.CharField(
         verbose_name=('Any changes to be made to patient contact '
@@ -99,8 +98,37 @@ class PatientCallInitial(CrfModelMixin):
     )
 
     patient_symptoms_date = models.DateField(
-        verbose_name=('When did the patient start experiencing symptoms?'),
+        verbose_name=('Date the symptoms started'),
         validators=[date_not_future, ])
+
+    patient_symptoms_date_estimated = models.CharField(
+        verbose_name='Is the symptoms date estimated?',
+        choices=YES_NO,
+        max_length=3)
+
+    patient_symptoms_date_estimation = models.CharField(
+        verbose_name='Which part of the date was estimated, if any?',
+        choices=DATE_ESTIMATION,
+        max_length=6,
+        blank=True,
+        null=True,
+    )
+
+    symptoms_duration_report = models.IntegerField(
+        verbose_name=('How long did it take for the participant to present to '
+                      'the facility after experiencing their first symptom?'),
+        default=0,
+        validators=[MinValueValidator(0)],
+        blank=True,
+        null=True,
+    )
+
+    symptoms_duration = models.CharField(
+        verbose_name='What is the above number for?',
+        choices=DURATION,
+        max_length=6,
+        blank=True,
+        null=True,)
 
     other_facility = models.CharField(
         verbose_name=('Before enrollment visit, has the patient been '
@@ -111,7 +139,9 @@ class PatientCallInitial(CrfModelMixin):
     facility_number = models.IntegerField(
         verbose_name='How many facilities?',
         default=0,
-        validators=[MinValueValidator(0), MaxValueValidator(5)]
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
+        blank=True,
+        null=True,
     )
 
     facility_visited = models.ManyToManyField(
@@ -119,7 +149,9 @@ class PatientCallInitial(CrfModelMixin):
         verbose_name=('Which facilities has the patient '
                       'been seen for similar symptoms?'),
         max_length=30,
-        help_text='(select all that apply)')
+        help_text='(select all that apply)',
+        blank=True,
+        null=True,)
 
     facility_visited_other = OtherCharField(
         max_length=30,
@@ -130,6 +162,8 @@ class PatientCallInitial(CrfModelMixin):
         verbose_name=('For how long was he/she seen at facilities '
                       'before enrollment visit?'),
         max_length=15,
+        blank=True,
+        null=True,
         help_text='specify variable (days, weeks, months, years)')
 
     perfomance_status = models.IntegerField(
@@ -162,26 +196,38 @@ class PatientCallInitial(CrfModelMixin):
         choices=YES_NO,
         max_length=3)
 
+    hiv_test_date_estimation = models.CharField(
+        verbose_name='Which part of the date was estimated, if any?',
+        choices=DATE_ESTIMATION,
+        max_length=6,
+        blank=True,
+        null=True,
+    )
+
     cancer_suspicion_known = models.CharField(
         verbose_name=('Is patient aware that cancer is suspected '
                       'as a diagnosis?'),
         choices=YES_NO,
         max_length=3)
 
-    enrollment_clinic_visit_method = models.CharField(
+    enrollment_visit_method = models.CharField(
         verbose_name=('How did patient get to enrollment clinic visit?'),
-        max_length=50)
+        choices=ENROLLMENT_VISIT_METHOD,
+        max_length=30)
+
+    enrollment_visit_method_other = OtherCharField()
 
     slh_travel = models.CharField(
-        verbose_name=('If you had to travel to SLH to see a doctor, how '
+        verbose_name=('If you had to travel to see a doctor, how '
                       'would you go about it?'),
-        max_length=50)
+        max_length=50,
+        help_text='Use referral clinic name')
 
     tests_ordered = models.CharField(
         verbose_name=('Does patient report any tests being ordered or '
                       'done at or since enrollment visit?'),
-        choices=YES_NO,
-        max_length=3)
+        choices=YES_NO_UNSURE,
+        max_length=8)
 
     tests_type = models.ManyToManyField(
         TestType,
@@ -203,86 +249,20 @@ class PatientCallInitial(CrfModelMixin):
     next_appointment_date = models.DateField(
         verbose_name='Next appointment date (per patient report)')
 
-    next_visit_delayed = models.CharField(
-        verbose_name=('Was the next visit date delayed, missed or '
-                      'rescheduled for this encounter?'),
-        choices=YES_NO,
-        max_length=3)
-
-    visit_delayed_count = models.IntegerField(
-        verbose_name='If yes, how many times?',
-        default=0,
-        validators=[MinValueValidator(0)],
-        null=True,
-        blank=True)
-
-    visit_delayed_reason = models.CharField(
-        verbose_name=('If yes, was delayed, missed, or rescheduled '
-                      'visit primarily related to a patient or '
-                      'health system factor?'),
-        choices=DELAYED_REASON,
-        max_length=25,
-        null=True,
-        blank=True)
-
-    patient_factor = models.CharField(
-        verbose_name=('Which patient factor best describes reason for '
-                      'delayed, missed, or rescheduled visit?'),
-        choices=PATIENT_FACTOR,
-        max_length=50,
-        null=True,
-        blank=True)
-
-    patient_factor_other = OtherCharField(
-        verbose_name='Please describe other patient factor',
-        max_length=50,
-        blank=True,
-        null=True)
-
-    health_system_factor = models.CharField(
-        verbose_name=('Which health system factor best describes reason '
-                      'for delayed, missed, or rescheduled visit?'),
-        choices=HEALTH_FACTOR,
-        max_length=50,
-        null=True,
-        blank=True)
-
-    health_system_factor_other = OtherCharField(
-        verbose_name='Please describe other health system factor',
-        max_length=50,
-        blank=True,
-        null=True)
-
-    delayed_visit_description = models.TextField(
-        verbose_name=('Please briefly describe the situation resulting in '
-                      'the delayed, missed, or rescheduled visit'),
-        max_length=150,
-        blank=True,
-        null=True)
-
-    next_appointment_facility = models.CharField(
+    next_ap_facility = models.CharField(
         verbose_name='Next appointment facility',
         choices=FACILITY,
         max_length=30,
         help_text='per patient report')
 
-    next_appointment_facility_unit = models.CharField(
+    next_ap_facility_other = OtherCharField()
+
+    next_ap_facility_unit = models.CharField(
         choices=FACILITY_UNIT,
         max_length=20)
 
-    next_appointment_facility_unit_other = OtherCharField(
-        max_length=50,
-        blank=True,
-        null=True)
-
-    patient_understanding = models.CharField(
-        verbose_name=('Is patient\'s understanding of the next appointment '
-                      '(date and location) the same as clinicians?'),
-        choices=YES_NO,
-        max_length=3,
-        help_text=('If not, inform patient of the date as specified by the '
-                   'clinician. If there is a discrepancy, call clinician '
-                   'to verify'))
+    next_ap_facility_unit_other = OtherCharField(
+        max_length=50)
 
     transport_support = models.CharField(
         verbose_name=('Has patient expressed need for transport support?'),
@@ -294,10 +274,8 @@ class PatientCallInitial(CrfModelMixin):
         CallAchievements,
         verbose_name='What has been achieved during the call')
 
-    clinician_information = models.CharField(
-        verbose_name=('Any information to be passed back to clinician?'),
-        choices=YES_NO,
-        max_length=3)
+    call_achievements_other = OtherCharField(
+        max_length=100)
 
     comments = models.TextField(
         verbose_name=('Any other general comments regarding patient encouter'),
@@ -310,10 +288,6 @@ class PatientCallInitial(CrfModelMixin):
         choices=SEVERITY_LEVEL,
         max_length=10)
 
-    encounter_end_time = models.TimeField(
-        verbose_name='Time at END of encounter',
-    )
-
     initial_call_end_time = models.TimeField(
         verbose_name='End of patient initial call (timestamp)',
     )
@@ -321,6 +295,23 @@ class PatientCallInitial(CrfModelMixin):
     call_duration = models.DurationField(
         verbose_name='Duration of patient initial call',
     )
+
+    def get_call_duration(self):
+        call_end = timedelta(hours=self.initial_call_end_time.hour,
+                             minutes=self.initial_call_end_time.minute,
+                             seconds=self.initial_call_end_time.second,
+                             microseconds=self.initial_call_end_time.microsecond)
+
+        call_start = timedelta(hours=self.patient_call_time.hour,
+                               minutes=self.patient_call_time.minute,
+                               seconds=self.patient_call_time.second,
+                               microseconds=self.patient_call_time.microsecond)
+
+        return call_end - call_start
+
+    def save(self, *args, **kwargs):
+        self.call_duration = self.get_call_duration()
+        super().save(*args, **kwargs)
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'

@@ -118,6 +118,8 @@ class PatientCallFollowUp(CrfModelMixin):
         null=True,
         blank=True)
 
+    visit_facility_other = OtherCharField()
+
     visit_reason = models.CharField(
         verbose_name=('What was the reason for the visit?'),
         max_length=50,
@@ -202,10 +204,12 @@ class PatientCallFollowUp(CrfModelMixin):
         blank=True,
         null=True)
 
-    next_appointment_facility = models.CharField(
+    next_ap_facility = models.CharField(
         verbose_name='Next appointment facility and type',
         choices=FACILITY,
         max_length=30)
+
+    next_ap_facility_other = OtherCharField()
 
     patient_understanding = models.CharField(
         verbose_name=('Is patient\'s understanding of the next appointment '

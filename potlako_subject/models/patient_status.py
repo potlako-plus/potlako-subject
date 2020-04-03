@@ -50,7 +50,7 @@ class PatientStatus(CrfModelMixin):
         max_length=10,)
 
     first_last_visit_days = models.PositiveIntegerField(
-        verbose_name='Days from first to last visit in Potlako (if not '
+        verbose_name='Days from first to last visit in Potlako+ (if not '
                      'exited, days to today)',)
 
     missed_visits = models.PositiveIntegerField(

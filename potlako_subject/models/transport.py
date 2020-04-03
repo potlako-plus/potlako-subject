@@ -51,6 +51,8 @@ class Transport(CrfModelMixin):
         choices=FACILITY,
         max_length=100,)
 
+    visit_facility_other = OtherCharField()
+
     transport_type = models.CharField(
         verbose_name='Type of transport support being arranged',
         choices=TRANSPORT_TYPE,

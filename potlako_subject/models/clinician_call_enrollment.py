@@ -68,7 +68,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         max_length=50,)
 
     received_training = models.CharField(
-        verbose_name='Has the clinician received Potlako training',
+        verbose_name='Has the clinician received Potlako+ training',
         choices=YES_NO,
         max_length=3,)
 
@@ -84,10 +84,17 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         max_length=3,
         choices=YES_NO)
 
+    paper_register = models.CharField(
+        verbose_name='Has patient been entered in Potlako+ paper register?',
+        choices=YES_NO,
+        max_length=3,)
+
     facility = models.CharField(
         verbose_name='Name of facility visited at enrollment',
         choices=FACILITY,
         max_length=30)
+
+    facility_other = OtherCharField()
 
     facility_unit = models.CharField(
         verbose_name='Unit at facility where patient was seen at '
@@ -130,7 +137,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         verbose_name='Patient Date of Birth',)
 
     age_in_years = models.IntegerField(
-        verbose_name='Patient age',
+        verbose_name='How old is the patient?',
         help_text='(Years)',
         blank=False)
 
@@ -152,6 +159,8 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
                      ' patient resides',
         choices=FACILITY,
         max_length=30,)
+
+    nearest_facility_other = OtherCharField()
 
     primary_cell = EncryptedCharField(
         verbose_name='Patient phone number 1 (Primary)',
@@ -180,11 +189,10 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         choices=KIN_RELATIONSHIP,
         max_length=20,)
 
-    kin_relation_other = models.CharField(
+    kin_relation_other = OtherCharField(
         verbose_name='If other, describe next of kin 1 relationship',
         max_length=100,
-        blank=True,
-        null=True,)
+    )
 
     kin_cell = EncryptedCharField(
         verbose_name='Next of kin 1 phone number',
@@ -212,17 +220,11 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     other_kin_rel_other = OtherCharField(
         verbose_name='If other, describe next of kin 2 relationship',
-        max_length=100,
-        blank=False,
-        null=False)
+        max_length=100)
 
     other_kin_cell = EncryptedCharField(
         verbose_name='Next of kin 2 phone number',
         validators=[CellNumber, ])
-
-    clinician_name = FirstnameField(
-        verbose_name='Name of clinician (or most senior clinician) '
-                     'who saw the patient',)
 
     clinician_type = models.CharField(
         verbose_name='Type of clinician (or most senior clinician) '
@@ -251,9 +253,13 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     suspected_cancer = models.CharField(
         verbose_name='Suspected Cancer type',
-        max_length=100,
+        max_length=30,
         choices=SUSPECTED_CANCER,
         help_text='((if clinician unsure, select \'unsure\'))',)
+
+    suspected_cancer_other = OtherCharField(
+        verbose_name='If other suspected Cancer type, please specify',
+        max_length=30,)
 
     suspicion_level = models.CharField(
         verbose_name='How strong is clinician\'s suspicion for cancer?',
@@ -345,7 +351,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         max_length=10,)
 
     investigated = models.CharField(
-        verbose_name='Where there any investigations ordered or performed '
+        verbose_name='Were there any investigations ordered or performed '
                      'during this visit?',
         choices=YES_NO,
         max_length=3,)
@@ -358,18 +364,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
                   'COMPLETED)',
         blank=True,
         null=True,)
-
-    vehicle_req = models.CharField(
-        verbose_name='Does patient require facility vehicle transport '
-                     'support according to clinician?',
-        choices=YES_NO,
-        max_length=3,
-        help_text='(IF YES, COMPLETE THE \'TRANSPORT FORM\')',)
-
-    paper_register = models.CharField(
-        verbose_name='Has patient been entered in Potlako paper register?',
-        choices=YES_NO,
-        max_length=3,)
 
     comments = models.TextField(
         verbose_name=('Are there any other comments regarding this '
