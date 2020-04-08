@@ -5,7 +5,6 @@ from .investigations_admin import InvestigationsAdmin
 from .investigations_admin import LabTestInlineAdmin
 from .missed_call_admin import MissedCallAdmin
 from .missed_visit_admin import MissedVisitAdmin
-from .onschedule_admin import OnscheduleAdmin
 from .patient_call_followup_admin import PatientCallFollowUpAdmin
 from .patient_call_initial_admin import PatientCallInitialAdmin
 from .physician_review_admin import PhysicianReviewAdmin

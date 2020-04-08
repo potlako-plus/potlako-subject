@@ -56,7 +56,7 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'next_step_understanding',
                        'sms_received',
                        'additional_comments',
-                       'patient_followup_end_time'
+                       'patient_followup_end_time',
                        'encounter_duration',
                        ),
         }),
