@@ -58,6 +58,7 @@ list_data = {
         ('weight_loss', 'Weight loss'),
         ('dysphagia', 'Dysphagia'),
         ('dysuria', 'Dysuria'),
+        ('altered_bowel_movement', 'Altered Bowel Movement'),
         (OTHER, 'Other (specify)')
     ],
     'potlako_subject.testtype': [

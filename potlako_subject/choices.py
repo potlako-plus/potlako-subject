@@ -74,7 +74,7 @@ CASH_TRANSFER_STATUS = (
 CLINICIAN_TYPE = (
     ('med_officer', 'Medical Officer'),
     ('nurse', 'Nurse'),
-    ('patient_navigator', 'Patient Navigator'),
+    ('smo/cmo', 'SMO/CMO'),
     (OTHER, 'Other (specify)')
 )
 
@@ -218,9 +218,9 @@ FACILITY_UNIT = (
     ('OPD', 'OPD'),
     ('A&E', 'A&E'),
     ('IDCC', 'IDCC'),
-    ('medicine_ward', 'Medicine ward'),
-    ('GYN_ward', 'GYN ward'),
-    ('surgery_ward', 'Surgery ward'),
+    ('medicine_clinic', 'Medicine clinic'),
+    ('GYN_clnic', 'GYN clinic'),
+    ('surgery_clinic', 'Surgery clinic'),
     (OTHER, 'Other'),
 )
 
@@ -328,6 +328,18 @@ NON_CANCER_DIAGNOSIS = (
     ('pre_cancerous_lesion', 'Cervical pre-cancerous lesion'),
     ('no_alt_diagnosis_est', 'No alternative diagnosis established'),
     (OTHER, 'Other'),
+)
+
+NOTES = (
+    ('LFTs', 'LFTs'),
+    ('U&Es', 'U&Es'),
+    ('ESR', 'ESR'),
+    ('FBC', 'FBC'),
+    ('CXR', 'CXR'),
+    ('USS', 'USS'),
+    ('U/A', 'U/A'),
+    ('microscopy', 'Microscopy'),
+    (OTHER, 'Other (specify)'),
 )
 
 PATIENT_FACTOR = (

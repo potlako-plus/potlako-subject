@@ -12,9 +12,9 @@ from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_base.utils import age, get_utcnow
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN
 
-from ..choices import (CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION,
-                       KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL,
-                       SUSPECTED_CANCER, TRIAGE_STATUS)
+from ..choices import CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION
+from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, NOTES
+from ..choices import SUSPECTED_CANCER, TRIAGE_STATUS, DATE_ESTIMATION
 from ..screening_identifier import ScreeningIdentifier
 from .list_models import Symptoms
 
@@ -48,13 +48,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
                      'with the clinician ? ',
         max_length=3,
         choices=YES_NO,)
-
-    call_clinician = models.CharField(
-        verbose_name='Name of clinician spoken to on the phone '
-                     'for initial call',
-        max_length=25,
-        blank=True,
-        null=True)
 
     info_source_specify = models.CharField(
         verbose_name='Specify how the team learnt of the cancer suspect',
@@ -129,12 +122,9 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     other_names = models.CharField(
         verbose_name='Patient other names',
-        max_length=100,
+        max_length=50,
         blank=True,
         null=True,)
-
-    dob = models.DateField(
-        verbose_name='Patient Date of Birth',)
 
     age_in_years = models.IntegerField(
         verbose_name='How old is the patient?',
@@ -148,11 +138,11 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     village_town = models.CharField(
         verbose_name='Village or Town where patient resides',
-        max_length=100)
+        max_length=50)
 
     kgotla = models.CharField(
         verbose_name='Kgotla where patient resides',
-        max_length=100)
+        max_length=50)
 
     nearest_facility = models.CharField(
         verbose_name='Nearest primary clinic or health post to where'
@@ -191,7 +181,9 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     kin_relation_other = OtherCharField(
         verbose_name='If other, describe next of kin 1 relationship',
-        max_length=100,
+        max_length=50,
+        blank=True,
+        null=True,
     )
 
     kin_cell = EncryptedCharField(
@@ -220,7 +212,9 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     other_kin_rel_other = OtherCharField(
         verbose_name='If other, describe next of kin 2 relationship',
-        max_length=100)
+        max_length=50,
+        blank=True,
+        null=True,)
 
     other_kin_cell = EncryptedCharField(
         verbose_name='Next of kin 2 phone number',
@@ -247,9 +241,22 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     early_symptoms_date = models.DateField(
         verbose_name='Date of earliest onset symptom(s)')
 
+    early_symptoms_date_estimated = models.CharField(
+        verbose_name='Is the symptoms date estimated?',
+        choices=YES_NO,
+        max_length=3)
+
+    early_symptoms_date_estimation = models.CharField(
+        verbose_name='Which part of the date was estimated, if any?',
+        choices=DATE_ESTIMATION,
+        max_length=6,
+        blank=True,
+        null=True,
+    )
+
     symptoms_details = models.TextField(
         verbose_name='Details of symptom duration',
-        max_length=150,)
+        max_length=100,)
 
     suspected_cancer = models.CharField(
         verbose_name='Suspected Cancer type',
@@ -292,7 +299,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     referral_reason = models.TextField(
         verbose_name='Reason for referral',
-        max_length=250,
+        max_length=100,
         blank=True,
         null=True,)
 
@@ -306,9 +313,12 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     referral_facility = models.CharField(
         verbose_name='Name and type of facility patient being referred to'
                      '(referral facility)',
-        max_length=100,
+        max_length=30,
+        choices=FACILITY,
         blank=True,
         null=True,)
+
+    referral_facility_other = OtherCharField()
 
     referral_unit = models.CharField(
         verbose_name='Unit where patient is being referred to',
@@ -318,24 +328,16 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         null=True,)
 
     referral_discussed = models.CharField(
-        verbose_name='Was referral discussed with referral clinician?',
+        verbose_name='Was referral discussed with receiving clinician?',
         choices=YES_NO,
         max_length=3,
         blank=True,
         null=True,)
 
-    referral_name = models.CharField(
-        verbose_name='Name of referral clinician patient discussed with',
-        help_text='(If name is not specified or unknown, plese write "UNK")',
-        max_length=100,
-        blank=True,
-        null=True,)
-
-    referral_fu = models.CharField(
-        verbose_name='Does the patient have a return follow-up visit at the '
-                     'referring facility?',
-        choices=YES_NO,
-        max_length=3,
+    clinician_designation = models.CharField(
+        verbose_name='Designation of referral clinician patient discussed with',
+        help_text='(If designation is not specified or unknown, plese write "UNK")',
+        max_length=50,
         blank=True,
         null=True,)
 
@@ -359,16 +361,17 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     notes = models.TextField(
         verbose_name='Notes on investigations ordered - continue to Labs '
                      'only after tests have been done',
-        max_length='250',
-        help_text='(COMPLETE \'INVESTIGATIONS FORM\' AFTER TESTS HAVE BEEN '
-                  'COMPLETED)',
+        max_length=25,
+        choices=NOTES,
         blank=True,
-        null=True,)
+        null=True,
+        help_text='(COMPLETE \'INVESTIGATIONS FORM\' AFTER TESTS HAVE BEEN '
+                  'COMPLETED)')
 
     comments = models.TextField(
         verbose_name=('Are there any other comments regarding this '
                       'enrollment vist?'),
-        max_length=250,
+        max_length=150,
         blank=True,
         null=True,)
 
