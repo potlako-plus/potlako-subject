@@ -16,10 +16,9 @@ class MissedCallAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         (None, {
             'fields': ('subject_visit',
                        'report_datetime',
-                       'entry_date',
                        'notes',
                        'repeat_call'),
         }),
     )
 
-    list_display = ('entry_date', 'repeat_call')
+    list_display = ('repeat_call',)

@@ -75,6 +75,7 @@ CLINICIAN_TYPE = (
     ('med_officer', 'Medical Officer'),
     ('nurse', 'Nurse'),
     ('smo/cmo', 'SMO/CMO'),
+    ('research_team', 'Research team'),
     (OTHER, 'Other (specify)')
 )
 
@@ -106,7 +107,7 @@ DETERMINE_MISSED_VISIT = (
      'Clinician referenced clinic register and contacted clinician'),
     ('clinician_contacted', 'Patient contacted clinician'),
     ('research_staff_contacted', 'Patient contacted research staff'),
-    (OTHER, 'Other')
+    (OTHER, 'Other (specify)')
 )
 
 DELAYED_REASON = (

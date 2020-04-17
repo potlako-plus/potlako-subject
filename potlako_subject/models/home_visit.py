@@ -9,7 +9,7 @@ from .model_mixins import CrfModelMixin
 class HomeVisit(CrfModelMixin):
 
     clinician_type = models.CharField(
-        verbose_name='Type of clinician1 who made the home visit',
+        verbose_name='Type of clinician who made the home visit',
         choices=CLINICIAN_TYPE,
         max_length=50)
 

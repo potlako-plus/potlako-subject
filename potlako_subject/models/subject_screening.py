@@ -67,12 +67,12 @@ class SubjectScreening(
 
     residency = models.CharField(
         verbose_name=('Does the potential participant spend or intend to spend'
-                      ' atleast 14 nights in the study community?'),
+                      ' atleast 14 nights per month in the study community?'),
         max_length=3,
         choices=YES_NO)
 
     nationality = models.CharField(
-        verbose_name=("Is the potential participant a motswana?"),
+        verbose_name=("Is the potential participant a Botswana citizen?"),
         max_length=3,
         choices=YES_NO)
 

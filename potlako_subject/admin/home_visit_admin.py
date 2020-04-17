@@ -17,6 +17,7 @@ class HomeVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
             'fields': ('subject_visit',
                        'report_datetime',
                        'clinician_type',
+                       'clinician_type_other',
                        'clinician_facility',
                        'clinician_facility_other',
                        'visit_outcome',
