@@ -125,6 +125,7 @@ DIAGNOSIS_RESULTS = (
 DISPOSITION = (
     ('return', 'Return'),
     ('refer', 'Refer'),
+    ('discharge', 'Discharge')
 )
 
 DISTRICT = (

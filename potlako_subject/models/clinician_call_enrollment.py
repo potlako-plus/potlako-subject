@@ -294,7 +294,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     patient_disposition = models.CharField(
         verbose_name='What was the patient\'s disposition at the end of '
                      'this visit?',
-        max_length=6,
+        max_length=10,
         choices=DISPOSITION,)
 
     referral_reason = models.TextField(

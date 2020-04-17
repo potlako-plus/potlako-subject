@@ -64,7 +64,7 @@ class PatientCallFollowUp(CrfModelMixin):
         null=True)
 
     interval_visit = models.CharField(
-        verbose_name=('Have there been any interval visits to facilities '
+        verbose_name=('Has there been an interval visit(s) to any facility(s) '
                       'since the enrollment visit?'),
         choices=YES_NO,
         max_length=3,
@@ -81,9 +81,7 @@ class PatientCallFollowUp(CrfModelMixin):
     visit_facility = models.CharField(
         verbose_name=('What facility was visited (per patient report)?'),
         choices=FACILITY,
-        max_length=30,
-        null=True,
-        blank=True)
+        max_length=30)
 
     visit_facility_other = OtherCharField()
 
@@ -96,9 +94,7 @@ class PatientCallFollowUp(CrfModelMixin):
     visit_outcome = models.CharField(
         verbose_name='What was the outcome of the visit?',
         choices=DISPOSITION,
-        max_length=15,
-        blank=True,
-        null=True)
+        max_length=15)
 
     investigation_ordered = models.CharField(
         verbose_name=('Have there been any interval investigations '
@@ -193,8 +189,8 @@ class PatientCallFollowUp(CrfModelMixin):
         null=True)
 
     clinician_communication_issues = models.CharField(
-        verbose_name=('Have there been any issues in communication with '
-                      'clinicians, or with their care in general?'),
+        verbose_name=('Has there been any issues in communicating with '
+                      'clinicians, or with the patient\'s care in general?'),
         choices=YES_NO,
         max_length=3)
 
@@ -205,8 +201,8 @@ class PatientCallFollowUp(CrfModelMixin):
         null=True)
 
     communication_issues = models.CharField(
-        verbose_name=('Have there been any issues in communication with '
-                      'research staff?'),
+        verbose_name=('Has there been any issues in communicating with '
+                      'research team?'),
         choices=YES_NO,
         max_length=3)
 
@@ -217,7 +213,7 @@ class PatientCallFollowUp(CrfModelMixin):
         null=True)
 
     other_issues = models.CharField(
-        verbose_name='Have there been any other issues?',
+        verbose_name='Has there been any other issues?',
         choices=YES_NO,
         max_length=3)
 
@@ -238,8 +234,8 @@ class PatientCallFollowUp(CrfModelMixin):
         max_length=3)
 
     next_step_understanding = models.TextField(
-        verbose_name=('Does patient have fair understanding of next '
-                      'steps (details)'),
+        verbose_name=('Give a detailed summary of the pateint\'s understanding '
+                      'of the next steps (details)'),
         max_length=100,
         blank=True,
         null=True)
