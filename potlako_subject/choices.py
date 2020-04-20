@@ -186,29 +186,42 @@ ENROLLMENT_VISIT_METHOD = (
 )
 
 FACILITY = (
-    ('mmathethe_clinic', 'Mmathethe clinic'),
-    ('molapowabojang_clinic', 'Molapowabojang clinic'),
-    ('otse_clinic', 'Otse clinic'),
-    ('mmankgodi_clinic', 'Mmankgodi clinic'),
-    ('leentsweletau_clinic', 'Lentsweletau clinic'),
-    ('letlhakeng_clinic', 'Letlhakeng clinic'),
-    ('oodi_clinic', 'Oodi clinic'),
+    ('athlone_hospital', 'Athlone Hospital'),
+    ('bamalete_lutheran_hospital', 'Bamalete Lutheran Hospital'),
     ('bokaa_clinic', 'Bokaa clinic'),
-    ('metsimotlhabe_clinic', 'Metsimotlhabe clinic'),
-    ('shoshong_clinic', 'Shoshong clinic'),
-    ('sheleketla_clinic', 'Sheleketla clinic'),
-    ('ramokgonami_clinic', 'Ramokgonami clinic'),
+    ('deborah_reteif_memorial_hospital', 'Deborah. Reteif. Memorial Hospital'),
+    ('goodhope_hospital', 'Goodhope Hospital'),
+    ('gweta_hospital', 'Gweta Hospital'),
+    ('kanye_sda_hospital', 'Kanye SDA Hospital'),
+    ('lentsweletau_clinic', 'Lentsweletau clinic'),
     ('lerala_clinic', 'Lerala clinic'),
-    ('maunatlala_clinic', 'Maunatlala clinic'),
-    ('sefophe_clinic', 'Sefophe clinic'),
-    ('mmadianare_primary_hospital', 'Mmadinare Primary Hospital'),
-    ('manga_clinic', 'Manga clinic'),
+    ('letlhakeng_clinic', 'Letlhakeng clinic'),
+    ('mahalapye_hospital', 'Mahalapye Hospital'),
     ('mandunyane_clinic', 'Mandunyane clinic'),
-    ('mathangwane_clinic', 'Mathangwane clinic'),
-    ('tati_siding_clinic', 'Tati Siding clinic'),
+    ('manga_clinic', 'Manga clinic'),
     ('masunga_primary_hospital', 'Masunga Primary Hospital'),
     ('masunga_clinic', 'Masunga clinic'),
+    ('mathangwane_clinic', 'Mathangwane clinic'),
+    ('maunatlala_clinic', 'Maunatlala clinic'),
+    ('metsimotlhabe_clinic', 'Metsimotlhabe clinic'),
+    ('mmadianare_primary_hospital', 'Mmadinare Primary Hospital'),
+    ('mmankgodi_clinic', 'Mmankgodi clinic'),
+    ('mmathethe_clinic', 'Mmathethe clinic'),
+    ('molapowabojang_clinic', 'Molapowabojang clinic'),
     ('nata_clinic', 'Nata clinic'),
+    ('nyangagwe_hospital', 'Nyangagwe Hospital'),
+    ('oodi_clinic', 'Oodi clinic'),
+    ('otse_clinic', 'Otse clinic'),
+    ('palapye_hospital', 'Palapye Hospital'),
+    ('princess_marina_hospital', 'Princess Marina Hospital'),
+    ('ramokgonami_clinic', 'Ramokgonami clinic'),
+    ('scottish_livingstone_hospital', 'Scottish Livingstone Hospital'),
+    ('sefophe_clinic', 'Sefophe clinic'),
+    ('selibe_phikwe_hospital', 'Selibe Phikwe Hospital'),
+    ('sheleketla_clinic', 'Sheleketla clinic'),
+    ('shoshong_clinic', 'Shoshong clinic'),
+    ('tati_siding_clinic', 'Tati Siding clinic'),
+    ('thamaga_hospital', 'Thamaga Hospital'),
     (OTHER, 'Other (specify)')
 
 )
@@ -385,6 +398,14 @@ PATHOLOGY_TEST_TYPE = (
     ('pap_smear', 'Pap smear')
 )
 
+PAIN_SCORE = (
+    (1, '1'),
+    (2, '2'),
+    (3, '3'),
+    (4, '4'),
+    (5, '5')
+)
+
 QUALIFICATION = (
     ('formal', 'Formal'),
     ('non_formal', 'Non Formal'),
@@ -424,11 +445,24 @@ REVIEWER = (
 )
 
 SCALE = (
-    (1, '1'),
-    (2, '2'),
-    (3, '3'),
-    (4, '4'),
-    (5, '5')
+    (0,
+     '0 - Fully active, able to carry on all pre-disease performance '
+     'without restriction'),
+    (1,
+     '1 - Restricted in physically strenuous activity but ambulatory and '
+     'able to carry out work of a light or sedentary nature, e.g., light '
+     'house work, office work'),
+    (2,
+     '2 - Ambulatory and capable of all selfcare but unable to carry out any '
+     'work activities; up and about more than 50% of waking hours'),
+    (3,
+     '3 - Capable of only limited selfcare; confined to bed or chair more '
+     'than 50% of waking hours'),
+    (4,
+     '4 - Completely disabled; cannot carry on any selfcare; totally '
+     'confined to bed or chair'),
+    (5,
+     '5 - Dead')
 )
 
 SEVERITY_LEVEL = (

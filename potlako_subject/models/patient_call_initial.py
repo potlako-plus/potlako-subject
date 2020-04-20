@@ -2,17 +2,21 @@ from datetime import timedelta
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
+from django.db.models.deletion import PROTECT
+from django_crypto_fields.fields import EncryptedCharField
 from edc_base.model_fields import OtherCharField
+from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber
 from edc_base.model_validators import date_not_future
+from edc_base.utils import age, get_utcnow
 from edc_constants.choices import POS_NEG_UNKNOWN
 from edc_constants.choices import YES_NO, YES_NO_UNSURE
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
 from ..choices import DURATION, FACILITY_UNIT, SEVERITY_LEVEL, DISTRICT
-from .list_models import CallAchievements, Facility, TestType
+from ..choices import PAIN_SCORE, SCALE
+from .list_models import CallAchievements, TestType
 from .model_mixins import CrfModelMixin
 
 
@@ -46,7 +50,7 @@ class PatientCallInitial(CrfModelMixin):
         verbose_name=('Nearest primary clinic or health post '
                       'to where patient resides'),
         choices=FACILITY,
-        max_length=30)
+        max_length=40)
 
     primary_clinic_other = OtherCharField()
 
@@ -63,28 +67,45 @@ class PatientCallInitial(CrfModelMixin):
         blank=True,
         null=True)
 
-    next_of_kin = models.CharField(
-        verbose_name='Does the patient agree to us contacting next of kin?',
+    nok_change = models.CharField(
+        verbose_name='Any changes to be made to next of kin information?',
         choices=YES_NO,
         max_length=3)
 
-    next_kin_contact_change = models.CharField(
+    nok_name_change = models.CharField(
+        verbose_name='Any changes to be made to next of kin name?',
+        choices=YES_NO,
+        max_length=3,
+        blank=True,
+        null=True,)
+
+    new_nok_name = EncryptedCharField(
+        max_length=35,
+        verbose_name="What is the name of the preferred next of kin?",
+        help_text="include firstname and surname",
+        blank=True,
+        null=True,
+    )
+
+    nok_contact_change = models.CharField(
         verbose_name=('Any changes to be made to next of kin contact '
-                      'information (patient phone)?'),
+                      'number?'),
         choices=YES_NO,
         max_length=3,
         blank=True,
         null=True)
 
     primary_keen_contact = EncryptedCharField(
-        verbose_name='Please enter next of kin 1 phone number',
+        verbose_name=('What is the primary contact number of the preferred '
+                      'next of kin?'),
         max_length=8,
         validators=[CellNumber, ],
         blank=True,
         null=True)
 
     secondary_keen_contact = EncryptedCharField(
-        verbose_name='Please enter next of kin 2 phone number',
+        verbose_name=('What is the secondary contact number of the preferred '
+                      'next of kin?'),
         max_length=8,
         validators=[CellNumber, ],
         blank=True,
@@ -143,36 +164,15 @@ class PatientCallInitial(CrfModelMixin):
         null=True,
     )
 
-    facility_visited = models.ManyToManyField(
-        Facility,
-        verbose_name=('Which facilities has the patient '
-                      'been seen for similar symptoms?'),
-        max_length=30,
-        help_text='(select all that apply)',
-        blank=True)
-
-    facility_visited_other = OtherCharField(
-        max_length=30,
-        blank=True,
-        null=True)
-
-    previous_facility_period = models.CharField(
-        verbose_name=('For how long was he/she seen at facilities '
-                      'before enrollment visit?'),
-        max_length=15,
-        blank=True,
-        null=True,
-        help_text='specify variable (days, weeks, months, years)')
-
     perfomance_status = models.IntegerField(
         verbose_name='Patient performance status',
-        default=0,
+        choices=SCALE,
         validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
 
     pain_score = models.IntegerField(
         verbose_name='Patient pain score',
-        default=0,
+        choices=PAIN_SCORE,
         validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
 
@@ -216,8 +216,8 @@ class PatientCallInitial(CrfModelMixin):
     enrollment_visit_method_other = OtherCharField()
 
     slh_travel = models.CharField(
-        verbose_name=('If you had to travel to see a doctor, how '
-                      'would you go about it?'),
+        verbose_name=('If you had to travel to (referral clinic) to see a '
+                      'doctor, how would you go about it?'),
         max_length=50,
         help_text='Use referral clinic name')
 
@@ -234,12 +234,7 @@ class PatientCallInitial(CrfModelMixin):
         blank=True)
 
     tests_type_other = OtherCharField(
-        max_length=15,
-        blank=True,
-        null=True)
-
-    biospy_part = models.CharField(
-        verbose_name=('Describe part of body where biopsy was performed'),
+        verbose_name='If other, specify and describe if possible',
         max_length=15,
         blank=True,
         null=True)
@@ -250,7 +245,7 @@ class PatientCallInitial(CrfModelMixin):
     next_ap_facility = models.CharField(
         verbose_name='Next appointment facility',
         choices=FACILITY,
-        max_length=30,
+        max_length=40,
         help_text='per patient report')
 
     next_ap_facility_other = OtherCharField()
@@ -309,9 +304,37 @@ class PatientCallInitial(CrfModelMixin):
 
     def save(self, *args, **kwargs):
         self.call_duration = self.get_call_duration()
+#         age_delta = age(self.dob, get_utcnow())
+#         self.age_in_years = age_delta.years
         super().save(*args, **kwargs)
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Patient call - Initial'
         verbose_name_plural = 'Patient call - Initial'
+
+
+class PreviousFacilityVisit(BaseUuidModel):
+
+    patient_call_initial = models.ForeignKey(PatientCallInitial, on_delete=PROTECT)
+
+    facility_visited = models.CharField(
+        choices=FACILITY,
+        verbose_name=('Which facilities has the patient '
+                      'been seen for similar symptoms?'),
+        max_length=40,
+        blank=True,
+        help_text='(select all that apply)',)
+
+    facility_visited_other = OtherCharField(
+        max_length=30,
+        blank=True,
+        null=True)
+
+    previous_facility_period = models.CharField(
+        verbose_name=('For how long was he/she seen at facilities '
+                      'before enrollment visit?'),
+        max_length=15,
+        blank=True,
+        null=True,
+        help_text='specify variable (days, weeks, months, years)')

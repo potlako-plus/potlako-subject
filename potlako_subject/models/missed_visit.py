@@ -26,7 +26,7 @@ class MissedVisit(CrfModelMixin):
     facility_scheduled = models.CharField(
         verbose_name='Facility where missed appointment was scheduled',
         choices=FACILITY,
-        max_length=30,)
+        max_length=40,)
 
     facility_scheduled_other = OtherCharField()
 
@@ -83,7 +83,7 @@ class MissedVisit(CrfModelMixin):
     next_ap_facility = models.CharField(
         verbose_name='Facility at next appointment',
         choices=FACILITY,
-        max_length=30,)
+        max_length=40,)
 
     next_ap_facility_other = OtherCharField()
 

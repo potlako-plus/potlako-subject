@@ -22,7 +22,7 @@ class FacilityVisitInlineAdmin(TabularInlineMixin, admin.TabularInline):
                 'visit_facility_other',
                 'visit_reason',
                 'visit_outcome', ]}
-         ), audit_fieldset_tuple)
+         ),)
 
 
 @admin.register(PatientCallFollowUp, site=potlako_subject_admin)

@@ -13,7 +13,7 @@ from edc_base.utils import age, get_utcnow
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN
 
 from ..choices import CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION
-from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, NOTES
+from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, NOTES, PAIN_SCORE
 from ..choices import SUSPECTED_CANCER, TRIAGE_STATUS, DATE_ESTIMATION
 from ..screening_identifier import ScreeningIdentifier
 from .list_models import Symptoms
@@ -85,7 +85,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     facility = models.CharField(
         verbose_name='Name of facility visited at enrollment',
         choices=FACILITY,
-        max_length=30)
+        max_length=40)
 
     facility_other = OtherCharField()
 
@@ -148,7 +148,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         verbose_name='Nearest primary clinic or health post to where'
                      ' patient resides',
         choices=FACILITY,
-        max_length=30,)
+        max_length=40,)
 
     nearest_facility_other = OtherCharField()
 
@@ -281,7 +281,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     pain_score = models.IntegerField(
         default=1,
-        choices=SCALE,
+        choices=PAIN_SCORE,
         validators=[MaxValueValidator(5), MinValueValidator(1)],
         help_text='(confirm with clinician that this is out of total '
                   'score of 5)',)
@@ -313,7 +313,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     referral_facility = models.CharField(
         verbose_name='Name and type of facility patient being referred to'
                      '(referral facility)',
-        max_length=30,
+        max_length=40,
         choices=FACILITY,
         blank=True,
         null=True,)

@@ -14,7 +14,7 @@ class ClinicianCallFollowUp(CrfModelMixin):
 
     facility_visited = models.CharField(
         verbose_name='Name and type  of facility visited',
-        max_length=30,
+        max_length=40,
         choices=FACILITY)
 
     facility_visited_other = OtherCharField()

@@ -20,7 +20,7 @@ class Investigations(CrfModelMixin):
 
     facility_ordered = models.CharField(
         verbose_name='Facility where labs were ordered',
-        max_length=30,
+        max_length=40,
         choices=FACILITY,
         blank=True,
         null=True,)

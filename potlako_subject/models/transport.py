@@ -57,7 +57,7 @@ class Transport(CrfModelMixin):
         verbose_name='Visit facility for which transport is being '
                      'planned',
         choices=FACILITY,
-        max_length=35,)
+        max_length=40,)
 
     visit_facility_other = OtherCharField()
 

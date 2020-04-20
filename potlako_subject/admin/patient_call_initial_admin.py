@@ -1,15 +1,33 @@
 from django.contrib import admin
-from ..admin_site import potlako_subject_admin
-from ..forms import PatientCallInitialForm
-from ..models import PatientCallInitial
+from edc_model_admin import TabularInlineMixin
+from edc_model_admin.model_admin_audit_fields_mixin import (
+    audit_fields, audit_fieldset_tuple)
 
+from ..admin_site import potlako_subject_admin
+from ..forms import PatientCallInitialForm, PreviousFacilityVisitForm
+from ..models import PatientCallInitial, PreviousFacilityVisit
 from .modeladmin_mixins import CrfModelAdminMixin
+
+
+class FacilityVisitInlineAdmin(TabularInlineMixin, admin.TabularInline):
+    model = PreviousFacilityVisit
+    form = PreviousFacilityVisitForm
+    extra = 1
+
+    fieldsets = (
+        (None, {
+            'fields': [
+                'facility_visited',
+                'facility_visited_other',
+                'previous_facility_period', ]}
+         ),)
 
 
 @admin.register(PatientCallInitial, site=potlako_subject_admin)
 class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = PatientCallInitialForm
+    inlines = [FacilityVisitInlineAdmin, ]
 
     fieldsets = (
         (None, {
@@ -23,8 +41,10 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'primary_clinic_other',
                        'patient_contact_change',
                        'patient_number',
-                       'next_of_kin',
-                       'next_kin_contact_change',
+                       'nok_change',
+                       'nok_name_change',
+                       'new_nok_name',
+                       'nok_contact_change',
                        'primary_keen_contact',
                        'secondary_keen_contact',
                        'patient_symptoms',
@@ -35,9 +55,6 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'symptoms_duration',
                        'other_facility',
                        'facility_number',
-                       'facility_visited',
-                       'facility_visited_other',
-                       'previous_facility_period',
                        'perfomance_status',
                        'pain_score',
                        'hiv_status',
@@ -51,7 +68,6 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'tests_ordered',
                        'tests_type',
                        'tests_type_other',
-                       'biospy_part',
                        'next_appointment_date',
                        'next_ap_facility',
                        'next_ap_facility_other',
@@ -66,16 +82,18 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'call_duration'
                        ),
         }),
+        audit_fieldset_tuple
     )
 
     radio_fields = {'residential_district': admin.VERTICAL,
                     'primary_clinic': admin.VERTICAL,
                     'patient_contact_change': admin.VERTICAL,
-                    'next_of_kin': admin.VERTICAL,
                     'patient_symptoms_date_estimated': admin.VERTICAL,
                     'patient_symptoms_date_estimation': admin.VERTICAL,
                     'symptoms_duration': admin.VERTICAL,
-                    'next_kin_contact_change': admin.VERTICAL,
+                    'nok_change': admin.VERTICAL,
+                    'nok_name_change': admin.VERTICAL,
+                    'nok_contact_change': admin.VERTICAL,
                     'other_facility': admin.VERTICAL,
                     'hiv_status': admin.VERTICAL,
                     'hiv_test_date_estimated': admin.VERTICAL,
@@ -87,10 +105,15 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'next_ap_facility_unit': admin.VERTICAL,
                     'transport_support': admin.VERTICAL,
                     'cancer_probability': admin.VERTICAL,
+                    'perfomance_status': admin.VERTICAL,
+                    'pain_score': admin.VERTICAL,
                     }
 
     filter_horizontal = ('call_achievements',
-                         'facility_visited',
                          'tests_type')
 
     readonly_fields = ('call_duration',)
+
+    def get_readonly_fields(self, request, obj=None):
+        return (super().get_readonly_fields(request, obj=obj) + ('age_in_years',) + audit_fields)
+

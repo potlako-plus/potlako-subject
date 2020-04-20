@@ -156,7 +156,7 @@ class PatientCallFollowUp(CrfModelMixin):
     next_ap_facility = models.CharField(
         verbose_name='Next appointment facility and type',
         choices=FACILITY,
-        max_length=30)
+        max_length=40)
 
     next_ap_facility_other = OtherCharField()
 
@@ -270,8 +270,6 @@ class PatientCallFollowUp(CrfModelMixin):
 
 class FacilityVisit(BaseUuidModel):
 
-    """ Inline ARV table to indicate ARV medication taken by mother """
-
     patient_call_followup = models.ForeignKey(PatientCallFollowUp, on_delete=PROTECT)
 
     interval_visit_date = models.DateField(
@@ -296,7 +294,7 @@ class FacilityVisit(BaseUuidModel):
     visit_facility = models.CharField(
         verbose_name=('What facility was visited (per patient report)?'),
         choices=FACILITY,
-        max_length=30)
+        max_length=40)
 
     visit_facility_other = OtherCharField()
 

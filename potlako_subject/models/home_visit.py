@@ -18,7 +18,7 @@ class HomeVisit(CrfModelMixin):
     clinician_facility = models.CharField(
         verbose_name='Name of facility where clinician1 works',
         choices=FACILITY,
-        max_length=30)
+        max_length=40)
 
     clinician_facility_other = OtherCharField()
 
@@ -39,7 +39,7 @@ class HomeVisit(CrfModelMixin):
     next_ap_facility = models.CharField(
         verbose_name='If alive, next appointment facility',
         choices=FACILITY,
-        max_length=30,
+        max_length=40,
         blank=True,
         null=True,)
 

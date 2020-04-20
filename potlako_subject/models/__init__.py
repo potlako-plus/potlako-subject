@@ -9,6 +9,7 @@ from .onschedule import Onschedule
 from .patient_call_followup import FacilityVisit
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
+from .patient_call_initial import PreviousFacilityVisit
 from .physician_review import PhysicianReview
 from .signals import subject_consent_on_post_save
 from .sms import SMS
@@ -17,3 +18,4 @@ from .subject_locator import SubjectLocator
 from .subject_screening import SubjectScreening
 from .subject_visit import SubjectVisit
 from .transport import Transport
+
