@@ -6,6 +6,7 @@ from .investigations import LabTest
 from .missed_call import MissedCall
 from .missed_visit import MissedVisit
 from .onschedule import Onschedule
+from .patient_call_followup import FacilityVisit
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
 from .physician_review import PhysicianReview

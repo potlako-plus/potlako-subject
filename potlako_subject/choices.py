@@ -413,8 +413,8 @@ REASON_MISSED_VISIT = (
 )
 
 REVIEWER = (
-    ('neo', 'Neo'),
-    ('scott', 'Scott'),
+    ('Neo', 'Neo'),
+    ('Scott', 'Scott'),
     (OTHER, 'Other')
 )
 
@@ -510,36 +510,37 @@ VISIT_TYPE = (
 )
 
 VISIT_UNSCHEDULED_REASON_CHOICE = (
-    ('Routine oncology clinic visit (i.e. planned chemo, follow-up)',
+    ('routine_oncology_clinic_visit',
      'Routine oncology clinic visit (i.e. planned chemo, follow-up)'),
-    ('Ill oncology clinic visit', 'Ill oncology clinic visit'),
-    ('Patient called to come for visit', 'Patient called to come for visit'),
-    ('Other, specify: ', 'Other, specify: '),
+    ('ill_oncology_clinic_visit', 'Ill oncology clinic visit'),
+    ('patient_called_to_come_for_visit', 'Patient called to come for visit'),
+    (OTHER, 'Other, specify: '),
 )
 
 VISIT_UNSCHEDULED_REASON = (
-    ('Routine oncology', 'Routine oncology clinic visit (i.e. planned chemo, follow-up)'),
-    ('Ill oncology', 'Ill oncology clinic visit'),
-    ('Patient called', 'Patient called to come for visit'),
+    ('routine_oncology', 'Routine oncology clinic visit (i.e. planned chemo, follow-up)'),
+    ('ill_oncology', 'Ill oncology clinic visit'),
+    ('patient_called', 'Patient called to come for visit'),
     (NOT_APPLICABLE, 'Not Applicable'),
-    ('OTHER', 'Other, specify:'),
+    (OTHER, 'Other, specify:'),
 )
 
 VISIT_REASON = (
-    ('Quarterly visit/contact', 'Quarterly visit/contact'),
-    ('Unscheduled visit/contact', 'Unscheduled visit/contact'),
-    ('Missed quarterly visit', 'Missed quarterly visit'),
-    ('Lost to follow-up', 'Lost to follow-up (use only when taking subject off study)'),
-    ('Death', 'Death'),
+    ('initial_visit/contact', 'Initial visit/contact'),
+    ('quarterly_visit/contact', 'Quarterly visit/contact'),
+    ('unscheduled_visit/contact', 'Unscheduled visit/contact'),
+    ('missed_quarterly_visit', 'Missed quarterly visit'),
+    ('lost_to_follow_up', 'Lost to follow-up (use only when taking subject off study)'),
+    ('death', 'Death'),
     (OFF_STUDY, 'Off study'),
     ('deferred', 'Deferred'),
 )
 
 VISIT_INFO_SOURCE = (
-    ('Clinic visit w/ subject', 'Clinic visit with participant'),
-    ('Other contact w/ subject', 'Other contact with participant (i.e telephone call)'),
-    ('Contact w/ health worker', 'Contact with health care worker'),
-    ('Contact w/ family/design',
+    ('clinic_visit', 'Clinic visit with participant'),
+    ('other_contact_subject', 'Other contact with participant (i.e telephone call)'),
+    ('contact_health worker', 'Contact with health care worker'),
+    ('contact_family/designated_person',
      'Contact with family or designated person who can provide information'),
-    ('OTHER', 'Other,specify'),
+    (OTHER, 'Other,specify'),
 )

@@ -1,16 +1,33 @@
 from django.contrib import admin
-
+from edc_model_admin import TabularInlineMixin
+from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
-from ..forms import PatientCallFollowUpForm
-from ..models import PatientCallFollowUp
-
+from ..forms import PatientCallFollowUpForm, FacilityVisitForm
+from ..models import PatientCallFollowUp, FacilityVisit
 from .modeladmin_mixins import CrfModelAdminMixin
+
+
+class FacilityVisitInlineAdmin(TabularInlineMixin, admin.TabularInline):
+    model = FacilityVisit
+    form = FacilityVisitForm
+    extra = 1
+
+    fieldsets = (
+        (None, {
+            'fields': [
+                'interval_visit_date',
+                'visit_facility',
+                'visit_facility_other',
+                'visit_reason',
+                'visit_outcome', ]}
+         ), audit_fieldset_tuple)
 
 
 @admin.register(PatientCallFollowUp, site=potlako_subject_admin)
 class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = PatientCallFollowUpForm
+    inlines = [FacilityVisitInlineAdmin, ]
 
     fieldsets = (
         (None, {
@@ -25,11 +42,7 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'new_complaints',
                        'new_complaints_description',
                        'interval_visit',
-                       'interval_visit_date',
-                       'visit_facility',
-                       'visit_facility_other',
-                       'visit_reason',
-                       'visit_outcome',
+                       'facility_visited_count',
                        'investigation_ordered',
                        'transport_support',
                        'next_appointment_date',
@@ -59,7 +72,7 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'patient_followup_end_time',
                        'encounter_duration',
                        ),
-        }),
+        }), audit_fieldset_tuple
     )
 
     radio_fields = {'patient_residence_change': admin.VERTICAL,
@@ -67,8 +80,6 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'next_kin_contact_change': admin.VERTICAL,
                     'new_complaints': admin.VERTICAL,
                     'interval_visit': admin.VERTICAL,
-                    'visit_facility': admin.VERTICAL,
-                    'visit_outcome': admin.VERTICAL,
                     'investigation_ordered': admin.VERTICAL,
                     'transport_support': admin.VERTICAL,
                     'next_visit_delayed': admin.VERTICAL,

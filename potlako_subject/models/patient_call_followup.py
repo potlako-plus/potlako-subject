@@ -1,7 +1,10 @@
 from datetime import timedelta
+
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models.deletion import PROTECT
 from edc_base.model_fields import OtherCharField
+from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_is_future
 from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
@@ -72,29 +75,11 @@ class PatientCallFollowUp(CrfModelMixin):
                    'clinician check-in call and reconciled with clinician '
                    'call encounter records'))
 
-    interval_visit_date = models.DateField(
-        verbose_name='Date of interval visit',
-        validators=[date_not_before_study_start, date_not_future],
-        null=True,
-        blank=True)
-
-    visit_facility = models.CharField(
-        verbose_name=('What facility was visited (per patient report)?'),
-        choices=FACILITY,
-        max_length=30)
-
-    visit_facility_other = OtherCharField()
-
-    visit_reason = models.CharField(
-        verbose_name=('What was the reason for the visit?'),
-        max_length=50,
-        null=True,
-        blank=True)
-
-    visit_outcome = models.CharField(
-        verbose_name='What was the outcome of the visit?',
-        choices=DISPOSITION,
-        max_length=15)
+    facility_visited_count = models.IntegerField(
+        verbose_name='How many facilities were visited?',
+        default=0,
+        validators=[MinValueValidator(0)]
+    )
 
     investigation_ordered = models.CharField(
         verbose_name=('Have there been any interval investigations '
@@ -281,3 +266,40 @@ class PatientCallFollowUp(CrfModelMixin):
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Patient call - FollowUp'
+
+
+class FacilityVisit(BaseUuidModel):
+
+    """ Inline ARV table to indicate ARV medication taken by mother """
+
+    patient_call_followup = models.ForeignKey(PatientCallFollowUp, on_delete=PROTECT)
+
+    interval_visit_date = models.DateField(
+        verbose_name='Date of interval visit',
+        validators=[date_not_before_study_start, date_not_future],
+        null=True,
+        blank=True)
+
+    visit_facility = models.CharField(
+        verbose_name=('What facility was visited (per patient report)?'),
+        choices=FACILITY,
+        max_length=30)
+
+    visit_facility_other = OtherCharField()
+
+    visit_reason = models.CharField(
+        verbose_name=('What was the reason for the visit?'),
+        max_length=50,
+        null=True,
+        blank=True)
+
+    visit_outcome = models.CharField(
+        verbose_name='What was the outcome of the visit?',
+        choices=DISPOSITION,
+        max_length=15)
+
+    class Meta:
+        app_label = 'potlako_subject'
+        verbose_name = 'Facility Visit'
+        unique_together = ('patient_call_followup', 'interval_visit_date',
+                           'visit_facility')
