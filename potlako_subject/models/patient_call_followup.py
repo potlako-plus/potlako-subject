@@ -11,7 +11,7 @@ from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DELAYED_REASON, DISPOSITION, FACILITY
-from ..choices import HEALTH_FACTOR, PATIENT_FACTOR
+from ..choices import HEALTH_FACTOR, PATIENT_FACTOR, DATE_ESTIMATION
 from .list_models import CallAchievements
 from .model_mixins import CrfModelMixin
 
@@ -279,6 +279,19 @@ class FacilityVisit(BaseUuidModel):
         validators=[date_not_before_study_start, date_not_future],
         null=True,
         blank=True)
+
+    interval_visit_date_estimated = models.CharField(
+        verbose_name='Is the interval visit date estimated?',
+        choices=YES_NO,
+        max_length=3)
+
+    interval_visit_date_estimation = models.CharField(
+        verbose_name='Which part of the date was estimated, if any?',
+        choices=DATE_ESTIMATION,
+        max_length=15,
+        blank=True,
+        null=True,
+    )
 
     visit_facility = models.CharField(
         verbose_name=('What facility was visited (per patient report)?'),

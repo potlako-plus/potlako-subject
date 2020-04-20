@@ -108,7 +108,7 @@ class PatientCallInitial(CrfModelMixin):
     patient_symptoms_date_estimation = models.CharField(
         verbose_name='Which part of the date was estimated, if any?',
         choices=DATE_ESTIMATION,
-        max_length=6,
+        max_length=15,
         blank=True,
         null=True,
     )
@@ -197,7 +197,7 @@ class PatientCallInitial(CrfModelMixin):
     hiv_test_date_estimation = models.CharField(
         verbose_name='Which part of the date was estimated, if any?',
         choices=DATE_ESTIMATION,
-        max_length=6,
+        max_length=15,
         blank=True,
         null=True,
     )

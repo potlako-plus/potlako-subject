@@ -16,6 +16,8 @@ class FacilityVisitInlineAdmin(TabularInlineMixin, admin.TabularInline):
         (None, {
             'fields': [
                 'interval_visit_date',
+                'interval_visit_date_estimated',
+                'interval_visit_date_estimation',
                 'visit_facility',
                 'visit_facility_other',
                 'visit_reason',

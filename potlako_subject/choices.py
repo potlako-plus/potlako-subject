@@ -160,16 +160,21 @@ DURATION = (
 )
 
 DATE_ESTIMATION = (
-    ('day', 'Day'),
-    ('month', 'Month'),
-    ('year', 'Year')
+    ('day', 'Estimated day only'),
+    ('day_month', 'Estimated day and month'),
+    ('month', 'Estimated month only'),
+    ('year', 'Estimate year only'),
+    ('day_month_year', 'Estimated day, month and year')
 )
 
 DATE_TIME_ESTIMATION = (
-    ('time', 'Time'),
-    ('day', 'Day'),
-    ('month', 'Month'),
-    ('year', 'Year')
+    ('time', 'Estimated time only'),
+    ('time_day', 'Estimated time and day'),
+    ('day', 'Estimated day only'),
+    ('day_month', 'Estimated day and month'),
+    ('month', 'Estimated month only'),
+    ('year', 'Estimate year only'),
+    ('day_month_year', 'Estimated day, month and year')
 )
 
 ENROLLMENT_VISIT_METHOD = (
