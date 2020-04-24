@@ -11,6 +11,8 @@ from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
 from .patient_call_initial import PreviousFacilityVisit
 from .physician_review import PhysicianReview
+from .signals import patient_call_followup_on_post_save
+from .signals import patient_call_initial_on_post_save
 from .signals import subject_consent_on_post_save
 from .sms import SMS
 from .subject_consent import SubjectConsent
