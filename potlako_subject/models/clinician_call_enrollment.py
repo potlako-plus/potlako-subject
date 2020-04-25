@@ -381,8 +381,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         verbose_name_plural = 'Clinician call - Enrollment'
 
     def save(self, *args, **kwargs):
-        age_delta = age(self.dob, get_utcnow())
-        self.age_in_years = age_delta.years
         if not self.id:
             self.screening_identifier = self.identifier_cls().identifier
             self.contact_date = self.report_datetime

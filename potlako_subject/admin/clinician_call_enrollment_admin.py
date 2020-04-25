@@ -123,6 +123,3 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
     actions = ['export_crf_as_csv']
 
     search_fields = ('screening_identifier',)
-
-    def get_readonly_fields(self, request, obj=None):
-        return (super().get_readonly_fields(request, obj=obj) + ('age_in_years',) + audit_fields)
