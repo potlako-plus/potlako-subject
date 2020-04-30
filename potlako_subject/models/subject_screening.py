@@ -8,35 +8,9 @@ from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 from edc_search.model_mixins import SearchSlugManager
 
+from ..choices import ENROLLMENT_SITES
 from ..eligibility import Eligibility
 from .model_mixins import SearchSlugModelMixin
-
-ENROLLMENT_SITES = (
-    ('mmathethe_clinic', 'Mmathethe clinic'),
-    ('molapowabojang_clinic', 'Molapowabojang clinic'),
-    ('otse_clinic', 'Otse clinic'),
-    ('mmankgodi_clinic', 'Mmankgodi clinic'),
-    ('leentsweletau_clinic', 'Lentsweletau clinic'),
-    ('letlhakeng_clinic', 'Letlhakeng clinic'),
-    ('oodi_clinic', 'Oodi clinic'),
-    ('bokaa_clinic', 'Bokaa clinic'),
-    ('metsimotlhabe_clinic', 'Metsimotlhabe clinic'),
-    ('shoshong_clinic', 'Shoshong clinic'),
-    ('sheleketla_clinic', 'Sheleketla clinic'),
-    ('ramokgonami_clinic', 'Ramokgonami clinic'),
-    ('lerala_clinic', 'Lerala clinic'),
-    ('maunatlala_clinic', 'Maunatlala clinic'),
-    ('sefophe_clinic', 'Sefophe clinic'),
-    ('mmadianare_primary_hospital', 'Mmadinare Primary Hospital'),
-    ('manga_clinic', 'Manga clinic'),
-    ('mandunyane_clinic', 'Mandunyane clinic'),
-    ('mathangwane_clinic', 'Mathangwane clinic'),
-    ('tati_siding_clinic', 'Tati Siding clinic'),
-    ('masunga_primary_hospital', 'Masunga Primary Hospital'),
-    ('masunga_clinic', 'Masunga clinic'),
-    ('nata_clinic', 'Nata clinic')
-
-)
 
 
 class EnrollmentManager(SearchSlugManager, models.Manager):

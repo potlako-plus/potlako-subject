@@ -129,27 +129,26 @@ DISPOSITION = (
 )
 
 DISTRICT = (
-    ('chobe', 'Chobe - Chobe'),
-    ('bobonong', 'Central - Bobonong'),
-    ('boteti', 'Central - Boteti'),
-    ('mahalapye', 'Central - Mahalapye'),
-    ('orapa', 'Central - Orapa'),
-    ('serowe_palapye', 'Central - Serowe/Palapye'),
-    ('tutume', 'Central - Tutume'),
-    ('CKGR', 'ghanzi - CKGR'),
-    ('ghanzi', 'ghanzi - Ghanzi'),
-    ('kgalagdi_north', 'Kgalagadi North'),
-    ('kgalagadi_south', 'Kgalagadi South'),
-    ('kgatleng', 'Kgatleng'),
-    ('kweneng_east', 'Kweneng - East'),
-    ('kweneng_west', 'Kweneng - West'),
-    ('delta', 'north West - Delta'),
-    ('ngamiland_north', 'North West - Ngamiland Nort'),
-    ('ngamiland_south', 'North East - Ngamiland South'),
-    ('north_east', 'North East'),
-    ('barolong', 'Southern - Barolong'),
-    ('ngwaketse', 'Southern - Ngwaketse'),
-    ('ngwaketse_west', 'Southern - Ngwaketse West'),
+    ('bokaa', 'Bokaa'),
+    ('lentsweletau', 'Lentsweletau'),
+    ('lerala', 'Lerala'),
+    ('letlhakeng', 'Letlhakeng'),
+    ('mandunyane', 'Mandunyane'),
+    ('mathangwane', 'Mathangwane'),
+    ('maunatlala', 'Maunatlala'),
+    ('masunga', 'Masunga'),
+    ('metsimotlhabe', 'Metsimotlhabe'),
+    ('mmadinare', 'Mmadinare'),
+    ('mmandunyane', 'Mmandunyane'),
+    ('mmankgodi', 'Mmankgodi'),
+    ('mmathethe', 'Mmathethe'),
+    ('molapowabojang', 'Molapowabojang'),
+    ('nata', 'Nata'),
+    ('oodi', 'Oodi'),
+    ('otse', 'Otse'),
+    ('ramokgonami', 'Ramokgonami'),
+    ('sefhophe', 'Sefhophe'),
+    ('tati_siding', 'Tati Siding'),
 )
 
 DURATION = (
@@ -175,6 +174,33 @@ DATE_TIME_ESTIMATION = (
     ('month', 'Estimated month only'),
     ('year', 'Estimate year only'),
     ('day_month_year', 'Estimated day, month and year')
+)
+
+ENROLLMENT_SITES = (
+    ('mmathethe_clinic', 'Mmathethe clinic'),
+    ('molapowabojang_clinic', 'Molapowabojang clinic'),
+    ('otse_clinic', 'Otse clinic'),
+    ('mmankgodi_clinic', 'Mmankgodi clinic'),
+    ('leentsweletau_clinic', 'Lentsweletau clinic'),
+    ('letlhakeng_clinic', 'Letlhakeng clinic'),
+    ('oodi_clinic', 'Oodi clinic'),
+    ('bokaa_clinic', 'Bokaa clinic'),
+    ('metsimotlhabe_clinic', 'Metsimotlhabe clinic'),
+    ('shoshong_clinic', 'Shoshong clinic'),
+    ('sheleketla_clinic', 'Sheleketla clinic'),
+    ('ramokgonami_clinic', 'Ramokgonami clinic'),
+    ('lerala_clinic', 'Lerala clinic'),
+    ('maunatlala_clinic', 'Maunatlala clinic'),
+    ('sefophe_clinic', 'Sefophe clinic'),
+    ('mmadianare_primary_hospital', 'Mmadinare Primary Hospital'),
+    ('manga_clinic', 'Manga clinic'),
+    ('mandunyane_clinic', 'Mandunyane clinic'),
+    ('mathangwane_clinic', 'Mathangwane clinic'),
+    ('tati_siding_clinic', 'Tati Siding clinic'),
+    ('masunga_primary_hospital', 'Masunga Primary Hospital'),
+    ('masunga_clinic', 'Masunga clinic'),
+    ('nata_clinic', 'Nata clinic')
+
 )
 
 ENROLLMENT_VISIT_METHOD = (

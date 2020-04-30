@@ -68,13 +68,13 @@ def patient_call_initial_on_post_save(sender, instance, raw, created, **kwargs):
         except Appointment.DoesNotExist:
             raise ValidationError(
                 f'Appointment for {instance.subject_identifier},'
-                f'visit=instance.subject_visit.visit_code does '
+                f'visit=instance.subject_visit.visit_code '
                 f'sequence={instance.subject_visit.visit_code_sequence} '
                 'does not exist.')
-        else:
-            if appt_obj.report_datetime != timepoint_datetime:
-                appt_obj.report_datetime = timepoint_datetime
-                appt_obj.save_base(raw=True)
+#         else:
+#             if appt_obj.report_datetime != timepoint_datetime:
+#                 appt_obj.report_datetime = timepoint_datetime
+#                 appt_obj.save_base(raw=True)
 
 
 @receiver(post_save, weak=False, sender=PatientCallFollowUp,
