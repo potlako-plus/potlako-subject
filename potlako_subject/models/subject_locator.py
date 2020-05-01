@@ -40,9 +40,6 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
         verbose_name=(
             "Which health facility do you normally go to, in this village?"),
         max_length=75,
-        validators=[RegexValidator(
-            regex=r'^[0-9]{2}[-][0-9]{1}[-][0-9]{2}$',
-            message='The correct clinic code format is XX-X-XX'), ],
         help_text="Please give clinic code.",
     )
     home_village = models.CharField(

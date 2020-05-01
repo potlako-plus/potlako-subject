@@ -59,7 +59,18 @@ class SubjectLocatorAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'local_clinic',
                 'home_village',
             )}),
-        subject_contacts_fieldset,
+        ('Subject Contact Information', {
+            'fields': (
+                'may_call',
+                'subject_cell',
+                'subject_cell_alt',
+                'subject_phone',
+                'subject_phone_alt',
+                'may_visit_home',
+                'mail_address',
+                'physical_address',
+            )})
+        ,
         work_contacts_fieldset,
         indirect_contacts_fieldset,
         other_indirect_contacts_fieldset,
@@ -71,7 +82,8 @@ class SubjectLocatorAdmin(ModelAdminMixin, admin.ModelAdmin):
         'may_call': admin.VERTICAL,
         'may_sms': admin.VERTICAL,
         'may_call_work': admin.VERTICAL,
-        'may_contact_indirectly': admin.VERTICAL}
+        'may_contact_indirectly': admin.VERTICAL,
+        'has_alt_contact': admin.VERTICAL, }
 
     list_filter = (
         'may_visit_home',
@@ -89,4 +101,4 @@ class SubjectLocatorAdmin(ModelAdminMixin, admin.ModelAdmin):
         'call_work',
         'contact_indirectly')
 
-    search_fields = ('subject_identifier', )
+    search_fields = ('subject_identifier',)
