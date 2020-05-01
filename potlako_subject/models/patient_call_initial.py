@@ -82,7 +82,7 @@ class PatientCallInitial(CrfModelMixin):
     new_nok_name = EncryptedCharField(
         max_length=35,
         verbose_name="What is the name of the preferred next of kin?",
-        help_text="include firstname and surname",
+        help_text="include firstname and lastname",
         blank=True,
         null=True,
     )

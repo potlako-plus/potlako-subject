@@ -113,7 +113,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         null=True)
 
     last_name = LastnameField(
-        verbose_name='Patient surname',
+        verbose_name='Patient last name',
         blank=False,)
 
     first_name = FirstnameField(

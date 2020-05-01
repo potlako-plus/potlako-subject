@@ -63,7 +63,7 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
     alt_contact_name = EncryptedCharField(
         max_length=35,
         verbose_name="Full Name of the responsible person",
-        help_text="include firstname and surname",
+        help_text="include firstname and lastname",
         blank=True,
         null=True,
     )
