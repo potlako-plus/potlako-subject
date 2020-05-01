@@ -1,5 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models.deletion import PROTECT
 from django.utils import timezone
 from django_crypto_fields.fields import (
     IdentityField, FirstnameField, LastnameField)
@@ -9,7 +10,6 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future
 from edc_base.model_validators import date_is_future
 from edc_base.sites.site_model_mixin import SiteModelMixin
-from edc_base.utils import age, get_utcnow
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN
 
 from ..choices import CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION
@@ -164,61 +164,10 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         max_length=8,
         validators=[CellNumber, ])
 
-    kin_lastname = LastnameField(
-        verbose_name='Next of kin 1 Surname',
-        blank=False,
-        null=False)
-
-    kin_firstname = FirstnameField(
-        verbose_name='Next of kin 1 First name',
-        blank=False,
-        null=False)
-
-    kin_relationship = models.CharField(
-        verbose_name='Next of kin 1 relationship',
-        choices=KIN_RELATIONSHIP,
-        max_length=20,)
-
-    kin_relation_other = OtherCharField(
-        verbose_name='If other, describe next of kin 1 relationship',
-        max_length=50,
-        blank=True,
-        null=True,
-    )
-
-    kin_cell = EncryptedCharField(
-        verbose_name='Next of kin 1 phone number',
-        validators=[CellNumber, ],
-        blank=False,
-        null=False)
-
-    other_kin_avail = models.CharField(
-        verbose_name='Next of kin 2 details available?',
-        choices=YES_NO,
-        max_length=3)
-
-    other_kin_lastname = LastnameField(
-        verbose_name='Next of kin 2 Surname',)
-
-    other_kin_firstname = FirstnameField(
-        verbose_name='Next of kin 2 First name',)
-
-    other_kin_rel = models.CharField(
-        verbose_name='Next of kin 2 relationship',
-        choices=KIN_RELATIONSHIP,
-        max_length=20,
-        blank=True,
-        null=True,)
-
-    other_kin_rel_other = OtherCharField(
-        verbose_name='If other, describe next of kin 2 relationship',
-        max_length=50,
-        blank=True,
-        null=True,)
-
-    other_kin_cell = EncryptedCharField(
-        verbose_name='Next of kin 2 phone number',
-        validators=[CellNumber, ])
+    kin_details_provided = models.CharField(
+        verbose_name='Did the patient give details of next of kin?',
+        max_length=3,
+        choices=YES_NO)
 
     clinician_type = models.CharField(
         verbose_name='Type of clinician (or most senior clinician) '
@@ -385,3 +334,39 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
             self.screening_identifier = self.identifier_cls().identifier
             self.contact_date = self.report_datetime
         super(ClinicianCallEnrollment, self).save(*args, **kwargs)
+
+
+class NextOfKin(BaseUuidModel):
+
+    clinician_call_enrollemt = models.ForeignKey(ClinicianCallEnrollment,
+                                                 on_delete=PROTECT)
+
+    kin_lastname = LastnameField(
+        verbose_name='Next of kin 1 Surname',
+        blank=False,
+        null=False)
+
+    kin_firstname = FirstnameField(
+        verbose_name='Next of kin 1 First name',
+        blank=False,
+        null=False)
+
+    kin_relationship = models.CharField(
+        verbose_name='Next of kin 1 relationship',
+        choices=KIN_RELATIONSHIP,
+        max_length=20,
+        blank=False,
+        null=False)
+
+    kin_relation_other = OtherCharField(
+        verbose_name='If other, describe next of kin 1 relationship',
+        max_length=50,
+        blank=True,
+        null=True,
+    )
+
+    kin_cell = EncryptedCharField(
+        verbose_name='Next of kin 1 phone number',
+        validators=[CellNumber, ],
+        blank=False,
+        null=False)

@@ -6,6 +6,7 @@ from .investigations_form import InvestigationsForm
 from .investigations_form import LabTestForm
 from .missed_call_form import MissedCallForm
 from .missed_visit_form import MissedVisitForm
+from .next_of_kin_form import NextOfKinForm
 from .patient_call_followup_form import PatientCallFollowUpForm
 from .patient_call_initial_form import PatientCallInitialForm
 from .physician_review_form import PhysicianReviewForm
