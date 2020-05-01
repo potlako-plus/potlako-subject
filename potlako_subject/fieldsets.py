@@ -2,13 +2,13 @@ subject_contacts_fieldset = (
     ('Subject Contact Information', {
         'fields': (
             'may_call',
-            'may_visit_home',
-            'mail_address',
-            'physical_address',
             'subject_cell',
             'subject_cell_alt',
             'subject_phone',
-            'subject_phone_alt')})
+            'subject_phone_alt'
+            'may_visit_home',
+            'mail_address',
+            'physical_address')})
 )
 
 indirect_contacts_fieldset = (
@@ -21,7 +21,6 @@ indirect_contacts_fieldset = (
             'indirect_contact_cell_alt',
             'indirect_contact_phone')})
 )
-
 
 other_indirect_contacts_fieldset = (
     ('Other Alternative Contact Information', {

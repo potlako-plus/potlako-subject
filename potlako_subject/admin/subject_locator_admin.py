@@ -59,18 +59,7 @@ class SubjectLocatorAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'local_clinic',
                 'home_village',
             )}),
-        ('Subject Contact Information', {
-            'fields': (
-                'may_call',
-                'subject_cell',
-                'subject_cell_alt',
-                'subject_phone',
-                'subject_phone_alt',
-                'may_visit_home',
-                'mail_address',
-                'physical_address',
-            )})
-        ,
+        subject_contacts_fieldset,
         work_contacts_fieldset,
         indirect_contacts_fieldset,
         other_indirect_contacts_fieldset,
