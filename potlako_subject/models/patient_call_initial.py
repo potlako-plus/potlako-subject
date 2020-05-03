@@ -34,14 +34,14 @@ class PatientCallInitial(CrfModelMixin):
         help_text='(Years)',)
 
     residential_district = models.CharField(
-        verbose_name='where do you currently live?',
+        verbose_name='where does the patient currently live?',
         choices=DISTRICT,
         max_length=50,
         blank=True,
         null=True)
 
     patient_kgotla = models.CharField(
-        verbose_name='What is the name of the ward where you live?',
+        verbose_name='What is the name of the ward where the patient resides?',
         max_length=30,
         blank=True,
         null=True)

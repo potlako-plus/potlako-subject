@@ -10,7 +10,7 @@ from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
-from ..choices import DELAYED_REASON, DISPOSITION, FACILITY
+from ..choices import DELAYED_REASON, DISPOSITION, FACILITY, SCALE, PAIN_SCORE
 from ..choices import HEALTH_FACTOR, PATIENT_FACTOR, DATE_ESTIMATION
 from .list_models import CallAchievements
 from .model_mixins import CrfModelMixin
@@ -39,20 +39,22 @@ class PatientCallFollowUp(CrfModelMixin):
 
     next_kin_contact_change = models.CharField(
         verbose_name=('Any changes to be made to next of kin contact '
-                      'information (patient phone)?'),
+                      'information (next of kin phone)?'),
         choices=YES_NO,
         max_length=3)
 
     perfomance_status = models.IntegerField(
         verbose_name='Patient performance status',
-        default=0,
-        validators=[MinValueValidator(0), MaxValueValidator(5)]
+        default=1,
+        choices=SCALE,
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
 
     pain_score = models.IntegerField(
         verbose_name='Patient pain score',
-        default=0,
-        validators=[MinValueValidator(0), MaxValueValidator(5)]
+        default=1,
+        choices=PAIN_SCORE,
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
 
     new_complaints = models.CharField(
