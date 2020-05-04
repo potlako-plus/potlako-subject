@@ -80,8 +80,27 @@ class PatientCallFollowUp(CrfModelMixin):
     facility_visited_count = models.IntegerField(
         verbose_name='How many facilities were visited?',
         default=0,
-        validators=[MinValueValidator(0)]
-    )
+        validators=[MinValueValidator(0)])
+
+    last_visit_date = models.DateField(
+        verbose_name='When was the patient\'s last clinic visit?',
+        validators=[date_not_future, ])
+
+    last_visit_date_estimated = models.CharField(
+        verbose_name='Is the last visit date estimated?',
+        choices=YES_NO,
+        max_length=3)
+
+    last_visit_date_estimation = models.CharField(
+        verbose_name='Which part of the date was estimated, if any?',
+        choices=DATE_ESTIMATION,
+        max_length=15,
+        blank=True,
+        null=True,)
+
+    last_visit_facility = models.CharField(
+        verbose_name='Which health facility did the patient visit?',
+        max_length=30)
 
     investigation_ordered = models.CharField(
         verbose_name=('Have there been any interval investigations '

@@ -188,7 +188,8 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     symptoms_other = OtherCharField()
 
     early_symptoms_date = models.DateField(
-        verbose_name='Date of earliest onset symptom(s)')
+        verbose_name='Date of earliest onset symptom(s)',
+        validators=[date_not_future, ])
 
     early_symptoms_date_estimated = models.CharField(
         verbose_name='Is the symptoms date estimated?',
