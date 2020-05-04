@@ -10,6 +10,13 @@ ALIVE_DEAD_LTFU = (
     (OTHER, 'Other (specify)'),
 )
 
+APPT_CHANGE_REASON = (
+    ('providers_changed_appt', 'Providers changed appointment date'),
+    ('missed_appointment', 'Patient missed the appointment'),
+    ('changed_appointment', 'Patient contacted clinic to change the appointment date'),
+    (OTHER, 'Other (specify)'),
+)
+
 BUS_VOUCHER_STATUS = (
     ('not_drafted', 'Letter not yet drafted'),
     ('not_sent', 'Letter completed but not yet sent to facility'),

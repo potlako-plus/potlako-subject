@@ -11,7 +11,7 @@ from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DELAYED_REASON, DISPOSITION, FACILITY, SCALE, PAIN_SCORE
-from ..choices import HEALTH_FACTOR, PATIENT_FACTOR, DATE_ESTIMATION
+from ..choices import HEALTH_FACTOR, PATIENT_FACTOR, DATE_ESTIMATION, APPT_CHANGE_REASON
 from .list_models import CallAchievements
 from .model_mixins import CrfModelMixin
 
@@ -101,6 +101,19 @@ class PatientCallFollowUp(CrfModelMixin):
     last_visit_facility = models.CharField(
         verbose_name='Which health facility did the patient visit?',
         max_length=30)
+
+    appt_change = models.CharField(
+        verbose_name=('Since we last talked, has the patient\s appointment '
+                      'changed?'),
+        max_length=3,
+        choices=YES_NO)
+
+    appt_change_reason = models.CharField(
+        verbose_name='If yes, how was the appointment changed?',
+        max_length=30,
+        choices=APPT_CHANGE_REASON,
+        blank=True,
+        null=True,)
 
     investigation_ordered = models.CharField(
         verbose_name=('Have there been any interval investigations '
