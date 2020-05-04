@@ -183,6 +183,12 @@ DATE_TIME_ESTIMATION = (
     ('day_month_year', 'Estimated day, month and year')
 )
 
+EDUCATION_LEVEL = (
+    ('non_formal', 'Non-Formal'),
+    ('primary', 'Primary'),
+    ('secondary', 'Secondary'),
+    ('tertiary', 'Tertiary'))
+
 ENROLLMENT_SITES = (
     ('mmathethe_clinic', 'Mmathethe clinic'),
     ('molapowabojang_clinic', 'Molapowabojang clinic'),
@@ -274,6 +280,7 @@ FACILITY_UNIT = (
     ('medicine_clinic', 'Medicine clinic'),
     ('GYN_clnic', 'GYN clinic'),
     ('surgery_clinic', 'Surgery clinic'),
+    (NOT_APPLICABLE, 'Not applicable'),
     (OTHER, 'Other'),
 )
 
@@ -392,6 +399,7 @@ NOTES = (
     ('USS', 'USS'),
     ('U/A', 'U/A'),
     ('microscopy', 'Microscopy'),
+    (NOT_APPLICABLE, 'Not applicable'),
     (OTHER, 'Other (specify)'),
 )
 
@@ -429,6 +437,14 @@ PATHOLOGY_TEST_TYPE = (
     ('biopsy_other', 'Biopsy - other (specify)'),
     ('FNA', 'FNA'),
     ('pap_smear', 'Pap smear')
+)
+
+PATIENT_RESIDENCE = (
+    ('alone', 'Alone'),
+    ('spouse', 'Spouse'),
+    ('parents', 'Parents'),
+    ('siblings', 'Siblings'),
+    (OTHER, 'Other (specify)')
 )
 
 PAIN_SCORE = (
@@ -562,6 +578,15 @@ TRIAGE_STATUS = (
     ('routine', 'Routine'),
 )
 
+UNEMPLOYED_REASON = (
+    ('pensioner', 'Pensioner'),
+    ('senior_citizen', 'Senior Citizen'),
+    ('does_not_want', 'Does not want work'),
+    ('looking', 'Looking for a job'),
+    ('too_sick', 'Too sick to work'),
+    (OTHER, 'Other (specify)'),
+)
+
 VEHICLE_ARR_STATUS = (
     ('in_progress', 'Request made to facility, arrangement in progress'),
     ('to_be_communicated',
@@ -615,4 +640,13 @@ VISIT_INFO_SOURCE = (
     ('contact_family/designated_person',
      'Contact with family or designated person who can provide information'),
     (OTHER, 'Other,specify'),
+)
+
+WORK_TYPE = (
+    ('formal_employment', 'Formal employment'),
+    ('temporary_employment', 'Temporary Employment'),
+    ('part_time_employment', 'Part-Time Employment'),
+    ('self_employed', 'Self Employed'),
+    ('retired', 'Retired'),
+    (OTHER, 'Other,specify')
 )

@@ -10,7 +10,8 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future
 from edc_base.model_validators import date_is_future
 from edc_base.sites.site_model_mixin import SiteModelMixin
-from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN
+from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
+from edc_constants.constants import NOT_APPLICABLE
 
 from ..choices import CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION
 from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, NOTES, PAIN_SCORE
@@ -274,15 +275,13 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         verbose_name='Unit where patient is being referred to',
         choices=FACILITY_UNIT,
         max_length=20,
-        blank=True,
-        null=True,)
+        default=NOT_APPLICABLE)
 
     referral_discussed = models.CharField(
         verbose_name='Was referral discussed with receiving clinician?',
-        choices=YES_NO,
+        choices=YES_NO_NA,
         max_length=3,
-        blank=True,
-        null=True,)
+        default=NOT_APPLICABLE)
 
     clinician_designation = models.CharField(
         verbose_name='Designation of referral clinician patient discussed with',
@@ -313,8 +312,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
                      'only after tests have been done',
         max_length=25,
         choices=NOTES,
-        blank=True,
-        null=True,
+        default=NOT_APPLICABLE,
         help_text='(COMPLETE \'INVESTIGATIONS FORM\' AFTER TESTS HAVE BEEN '
                   'COMPLETED)')
 

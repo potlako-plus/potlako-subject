@@ -8,14 +8,15 @@ from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber
 from edc_base.model_validators import date_not_future
-from edc_base.utils import age, get_utcnow
-from edc_constants.choices import POS_NEG_UNKNOWN
+from edc_constants.choices import POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO, YES_NO_UNSURE
+from edc_constants.constants import NOT_APPLICABLE
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
 from ..choices import DURATION, FACILITY_UNIT, SEVERITY_LEVEL, DISTRICT
-from ..choices import PAIN_SCORE, SCALE
+from ..choices import PAIN_SCORE, SCALE, EDUCATION_LEVEL, WORK_TYPE
+from ..choices import PATIENT_RESIDENCE, UNEMPLOYED_REASON
 from .list_models import CallAchievements, TestType
 from .model_mixins import CrfModelMixin
 
@@ -54,9 +55,57 @@ class PatientCallInitial(CrfModelMixin):
 
     primary_clinic_other = OtherCharField()
 
+    education_level = models.CharField(
+        verbose_name='What is your highest level of education',
+        max_length=15,
+        choices=EDUCATION_LEVEL)
+
+    work_status = models.CharField(
+        verbose_name='Is the patient currently working?',
+        choices=YES_NO,
+        max_length=3)
+
+    work_type = models.CharField(
+        verbose_name='What kind of work does the patient do?',
+        choices=WORK_TYPE,
+        max_length=30,
+        blank=True,
+        null=True)
+
+    work_type_other = OtherCharField()
+
+    unemployed_reason = models.CharField(
+        verbose_name='Why is the patient not working?',
+        choices=UNEMPLOYED_REASON,
+        max_length=30,
+        blank=True,
+        null=True)
+
+    unemployed_reason_other = OtherCharField()
+
+    social_welfare = models.CharField(
+        verbose_name='Is the patient on social welfare support?',
+        choices=YES_NO_NA,
+        max_length=30,
+        default=NOT_APPLICABLE)
+
+    social_welfare = models.CharField(
+        verbose_name='Does the patient have any other medical conditions?',
+        choices=YES_NO,
+        max_length=3)
+
+    patient_residence = models.CharField(
+        verbose_name='Who does the patient stay with?',
+        choices=PATIENT_RESIDENCE,
+        max_length=30,
+        blank=True,
+        null=True)
+
+    patient_residence_other = OtherCharField()
+
     patient_contact_change = models.CharField(
         verbose_name=('Any changes to be made to patient contact '
-                      'information (patient phone)?'),
+                      'information (patient phone) since index visit?'),
         choices=YES_NO,
         max_length=3)
 
@@ -66,6 +115,12 @@ class PatientCallInitial(CrfModelMixin):
         validators=[CellNumber, ],
         blank=True,
         null=True)
+
+    patient_contact_change = models.CharField(
+        verbose_name=('Any changes to be made to patient residence '
+                      'information since index visit?'),
+        choices=YES_NO,
+        max_length=3)
 
     nok_change = models.CharField(
         verbose_name='Any changes to be made to next of kin information?',
