@@ -132,61 +132,6 @@ class PatientCallFollowUp(CrfModelMixin):
         verbose_name='Next appointment date (per patient report)',
         validators=[date_is_future])
 
-    next_visit_delayed = models.CharField(
-        verbose_name=('Was the last visit date delayed, missed or '
-                      'rescheduled for this encounter?'),
-        choices=YES_NO,
-        max_length=3)
-
-    visit_delayed_count = models.IntegerField(
-        verbose_name='If yes, how many times?',
-        blank=True,
-        null=True)
-
-    visit_delayed_reason = models.CharField(
-        verbose_name=('If yes, was delayed, missed, or rescheduled '
-                      'visit primarily related to a patient or '
-                      'health system factor?'),
-        choices=DELAYED_REASON,
-        max_length=25,
-        null=True,
-        blank=True)
-
-    patient_factor = models.CharField(
-        verbose_name=('Which patient factor best describes reason for '
-                      'delayed, missed, or rescheduled visit?'),
-        choices=PATIENT_FACTOR,
-        max_length=50,
-        null=True,
-        blank=True)
-
-    patient_factor_other = OtherCharField(
-        verbose_name='Please describe other patient factor',
-        max_length=50,
-        blank=True,
-        null=True)
-
-    health_system_factor = models.CharField(
-        verbose_name=('Which health system factor best describes reason '
-                      'for delayed, missed, or rescheduled visit?'),
-        choices=HEALTH_FACTOR,
-        max_length=50,
-        null=True,
-        blank=True)
-
-    health_system_factor_other = OtherCharField(
-        verbose_name='Please describe other health system factor',
-        max_length=50,
-        blank=True,
-        null=True)
-
-    delayed_visit_description = models.TextField(
-        verbose_name=('Please briefly describe the situation resulting in '
-                      'the delayed, missed, or rescheduled visit'),
-        max_length=150,
-        blank=True,
-        null=True)
-
     next_ap_facility = models.CharField(
         verbose_name='Next appointment facility and type',
         choices=FACILITY,

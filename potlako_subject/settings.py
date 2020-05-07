@@ -32,7 +32,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -97,7 +96,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'potlako_subject.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -107,7 +105,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -123,11 +120,12 @@ AUTH_PASSWORD_VALIDATORS = [
      },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+
+DATE_INPUT_FORMATS = ['%d-%b-%Y']
 
 TIME_ZONE = 'Africa/Gaborone'
 
@@ -139,11 +137,6 @@ USE_TZ = True
 
 COUNTRY = 'botswana'
 
-DATE_FORMAT = "d/m/Y"
-DATE_INPUT_FORMATS = ['%d/%m/%Y']
-DATETIME_FORMAT = "d/m/Y H:i"
-DATETIME_INPUT_FORMATS = ['%d/%m/%Y %H:%M']
-
 # dashboards
 DASHBOARD_URL_NAMES = {
     'subject_listboard_url': 'potlako_dashboard:subject_listboard_url',
@@ -152,7 +145,6 @@ DASHBOARD_URL_NAMES = {
 }
 
 HOLIDAY_FILE = os.path.join(BASE_DIR, 'holidays.csv')
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

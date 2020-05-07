@@ -285,7 +285,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     clinician_designation = models.CharField(
         verbose_name='Designation of referral clinician patient discussed with',
-        help_text='(If designation is not specified or unknown, plese write "UNK")',
+        help_text='(If designation is not specified or unknown, please write "UNK")',
         max_length=50,
         blank=True,
         null=True,)
@@ -293,6 +293,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     referral_fu_date = models.DateField(
         verbose_name='Date of appointment for return visit to referring '
                      'facility',
+        validators=[date_is_future, ],
         blank=True,
         null=True,)
 
@@ -307,10 +308,10 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         choices=YES_NO,
         max_length=3,)
 
-    notes = models.TextField(
+    investigation_notes = models.CharField(
         verbose_name='Notes on investigations ordered - continue to Labs '
                      'only after tests have been done',
-        max_length=25,
+        max_length=15,
         choices=NOTES,
         default=NOT_APPLICABLE,
         help_text='(COMPLETE \'INVESTIGATIONS FORM\' AFTER TESTS HAVE BEEN '
@@ -318,7 +319,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     comments = models.TextField(
         verbose_name=('Are there any other comments regarding this '
-                      'enrollment vist?'),
+                      'enrollment visit?'),
         max_length=150,
         blank=True,
         null=True,)
