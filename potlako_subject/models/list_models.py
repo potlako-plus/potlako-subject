@@ -9,9 +9,17 @@ class CallAchievements(ListModelMixin, BaseUuidModel):
     pass
 
 
+class Housemate(ListModelMixin, BaseUuidModel):
+    pass
+
+
 class Symptoms(ListModelMixin, BaseUuidModel):
     pass
 
 
 class TestType(ListModelMixin, BaseUuidModel):
+    pass
+
+
+class TransportCriteria(ListModelMixin, BaseUuidModel):
     pass

@@ -302,14 +302,6 @@ HEALTH_FACTOR = (
     (OTHER, 'other clinic or hospital related reason (specify)')
 )
 
-HOUSEMATE = (
-    ('parents', 'Parents'),
-    ('siblings', 'Siblings'),
-    ('children', 'Children'),
-    ('spouse', 'Spouse'),
-    (OTHER, 'Other (specify)'),
-)
-
 IDENTITY_TYPE = (
     ('country_id', 'Country ID number'),
     ('passport', 'Passport'),
@@ -456,7 +448,7 @@ PAIN_SCORE = (
 )
 
 QUALIFICATION = (
-    ('formal', 'Formal'),
+    ('never_schooled', 'Never been to school'),
     ('non_formal', 'Non Formal'),
     ('primary', 'Primary'),
     ('secondary', 'Secondary'),
@@ -545,17 +537,6 @@ SUSPECTED_CANCER = (
     ('kaposi_sarcoma', 'Kaposi Sarcoma'),
     (UNSURE, 'Unsure'),
     (OTHER, 'Other (specify)'),
-)
-
-TRANSPORT_CRITERIA = (
-    ('social_welfare_assistance', 'On social welfare assistance'),
-    ('disability', 'Unable to work due to physical or mental disability'),
-    ('residing_in_mobile_stop_area', 'Residing in mobile stop area'),
-    ('no_public_transport', 'Residing in area with no public transport'),
-    ('lives_far', 'Lives >= 20km away from nearest health facility'),
-    ('missed_visits_due_trans_challenges',
-     'Has missed appointments due to transportation challenges'),
-    (OTHER, 'Other'),
 )
 
 TRANSPORT_TYPE = (

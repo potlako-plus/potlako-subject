@@ -5,9 +5,9 @@ from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 
 from ..choices import CASH_TRANSFER_STATUS, QUALIFICATION
-from ..choices import HOUSEMATE, TRANSPORT_CRITERIA, FACILITY, TRANSPORT_TYPE
+from ..choices import FACILITY, TRANSPORT_TYPE
 from ..choices import VEHICLE_ARR_STATUS, BUS_VOUCHER_STATUS
-
+from .list_models import Housemate, TransportCriteria
 from .model_mixins import CrfModelMixin
 
 
@@ -27,10 +27,9 @@ class Transport(CrfModelMixin):
         null=True,
     )
 
-    housemate = models.CharField(
-        verbose_name='Who do you live with?',
-        choices=HOUSEMATE,
-        max_length=30,)
+    housemate = models.ManyToManyField(
+        Housemate,
+        verbose_name='Who do you live with?')
 
     housemate_other = OtherCharField()
 
@@ -39,11 +38,10 @@ class Transport(CrfModelMixin):
         choices=YES_NO,
         max_length=3,)
 
-    criteria_met = models.CharField(
+    criteria_met = models.ManyToManyField(
+        TransportCriteria,
         verbose_name='What criteria has been met for transportation'
-        ' support?',
-        choices=TRANSPORT_CRITERIA,
-        max_length=50,)
+        ' support?')
 
     criteria_met_other = OtherCharField()
 

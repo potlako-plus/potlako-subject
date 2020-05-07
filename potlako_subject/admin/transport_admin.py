@@ -20,8 +20,6 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'housemate',
                        'housemate_other',
                        'car_ownership',
-                       'criteria_met',
-                       'criteria_met_other',
                        'next_visit_date',
                        'visit_facility',
                        'visit_facility_other',
@@ -34,6 +32,8 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'bus_status_other',
                        'cash_transfer_status',
                        'cash_status_other',
+                       'criteria_met',
+                       'criteria_met_other',
                        'comments',
                        )
         }),
@@ -41,9 +41,7 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     radio_fields = {
         'is_criteria_met': admin.VERTICAL,
-        'housemate': admin.VERTICAL,
         'car_ownership': admin.VERTICAL,
-        'criteria_met': admin.VERTICAL,
         'visit_facility': admin.VERTICAL,
         'transport_type': admin.VERTICAL,
         'facility_vehicle_status': admin.VERTICAL,
@@ -51,5 +49,7 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         'cash_transfer_status': admin.VERTICAL,
     }
 
+    filter_horizontal = ('housemate', 'criteria_met')
+
     list_display = ('report_datetime', 'is_criteria_met',
-                    'criteria_met', 'transport_type')
+                    'transport_type')

@@ -7,6 +7,13 @@ list_data = {
         ('refer', 'Refer'),
         ('discharge', 'Discharge')
     ],
+    'potlako_subject.hosemate': [
+        ('parents', 'Parents'),
+        ('siblings', 'Siblings'),
+        ('children', 'Children'),
+        ('spouse', 'Spouse'),
+        (OTHER, 'Other (specify)'),
+    ],
     'potlako_subject.callachievements': [
         ('communicate_results', 'Communicate results'),
         ('reschedule_change_appointment', 'Reschedule/change appointment'),
@@ -31,6 +38,16 @@ list_data = {
         ('ultrasound', 'Ultrasound'),
         ('ct', 'CT'),
         (OTHER, 'Other')
+    ],
+    'potlako_subject.transportcriteria': [
+        ('social_welfare_assistance', 'On social welfare assistance'),
+        ('disability', 'Unable to work due to physical or mental disability'),
+        ('residing_in_mobile_stop_area', 'Residing in mobile stop area'),
+        ('no_public_transport', 'Residing in area with no public transport'),
+        ('lives_far', 'Lives >= 20km away from nearest health facility'),
+        ('missed_visits_due_trans_challenges',
+         'Has missed appointments due to transportation challenges'),
+        (OTHER, 'Other'),
     ]
 }
 
