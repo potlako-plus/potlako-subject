@@ -25,7 +25,7 @@ class HomeVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'next_appointment',
                        'next_ap_facility',
                        'next_ap_facility_other',
-                       'nex_ap_type',
+                       'next_ap_type',
                        'general_comments'),
         }),
     )
@@ -35,5 +35,5 @@ class HomeVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         'clinician_facility': admin.VERTICAL,
         'visit_outcome': admin.VERTICAL,
         'next_ap_facility': admin.VERTICAL,
-        'nex_ap_type': admin.VERTICAL,
+        'next_ap_type': admin.VERTICAL,
     }

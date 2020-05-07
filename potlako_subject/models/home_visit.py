@@ -18,7 +18,9 @@ class HomeVisit(CrfModelMixin):
     clinician_facility = models.CharField(
         verbose_name='Name of facility where clinician1 works',
         choices=FACILITY,
-        max_length=40)
+        max_length=40,
+        blank=True,
+        null=True)
 
     clinician_facility_other = OtherCharField()
 
@@ -26,7 +28,8 @@ class HomeVisit(CrfModelMixin):
         verbose_name='Outcome of home visit',
         choices=ALIVE_DEAD_LTFU,
         max_length=30,
-        help_text='(IF DIED OR LTFU, COMPLETE \'EXIT FORM\')')
+        help_text=('(IF DIED, COMPLETE \'DEATH FORM\'.'
+                   'IF LTFU,COMPLETE \'EXIT FORM\')'))
 
     visit_outcome_other = OtherCharField()
 
@@ -45,7 +48,7 @@ class HomeVisit(CrfModelMixin):
 
     next_ap_facility_other = OtherCharField()
 
-    nex_ap_type = models.CharField(
+    next_ap_type = models.CharField(
         verbose_name='If alive, next appointment type',
         choices=VISIT_TYPE,
         max_length=8,
