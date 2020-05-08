@@ -1,7 +1,4 @@
-from potlako_subject.action_items import SUBJECT_LOCATOR_ACTION
-
 from django.contrib.sites.models import Site
-from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
 from django_crypto_fields.fields import EncryptedCharField
@@ -11,9 +8,11 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import TelephoneNumber
 from edc_base.model_validators.phone import CellNumber
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
-from edc_consent.model_mixins import RequiresConsentFieldsModelMixin
 from edc_constants.choices import YES_NO
+
+from edc_consent.model_mixins import RequiresConsentFieldsModelMixin
 from edc_locator.model_mixins import LocatorModelMixin, LocatorManager
+from potlako_subject.action_items import SUBJECT_LOCATOR_ACTION
 
 
 class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
