@@ -5,7 +5,7 @@ subject_contacts_fieldset = (
             'subject_cell',
             'subject_cell_alt',
             'subject_phone',
-            'subject_phone_alt'
+            'subject_phone_alt',
             'may_visit_home',
             'mail_address',
             'physical_address')})

@@ -1,6 +1,7 @@
 from django.db import models
-from edc_base.utils import get_utcnow
 from edc_base.model_validators import date_is_future, date_not_future
+from edc_base.model_validators import datetime_not_future
+from edc_base.utils import get_utcnow
 
 from ..choices import SMS_OUTCOME
 from .model_mixins import CrfModelMixin
@@ -10,7 +11,8 @@ class SMS(CrfModelMixin):
 
     date_time_form_filled = models.DateTimeField(
         verbose_name='Date SMS form filled',
-        default=get_utcnow,)
+        default=get_utcnow,
+        validators=[datetime_not_future, ])
 
     next_ap_date = models.DateField(
         verbose_name='Date of next appointment (referral or return)',
