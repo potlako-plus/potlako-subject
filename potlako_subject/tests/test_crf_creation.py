@@ -2,16 +2,17 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 from django.test import TestCase
-from edc_appointment.models import Appointment
 from edc_base.utils import get_utcnow
 from edc_constants.constants import ALIVE, YES, NO, NOT_APPLICABLE, NEG
+from model_mommy import mommy
+
+from edc_appointment.models import Appointment
 from edc_facility.import_holidays import import_holidays
 from edc_visit_tracking.constants import UNSCHEDULED
-from model_mommy import mommy
 
 from ..forms import (
     ClinicianCallFollowUpForm, HomeVisitForm, InvestigationsForm, LabTestForm,
-    PatientCallInitialForm, PatientStatusForm, PhysicianReviewForm, SMSForm,
+    PatientCallInitialForm, PhysicianReviewForm, SMSForm,
     TransportForm, MissedCallForm, MissedVisitForm)
 from ..models import Investigations
 from ..models.list_models import CallAchievements
@@ -184,29 +185,10 @@ class Test_Crf_Creation(TestCase):
             initial_call_end_time=(
                 get_utcnow() + relativedelta(hours=1)).time(),
             call_duration=1,
-            )
+    )
 
         patient_call_initial = PatientCallInitialForm(data=form_data)
         self.assertTrue(patient_call_initial.save())
-
-    def test_patient_status_creation(self):
-        form_data = self.data
-        form_data.update(
-            last_encounter=get_utcnow() - relativedelta(months=1),
-            sms_due=YES,
-            days_from_recent_visit=30,
-            physician_flag='Improved',
-            bcpp_enrolled=NO,
-            deceased=NO,
-            calc_hiv_status=NEG,
-            missed_calls=1,
-            seen_at_marina=YES,
-            exit_status='Not exited',
-            first_last_visit_days=30,
-            missed_visits=0,)
-
-        patient_status = PatientStatusForm(data=form_data)
-        self.assertTrue(patient_status.save())
 
     def test_physician_review_creation(self):
         form_data = self.data
