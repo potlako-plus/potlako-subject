@@ -7,7 +7,7 @@ list_data = {
         ('refer', 'Refer'),
         ('discharge', 'Discharge')
     ],
-    'potlako_subject.hosemate': [
+    'potlako_subject.housemate': [
         ('parents', 'Parents'),
         ('siblings', 'Siblings'),
         ('children', 'Children'),
