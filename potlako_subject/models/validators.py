@@ -11,3 +11,9 @@ def datetime_not_now(value):
 def date_not_now(value):
     if value == get_utcnow().date():
         raise ValidationError('Cannot be today\'s date')
+
+
+def identity_check(value):
+    if len(str(value)) != 9:
+        raise ValidationError('The identity number must be '
+                              'exactly 9 digits.')

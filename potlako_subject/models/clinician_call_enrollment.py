@@ -18,7 +18,7 @@ from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, NOTES, PAIN_SCORE
 from ..choices import SUSPECTED_CANCER, TRIAGE_STATUS, DATE_ESTIMATION
 from ..screening_identifier import ScreeningIdentifier
 from .list_models import Symptoms
-from .validators import datetime_not_now
+from .validators import datetime_not_now, identity_check
 
 
 class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
@@ -108,6 +108,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     """ Patient's Personal Details & Identity """
     national_identity = IdentityField(
         verbose_name='Patient ID number (Omang)',
+        validators=[identity_check, ],
         unique=True)
 
     hospital_identity = IdentityField(
@@ -237,7 +238,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         verbose_name='Performance Status (ECOG)',
         default=1,
         choices=SCALE,
-        validators=[MaxValueValidator(5), MinValueValidator(1)],)
+        validators=[MaxValueValidator(5), MinValueValidator(0)],)
 
     pain_score = models.IntegerField(
         default=1,
@@ -265,7 +266,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     referral_date = models.DateField(
         verbose_name='Next appointment date',
-        default=timezone.now,
         validators=[date_is_future, ],
         blank=True,
         null=True,)
