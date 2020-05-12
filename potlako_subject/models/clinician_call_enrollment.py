@@ -18,6 +18,7 @@ from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, NOTES, PAIN_SCORE
 from ..choices import SUSPECTED_CANCER, TRIAGE_STATUS, DATE_ESTIMATION
 from ..screening_identifier import ScreeningIdentifier
 from .list_models import Symptoms
+from .validators import date_not_now
 
 
 class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
@@ -27,6 +28,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     report_datetime = models.DateTimeField(
         verbose_name='Report Date and Time',
         default=timezone.now,
+        validators=[date_not_future, ],
         help_text='Date and time of report.')
 
     screening_identifier = models.CharField(
@@ -56,15 +58,15 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         blank=True,
         null=True)
 
-    call_clinician_type = models.CharField(
-        verbose_name='Type of clinician spoken to on the phone',
-        choices=CLINICIAN_TYPE,
-        max_length=50,)
-
     received_training = models.CharField(
         verbose_name='Has the clinician received Potlako+ training',
         choices=YES_NO,
         max_length=3,)
+
+    call_clinician_type = models.CharField(
+        verbose_name='Type of clinician spoken to on the phone',
+        choices=CLINICIAN_TYPE,
+        max_length=50,)
 
     call_clinician_other = models.CharField(
         max_length=50,
@@ -190,7 +192,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     early_symptoms_date = models.DateField(
         verbose_name='Date of earliest onset symptom(s)',
-        validators=[date_not_future, ])
+        validators=[date_not_future, date_not_now])
 
     early_symptoms_date_estimated = models.CharField(
         verbose_name='Is the symptoms date estimated?',
@@ -202,7 +204,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         choices=DATE_ESTIMATION,
         max_length=15,
         blank=True,
-        null=True,
+        null=True
     )
 
     symptoms_details = models.TextField(
@@ -214,6 +216,13 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         max_length=30,
         choices=SUSPECTED_CANCER,
         help_text='((if clinician unsure, select \'unsure\'))',)
+
+    suspected_cancer_unsure = models.TextField(
+        verbose_name=('If unsure of cancer type, kindly list all suspected '
+                      'cancer types'),
+        max_length=60,
+        blank=True,
+        null=True)
 
     suspected_cancer_other = OtherCharField(
         verbose_name='If other suspected Cancer type, please specify',

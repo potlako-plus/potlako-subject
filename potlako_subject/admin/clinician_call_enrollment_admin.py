@@ -77,6 +77,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'early_symptoms_date_estimation',
                 'symptoms_details',
                 'suspected_cancer',
+                'suspected_cancer_unsure',
                 'suspected_cancer_other',
                 'suspicion_level',
                 'performance',

@@ -83,7 +83,7 @@ CLINICIAN_TYPE = (
     ('nurse', 'Nurse'),
     ('smo/cmo', 'SMO/CMO'),
     ('research_team', 'Research team'),
-    (OTHER, 'Other (specify)')
+    (OTHER, 'Other type (specify)')
 )
 
 COMPONENTS_RECEIVED = (
