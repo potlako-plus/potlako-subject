@@ -1,7 +1,8 @@
 from django import forms
-from django.core.exceptions import ValidationError
 from edc_base.sites import SiteModelFormMixin
+from edc_constants.constants import YES
 from edc_form_validators import FormValidatorMixin
+
 from potlako_validations.form_validators import ClinicianCallEnrollmentFormValidator
 
 from ..models import ClinicianCallEnrollment
@@ -16,13 +17,16 @@ class ClinicianCallEnrollmentForm(
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
     def clean(self):
-        date_registered = self.cleaned_data.get('reg_date')
-        report_datetime = self.cleaned_data.get('report_datetime')
+        cleaned_data = super().clean()
 
-        if date_registered > report_datetime.date():
-            raise ValidationError('Date patient was registered at facility'
-                                  ' should be earlier than report datetime.')
-        super().clean()
+        next_of_kin = self.data.get(
+            'nextofkin_set-0-kin_lastname')
+
+        if (cleaned_data.get('kin_details_provided') == YES
+                and not next_of_kin):
+            raise forms.ValidationError(
+                {'kin_details_provided': 'Please complete the next of kin '
+                 'table below.'})
 
     class Meta:
         model = ClinicianCallEnrollment
