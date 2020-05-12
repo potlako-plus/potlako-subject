@@ -7,7 +7,7 @@ from django_crypto_fields.fields import (
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
-from edc_base.model_validators import CellNumber, date_not_future
+from edc_base.model_validators import CellNumber, date_not_future, datetime_not_future
 from edc_base.model_validators import date_is_future
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
@@ -18,7 +18,7 @@ from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, NOTES, PAIN_SCORE
 from ..choices import SUSPECTED_CANCER, TRIAGE_STATUS, DATE_ESTIMATION
 from ..screening_identifier import ScreeningIdentifier
 from .list_models import Symptoms
-from .validators import date_not_now
+from .validators import datetime_not_now
 
 
 class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
@@ -28,7 +28,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     report_datetime = models.DateTimeField(
         verbose_name='Report Date and Time',
         default=timezone.now,
-        validators=[date_not_future, ],
+        validators=[datetime_not_future, ],
         help_text='Date and time of report.')
 
     screening_identifier = models.CharField(
@@ -192,7 +192,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     early_symptoms_date = models.DateField(
         verbose_name='Date of earliest onset symptom(s)',
-        validators=[date_not_future, date_not_now])
+        validators=[date_not_future, datetime_not_now])
 
     early_symptoms_date_estimated = models.CharField(
         verbose_name='Is the symptoms date estimated?',
