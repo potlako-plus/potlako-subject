@@ -562,7 +562,7 @@ TRIAGE_STATUS = (
 UNEMPLOYED_REASON = (
     ('pensioner', 'Pensioner'),
     ('senior_citizen', 'Senior Citizen'),
-    ('does_not_want', 'Does not want work'),
+    ('does_not_want', 'Does not want to work'),
     ('looking', 'Looking for a job'),
     ('too_sick', 'Too sick to work'),
     (OTHER, 'Other (specify)'),

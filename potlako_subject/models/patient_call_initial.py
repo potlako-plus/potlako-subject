@@ -105,18 +105,11 @@ class PatientCallInitial(CrfModelMixin):
 
     patient_contact_change = models.CharField(
         verbose_name=('Any changes to be made to patient contact '
-                      'information (patient phone) since index visit?'),
+                      ' information (patient phone) since index visit?'),
         choices=YES_NO,
         max_length=3)
 
-    patient_number = EncryptedCharField(
-        verbose_name='Please enter updated patient phone number',
-        max_length=8,
-        validators=[CellNumber, ],
-        blank=True,
-        null=True)
-
-    patient_contact_change = models.CharField(
+    patient_residence_change = models.CharField(
         verbose_name=('Any changes to be made to patient residence '
                       'information since index visit?'),
         choices=YES_NO,
@@ -232,7 +225,7 @@ class PatientCallInitial(CrfModelMixin):
     enrollment_visit_method_other = OtherCharField()
 
     slh_travel = models.CharField(
-        verbose_name=('If you had to travel to (referral clinic) to see a '
+        verbose_name=('If you had to travel to (referral facility) to see a '
                       'doctor, how would you go about it?'),
         max_length=50,
         help_text='Use referral clinic name')
