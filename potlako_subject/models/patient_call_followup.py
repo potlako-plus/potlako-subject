@@ -10,8 +10,8 @@ from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
-from ..choices import DELAYED_REASON, DISPOSITION, FACILITY, SCALE, PAIN_SCORE
-from ..choices import HEALTH_FACTOR, PATIENT_FACTOR, DATE_ESTIMATION, APPT_CHANGE_REASON
+from ..choices import DATE_ESTIMATION, APPT_CHANGE_REASON
+from ..choices import DISPOSITION, FACILITY, SCALE, PAIN_SCORE
 from .list_models import CallAchievements
 from .model_mixins import CrfModelMixin
 
@@ -28,18 +28,13 @@ class PatientCallFollowUp(CrfModelMixin):
 
     patient_residence_change = models.CharField(
         verbose_name=('Has there been any change in patient '
-                      'residence information?'),
-        choices=YES_NO,
-        max_length=3)
-
-    phone_number_change = models.CharField(
-        verbose_name=('Has there been any change in patient phone number?'),
+                      'residence and residence information?'),
         choices=YES_NO,
         max_length=3)
 
     next_kin_contact_change = models.CharField(
         verbose_name=('Any changes to be made to next of kin contact '
-                      'information (next of kin phone)?'),
+                      'information?'),
         choices=YES_NO,
         max_length=3)
 
@@ -103,7 +98,7 @@ class PatientCallFollowUp(CrfModelMixin):
         max_length=30)
 
     appt_change = models.CharField(
-        verbose_name=('Since we last talked, has the patient\s appointment '
+        verbose_name=('Since we last talked, has the patient\'s appointment '
                       'changed?'),
         max_length=3,
         choices=YES_NO)
