@@ -127,45 +127,6 @@ class PatientCallInitial(CrfModelMixin):
         choices=YES_NO,
         max_length=3)
 
-    nok_name_change = models.CharField(
-        verbose_name='Any changes to be made to next of kin name?',
-        choices=YES_NO,
-        max_length=3,
-        blank=True,
-        null=True,)
-
-    new_nok_name = EncryptedCharField(
-        max_length=35,
-        verbose_name="What is the name of the preferred next of kin?",
-        help_text="include firstname and lastname",
-        blank=True,
-        null=True,
-    )
-
-    nok_contact_change = models.CharField(
-        verbose_name=('Any changes to be made to next of kin contact '
-                      'number?'),
-        choices=YES_NO,
-        max_length=3,
-        blank=True,
-        null=True)
-
-    primary_keen_contact = EncryptedCharField(
-        verbose_name=('What is the primary contact number of the preferred '
-                      'next of kin?'),
-        max_length=8,
-        validators=[CellNumber, ],
-        blank=True,
-        null=True)
-
-    secondary_keen_contact = EncryptedCharField(
-        verbose_name=('What is the secondary contact number of the preferred '
-                      'next of kin?'),
-        max_length=8,
-        validators=[CellNumber, ],
-        blank=True,
-        null=True)
-
     patient_symptoms = models.TextField(
         max_length=250,
         verbose_name=('What symptom(s) is the patient having for which '
