@@ -72,10 +72,10 @@ def patient_call_initial_on_post_save(sender, instance, raw, created, **kwargs):
                 f'visit=instance.subject_visit.visit_code '
                 f'sequence={instance.subject_visit.visit_code_sequence} '
                 'does not exist.')
-#         else:
-#             if appt_obj.report_datetime != timepoint_datetime:
-#                 appt_obj.report_datetime = timepoint_datetime
-#                 appt_obj.save_base(raw=True)
+        else:
+            if appt_obj.report_datetime != timepoint_datetime:
+                appt_obj.report_datetime = timepoint_datetime
+                appt_obj.save()
 
 
 @receiver(post_save, weak=False, sender=PatientCallFollowUp,
