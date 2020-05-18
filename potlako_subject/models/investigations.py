@@ -15,7 +15,7 @@ from .model_mixins import CrfModelMixin
 class Investigations(CrfModelMixin):
 
     lab_tests_ordered = models.CharField(
-        verbose_name='Were lab tests ordered??',
+        verbose_name='Were lab tests ordered?',
         choices=YES_NO,
         max_length=3)
 

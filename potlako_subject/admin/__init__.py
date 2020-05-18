@@ -3,6 +3,7 @@ from .clinician_call_followup_admin import ClinicianCallFollowUpAdmin
 from .home_visit_admin import HomeVisitAdmin
 from .investigations_admin import InvestigationsAdmin
 from .investigations_admin import LabTestInlineAdmin
+from .medical_diagnosis_admin import MedicalDiagnosisAdmin
 from .missed_call_admin import MissedCallAdmin
 from .missed_visit_admin import MissedVisitAdmin
 from .patient_call_followup_admin import PatientCallFollowUpAdmin

@@ -368,6 +368,17 @@ LTFU_CRITERIA = (
     ('home_visit_done_unable_to_trace', 'home visit done and unable to trace'),
 )
 
+MEDICAL_CONDITION = (
+    ('cardiac_condition', 'Cardiac Condition'),
+    ('metabolic_disease', 'Metabolic Disease'),
+    ('respiratory_disease', 'Respiratory Disease'),
+    ('neurological_disease', 'Neurological Disease'),
+    ('musculoskeletal_disease', 'Muscoloskeletal Disease'),
+    ('skin_disease', 'Skin Disease'),
+    ('psychiatric_condition', 'Psychiatric Condition'),
+    (OTHER, 'Other (Specify')
+)
+
 NON_CANCER_DIAGNOSIS = (
     ('fibroadenoma', 'Fibroadenoma'),
     ('breast_cyst', 'Breast cyst'),
@@ -534,6 +545,11 @@ TRANSPORT_TYPE = (
     ('cash', 'Cash transfer to patient'),
     ('patient_arranged_vehicle',
      'Facility Vehicle - Arranged by Patient or Clinician'),
+)
+
+TREATMENT_TYPE = (
+    ('pills', 'Pills'),
+    ('injectable', 'Injectable'),
 )
 
 TREATMENT_INTENT = (

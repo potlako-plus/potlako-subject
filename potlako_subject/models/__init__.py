@@ -4,6 +4,8 @@ from .clinician_call_followup import ClinicianCallFollowUp
 from .home_visit import HomeVisit
 from .investigations import Investigations
 from .investigations import LabTest
+from .medical_diagonsis import MedicalConditions
+from .medical_diagonsis import MedicalDiagnosis
 from .missed_call import MissedCall
 from .missed_visit import MissedVisit
 from .onschedule import Onschedule
