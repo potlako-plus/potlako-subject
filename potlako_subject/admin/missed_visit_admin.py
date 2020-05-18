@@ -33,9 +33,10 @@ class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'next_ap_facility_other',
                        'next_ap_type',
                        'home_visit',
-                       'transport_support',
                        'transport_need',
+                       'transport_support',
                        'clinician_designation',
+                       'clinician_designation_other',
                        'comments'),
         }),
     )
@@ -50,4 +51,5 @@ class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'next_ap_type': admin.VERTICAL,
                     'home_visit': admin.VERTICAL,
                     'transport_need': admin.VERTICAL,
-                    'transport_support': admin.VERTICAL}
+                    'transport_support': admin.VERTICAL,
+                    'clinician_designation': admin.VERTICAL, }

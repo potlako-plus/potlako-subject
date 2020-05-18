@@ -1,20 +1,21 @@
 from django.db import models
 from django.utils import timezone
-
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_not_future, date_is_future
+from edc_base.model_validators import datetime_not_future
 from edc_constants.choices import YES_NO
 
 from ..choices import (FACILITY, VISIT_TYPE, DETERMINE_MISSED_VISIT,
-                       PEOPLE_INQUIRED_FROM, REASON_MISSED_VISIT)
+                       PEOPLE_INQUIRED_FROM, REASON_MISSED_VISIT, CLINICIAN_TYPE)
 from .model_mixins import CrfModelMixin
 
 
 class MissedVisit(CrfModelMixin):
 
     report_datetime = models.DateTimeField(
-        verbose_name='Date and time \'missed visit\' form entered',
+        verbose_name='Report date and time',
         default=timezone.now,
+        validators=[datetime_not_future, ]
     )
 
     missed_visit_date = models.DateField(
@@ -114,9 +115,12 @@ class MissedVisit(CrfModelMixin):
     clinician_designation = models.CharField(
         verbose_name=('What is the designation of the clinician that research '
                       'staff discussed missed visit with'),
+        choices=CLINICIAN_TYPE,
         max_length=50,
         blank=True,
         null=True,)
+
+    clinician_designation_other = OtherCharField()
 
     comments = models.TextField(
         verbose_name='Any other general comments about missed visit '

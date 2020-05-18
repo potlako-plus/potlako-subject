@@ -111,7 +111,7 @@ DETERMINE_MISSED_VISIT = (
     ('database',
      'Research staff referenced database and contacted clinician/facility'),
     ('clinic_register',
-     'Clinician referenced clinic register and contacted clinician'),
+     'Clinician referenced clinic register and contacted research staff'),
     ('clinician_contacted', 'Patient contacted clinician'),
     ('research_staff_contacted', 'Patient contacted research staff'),
     (OTHER, 'Other (specify)')
