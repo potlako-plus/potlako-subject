@@ -1,10 +1,12 @@
 from datetime import datetime
-from potlako_dashboard.patterns import subject_identifier
 
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from edc_base.utils import get_utcnow
+import pytz
+
 from edc_appointment.constants import NEW_APPT
 from edc_appointment.creators import AppointmentInProgressError
 from edc_appointment.creators import InvalidParentAppointmentMissingVisitError
@@ -12,9 +14,8 @@ from edc_appointment.creators import InvalidParentAppointmentStatusError
 from edc_appointment.creators import UnscheduledAppointmentCreator
 from edc_appointment.creators import UnscheduledAppointmentError
 from edc_appointment.models import Appointment
-from edc_base.utils import get_utcnow
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
-import pytz
+from potlako_dashboard.patterns import subject_identifier
 
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
@@ -98,14 +99,20 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
             'suggested_datetime': timepoint_datetime,
             'visit_code': subject_visit.visit_code,
             'appt_status': NEW_APPT,
-            'check_appointment':False}
+            'check_appointment': False}
 
         try:
-            unscheduled_appointment_cls(
-                **options)
-        except (ObjectDoesNotExist, UnscheduledAppointmentError,
-                InvalidParentAppointmentMissingVisitError,
-                InvalidParentAppointmentStatusError,
-                AppointmentInProgressError) as e:
-            raise ValidationError(str(e))
-
+            appt = unscheduled_appointment_cls.objects.get(**options)
+        except unscheduled_appointment_cls.DoesNotExist:
+            try:
+                unscheduled_appointment_cls(
+                    **options)
+            except (ObjectDoesNotExist, UnscheduledAppointmentError,
+                    InvalidParentAppointmentMissingVisitError,
+                    InvalidParentAppointmentStatusError,
+                    AppointmentInProgressError) as e:
+                raise ValidationError(str(e))
+        else:
+            if appt.appt_datetime != timepoint_datetime:
+                appt.appt_datetime = timepoint_datetime
+                appt.save()
