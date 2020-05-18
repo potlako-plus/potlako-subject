@@ -21,6 +21,13 @@ list_data = {
         ('arrange_transportation', 'Arrange transportation'),
         (OTHER, 'Other')
     ],
+    'potlako_subject.patientresidence': [
+        ('alone', 'Alone'),
+        ('spouse', 'Spouse'),
+        ('parents', 'Parents'),
+        ('siblings', 'Siblings'),
+        (OTHER, 'Other (specify)')
+    ],
     'potlako_subject.symptoms': [
         ('pain', 'Pain'),
         ('mass', 'Mass'),

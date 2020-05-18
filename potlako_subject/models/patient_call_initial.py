@@ -3,10 +3,8 @@ from datetime import timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.deletion import PROTECT
-from django_crypto_fields.fields import EncryptedCharField
 from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
-from edc_base.model_validators import CellNumber
 from edc_base.model_validators import date_not_future
 from edc_constants.choices import POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO, YES_NO_UNSURE
@@ -16,8 +14,8 @@ from edc_protocol.validators import date_not_before_study_start
 from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
 from ..choices import DURATION, FACILITY_UNIT, SEVERITY_LEVEL, DISTRICT
 from ..choices import PAIN_SCORE, SCALE, EDUCATION_LEVEL, WORK_TYPE
-from ..choices import PATIENT_RESIDENCE, UNEMPLOYED_REASON
-from .list_models import CallAchievements, TestType
+from ..choices import UNEMPLOYED_REASON
+from .list_models import CallAchievements, TestType, PatientResidence
 from .model_mixins import CrfModelMixin
 
 
@@ -51,7 +49,9 @@ class PatientCallInitial(CrfModelMixin):
         verbose_name=('Nearest primary clinic or health post '
                       'to where patient resides'),
         choices=FACILITY,
-        max_length=40)
+        max_length=40,
+        blank=True,
+        null=True)
 
     primary_clinic_other = OtherCharField()
 
@@ -94,12 +94,11 @@ class PatientCallInitial(CrfModelMixin):
         choices=YES_NO,
         max_length=3)
 
-    patient_residence = models.CharField(
+    patient_residence = models.ManyToManyField(
+        PatientResidence,
         verbose_name='Who does the patient stay with?',
-        choices=PATIENT_RESIDENCE,
         max_length=30,
-        blank=True,
-        null=True)
+        blank=True,)
 
     patient_residence_other = OtherCharField()
 

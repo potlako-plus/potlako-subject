@@ -78,7 +78,7 @@ class PatientCallFollowUp(CrfModelMixin):
         validators=[MinValueValidator(0)])
 
     last_visit_date = models.DateField(
-        verbose_name='When was the patient\'s last clinic visit?',
+        verbose_name='When was your last clinic visit?',
         validators=[date_not_future, ])
 
     last_visit_date_estimated = models.CharField(
@@ -109,6 +109,8 @@ class PatientCallFollowUp(CrfModelMixin):
         choices=APPT_CHANGE_REASON,
         blank=True,
         null=True,)
+
+    appt_change_reason_other = OtherCharField()
 
     investigation_ordered = models.CharField(
         verbose_name=('Have there been any interval investigations '

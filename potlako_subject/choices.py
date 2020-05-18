@@ -12,8 +12,8 @@ ALIVE_DEAD_LTFU = (
 
 APPT_CHANGE_REASON = (
     ('providers_changed_appt', 'Providers changed appointment date'),
-    ('missed_appointment', 'Patient missed the appointment'),
-    ('changed_appointment', 'Patient contacted clinic to change the appointment date'),
+    ('missed_appointment', 'I missed the appointment'),
+    ('changed_appointment', 'I contacted clinic to change the appointment date'),
     (OTHER, 'Other (specify)'),
 )
 
@@ -437,14 +437,6 @@ PATHOLOGY_TEST_TYPE = (
     ('biopsy_other', 'Biopsy - other (specify)'),
     ('FNA', 'FNA'),
     ('pap_smear', 'Pap smear')
-)
-
-PATIENT_RESIDENCE = (
-    ('alone', 'Alone'),
-    ('spouse', 'Spouse'),
-    ('parents', 'Parents'),
-    ('siblings', 'Siblings'),
-    (OTHER, 'Other (specify)')
 )
 
 PAIN_SCORE = (

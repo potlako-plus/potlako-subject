@@ -96,7 +96,6 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'work_type': admin.VERTICAL,
                     'unemployed_reason': admin.VERTICAL,
                     'social_welfare': admin.VERTICAL,
-                    'patient_residence': admin.VERTICAL,
                     'patient_residence_change': admin.VERTICAL,
                     'patient_contact_change': admin.VERTICAL,
                     'patient_symptoms_date_estimated': admin.VERTICAL,
@@ -119,7 +118,8 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     }
 
     filter_horizontal = ('call_achievements',
-                         'tests_type')
+                         'tests_type',
+                         'patient_residence')
 
     readonly_fields = ('call_duration',)
 

@@ -50,6 +50,7 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'last_visit_facility',
                        'appt_change',
                        'appt_change_reason',
+                       'appt_change_reason_other',
                        'investigation_ordered',
                        'transport_support',
                        'next_appointment_date',
