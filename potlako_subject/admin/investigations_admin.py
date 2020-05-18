@@ -34,6 +34,7 @@ class InvestigationsAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
+                       'report_datetime',
                        'lab_tests_ordered',
                        'facility_ordered',
                        'facility_ordered_other',
@@ -59,11 +60,7 @@ class InvestigationsAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'diagnosis_results',
                        'cancer_type',
                        'diagnoses_made',
-                       'cancer_stage',
-                       'cancer_stage_other',
-                       'bpcc_enrolled',
-                       'bpcc_identifier',
-                       'end_time'),
+                       'cancer_stage',),
         }),
     )
 
@@ -76,5 +73,4 @@ class InvestigationsAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'imaging_test_status': admin.VERTICAL,
                     'imaging_test_type': admin.VERTICAL,
                     'diagnosis_results': admin.VERTICAL,
-                    'cancer_stage': admin.VERTICAL,
-                    'bpcc_enrolled': admin.VERTICAL}
+                    'cancer_stage': admin.VERTICAL}

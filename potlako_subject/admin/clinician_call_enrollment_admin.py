@@ -92,6 +92,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'referral_facility',
                 'referral_facility_other',
                 'referral_unit',
+                'referral_unit_other',
                 'referral_discussed',
                 'clinician_designation',
                 'referral_fu_date',)
@@ -101,6 +102,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'triage_status',
                 'investigated',
                 'investigation_notes',
+                'investigation_notes_other',
                 'comments',)
         }),
 

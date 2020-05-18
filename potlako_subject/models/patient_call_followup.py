@@ -42,14 +42,14 @@ class PatientCallFollowUp(CrfModelMixin):
         verbose_name='Patient performance status',
         default=1,
         choices=SCALE,
-        validators=[MinValueValidator(1), MaxValueValidator(5)]
+        validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
 
     pain_score = models.IntegerField(
         verbose_name='Patient pain score',
-        default=1,
+        default=0,
         choices=PAIN_SCORE,
-        validators=[MinValueValidator(1), MaxValueValidator(5)]
+        validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
 
     new_complaints = models.CharField(

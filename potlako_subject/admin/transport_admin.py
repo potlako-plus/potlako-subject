@@ -16,7 +16,6 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
             'fields': ('subject_visit',
                        'report_datetime',
                        'is_criteria_met',
-                       'qualification',
                        'housemate',
                        'housemate_other',
                        'car_ownership',

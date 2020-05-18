@@ -25,10 +25,13 @@ list_data = {
         ('pain', 'Pain'),
         ('mass', 'Mass'),
         ('bleeding', 'Bleeding'),
+        ('bowel_movements_change', 'Change in bowel movements'),
+        ('discharge', 'Discharge'),
         ('weight_loss', 'Weight loss'),
         ('dysphagia', 'Dysphagia'),
         ('dysuria', 'Dysuria'),
         ('altered_bowel_movement', 'Altered Bowel Movement'),
+        ('skin_changes', 'Skin changes'),
         (OTHER, 'Other (specify)')
     ],
     'potlako_subject.testtype': [

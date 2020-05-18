@@ -4,7 +4,7 @@ from edc_base.model_validators import date_is_future
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 
-from ..choices import CASH_TRANSFER_STATUS, QUALIFICATION
+from ..choices import CASH_TRANSFER_STATUS
 from ..choices import FACILITY, TRANSPORT_TYPE
 from ..choices import VEHICLE_ARR_STATUS, BUS_VOUCHER_STATUS
 from .list_models import Housemate, TransportCriteria
@@ -18,14 +18,6 @@ class Transport(CrfModelMixin):
                      'for transport support',
         choices=YES_NO,
         max_length=3,)
-
-    qualification = models.CharField(
-        verbose_name='What is your highest level of education?',
-        choices=QUALIFICATION,
-        max_length=15,
-        blank=True,
-        null=True,
-    )
 
     housemate = models.ManyToManyField(
         Housemate,

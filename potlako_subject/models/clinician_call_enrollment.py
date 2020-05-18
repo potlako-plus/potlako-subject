@@ -26,7 +26,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     identifier_cls = ScreeningIdentifier
 
     report_datetime = models.DateTimeField(
-        verbose_name='Report Date and Time',
+        verbose_name='Report Time and Date',
         default=timezone.now,
         validators=[datetime_not_future, ],
         help_text='Date and time of report.')
@@ -236,12 +236,12 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     performance = models.IntegerField(
         verbose_name='Performance Status (ECOG)',
-        default=1,
+        default=0,
         choices=SCALE,
         validators=[MaxValueValidator(5), MinValueValidator(0)],)
 
     pain_score = models.IntegerField(
-        default=1,
+        default=0,
         choices=PAIN_SCORE,
         validators=[MaxValueValidator(5), MinValueValidator(1)],
         help_text='(confirm with clinician that this is out of total '
@@ -286,6 +286,8 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         max_length=20,
         default=NOT_APPLICABLE)
 
+    referral_unit_other = OtherCharField()
+
     referral_discussed = models.CharField(
         verbose_name='Was referral discussed with receiving clinician?',
         choices=YES_NO_NA,
@@ -325,6 +327,8 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         default=NOT_APPLICABLE,
         help_text='(COMPLETE \'INVESTIGATIONS FORM\' AFTER TESTS HAVE BEEN '
                   'COMPLETED)')
+
+    investigation_notes_other = OtherCharField()
 
     comments = models.TextField(
         verbose_name=('Are there any other comments regarding this '

@@ -57,7 +57,6 @@ CANCER_STAGES = (
     ('stage_II', 'Stage II'),
     ('stage_III', 'Stage III'),
     ('stage_IV', 'Stage IV'),
-    (OTHER, 'Other'),
 )
 
 CANCER_STATUS = (
@@ -123,10 +122,8 @@ DELAYED_REASON = (
 )
 
 DIAGNOSIS_RESULTS = (
-    ('not_cancer', 'NOT cancer'),
-    ('cancer', 'cancer'),
-    ('non_diagnostic', 'Non-diagnostic'),
-    ('specimen_not_recieved', 'Specimen lost or not received')
+    ('malignant', 'Malignant'),
+    ('non_malignant', 'Non Malignant'),
 )
 
 DISPOSITION = (
@@ -445,14 +442,6 @@ PAIN_SCORE = (
     (3, '3'),
     (4, '4'),
     (5, '5')
-)
-
-QUALIFICATION = (
-    ('never_schooled', 'Never been to school'),
-    ('non_formal', 'Non Formal'),
-    ('primary', 'Primary'),
-    ('secondary', 'Secondary'),
-    ('tertiary', 'Tertiary')
 )
 
 REASON_FOR_EXIT = (

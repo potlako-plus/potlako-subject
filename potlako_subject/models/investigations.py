@@ -7,7 +7,7 @@ from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import CANCER_STAGES, FACILITY, LAB_TESTS, LAB_TESTS_STATUS
-from ..choices import DURATION
+from ..choices import DATE_ESTIMATION, DIAGNOSIS_RESULTS
 from ..choices import IMAGING_STATUS, IMAGING_TESTS, PATHOLOGY_TEST_TYPE
 from .model_mixins import CrfModelMixin
 
@@ -43,8 +43,8 @@ class Investigations(CrfModelMixin):
 
     ordered_date_estimation = models.CharField(
         verbose_name='Which part of the date is estimated?',
-        choices=DURATION,
-        max_length=6,
+        choices=DATE_ESTIMATION,
+        max_length=15,
         blank=True,
         null=True,)
 
@@ -145,7 +145,7 @@ class Investigations(CrfModelMixin):
 
     diagnosis_results = models.CharField(
         verbose_name='Diagnosis results (provider)',
-        choices=IMAGING_TESTS,
+        choices=DIAGNOSIS_RESULTS,
         max_length=20,
         blank=True,
         null=True)
@@ -168,27 +168,6 @@ class Investigations(CrfModelMixin):
         max_length=10,
         blank=True,
         null=True)
-
-    cancer_stage_other = OtherCharField(
-        verbose_name='If other cancer stage, specify',
-        max_length=10,
-        blank=True,
-        null=True)
-
-    bpcc_enrolled = models.CharField(
-        verbose_name='Participant enrolled in BPCC?',
-        choices=YES_NO,
-        max_length=3)
-
-    bpcc_identifier = models.CharField(
-        verbose_name='BPCC identifier (BID)',
-        max_length=25,
-        blank=True,
-        null=True)
-
-    end_time = models.DurationField(
-        verbose_name='Investigations: end time',
-    )
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
