@@ -119,14 +119,26 @@ class Investigations(CrfModelMixin):
         blank=True,
         null=True)
 
-    ultrasound_tests_other = OtherCharField(
-        verbose_name='Types of ultrasound tests ordered (other, specify)',
+    ultrasound_tests = models.CharField(
+        verbose_name='If ultrasound tests ordered, specify',
         max_length=25,
         blank=True,
         null=True)
 
-    imaging_tests_other = OtherCharField(
-        verbose_name='Types of imaging tests ordered (other, specify)',
+    ct_tests = models.CharField(
+        verbose_name='If CT tests ordered, specify',
+        max_length=25,
+        blank=True,
+        null=True)
+
+    mri_tests = models.CharField(
+        verbose_name='If MRI tests ordered, specify',
+        max_length=25,
+        blank=True,
+        null=True)
+
+    imaging_test_type_other = OtherCharField(
+        verbose_name='If other tests ordered, specify',
         max_length=25,
         blank=True,
         null=True)
