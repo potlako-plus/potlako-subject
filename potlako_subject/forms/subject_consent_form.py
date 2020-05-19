@@ -1,9 +1,10 @@
 from django import forms
 from django.conf import settings
-
 from edc_base.sites import SiteModelFormMixin
-from edc_consent.modelform_mixins import ConsentModelFormMixin
 from edc_form_validators import FormValidatorMixin
+
+from edc_consent.modelform_mixins import ConsentModelFormMixin
+from potlako_validations.form_validators import SubjectConsentFormValidator
 
 from ..models import SubjectConsent
 
@@ -11,6 +12,8 @@ from ..models import SubjectConsent
 class SubjectConsentForm(
         SiteModelFormMixin, FormValidatorMixin, ConsentModelFormMixin,
         forms.ModelForm):
+
+    form_validator_cls = SubjectConsentFormValidator
 
     screening_identifier = forms.CharField(
         label='Screening Identifier',

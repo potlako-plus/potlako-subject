@@ -101,6 +101,7 @@ class SubjectConsent(
 
     def save(self, *args, **kwargs):
         self.subject_type = 'subject'
+        self.version = '1'
         super().save(*args, **kwargs)
 
     def natural_key(self):
