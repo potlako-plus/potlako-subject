@@ -102,8 +102,13 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
             'check_appointment': False}
 
         try:
-            appt = unscheduled_appointment_cls.objects.get(**options)
-        except unscheduled_appointment_cls.DoesNotExist:
+            appt = Appointment.objects.get(
+               appt_datetime=timepoint_datetime,
+               subject_identifier=subject_visit.subject_identifier,
+               visit_schedule_name=subject_visit.visit_schedule.name,
+               schedule_name=subject_visit.schedule.name,
+               visit_code=subject_visit.visit_code)
+        except Appointment.DoesNotExist:
             try:
                 unscheduled_appointment_cls(
                     **options)

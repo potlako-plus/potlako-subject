@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.contrib import admin
 from django.urls.base import reverse
+from django.urls.exceptions import NoReverseMatch
 from django_revision.modeladmin_mixin import ModelAdminRevisionMixin
 from edc_base.modeladmin_mixins import FormAsJSONModelAdminMixin
 from edc_base.sites.admin import ModelAdminSiteMixin
@@ -34,7 +36,8 @@ class CrfModelAdminMixin(VisitTrackingCrfModelAdminMixin,
                          FormAsJSONModelAdminMixin,
                          admin.ModelAdmin):
 
-    post_url_on_delete_name = 'cancer_subject:subject_dashboard_url'
+    post_url_on_delete_name = settings.DASHBOARD_URL_NAMES.get(
+        'subject_dashboard_url')
     instructions = (
         'Please complete the questions below. Required questions are in bold. '
         'When all required questions are complete click SAVE. '
@@ -47,7 +50,13 @@ class CrfModelAdminMixin(VisitTrackingCrfModelAdminMixin,
             appointment=str(obj.subject_visit.appointment.id))
 
     def view_on_site(self, obj):
-        return reverse(
-            'potlako_dashboard:subject_dashboard_url',
-            kwargs=dict(
-                subject_identifier=obj.subject_visit.appointment.subject_identifier))
+        dashboard_url_name = settings.DASHBOARD_URL_NAMES.get(
+            'subject_dashboard_url')
+        try:
+            url = reverse(
+                dashboard_url_name, kwargs=dict(
+                    subject_identifier=obj.subject_visit.subject_identifier,
+                    appointment=str(obj.subject_visit.appointment.id)))
+        except NoReverseMatch:
+            url = super().view_on_site(obj)
+        return url
