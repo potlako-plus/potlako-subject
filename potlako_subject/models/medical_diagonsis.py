@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
+from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO, YES_NO_UNKNOWN
 
 from ..choices import DATE_ESTIMATION, MEDICAL_CONDITION, TREATMENT_TYPE
@@ -31,6 +32,7 @@ class MedicalConditions(BaseUuidModel):
 
     diagnosis_date = models.DateField(
         verbose_name='When was the patient diagnosed?',
+        validators=[date_not_future],
         max_length=40)
 
     diagnosis_date_estimate = models.CharField(
