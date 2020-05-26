@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.deletion import PROTECT
@@ -14,6 +13,7 @@ from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.constants import NOT_APPLICABLE
 
+from ..choices import CANCER_SUSPECT
 from ..choices import CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION
 from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, NOTES, PAIN_SCORE
 from ..choices import SUSPECTED_CANCER, TRIAGE_STATUS, DATE_ESTIMATION
@@ -47,17 +47,12 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     contact_date = models.DateField(
         verbose_name='Date Potlako+ staff member learnt of the cancer suspect')
 
-    info_from_clinician = models.CharField(
-        verbose_name='Did the team learn of the cancer suspect through a call '
-                     'with the clinician ? ',
-        max_length=3,
-        choices=YES_NO,)
+    cancer_suspect = models.CharField(
+        verbose_name='How did the team learn of the cancer suspect?',
+        max_length=31,
+        choices=CANCER_SUSPECT,)
 
-    info_source_specify = models.CharField(
-        verbose_name='Specify how the team learnt of the cancer suspect',
-        max_length=50,
-        blank=True,
-        null=True)
+    cancer_suspect_other = OtherCharField()
 
     received_training = models.CharField(
         verbose_name='Has the clinician received Potlako+ training',
@@ -299,13 +294,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         verbose_name='Designation of referral clinician patient discussed with',
         help_text='(If designation is not specified or unknown, please write "UNK")',
         max_length=50,
-        blank=True,
-        null=True,)
-
-    referral_fu_date = models.DateField(
-        verbose_name='Date of appointment for return visit to referring '
-                     'facility',
-        validators=[date_is_future, ],
         blank=True,
         null=True,)
 

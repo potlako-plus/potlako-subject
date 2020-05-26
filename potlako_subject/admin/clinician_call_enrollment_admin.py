@@ -37,8 +37,8 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
             'fields': ('reg_date',
                        'report_datetime',
                        'screening_identifier',
-                       'info_from_clinician',
-                       'info_source_specify',
+                       'cancer_suspect',
+                       'cancer_suspect_other',
                        'call_clinician_type',
                        'call_clinician_other',
                        'consented_contact',
@@ -88,14 +88,13 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
         ('Referral Details', {
             'fields': (
                 'referral_reason',
-                'referral_date',
                 'referral_facility',
                 'referral_facility_other',
                 'referral_unit',
                 'referral_unit_other',
                 'referral_discussed',
                 'clinician_designation',
-                'referral_fu_date',)
+                'referral_date',)
         }),
         ('Extra Details', {
             'fields': (
@@ -109,7 +108,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
         audit_fieldset_tuple
     )
 
-    radio_fields = {'info_from_clinician': admin.VERTICAL,
+    radio_fields = {'cancer_suspect': admin.VERTICAL,
                     'call_clinician_type': admin.VERTICAL,
                     'consented_contact': admin.VERTICAL,
                     'received_training': admin.VERTICAL,

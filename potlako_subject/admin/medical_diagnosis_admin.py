@@ -18,6 +18,7 @@ class MedicalConditionsInlineAdmin(TabularInlineMixin, admin.TabularInline):
             'fields': (
                 'medical_condition',
                 'medical_condition_other',
+                'medical_condition_specify',
                 'diagnosis_date',
                 'diagnosis_date_estimate',
                 'diagnosis_date_estimation',

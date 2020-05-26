@@ -77,6 +77,13 @@ CASH_TRANSFER_STATUS = (
     (NOT_APPLICABLE, 'N/A'),
 )
 
+CANCER_SUSPECT = (
+    ('call_with_clinician', 'Phone call with clinician'),
+    ('review_clinic_register', 'Review of clinic register'),
+    ('clinician_site_visit_discussion', 'Site visit discussion with clinician'),
+    (OTHER, 'Other (specify)')
+)
+
 CLINICIAN_TYPE = (
     ('med_officer', 'Medical Officer'),
     ('nurse', 'Nurse'),
@@ -376,6 +383,8 @@ MEDICAL_CONDITION = (
     ('musculoskeletal_disease', 'Muscoloskeletal Disease'),
     ('skin_disease', 'Skin Disease'),
     ('psychiatric_condition', 'Psychiatric Condition'),
+    ('genitourinary_disease', 'Genitourinary Disease'),
+    ('gastroenterological_disease', 'Gastroenterological Disease'),
     (OTHER, 'Other (Specify')
 )
 
@@ -540,8 +549,12 @@ TRANSPORT_TYPE = (
 )
 
 TREATMENT_TYPE = (
-    ('pills', 'Pills'),
+    ('oral', 'Oral medications'),
+    ('suppositories', 'Suppositories'),
     ('injectable', 'Injectable'),
+    ('topical_ointment', 'Topical/Ointment'),
+    ('inhalation', 'Inhalation'),
+    ('drops', 'Drops')
 )
 
 TREATMENT_INTENT = (

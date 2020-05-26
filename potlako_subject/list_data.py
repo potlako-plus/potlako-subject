@@ -37,7 +37,6 @@ list_data = {
         ('weight_loss', 'Weight loss'),
         ('dysphagia', 'Dysphagia'),
         ('dysuria', 'Dysuria'),
-        ('altered_bowel_movement', 'Altered Bowel Movement'),
         ('skin_changes', 'Skin changes'),
         (OTHER, 'Other (specify)')
     ],

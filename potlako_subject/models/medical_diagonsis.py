@@ -15,8 +15,8 @@ class MedicalDiagnosis(CrfModelMixin):
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
-        verbose_name = 'MedicalDiagnosis'
-        verbose_name_plural = 'MedicalDiagnosis'
+        verbose_name = 'Medical Diagnosis'
+        verbose_name_plural = 'Medical Diagnosis'
 
 
 class MedicalConditions(BaseUuidModel):
@@ -26,7 +26,11 @@ class MedicalConditions(BaseUuidModel):
     medical_condition = models.CharField(
         verbose_name='Which serious medical condition(s) does the patient have?',
         choices=MEDICAL_CONDITION,
-        max_length=25)
+        max_length=30)
+
+    medical_condition_specify = models.CharField(
+        verbose_name='Specific condition of the body area that has been affected',
+        max_length=35)
 
     medical_condition_other = OtherCharField()
 
@@ -57,7 +61,7 @@ class MedicalConditions(BaseUuidModel):
         verbose_name=('If the patient is on medication, what treatment are they'
                       'receiving?'),
         choices=TREATMENT_TYPE,
-        max_length=10,
+        max_length=16,
         blank=True,
         null=True)
 
