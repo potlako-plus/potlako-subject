@@ -1,11 +1,13 @@
 from datetime import timedelta
 
+from django import forms
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
+from edc_base.model_validators.date import date_is_future
 from edc_constants.choices import POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO, YES_NO_UNSURE
 from edc_constants.constants import NOT_APPLICABLE
@@ -200,7 +202,9 @@ class PatientCallInitial(CrfModelMixin):
     hiv_test_date_estimated = models.CharField(
         verbose_name='Is the HIV test date estimated?',
         choices=YES_NO,
-        max_length=3)
+        max_length=3,
+        blank=True,
+        null=True)
 
     hiv_test_date_estimation = models.CharField(
         verbose_name='Which part of the date was estimated, if any?',
@@ -248,7 +252,8 @@ class PatientCallInitial(CrfModelMixin):
         null=True)
 
     next_appointment_date = models.DateField(
-        verbose_name='Next appointment date (per patient report)')
+        verbose_name='Next appointment date (per patient report)',
+        validators=[date_is_future])
 
     next_ap_facility = models.CharField(
         verbose_name='Next appointment facility',
@@ -312,9 +317,20 @@ class PatientCallInitial(CrfModelMixin):
 
     def save(self, *args, **kwargs):
         self.call_duration = self.get_call_duration()
-#         age_delta = age(self.dob, get_utcnow())
-#         self.age_in_years = age_delta.years
+        self.update_age()
         super().save(*args, **kwargs)
+
+    def update_age(self):
+        subject_identifier = self.subject_visit.appointment.subject_identifier
+        try:
+            subject_consent = self.subject_consent_cls.get(
+                subject_identifier=subject_identifier)
+        except self.subject_consent_cls.DoesNotExist:
+            raise forms.ValidationError(
+                'Please complete the subject consent form before '
+                'proceeding.')
+        else:
+            self.age = subject_consent.age_in_years
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
@@ -346,3 +362,8 @@ class PreviousFacilityVisit(BaseUuidModel):
         blank=True,
         null=True,
         help_text='specify variable (days, weeks, months, years)')
+
+    class Meta:
+        unique_together = (
+            'patient_call_initial', 'facility_visited',
+            'previous_facility_period')

@@ -28,7 +28,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     patient_residence_change = models.CharField(
         verbose_name=('Has there been any change in patient '
-                      'residence and residence information?'),
+                      'residence and contact information?'),
         choices=YES_NO,
         max_length=3)
 

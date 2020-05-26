@@ -562,6 +562,7 @@ UNEMPLOYED_REASON = (
     ('does_not_want', 'Does not want to work'),
     ('looking', 'Looking for a job'),
     ('too_sick', 'Too sick to work'),
+    ('disabled', 'Disabled'),
     (OTHER, 'Other (specify)'),
 )
 

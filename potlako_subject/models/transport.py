@@ -1,9 +1,11 @@
 from django.db import models
+from edc_action_item.model_mixins import ActionModelMixin
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_is_future
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 
+from ..action_items import TRANSPORT_ACTION
 from ..choices import CASH_TRANSFER_STATUS
 from ..choices import FACILITY, TRANSPORT_TYPE
 from ..choices import VEHICLE_ARR_STATUS, BUS_VOUCHER_STATUS
@@ -11,7 +13,11 @@ from .list_models import Housemate, TransportCriteria
 from .model_mixins import CrfModelMixin
 
 
-class Transport(CrfModelMixin):
+class Transport(ActionModelMixin, CrfModelMixin):
+
+    action_name = TRANSPORT_ACTION
+
+    tracking_identifier_prefix = 'TR'
 
     is_criteria_met = models.CharField(
         verbose_name='Does the patient meet the criteria '

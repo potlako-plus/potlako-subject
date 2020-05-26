@@ -1,12 +1,10 @@
 from datetime import datetime
 
-from django.contrib import messages
+from django.apps import apps as django_apps
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from edc_base.utils import get_utcnow
-import pytz
-
+from edc_action_item.site_action_items import site_action_items
 from edc_appointment.constants import NEW_APPT
 from edc_appointment.creators import AppointmentInProgressError
 from edc_appointment.creators import InvalidParentAppointmentMissingVisitError
@@ -14,12 +12,16 @@ from edc_appointment.creators import InvalidParentAppointmentStatusError
 from edc_appointment.creators import UnscheduledAppointmentCreator
 from edc_appointment.creators import UnscheduledAppointmentError
 from edc_appointment.models import Appointment
+from edc_base.utils import get_utcnow
+from edc_constants.constants import YES, NEW
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
-from potlako_dashboard.patterns import subject_identifier
-
+# from potlako_dashboard.patterns import subject_identifier
+import pytz
+from ..action_items import TRANSPORT_ACTION
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
 from .subject_consent import SubjectConsent
+# from .subject_locator import SubjectLocator
 from .subject_screening import SubjectScreening
 
 
@@ -63,12 +65,12 @@ def patient_call_initial_on_post_save(sender, instance, raw, created, **kwargs):
 
         try:
             appt_obj = Appointment.objects.get(
-                subject_identifier=instance.subject_identifier,
+                subject_identifier=instance.subject_visit.appointment.subject_identifierr,
                 visit_code=instance.subject_visit.visit_code,
                 visit_code_sequence=instance.subject_visit.visit_code_sequence)
         except Appointment.DoesNotExist:
             raise ValidationError(
-                f'Appointment for {instance.subject_identifier},'
+                f'Appointment for {instance.subject_visit.appointment.subject_identifier},'
                 f'visit=instance.subject_visit.visit_code '
                 f'sequence={instance.subject_visit.visit_code_sequence} '
                 'does not exist.')
@@ -76,6 +78,13 @@ def patient_call_initial_on_post_save(sender, instance, raw, created, **kwargs):
             if appt_obj.report_datetime != timepoint_datetime:
                 appt_obj.report_datetime = timepoint_datetime
                 appt_obj.save()
+
+        if self.cleaned_data.get('transport_support') == YES:
+            transport_cls = django_apps.get_model(
+                'potlako_subject.transport')
+            trigger_crf_action_item(transport_cls,
+                                    instance.subject_visit,
+                                    TRANSPORT_ACTION)
 
 
 @receiver(post_save, weak=False, sender=PatientCallFollowUp,
@@ -103,11 +112,11 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
 
         try:
             appt = Appointment.objects.get(
-               appt_datetime=timepoint_datetime,
-               subject_identifier=subject_visit.subject_identifier,
-               visit_schedule_name=subject_visit.visit_schedule.name,
-               schedule_name=subject_visit.schedule.name,
-               visit_code=subject_visit.visit_code)
+                appt_datetime=timepoint_datetime,
+                subject_identifier=subject_visit.subject_identifier,
+                visit_schedule_name=subject_visit.visit_schedule.name,
+                schedule_name=subject_visit.schedule.name,
+                visit_code=subject_visit.visit_code)
         except Appointment.DoesNotExist:
             try:
                 unscheduled_appointment_cls(
@@ -121,3 +130,23 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
             if appt.appt_datetime != timepoint_datetime:
                 appt.appt_datetime = timepoint_datetime
                 appt.save()
+
+
+def trigger_crf_action_item(crf_cls, subject_visit, action_name):
+
+    try:
+        crf_cls.objects.get(subject_visit=subject_visit)
+    except crf_cls.DoesNotExist:
+        action_cls = site_action_items.get(
+            crf_cls.action_name)
+        action_item_model_cls = action_cls.action_item_model_cls()
+
+        try:
+            action_item_model_cls.objects.get(
+                subject_identifier=subject_visit.appointment.subject_identifier,
+                action_type__name=action_name,
+                status=NEW)
+        except action_item_model_cls.DoesNotExist:
+            action_cls = site_action_items.get(action_name)
+            action_cls(
+                subject_identifier=subject_visit.appointment.subject_identifier)
