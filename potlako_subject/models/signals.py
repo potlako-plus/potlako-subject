@@ -13,11 +13,11 @@ from edc_appointment.creators import UnscheduledAppointmentCreator
 from edc_appointment.creators import UnscheduledAppointmentError
 from edc_appointment.models import Appointment
 from edc_base.utils import get_utcnow
-from edc_constants.constants import YES, NEW
+from edc_constants.constants import YES
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 import pytz
 
-from ..action_items import TRANSPORT_ACTION
+from ..action_items import TRANSPORT_ACTION, INVESTIGATIONS_ACTION
 from .clinician_call_followup import ClinicianCallFollowUp
 from .missed_visit import MissedVisit
 from .patient_call_followup import PatientCallFollowUp
@@ -69,6 +69,13 @@ def clinician_call_followup_on_post_save(sender, instance, raw, created, **kwarg
             trigger_crf_action_item(transport_cls,
                                     instance.subject_visit,
                                     TRANSPORT_ACTION)
+
+        if instance.investigation_ordered == YES:
+            investigations_cls = django_apps.get_model(
+                'potlako_subject.investigations')
+            trigger_crf_action_item(investigations_cls,
+                                    instance.subject_visit,
+                                    INVESTIGATIONS_ACTION)
 
 
 @receiver(post_save, weak=False, sender=MissedVisit,
@@ -166,6 +173,20 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
             if appt.appt_datetime != timepoint_datetime:
                 appt.appt_datetime = timepoint_datetime
                 appt.save()
+
+        if instance.transport_support == YES:
+            transport_cls = django_apps.get_model(
+                'potlako_subject.transport')
+            trigger_crf_action_item(transport_cls,
+                                    instance.subject_visit,
+                                    TRANSPORT_ACTION)
+
+        if instance.investigation_ordered == YES:
+            investigations_cls = django_apps.get_model(
+                'potlako_subject.investigations')
+            trigger_crf_action_item(investigations_cls,
+                                    instance.subject_visit,
+                                    INVESTIGATIONS_ACTION)
 
 
 def trigger_crf_action_item(crf_cls, subject_visit, action_name):

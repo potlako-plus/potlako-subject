@@ -3,6 +3,7 @@ from edc_locator.action_items import SubjectLocatorAction as BaseSubjectLocatorA
 
 SUBJECT_LOCATOR_ACTION = 'submit-potlako-subject-locator'
 TRANSPORT_ACTION = 'submit-potlako-transport-form'
+INVESTIGATIONS_ACTION = 'submit-potlako-investigations-form'
 
 
 class PotlakoSubjectLocatorAction(BaseSubjectLocatorAction):
@@ -19,5 +20,13 @@ class PotlakoTransportAction(Action):
     admin_site_name = 'potlako_subject_admin'
 
 
+class PotlakoInvestigationsAction(Action):
+    name = INVESTIGATIONS_ACTION
+    display_name = 'Submit Investigations Form'
+    reference_model = 'potlako_subject.investigations'
+    admin_site_name = 'potlako_subject_admin'
+
+
 site_action_items.register(PotlakoSubjectLocatorAction)
 site_action_items.register(PotlakoTransportAction)
+site_action_items.register(PotlakoInvestigationsAction)

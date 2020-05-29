@@ -1,18 +1,24 @@
 from django.db import models
 from django.db.models.deletion import PROTECT
+from edc_action_item.model_mixins import ActionModelMixin
 from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
+from ..action_items import INVESTIGATIONS_ACTION
 from ..choices import CANCER_STAGES, FACILITY, LAB_TESTS, LAB_TESTS_STATUS
 from ..choices import DATE_ESTIMATION, DIAGNOSIS_RESULTS
 from ..choices import IMAGING_STATUS, IMAGING_TESTS, PATHOLOGY_TEST_TYPE
 from .model_mixins import CrfModelMixin
 
 
-class Investigations(CrfModelMixin):
+class Investigations(ActionModelMixin, CrfModelMixin):
+
+    action_name = INVESTIGATIONS_ACTION
+
+    tracking_identifier_prefix = 'IV'
 
     lab_tests_ordered = models.CharField(
         verbose_name='Were lab tests ordered?',
