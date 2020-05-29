@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from django import forms
+from django.apps import apps as django_apps
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.deletion import PROTECT
@@ -8,6 +9,7 @@ from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
 from edc_base.model_validators.date import date_is_future
+from edc_base.utils import formatted_age
 from edc_constants.choices import POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO, YES_NO_UNSURE
 from edc_constants.constants import NOT_APPLICABLE
@@ -322,15 +324,16 @@ class PatientCallInitial(CrfModelMixin):
 
     def update_age(self):
         subject_identifier = self.subject_visit.appointment.subject_identifier
+        subject_consent_cls = django_apps.get_model('potlako_subject.subjectconsent')
         try:
-            subject_consent = self.subject_consent_cls.get(
+            subject_consent = subject_consent_cls.objects.get(
                 subject_identifier=subject_identifier)
-        except self.subject_consent_cls.DoesNotExist:
+        except subject_consent_cls.DoesNotExist:
             raise forms.ValidationError(
                 'Please complete the subject consent form before '
                 'proceeding.')
         else:
-            self.age = subject_consent.age_in_years
+            self.age = formatted_age(subject_consent.dob)
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
