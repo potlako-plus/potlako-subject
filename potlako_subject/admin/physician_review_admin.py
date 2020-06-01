@@ -16,7 +16,7 @@ class PhysicianReviewAdmin(CrfModelAdminMixin, admin.ModelAdmin):
             'fields': ('subject_visit',
                        'report_datetime',
                        'reviewer_name',
-                       'reviewer_other',
+                       'reviewer_name_other',
                        'physician_summary',
                        'diagnosis_plan',
                        'needs_discussion',

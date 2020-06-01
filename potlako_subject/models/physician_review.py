@@ -15,7 +15,7 @@ class PhysicianReview(CrfModelMixin):
         choices=REVIEWER,
         max_length=5,)
 
-    reviewer_other = OtherCharField(
+    reviewer_name_other = OtherCharField(
         verbose_name='Physician reviewer (other - specify)',
         max_length=25,
         blank=True,
