@@ -4,7 +4,7 @@ from edc_constants.constants import NO
 class Eligibility:
 
     def __init__(self, cancer_status=None, age_in_years=None,
-                 residency=None, nationality=None):
+                 residency=None, nationality=None, consented_contact=None):
         """checks if participant is eligible otherwise
             error message is the reason for eligibility test failed."""
 
@@ -17,5 +17,8 @@ class Eligibility:
             self.reasons_ineligible.append('Not a cancer suspect')
         if age_in_years < 30:
             self.reasons_ineligible.append('Younger than 30 years')
+        if consented_contact == NO:
+            self.reasons_ineligible.append(
+                'Did not consent to being contacted.')
 
         self.is_eligible = False if self.reasons_ineligible else True

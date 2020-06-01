@@ -17,6 +17,7 @@ from ..choices import CANCER_SUSPECT
 from ..choices import CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION
 from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, NOTES, PAIN_SCORE
 from ..choices import SUSPECTED_CANCER, TRIAGE_STATUS, DATE_ESTIMATION
+from ..eligibility import Eligibility
 from ..screening_identifier import ScreeningIdentifier
 from .list_models import Symptoms
 from .validators import datetime_not_now, identity_check
@@ -25,6 +26,7 @@ from .validators import datetime_not_now, identity_check
 class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     identifier_cls = ScreeningIdentifier
+    eligibility_cls = Eligibility
 
     report_datetime = models.DateTimeField(
         verbose_name='Report Time and Date',
@@ -62,7 +64,9 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     call_clinician_type = models.CharField(
         verbose_name='Type of clinician spoken to on the phone',
         choices=CLINICIAN_TYPE,
-        max_length=50,)
+        max_length=50,
+        blank=True,
+        null=True,)
 
     call_clinician_other = models.CharField(
         max_length=50,
@@ -326,6 +330,16 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         blank=True,
         null=True,)
 
+    is_eligible = models.BooleanField(
+        default=False,
+        editable=False)
+
+    ineligibility = models.TextField(
+        verbose_name="Reason not eligible",
+        max_length=150,
+        null=True,
+        editable=False)
+
     class Meta:
         app_label = 'potlako_subject'
         verbose_name = 'Clinician call - Enrollment'
@@ -335,6 +349,13 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         if not self.id:
             self.screening_identifier = self.identifier_cls().identifier
             self.contact_date = self.report_datetime
+
+        eligibility_obj = self.eligibility_cls(
+            age_in_years=self.age_in_years,
+            consented_contact=self.consented_contact)
+        self.is_eligible = eligibility_obj.is_eligible
+        if eligibility_obj.reasons_ineligible:
+            self.ineligibility = eligibility_obj.reasons_ineligible
         super(ClinicianCallEnrollment, self).save(*args, **kwargs)
 
 
