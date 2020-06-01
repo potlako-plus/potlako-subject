@@ -37,7 +37,7 @@ class MissedVisit(CrfModelMixin):
         max_length=10,)
 
     determine_missed = models.CharField(
-        verbose_name='How did the research team know about the miissed visit?',
+        verbose_name='How did the research team know about the missed visit?',
         choices=DETERMINE_MISSED_VISIT,
         max_length=25,)
 
@@ -70,7 +70,7 @@ class MissedVisit(CrfModelMixin):
         choices=REASON_MISSED_VISIT,
         max_length=50,)
 
-    reason_other = OtherCharField(
+    reason_missed_other = OtherCharField(
         verbose_name='If other, describe reason for missed visit',
         max_length=50,
         blank=True,

@@ -27,7 +27,7 @@ class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'determine_missed_other',
                        'inquired_from',
                        'reason_missed',
-                       'reason_other',
+                       'reason_missed_other',
                        'next_appointment',
                        'next_ap_facility',
                        'next_ap_facility_other',
