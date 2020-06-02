@@ -62,7 +62,7 @@ class Transport(ActionModelMixin, CrfModelMixin):
         choices=TRANSPORT_TYPE,
         max_length=50,)
 
-    facility_vehicle_status = models.CharField(
+    vehicle_status = models.CharField(
         verbose_name='Status of facility vehicle arrangement at '
                      'end of transport planning encounter',
         choices=VEHICLE_ARR_STATUS,
@@ -95,7 +95,7 @@ class Transport(ActionModelMixin, CrfModelMixin):
         choices=BUS_VOUCHER_STATUS,
         max_length=50,)
 
-    bus_status_other = OtherCharField(
+    bus_voucher_status_other = OtherCharField(
         verbose_name='If other, describe status of transport arrangement',
         max_length=50,
         blank=True,
@@ -107,7 +107,7 @@ class Transport(ActionModelMixin, CrfModelMixin):
         choices=CASH_TRANSFER_STATUS,
         max_length=50,)
 
-    cash_status_other = OtherCharField(
+    cash_transfer_status_other = OtherCharField(
         verbose_name='If transaction did not go through, specify details',
         max_length=100,
         blank=True,
