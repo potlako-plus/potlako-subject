@@ -1,12 +1,14 @@
 from datetime import datetime
+from django.apps import apps as django_apps
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_is_future
-from edc_constants.choices import YES_NO
-
+from edc_constants.choices import YES_NO, YES
+from ..action_items import TRANSPORT_ACTION, INVESTIGATIONS_ACTION
 from ..choices import DISPOSITION, FACILITY, FACILITY_UNIT
 from ..choices import TRIAGE_STATUS
+from .generate_action_item_mixin import trigger_action_item
 from .model_mixins import CrfModelMixin
 
 
@@ -136,6 +138,18 @@ class ClinicianCallFollowUp(CrfModelMixin):
         verbose_name='Clinician follow-up: end time',
         default=datetime.now,
     )
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        investigations_crf_cls = django_apps.get_model('potlako_prn.deathreport')
+        transport_crf_cls = django_apps.get_model('potlako_prn.transport')
+        trigger_action_item(self, 'investigation_ordered', YES,
+                            investigations_crf_cls, INVESTIGATIONS_ACTION,
+                            self.subject_visit.appointment.subject_identifier)
+
+        trigger_action_item(self, 'transport_support', YES,
+                            transport_crf_cls, TRANSPORT_ACTION,
+                            self.subject_visit.appointment.subject_identifier)
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
