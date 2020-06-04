@@ -13,13 +13,9 @@ from edc_appointment.creators import UnscheduledAppointmentCreator
 from edc_appointment.creators import UnscheduledAppointmentError
 from edc_appointment.models import Appointment
 from edc_base.utils import get_utcnow
-from edc_constants.constants import YES
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 import pytz
 
-from ..action_items import TRANSPORT_ACTION, INVESTIGATIONS_ACTION
-from .clinician_call_followup import ClinicianCallFollowUp
-from .missed_visit import MissedVisit
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
 from .subject_consent import SubjectConsent
@@ -55,45 +51,6 @@ def subject_consent_on_post_save(sender, instance, raw, created, **kwargs):
                 onschedule_datetime=instance.consent_datetime)
 
 
-@receiver(post_save, weak=False, sender=ClinicianCallFollowUp,
-          dispatch_uid='clinician_call_followup_on_post_save')
-def clinician_call_followup_on_post_save(sender, instance, raw, created, **kwargs):
-    """Generate transport form action item.
-    """
-
-    if not raw:
-
-        if instance.transport_support == YES:
-            transport_cls = django_apps.get_model(
-                'potlako_subject.transport')
-            trigger_crf_action_item(transport_cls,
-                                    instance.subject_visit,
-                                    TRANSPORT_ACTION)
-
-        if instance.investigation_ordered == YES:
-            investigations_cls = django_apps.get_model(
-                'potlako_subject.investigations')
-            trigger_crf_action_item(investigations_cls,
-                                    instance.subject_visit,
-                                    INVESTIGATIONS_ACTION)
-
-
-@receiver(post_save, weak=False, sender=MissedVisit,
-          dispatch_uid='missed_visit_on_post_save')
-def missed_visit_on_post_save(sender, instance, raw, created, **kwargs):
-    """Generate transport form action item.
-    """
-
-    if not raw:
-
-        if instance.transport_support == YES:
-            transport_cls = django_apps.get_model(
-                'potlako_subject.transport')
-            trigger_crf_action_item(transport_cls,
-                                    instance.subject_visit,
-                                    TRANSPORT_ACTION)
-
-
 @receiver(post_save, weak=False, sender=PatientCallInitial,
           dispatch_uid='patient_call_initial_on_post_save')
 def patient_call_initial_on_post_save(sender, instance, raw, created, **kwargs):
@@ -121,13 +78,6 @@ def patient_call_initial_on_post_save(sender, instance, raw, created, **kwargs):
             if appt_obj.appt_datetime != timepoint_datetime:
                 appt_obj.appt_datetime = timepoint_datetime
                 appt_obj.save()
-
-        if instance.transport_support == YES:
-            transport_cls = django_apps.get_model(
-                'potlako_subject.transport')
-            trigger_crf_action_item(transport_cls,
-                                    instance.subject_visit,
-                                    TRANSPORT_ACTION)
 
 
 @receiver(post_save, weak=False, sender=PatientCallFollowUp,
@@ -173,36 +123,3 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
             if appt.appt_datetime != timepoint_datetime:
                 appt.appt_datetime = timepoint_datetime
                 appt.save()
-
-        if instance.transport_support == YES:
-            transport_cls = django_apps.get_model(
-                'potlako_subject.transport')
-            trigger_crf_action_item(transport_cls,
-                                    instance.subject_visit,
-                                    TRANSPORT_ACTION)
-
-        if instance.investigation_ordered == YES:
-            investigations_cls = django_apps.get_model(
-                'potlako_subject.investigations')
-            trigger_crf_action_item(investigations_cls,
-                                    instance.subject_visit,
-                                    INVESTIGATIONS_ACTION)
-
-
-def trigger_crf_action_item(crf_cls, subject_visit, action_name):
-
-    try:
-        crf_cls.objects.get(subject_visit=subject_visit)
-    except crf_cls.DoesNotExist:
-        action_cls = site_action_items.get(
-            crf_cls.action_name)
-        action_item_model_cls = action_cls.action_item_model_cls()
-
-        try:
-            action_item_model_cls.objects.get(
-                subject_identifier=subject_visit.appointment.subject_identifier,
-                action_type__name=action_name)
-        except action_item_model_cls.DoesNotExist:
-            action_cls = site_action_items.get(action_name)
-            action_cls(
-                subject_identifier=subject_visit.appointment.subject_identifier)
