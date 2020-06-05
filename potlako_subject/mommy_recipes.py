@@ -13,12 +13,13 @@ fake = Faker()
 cliniciancallenrollment = Recipe(
     ClinicianCallEnrollment,
     cancer_suspect=YES,
-    first_name='JANE',
-    last_name='DOE',
-    initials='JD',
+    first_name=fake.first_name,
+    last_name=fake.last_name,
     gender='F',
     age_in_years=25,
-    national_identity=seq('123425678'),
+    national_identity=seq('123425678', increment_by=1),
+    primary_cell='77654312',
+    secondary_cell='77654312'
 )
 
 subjectscreening = Recipe(
@@ -32,9 +33,9 @@ subjectconsent = Recipe(
     subject_identifier=None,
     consent_datetime=get_utcnow(),
     dob=get_utcnow() - relativedelta(years=25),
-    first_name='JANE',
-    last_name='DOE',
-    initials='JD',
+    first_name=fake.first_name,
+    last_name=fake.last_name,
+    initials='XX',
     gender='F',
     identity=seq('123425678'),
     confirm_identity=seq('123425678'),
@@ -50,7 +51,12 @@ subjectvisit = Recipe(
     survival_status=ALIVE,
     info_source=PARTICIPANT)
 
-patient_call_initial = Recipe(
+patientcallinitial = Recipe(
     PatientCallInitial,
-
+    patient_call_date=get_utcnow().date(),
+    patient_call_time=get_utcnow().time(),
+    age_in_years=25,
+    education_level='secondary',
+    work_status='no',
+    transport_support=YES,
 )
