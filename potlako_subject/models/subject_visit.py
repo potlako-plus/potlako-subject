@@ -1,5 +1,8 @@
 import csv
+
 from django.db import models
+from edc_appointment.models import Appointment
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites import CurrentSiteManager as BaseCurrentSiteManager
 from edc_base.sites.site_model_mixin import SiteModelMixin
@@ -9,7 +12,6 @@ from edc_metadata.model_mixins.creates import CreatesMetadataModelMixin
 from edc_reference.model_mixins import ReferenceModelMixin
 from edc_visit_tracking.managers import VisitModelManager
 from edc_visit_tracking.model_mixins import VisitModelMixin
-from edc_appointment.models import Appointment
 
 from ..choices import VISIT_INFO_SOURCE, VISIT_UNSCHEDULED_REASON, VISIT_REASON
 
@@ -46,7 +48,7 @@ class CurrentSiteManager(VisitModelManager, BaseCurrentSiteManager):
     pass
 
 
-class SubjectVisit(VisitModelMixin, ReferenceModelMixin, CreatesMetadataModelMixin,
+class SubjectVisit(VisitModelMixin, CreatesMetadataModelMixin, ReferenceModelMixin,
                    SiteModelMixin, RequiresConsentFieldsModelMixin, BaseUuidModel):
 
     """A model completed by the user that captures the covering
@@ -77,5 +79,8 @@ class SubjectVisit(VisitModelMixin, ReferenceModelMixin, CreatesMetadataModelMix
 
     objects = VisitModelManager()
 
+    history = HistoricalRecords()
+
     class Meta(VisitModelMixin.Meta):
-        pass
+        app_label = 'potlako_subject'
+        verbose_name = 'Subject Visit'

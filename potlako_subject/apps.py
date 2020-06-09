@@ -20,8 +20,10 @@ if settings.APP_NAME == 'potlako_subject':
     from dateutil.relativedelta import MO, TU, WE, TH, FR, SA, SU
     from edc_appointment.appointment_config import AppointmentConfig
     from edc_appointment.apps import AppConfig as BaseEdcAppointmentAppConfig
+    from edc_metadata.apps import AppConfig as BaseEdcMetadataAppConfig
     from edc_facility.apps import AppConfig as BaseEdcFacilityAppConfig
     from edc_protocol.apps import AppConfig as BaseEdcProtocolAppConfig
+    from edc_visit_tracking.constants import SCHEDULED, UNSCHEDULED, LOST_VISIT
     from edc_visit_tracking.apps import (
         AppConfig as BaseEdcVisitTrackingAppConfig)
 
@@ -47,6 +49,18 @@ if settings.APP_NAME == 'potlako_subject':
                 model='edc_appointment.appointment',
                 related_visit_model='potlako_subject.subjectvisit')
         ]
+
+    class EdcMetadataAppConfig(BaseEdcMetadataAppConfig):
+
+        reason_field = {'potlako_subject.subjectvisit': 'reason'}
+        other_visit_reasons = [
+            'off study', 'deferred', 'lost_to_follow_up', 'Death',
+            'missed_quarterly_visit']
+        other_create_visit_reasons = [
+            'initial_visit/contact', 'quarterly_visit/contact',
+            'unscheduled_visit/contact']
+        create_on_reasons = [SCHEDULED, UNSCHEDULED] + other_create_visit_reasons
+        delete_on_reasons = [LOST_VISIT] + other_visit_reasons
 
     class EdcFacilityAppConfig(BaseEdcFacilityAppConfig):
         country = 'botswana'
