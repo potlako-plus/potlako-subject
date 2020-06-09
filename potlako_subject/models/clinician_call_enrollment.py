@@ -159,14 +159,14 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     primary_cell = EncryptedCharField(
         verbose_name='Patient phone number 1 (Primary)',
         max_length=8,
-        validators=[CellNumber, ])
+        validators=[CellNumber, ],
+        blank=False,
+        null=False)
 
     secondary_cell = EncryptedCharField(
         verbose_name='Patient phone number 2 (Secondary)',
         max_length=8,
-        validators=[CellNumber, ],
-        blank=False,
-        null=False)
+        validators=[CellNumber, ])
 
     kin_details_provided = models.CharField(
         verbose_name='Did the patient give details of next of kin?',
