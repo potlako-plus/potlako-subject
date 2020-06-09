@@ -1,10 +1,7 @@
 from datetime import datetime
-
-from django.apps import apps as django_apps
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from edc_action_item.site_action_items import site_action_items
 from edc_appointment.constants import NEW_APPT
 from edc_appointment.creators import AppointmentInProgressError
 from edc_appointment.creators import InvalidParentAppointmentMissingVisitError
