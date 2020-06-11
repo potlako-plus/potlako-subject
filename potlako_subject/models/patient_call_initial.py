@@ -45,9 +45,7 @@ class PatientCallInitial(CrfModelMixin):
 
     patient_kgotla = models.CharField(
         verbose_name='What is the name of the ward where the patient resides?',
-        max_length=30,
-        blank=True,
-        null=True)
+        max_length=30)
 
     primary_clinic = models.CharField(
         verbose_name=('Nearest primary clinic or health post '
