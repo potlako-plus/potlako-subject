@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django_revision.modeladmin_mixin import ModelAdminRevisionMixin
 from edc_base.sites.admin import ModelAdminSiteMixin
+from edc_metadata import NextFormGetter
 from edc_model_admin import (
     ModelAdminNextUrlRedirectMixin, ModelAdminFormInstructionsMixin,
     ModelAdminFormAutoNumberMixin, ModelAdminAuditFieldsMixin,
@@ -8,8 +9,6 @@ from edc_model_admin import (
     ModelAdminRedirectOnDeleteMixin)
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fields, audit_fieldset_tuple)
-
-from edc_metadata import NextFormGetter
 
 from ..admin_site import potlako_subject_admin
 from ..forms import SubjectScreeningForm
@@ -58,4 +57,5 @@ class SubjectScreeningAdmin(
         'enrollment_site': admin.VERTICAL, }
 
     def get_readonly_fields(self, request, obj=None):
-        return (super().get_readonly_fields(request, obj=obj) + audit_fields)
+        return (super().get_readonly_fields(request, obj=obj) + audit_fields +
+                ('age_in_years',))

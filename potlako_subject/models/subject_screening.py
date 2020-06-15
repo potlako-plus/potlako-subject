@@ -101,6 +101,7 @@ class SubjectScreening(
             return enrollment_obj.age_in_years
 
     def save(self, *args, **kwargs):
+        self.age_in_years = self.get_age()
         eligibility_obj = self.eligibility_cls(
             cancer_status=self.has_diagnosis,
             age_in_years=self.age_in_years,
