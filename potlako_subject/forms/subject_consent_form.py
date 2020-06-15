@@ -1,9 +1,9 @@
 from django import forms
 from django.conf import settings
 from edc_base.sites import SiteModelFormMixin
+from edc_consent.modelform_mixins import ConsentModelFormMixin
 from edc_form_validators import FormValidatorMixin
 
-from edc_consent.modelform_mixins import ConsentModelFormMixin
 from potlako_validations.form_validators import SubjectConsentFormValidator
 
 from ..models import SubjectConsent
@@ -26,7 +26,6 @@ class SubjectConsentForm(
 
     def clean(self):
         self.cleaned_data['study_site'] = settings.DEFAULT_STUDY_SITE
-        self.cleaned_data['version'] = '1'
         super().clean()
 
     class Meta:
