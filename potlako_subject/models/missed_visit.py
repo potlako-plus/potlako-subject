@@ -53,7 +53,7 @@ class MissedVisit(CrfModelMixin):
     not_inquired_reason = models.CharField(
         verbose_name='If no above, what was the reason?',
         choices=DETERMINE_MISSED_VISIT,
-        max_length=50,
+        max_length=25,
         blank=True,
         null=True)
 
@@ -63,14 +63,14 @@ class MissedVisit(CrfModelMixin):
     inquired_from = models.CharField(
         verbose_name='Who was the phone call to?',
         choices=PEOPLE_INQUIRED_FROM,
-        max_length=100,
+        max_length=20,
         blank=True,
         null=True)
 
     reason_missed = models.CharField(
         verbose_name='Reason for missed visit',
         choices=REASON_MISSED_VISIT,
-        max_length=50,)
+        max_length=30,)
 
     reason_missed_other = OtherCharField(
         verbose_name='If other, describe reason for missed visit',
