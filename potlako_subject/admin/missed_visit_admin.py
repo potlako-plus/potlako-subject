@@ -45,6 +45,7 @@ class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'visit_type': admin.VERTICAL,
                     'determine_missed': admin.VERTICAL,
                     'inquired': admin.VERTICAL,
+                    'not_inquired_reason': admin.VERTICAL,
                     'inquired_from': admin.VERTICAL,
                     'reason_missed': admin.VERTICAL,
                     'next_ap_facility': admin.VERTICAL,

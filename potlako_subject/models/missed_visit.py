@@ -53,7 +53,9 @@ class MissedVisit(CrfModelMixin):
     not_inquired_reason = models.CharField(
         verbose_name='If no above, what was the reason?',
         choices=DETERMINE_MISSED_VISIT,
-        max_length=50,)
+        max_length=50,
+        blank=True,
+        null=True)
 
     not_inquired_reason_other = OtherCharField(
         max_length=50)
@@ -103,14 +105,14 @@ class MissedVisit(CrfModelMixin):
     transport_need = models.CharField(
         verbose_name='Has patient expressed need for transportation?',
         choices=YES_NO,
-        max_length=3)
+        max_length=3,
+        blank=True,
+        null=True)
 
     transport_support = models.CharField(
         verbose_name='Is the patient already receiving transport support?',
         choices=YES_NO,
-        max_length=3,
-        blank=True,
-        null=True,)
+        max_length=3,)
 
     clinician_designation = models.CharField(
         verbose_name=('What is the designation of the clinician that research '
