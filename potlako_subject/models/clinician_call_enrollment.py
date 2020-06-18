@@ -15,11 +15,11 @@ from edc_constants.constants import NOT_APPLICABLE
 
 from ..choices import CANCER_SUSPECT
 from ..choices import CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION
-from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, NOTES, PAIN_SCORE
+from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, PAIN_SCORE
 from ..choices import SUSPECTED_CANCER, TRIAGE_STATUS, DATE_ESTIMATION
 from ..eligibility import Eligibility
 from ..screening_identifier import ScreeningIdentifier
-from .list_models import Symptoms
+from .list_models import Symptoms, InvestigationNotes
 from .validators import datetime_not_now, identity_check
 
 
@@ -240,12 +240,10 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         choices=SCALE,
         validators=[MaxValueValidator(5), MinValueValidator(0)],)
 
-    pain_score = models.IntegerField(
-        default=0,
+    pain_score = models.CharField(
+        default='0_no_pain',
         choices=PAIN_SCORE,
-        validators=[MaxValueValidator(5), MinValueValidator(1)],
-        help_text='(confirm with clinician that this is out of total '
-                  'score of 5)',)
+        max_length=15)
 
     last_hiv_result = models.CharField(
         verbose_name='What was the patient\'s last HIV result?',
@@ -312,11 +310,10 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         choices=YES_NO,
         max_length=3,)
 
-    investigation_notes = models.CharField(
+    investigation_notes = models.ManyToManyField(
+        InvestigationNotes,
         verbose_name='Notes on investigations ordered - continue to Labs '
                      'only after tests have been done',
-        max_length=15,
-        choices=NOTES,
         default=NOT_APPLICABLE,
         help_text='(COMPLETE \'INVESTIGATIONS FORM\' AFTER TESTS HAVE BEEN '
                   'COMPLETED)')

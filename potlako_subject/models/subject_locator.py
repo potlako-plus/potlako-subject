@@ -1,3 +1,5 @@
+from potlako_subject.action_items import SUBJECT_LOCATOR_ACTION
+
 from django.contrib.sites.models import Site
 from django.db import models
 from django.utils import timezone
@@ -8,11 +10,9 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import TelephoneNumber
 from edc_base.model_validators.phone import CellNumber
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
-from edc_constants.choices import YES_NO
-
 from edc_consent.model_mixins import RequiresConsentFieldsModelMixin
+from edc_constants.choices import YES_NO
 from edc_locator.model_mixins import LocatorModelMixin, LocatorManager
-from potlako_subject.action_items import SUBJECT_LOCATOR_ACTION
 
 
 class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
@@ -31,8 +31,7 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
 
     date_signed = models.DateField(
         verbose_name="Date Locator Form signed ",
-        default=timezone.now,
-        help_text="",
+        default=timezone.now
     )
 
     local_clinic = models.CharField(
@@ -44,7 +43,6 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
     home_village = models.CharField(
         verbose_name=("Where is your home village?"),
         max_length=75,
-        help_text="",
     )
 
     has_alt_contact = models.CharField(
@@ -53,7 +51,6 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
         verbose_name=("If we are unable to contact the person indicated above,"
                       " is there another individual (including next of kin) "
                       "with whom the study team can get in contact with?"),
-        help_text="",
     )
 
     alt_contact_name = EncryptedCharField(
@@ -69,13 +66,11 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
         verbose_name="Relationship to participant",
         blank=True,
         null=True,
-        help_text="",
     )
     alt_contact_cell = EncryptedCharField(
         max_length=8,
         verbose_name="Cell number",
         validators=[CellNumber, ],
-        help_text="",
         blank=True,
         null=True,
     )
@@ -84,7 +79,6 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
         max_length=8,
         verbose_name="Cell number (alternate)",
         validators=[CellNumber, ],
-        help_text="",
         blank=True,
         null=True,
     )
@@ -93,7 +87,6 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
         max_length=8,
         verbose_name="Telephone number",
         validators=[TelephoneNumber, ],
-        help_text="",
         blank=True,
         null=True,
     )

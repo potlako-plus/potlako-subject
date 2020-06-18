@@ -1,4 +1,4 @@
-from edc_constants.constants import OTHER
+from edc_constants.constants import OTHER, NOT_APPLICABLE
 from edc_list_data import PreloadData
 
 list_data = {
@@ -20,6 +20,18 @@ list_data = {
         ('confirm_appointment_date', 'Confirm appointment date'),
         ('arrange_transportation', 'Arrange transportation'),
         (OTHER, 'Other')
+    ],
+    'potlako_subject.investigationnotes': [
+        ('LFTs', 'LFTs'),
+        ('U&Es', 'U&Es'),
+        ('ESR', 'ESR'),
+        ('FBC', 'FBC'),
+        ('CXR', 'CXR'),
+        ('USS', 'USS'),
+        ('U/A', 'U/A'),
+        ('microscopy', 'Microscopy'),
+        (NOT_APPLICABLE, 'Not applicable'),
+        (OTHER, 'Other (specify)'),
     ],
     'potlako_subject.patientresidence': [
         ('alone', 'Alone'),

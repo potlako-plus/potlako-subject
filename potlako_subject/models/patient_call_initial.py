@@ -180,11 +180,11 @@ class PatientCallInitial(CrfModelMixin):
         validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
 
-    pain_score = models.IntegerField(
+    pain_score = models.CharField(
         verbose_name='Patient pain score',
-        choices=PAIN_SCORE,
-        validators=[MinValueValidator(0), MaxValueValidator(5)]
-    )
+        default='0_no_pain',
+        max_length=15,
+        choices=PAIN_SCORE)
 
     hiv_status = models.CharField(
         verbose_name=('What is patient\'s current HIV status?'),

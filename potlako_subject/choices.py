@@ -399,19 +399,6 @@ NON_CANCER_DIAGNOSIS = (
     (OTHER, 'Other'),
 )
 
-NOTES = (
-    ('LFTs', 'LFTs'),
-    ('U&Es', 'U&Es'),
-    ('ESR', 'ESR'),
-    ('FBC', 'FBC'),
-    ('CXR', 'CXR'),
-    ('USS', 'USS'),
-    ('U/A', 'U/A'),
-    ('microscopy', 'Microscopy'),
-    (NOT_APPLICABLE, 'Not applicable'),
-    (OTHER, 'Other (specify)'),
-)
-
 PATIENT_FACTOR = (
     ('patient_work_obligations', 'Patient work obligations (formal '
      'and informal work, including lands and cattle post)'),
@@ -449,11 +436,10 @@ PATHOLOGY_TEST_TYPE = (
 )
 
 PAIN_SCORE = (
-    (1, '1'),
-    (2, '2'),
-    (3, '3'),
-    (4, '4'),
-    (5, '5')
+    ('0_no_pain', '0-No pain'),
+    ('1_3_mild', '1-3 mild pain'),
+    ('4_6_moderate', '4-6 moderate pain'),
+    ('7_10_severe', '7-10 severe pain'),
 )
 
 REASON_FOR_EXIT = (

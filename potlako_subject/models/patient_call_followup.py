@@ -45,12 +45,11 @@ class PatientCallFollowUp(CrfModelMixin):
         validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
 
-    pain_score = models.IntegerField(
+    pain_score = models.CharField(
         verbose_name='Patient pain score',
-        default=0,
-        choices=PAIN_SCORE,
-        validators=[MinValueValidator(0), MaxValueValidator(5)]
-    )
+        default='0_no_pain',
+        max_length=15,
+        choices=PAIN_SCORE)
 
     new_complaints = models.CharField(
         verbose_name=('Does the patient have any new complaints?'),

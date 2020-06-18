@@ -13,6 +13,10 @@ class Housemate(ListModelMixin, BaseUuidModel):
     pass
 
 
+class InvestigationNotes(ListModelMixin, BaseUuidModel):
+    pass
+
+
 class PatientResidence(ListModelMixin, BaseUuidModel):
     pass
 

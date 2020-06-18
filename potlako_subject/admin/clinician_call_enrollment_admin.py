@@ -132,7 +132,6 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'triage_status': admin.VERTICAL,
                     'investigated': admin.VERTICAL,
                     'paper_register': admin.VERTICAL,
-                    'investigation_notes': admin.VERTICAL,
                     }
 
     readonly_fields = ('screening_identifier',)
