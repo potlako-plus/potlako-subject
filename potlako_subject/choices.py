@@ -1,5 +1,5 @@
 from edc_constants.constants import (
-    ALIVE, DEAD, OTHER, OFF_STUDY, UNKNOWN, NOT_APPLICABLE, NONE)
+    ALIVE, DEAD, OTHER, OFF_STUDY, UNKNOWN, NOT_APPLICABLE, NONE, YES, NO)
 
 from .constants import UNSURE
 
@@ -627,4 +627,10 @@ WORK_TYPE = (
     ('self_employed', 'Self Employed'),
     ('retired', 'Retired'),
     (OTHER, 'Other,specify')
+)
+
+YES_NO_DW = (
+    (YES, YES),
+    (NO, NO),
+    ('doesnt_work', 'Does not work')
 )

@@ -130,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-DATE_INPUT_FORMATS = ['%d-%b-%Y']
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
 
 TIME_ZONE = 'Africa/Gaborone'
 
@@ -150,6 +150,7 @@ DASHBOARD_URL_NAMES = {
 }
 
 HOLIDAY_FILE = os.path.join(BASE_DIR, 'holidays.csv')
+CELLPHONE_REGEX = '^[7]{1}[12345678]{1}[0-9]{6}$|^[2-8]{1}[0-9]{6}$'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

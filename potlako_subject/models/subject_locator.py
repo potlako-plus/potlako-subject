@@ -3,6 +3,7 @@ from potlako_subject.action_items import SUBJECT_LOCATOR_ACTION
 from django.contrib.sites.models import Site
 from django.db import models
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django_crypto_fields.fields import EncryptedCharField
 from edc_action_item.model_mixins import ActionModelMixin
 from edc_base.model_managers import HistoricalRecords
@@ -13,6 +14,7 @@ from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_consent.model_mixins import RequiresConsentFieldsModelMixin
 from edc_constants.choices import YES_NO
 from edc_locator.model_mixins import LocatorModelMixin, LocatorManager
+from ..choices import YES_NO_DW
 
 
 class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
@@ -90,6 +92,14 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
         blank=True,
         null=True,
     )
+
+    may_call_work = models.CharField(
+        max_length=25,
+        choices=YES_NO_DW,
+        verbose_name=mark_safe(
+            'Has the participant given permission to contacted <b>at work</b> '
+            'by telephone or cell by study staff for follow-up purposes '
+            'during the study?'))
 
     history = HistoricalRecords()
 
