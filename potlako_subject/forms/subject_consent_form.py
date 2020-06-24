@@ -26,6 +26,7 @@ class SubjectConsentForm(
 
     def clean(self):
         self.cleaned_data['study_site'] = settings.DEFAULT_STUDY_SITE
+        self.cleaned_data['report_datetime'] = self.cleaned_data.get('consent_datetime')
         super().clean()
 
     class Meta:
