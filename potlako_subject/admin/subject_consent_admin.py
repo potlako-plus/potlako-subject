@@ -72,7 +72,8 @@ class SubjectConsentAdmin(ModelAdminBasicMixin, ModelAdminMixin,
             'fields': (
                 'consent_reviewed',
                 'study_questions',
-                'assessment_score'),
+                'assessment_score',
+                'verbal_script'),
             'description': (
                 'The following questions are directed to the interviewer.')}),
         audit_fieldset_tuple)
@@ -85,7 +86,8 @@ class SubjectConsentAdmin(ModelAdminBasicMixin, ModelAdminMixin,
         'identity_type': admin.VERTICAL,
         'is_dob_estimated': admin.VERTICAL,
         'language': admin.VERTICAL,
-        'study_questions': admin.VERTICAL}
+        'study_questions': admin.VERTICAL,
+        'verbal_script': admin.VERTICAL}
 
     list_display = ('subject_identifier',
                     'is_verified',

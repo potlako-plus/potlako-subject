@@ -3,7 +3,7 @@ from django.db import models
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites import CurrentSiteManager
 from edc_base.sites.site_model_mixin import SiteModelMixin
-from edc_constants.choices import YES_NO
+from edc_constants.choices import YES_NO, YES_NO_NA
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierModelMixin
 from edc_identifier.subject_identifier import SubjectIdentifier
 from edc_registration.model_mixins import (
@@ -86,6 +86,15 @@ class SubjectConsent(
         max_length=3,
         choices=YES_NO,
         validators=[eligible_if_yes, ],
+        null=True,
+        blank=False,
+        help_text='If no, participant is not eligible.')
+
+    verbal_script = models.CharField(
+        verbose_name=('I have documented participant\'s details on the verbal '
+                      'script, and signed electronically'),
+        max_length=15,
+        choices=YES_NO_NA,
         null=True,
         blank=False,
         help_text='If no, participant is not eligible.')
