@@ -144,7 +144,6 @@ DISTRICT = (
     ('lentsweletau', 'Lentsweletau'),
     ('lerala', 'Lerala'),
     ('letlhakeng', 'Letlhakeng'),
-    ('mandunyane', 'Mandunyane'),
     ('mathangwane', 'Mathangwane'),
     ('maunatlala', 'Maunatlala'),
     ('masunga', 'Masunga'),
@@ -160,6 +159,8 @@ DISTRICT = (
     ('ramokgonami', 'Ramokgonami'),
     ('sefhophe', 'Sefhophe'),
     ('tati_siding', 'Tati Siding'),
+    ('shoshong', 'Shoshong'),
+    (OTHER, 'Other (specify)'),
 )
 
 DURATION = (
@@ -436,7 +437,7 @@ PATHOLOGY_TEST_TYPE = (
 )
 
 PAIN_SCORE = (
-    ('0_no_pain', '0-No pain'),
+    ('0_no_pain', '0-10; 0-no pain'),
     ('1_3_mild', '1-3 mild pain'),
     ('4_6_moderate', '4-6 moderate pain'),
     ('7_10_severe', '7-10 severe pain'),
