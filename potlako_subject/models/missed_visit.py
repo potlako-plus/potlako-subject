@@ -3,7 +3,7 @@ from django.utils import timezone
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_not_future, date_is_future
 from edc_base.model_validators import datetime_not_future
-from edc_constants.choices import YES_NO
+from edc_constants.choices import YES_NO, YES_NO_NA
 
 from ..choices import (FACILITY, VISIT_TYPE, DETERMINE_MISSED_VISIT,
                        PEOPLE_INQUIRED_FROM, REASON_MISSED_VISIT, CLINICIAN_TYPE)
@@ -78,7 +78,7 @@ class MissedVisit(CrfModelMixin):
         blank=True,
         null=True,)
 
-    next_appointment = models.DateField(
+    next_appointment_date = models.DateField(
         verbose_name='Date of next appointment',
         default=timezone.now,
         validators=[date_is_future, ],)
@@ -105,14 +105,18 @@ class MissedVisit(CrfModelMixin):
     transport_need = models.CharField(
         verbose_name='Has patient expressed need for transportation?',
         choices=YES_NO,
-        max_length=3,
-        blank=True,
-        null=True)
+        max_length=3)
 
     transport_support = models.CharField(
         verbose_name='Is the patient already receiving transport support?',
-        choices=YES_NO,
+        choices=YES_NO_NA,
         max_length=3,)
+
+    trans_support_comments = models.TextField(
+        verbose_name='If no above, please explain.',
+        max_length=150,
+        blank=True,
+        null=True)
 
     clinician_designation = models.CharField(
         verbose_name=('What is the designation of the clinician that research '
