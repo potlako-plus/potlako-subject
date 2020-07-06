@@ -19,7 +19,7 @@ from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
 from ..choices import DURATION, FACILITY_UNIT, SEVERITY_LEVEL, DISTRICT
 from ..choices import PAIN_SCORE, SCALE, EDUCATION_LEVEL, WORK_TYPE
 from ..choices import UNEMPLOYED_REASON
-from .list_models import CallAchievements, TestType, PatientResidence
+from .list_models import CallAchievements, PatientResidence
 from .model_mixins import CrfModelMixin
 
 
@@ -92,7 +92,7 @@ class PatientCallInitial(CrfModelMixin):
         max_length=30,
         default=NOT_APPLICABLE)
 
-    social_welfare = models.CharField(
+    medical_conditions = models.CharField(
         verbose_name='Does the patient have any other medical conditions?',
         choices=YES_NO,
         max_length=3)

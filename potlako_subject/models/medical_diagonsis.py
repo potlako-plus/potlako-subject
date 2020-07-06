@@ -16,7 +16,7 @@ class MedicalDiagnosis(CrfModelMixin):
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Medical Diagnosis'
-        verbose_name_plural = 'Medical Diagnosis'
+        verbose_name_plural = 'Medical Diagnoses'
 
 
 class MedicalConditions(BaseUuidModel):
