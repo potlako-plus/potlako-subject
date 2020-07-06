@@ -40,8 +40,10 @@ class PatientCallInitial(CrfModelMixin):
         verbose_name='where does the patient currently live?',
         choices=DISTRICT,
         max_length=50,
-        blank=True,
+        blank=False,
         null=True)
+
+    residential_district_other = OtherCharField()
 
     patient_kgotla = models.CharField(
         verbose_name='What is the name of the ward where the patient resides?',
@@ -51,16 +53,15 @@ class PatientCallInitial(CrfModelMixin):
         verbose_name=('Nearest primary clinic or health post '
                       'to where patient resides'),
         choices=FACILITY,
-        max_length=40,
-        blank=True,
-        null=True)
+        max_length=40)
 
     primary_clinic_other = OtherCharField()
 
     education_level = models.CharField(
         verbose_name='What is your highest level of education',
         max_length=15,
-        choices=EDUCATION_LEVEL)
+        choices=EDUCATION_LEVEL,
+        blank=True)
 
     work_status = models.CharField(
         verbose_name='Is the patient currently working?',
@@ -104,15 +105,9 @@ class PatientCallInitial(CrfModelMixin):
 
     patient_residence_other = OtherCharField()
 
-    patient_contact_change = models.CharField(
-        verbose_name=('Any changes to be made to patient contact '
-                      ' information (patient phone) since index visit?'),
-        choices=YES_NO,
-        max_length=3)
-
-    patient_residence_change = models.CharField(
-        verbose_name=('Any changes to be made to patient residence '
-                      'information since index visit?'),
+    patient_info_change = models.CharField(
+        verbose_name=('Any changes to be made to participant residence and '
+                      'contact information since index visit?'),
         choices=YES_NO,
         max_length=3)
 
@@ -238,18 +233,6 @@ class PatientCallInitial(CrfModelMixin):
                       'done at or since enrollment visit?'),
         choices=YES_NO_UNSURE,
         max_length=8)
-
-    tests_type = models.ManyToManyField(
-        TestType,
-        verbose_name=('If yes, type of test'),
-        max_length=15,
-        blank=True)
-
-    tests_type_other = OtherCharField(
-        verbose_name='If other, specify and describe if possible',
-        max_length=15,
-        blank=True,
-        null=True)
 
     next_appointment_date = models.DateField(
         verbose_name='Next appointment date (per patient report)',

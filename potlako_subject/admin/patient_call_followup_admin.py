@@ -57,8 +57,10 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'next_ap_facility',
                        'next_ap_facility_other',
                        'transport_support_received',
-                       'sms_received',
                        'transport_details',
+                       'sms_received',
+                       'sms_outcome',
+                       'sms_outcome_other',
                        'clinician_communication_issues',
                        'clinician_issues_details',
                        'communication_issues',
@@ -66,6 +68,7 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'other_issues',
                        'other_issues_details',
                        'call_achievements',
+                       'call_achievements_other',
                        'medical_evaluation_understanding',
                        'next_step_understanding',
                        'additional_comments',
@@ -93,7 +96,8 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'communication_issues': admin.VERTICAL,
                     'other_issues': admin.VERTICAL,
                     'medical_evaluation_understanding': admin.VERTICAL,
-                    'sms_received': admin.VERTICAL
+                    'sms_received': admin.VERTICAL,
+                    'sms_outcome': admin.VERTICAL,
                     }
 
     filter_horizontal = ('call_achievements',)

@@ -38,6 +38,8 @@ list_data = {
         ('spouse', 'Spouse'),
         ('parents', 'Parents'),
         ('siblings', 'Siblings'),
+        ('children', 'Children'),
+        ('live_in_partner', 'Live-in partner'),
         (OTHER, 'Other (specify)')
     ],
     'potlako_subject.symptoms': [
@@ -51,14 +53,6 @@ list_data = {
         ('dysuria', 'Dysuria'),
         ('skin_changes', 'Skin changes'),
         (OTHER, 'Other (specify)')
-    ],
-    'potlako_subject.testtype': [
-        ('blood_test', 'Blood test'),
-        ('biopsy', 'Biopsy (specify body part)'),
-        ('chest_xray', 'Chest X-Ray'),
-        ('ultrasound', 'Ultrasound'),
-        ('ct', 'CT'),
-        (OTHER, 'Other')
     ],
     'potlako_subject.transportcriteria': [
         ('social_welfare_assistance', 'On social welfare assistance'),

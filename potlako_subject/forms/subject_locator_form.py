@@ -13,16 +13,42 @@ class SubjectLocatorFormValidator(BaseSubjectLocatorFormValidator):
         self.required_if(
             YES, field='may_contact_indirectly',
             field_required='indirect_contact_name')
-
         self.required_if(
             YES, field='may_contact_indirectly',
             field_required='indirect_contact_relation')
-
-        for field in ['indirect_contact_cell', 'indirect_contact_cell_alt',
-                      'indirect_contact_phone']:
+        self.required_if(
+            YES, field='may_contact_indirectly',
+            field_required='indirect_contact_cell')
+        for field in ['indirect_contact_cell_alt', 'indirect_contact_phone']:
             self.not_required_if(
                 NO, field='may_contact_indirectly', field_required=field,
                 inverse=False)
+
+    def clean(self):
+        super().clean()
+        for field in ['mail_address', 'physical_address']:
+            self.required_if(
+                YES, field='may_visit_home',
+                field_required=field)
+
+        for field in ['alt_contact_name', 'alt_contact_rel', 'alt_contact_cell']:
+            self.required_if(
+                YES, field='has_alt_contact',
+                field_required=field)
+
+        for field in ['other_alt_contact_cell', 'alt_contact_tel']:
+            self.not_required_if(
+                NO, field='has_alt_contact', field_required=field,
+                inverse=False)
+
+        self.required_if(
+            YES, field='may_call',
+            field_required='subject_cell')
+
+        self.not_required_if(
+            NO, field='may_contact_indirectly',
+            field_required='has_alt_contact',
+            not_required_msg='This person should be the next of kin above.')
 
 
 class SubjectLocatorForm(FormValidatorMixin, forms.ModelForm):

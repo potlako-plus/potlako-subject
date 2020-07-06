@@ -36,6 +36,7 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'patient_call_time',
                        'age_in_years',
                        'residential_district',
+                       'residential_district_other',
                        'patient_kgotla',
                        'primary_clinic',
                        'primary_clinic_other',
@@ -48,8 +49,7 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'social_welfare',
                        'patient_residence',
                        'patient_residence_other',
-                       'patient_residence_change',
-                       'patient_contact_change',
+                       'patient_info_change',
                        'nok_change',
                        'patient_symptoms',
                        'patient_symptoms_date',
@@ -70,8 +70,6 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'enrollment_visit_method_other',
                        'slh_travel',
                        'tests_ordered',
-                       'tests_type',
-                       'tests_type_other',
                        'next_appointment_date',
                        'next_ap_facility',
                        'next_ap_facility_other',
@@ -96,8 +94,7 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'work_type': admin.VERTICAL,
                     'unemployed_reason': admin.VERTICAL,
                     'social_welfare': admin.VERTICAL,
-                    'patient_residence_change': admin.VERTICAL,
-                    'patient_contact_change': admin.VERTICAL,
+                    'patient_info_change': admin.VERTICAL,
                     'patient_symptoms_date_estimated': admin.VERTICAL,
                     'patient_symptoms_date_estimation': admin.VERTICAL,
                     'symptoms_duration': admin.VERTICAL,
@@ -118,7 +115,6 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     }
 
     filter_horizontal = ('call_achievements',
-                         'tests_type',
                          'patient_residence')
 
     readonly_fields = ('call_duration',)

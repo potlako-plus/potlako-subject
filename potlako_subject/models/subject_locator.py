@@ -8,6 +8,7 @@ from django_crypto_fields.fields import EncryptedCharField
 from edc_action_item.model_mixins import ActionModelMixin
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
+from edc_base.model_validators import date_not_future
 from edc_base.model_validators import TelephoneNumber
 from edc_base.model_validators.phone import CellNumber
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
@@ -33,7 +34,8 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
 
     date_signed = models.DateField(
         verbose_name="Date Locator Form signed ",
-        default=timezone.now
+        default=timezone.now,
+        validators=[date_not_future, ],
     )
 
     local_clinic = models.CharField(
