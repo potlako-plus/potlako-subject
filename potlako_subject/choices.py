@@ -512,6 +512,7 @@ SMS_OUTCOME = (
      'confirmed'),
     ('kin2_sent_sms_not_received',
      'SMS sent to next of kin 2 and receipt NOT confirmed'),
+    (OTHER, 'Other, specify'),
 )
 
 SUSPECTED_CANCER = (
@@ -634,4 +635,16 @@ YES_NO_DW = (
     (YES, YES),
     (NO, NO),
     ('doesnt_work', 'Does not work')
+)
+
+YES_NO_AOTS = (
+    (YES, YES),
+    (NO, NO),
+    ('already_on_transport_support', 'Already on transport support'),
+)
+
+TESTS_ORDERED = (
+    ('ordered', 'Yes, ordered'),
+    ('resulted', 'Yes, resulted'),
+    (UNSURE, 'No, unsure'),
 )

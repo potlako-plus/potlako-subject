@@ -10,8 +10,8 @@ from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
-from ..choices import DATE_ESTIMATION, APPT_CHANGE_REASON
-from ..choices import DISPOSITION, FACILITY, SCALE, PAIN_SCORE
+from ..choices import DATE_ESTIMATION, APPT_CHANGE_REASON, YES_NO_AOTS, SMS_OUTCOME
+from ..choices import DISPOSITION, FACILITY, SCALE, PAIN_SCORE, TESTS_ORDERED
 from .list_models import CallAchievements
 from .model_mixins import CrfModelMixin
 
@@ -74,16 +74,19 @@ class PatientCallFollowUp(CrfModelMixin):
     facility_visited_count = models.IntegerField(
         verbose_name='How many facilities were visited?',
         default=0,
-        validators=[MinValueValidator(0)])
+        validators=[MinValueValidator(0)],
+        blank=True)
 
     last_visit_date = models.DateField(
-        verbose_name='When was your last clinic visit?',
-        validators=[date_not_future, ])
+        verbose_name='When was your last interval visit to facility?',
+        validators=[date_not_future, ],
+        blank=True)
 
     last_visit_date_estimated = models.CharField(
         verbose_name='Is the last visit date estimated?',
         choices=YES_NO,
-        max_length=3)
+        max_length=3,
+        blank=True)
 
     last_visit_date_estimation = models.CharField(
         verbose_name='Which part of the date was estimated, if any?',
@@ -93,8 +96,10 @@ class PatientCallFollowUp(CrfModelMixin):
         null=True,)
 
     last_visit_facility = models.CharField(
-        verbose_name='Which health facility did the patient visit?',
-        max_length=30)
+        verbose_name=('Which health facility did the patient go to on last '
+                      'visit?'),
+        max_length=30,
+        blank=True)
 
     appt_change = models.CharField(
         verbose_name=('Since we last talked, has the patient\'s appointment '
@@ -114,14 +119,14 @@ class PatientCallFollowUp(CrfModelMixin):
     investigation_ordered = models.CharField(
         verbose_name=('Have there been any interval investigations '
                       'ordered or resulted?'),
-        choices=YES_NO,
-        max_length=3,
+        choices=TESTS_ORDERED,
+        max_length=8,
         help_text='(IF YES, COMPLETE \'INVESTIGATION FORM\')')
 
     transport_support = models.CharField(
         verbose_name=('Does the patient need transport support?'),
-        choices=YES_NO,
-        max_length=3,
+        choices=YES_NO_AOTS,
+        max_length=30,
         help_text='(IF YES, COMPLETE \'TRANSPORT FORM\')')
 
     next_appointment_date = models.DateField(
@@ -187,6 +192,8 @@ class PatientCallFollowUp(CrfModelMixin):
         CallAchievements,
         verbose_name='What has been achieved during the call')
 
+    call_achievements_other = OtherCharField()
+
     medical_evaluation_understanding = models.CharField(
         verbose_name=('Does patient have fair understanding of next '
                       'steps regarding medical evaluation?'),
@@ -194,17 +201,22 @@ class PatientCallFollowUp(CrfModelMixin):
         max_length=3)
 
     next_step_understanding = models.TextField(
-        verbose_name=('Give a detailed summary of the pateint\'s understanding '
-                      'of the next steps (details)'),
-        max_length=100,
-        blank=True,
-        null=True)
+        verbose_name=('Give a detailed summary of the pateint\'s understanding'
+                      ' of the next steps (details)'),
+        max_length=100)
 
     sms_received = models.CharField(
         verbose_name=('Did patient receive SMS reminder for last scheduled '
                       'visit?'),
         choices=YES_NO,
         max_length=3)
+
+    sms_outcome = models.CharField(
+        verbose_name='Outcome of reminder SMS',
+        choices=SMS_OUTCOME,
+        max_length=50,)
+
+    sms_outcome_other = OtherCharField()
 
     additional_comments = models.TextField(
         verbose_name='Provide any additional comments',
