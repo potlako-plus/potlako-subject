@@ -7,7 +7,7 @@ from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_is_future
 from edc_base.model_validators import date_not_future
-from edc_constants.choices import YES_NO
+from edc_constants.choices import YES_NO, YES_NO_NA
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DATE_ESTIMATION, APPT_CHANGE_REASON, YES_NO_AOTS, SMS_OUTCOME
@@ -37,6 +37,11 @@ class PatientCallFollowUp(CrfModelMixin):
                       'information?'),
         choices=YES_NO,
         max_length=3)
+
+    first_specialist_visit = models.CharField(
+        verbose_name=('Is this a first specialist visit?'),
+        choices=YES_NO_NA,
+        max_length=15)
 
     perfomance_status = models.IntegerField(
         verbose_name='Patient performance status',
