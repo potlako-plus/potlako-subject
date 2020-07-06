@@ -1,5 +1,4 @@
 from .clinician_call_enrollment_admin import ClinicianCallEnrollmentAdmin
-from .clinician_call_followup_admin import ClinicianCallFollowUpAdmin
 from .home_visit_admin import HomeVisitAdmin
 from .investigations_admin import InvestigationsAdmin
 from .medical_diagnosis_admin import MedicalDiagnosisAdmin

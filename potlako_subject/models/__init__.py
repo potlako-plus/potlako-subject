@@ -1,6 +1,5 @@
 from .clinician_call_enrollment import ClinicianCallEnrollment
 from .clinician_call_enrollment import NextOfKin
-from .clinician_call_followup import ClinicianCallFollowUp
 from .home_visit import HomeVisit
 from .investigations import Investigations
 from .investigations import LabTest
