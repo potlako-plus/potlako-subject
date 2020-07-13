@@ -22,7 +22,8 @@ class NextOfKinInlineAdmin(TabularInlineMixin, admin.TabularInline):
                 'kin_firstname',
                 'kin_relationship',
                 'kin_relation_other',
-                'kin_cell')}
+                'kin_cell',
+                'kin_telephone')}
          ),)
 
 
@@ -63,6 +64,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'nearest_facility_other',
                 'primary_cell',
                 'secondary_cell',
+                'telephone_number',
                 'kin_details_provided',
             )
         }),

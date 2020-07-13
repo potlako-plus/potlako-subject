@@ -8,7 +8,7 @@ from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future, datetime_not_future
-from edc_base.model_validators import date_is_future
+from edc_base.model_validators import date_is_future, TelephoneNumber
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.constants import NOT_APPLICABLE
@@ -167,6 +167,11 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         verbose_name='Patient phone number 2 (Secondary)',
         max_length=8,
         validators=[CellNumber, ])
+
+    telephone_number = EncryptedCharField(
+        verbose_name='Patient telephone number',
+        max_length=7,
+        validators=[TelephoneNumber, ])
 
     kin_details_provided = models.CharField(
         verbose_name='Did the patient give details of next of kin?',
@@ -362,31 +367,37 @@ class NextOfKin(BaseUuidModel):
                                                  on_delete=PROTECT)
 
     kin_lastname = LastnameField(
-        verbose_name='Next of kin 1 Surname',
+        verbose_name='Next of kin Surname',
         blank=False,
         null=False)
 
     kin_firstname = FirstnameField(
-        verbose_name='Next of kin 1 First name',
+        verbose_name='Next of kin First name',
         blank=False,
         null=False)
 
     kin_relationship = models.CharField(
-        verbose_name='Next of kin 1 relationship',
+        verbose_name='Next of kin relationship',
         choices=KIN_RELATIONSHIP,
         max_length=20,
         blank=False,
         null=False)
 
     kin_relation_other = OtherCharField(
-        verbose_name='If other, describe next of kin 1 relationship',
+        verbose_name='If other, describe next of kin relationship',
         max_length=50,
         blank=True,
         null=True,
     )
 
     kin_cell = EncryptedCharField(
-        verbose_name='Next of kin 1 phone number',
+        verbose_name='Next of kin cellphone number',
         validators=[CellNumber, ],
+        blank=False,
+        null=False)
+
+    kin_telephone = EncryptedCharField(
+        verbose_name='Next of kin telephone number',
+        validators=[TelephoneNumber, ],
         blank=False,
         null=False)
