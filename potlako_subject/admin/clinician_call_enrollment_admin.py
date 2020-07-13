@@ -136,7 +136,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     readonly_fields = ('screening_identifier',)
 
-    filter_horizontal = ('symptoms',)
+    filter_horizontal = ('symptoms', 'investigation_notes')
 
     actions = ['export_crf_as_csv']
 

@@ -4,14 +4,14 @@ from dateutil.relativedelta import relativedelta
 from django.test import TestCase
 from edc_base.utils import get_utcnow
 from edc_constants.constants import ALIVE, YES, NO, NOT_APPLICABLE, NEG
+from edc_facility.import_holidays import import_holidays
+from edc_visit_tracking.constants import UNSCHEDULED
 from model_mommy import mommy
 
 from edc_appointment.models import Appointment
-from edc_facility.import_holidays import import_holidays
-from edc_visit_tracking.constants import UNSCHEDULED
 
 from ..forms import (
-    ClinicianCallFollowUpForm, HomeVisitForm, InvestigationsForm, LabTestForm,
+    HomeVisitForm, InvestigationsForm, LabTestForm,
     PatientCallInitialForm, PhysicianReviewForm, SMSForm,
     TransportForm, MissedCallForm, MissedVisitForm)
 from ..models import Investigations
@@ -40,29 +40,7 @@ class Test_Crf_Creation(TestCase):
             reason=UNSCHEDULED,)
         self.data = {
             'subject_visit': self.subject_visit,
-            'report_datetime': get_utcnow(),
-            }
-
-    def test_clinician_call_fu_creation(self):
-        form_data = self.data
-        form_data.update(
-            facility_visited='bokaa_pc',
-            call_clinician='Jane',
-            facility_unit='OPD',
-            visit_type=YES,
-            perfomance_status=3,
-            pain_score=2,
-            patient_disposition='return',
-            return_visit_scheduled=YES,
-            return_visit_date=get_utcnow() + relativedelta(months=2),
-            investigation_ordered=NO,
-            triage_status='routine',
-            transport_support=NO,
-            followup_end_time=(
-                datetime.now() + relativedelta(hours=2)).time(),)
-
-        clinician_call_fu = ClinicianCallFollowUpForm(data=form_data)
-        self.assertTrue(clinician_call_fu.save())
+            'report_datetime': get_utcnow(), }
 
     def test_home_visit_creation(self):
         form_data = self.data
@@ -184,8 +162,7 @@ class Test_Crf_Creation(TestCase):
             encounter_end_time=(get_utcnow() + relativedelta(hours=1)).time(),
             initial_call_end_time=(
                 get_utcnow() + relativedelta(hours=1)).time(),
-            call_duration=1,
-    )
+            call_duration=1,)
 
         patient_call_initial = PatientCallInitialForm(data=form_data)
         self.assertTrue(patient_call_initial.save())

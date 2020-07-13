@@ -69,3 +69,4 @@ if settings.APP_NAME == 'potlako_subject':
                                  slots=[100, 100, 100, 100, 100, 100, 100]),
             '5-day clinic': dict(days=[MO, TU, WE, TH, FR],
                                  slots=[100, 100, 100, 100, 100])}
+
