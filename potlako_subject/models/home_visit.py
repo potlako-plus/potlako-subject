@@ -21,7 +21,7 @@ class HomeVisit(CrfModelMixin):
     clinician_type_other = OtherCharField()
 
     clinician_facility = models.CharField(
-        verbose_name='Name of facility where clinician1 works',
+        verbose_name='Name of facility where clinician works',
         choices=FACILITY,
         max_length=40,
         blank=True,
