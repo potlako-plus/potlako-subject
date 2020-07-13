@@ -13,7 +13,7 @@ from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.constants import NOT_APPLICABLE
 
-from ..choices import CANCER_SUSPECT
+from ..choices import CANCER_SUSPECT, ENROLLMENT_SITES
 from ..choices import CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION
 from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, PAIN_SCORE
 from ..choices import SUSPECTED_CANCER, TRIAGE_STATUS, DATE_ESTIMATION
@@ -87,7 +87,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     facility = models.CharField(
         verbose_name='Name of facility visited at enrollment',
-        choices=FACILITY,
+        choices=ENROLLMENT_SITES,
         max_length=40)
 
     facility_other = OtherCharField()
