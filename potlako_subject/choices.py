@@ -520,6 +520,7 @@ SMS_PLATFORM = (
     (OTHER, 'Other, specify'))
 
 SUSPECTED_CANCER = (
+    ('anal', 'Anal'),
     ('breast', 'Breast'),
     ('vulva', 'Vulva'),
     ('penile', 'Penile'),
