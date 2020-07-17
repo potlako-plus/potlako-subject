@@ -41,6 +41,9 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'primary_clinic',
                        'primary_clinic_other',
                        'education_level',
+                       'potlako_sms_received',
+                       'sms_platform',
+                       'sms_platform_other',
                        'work_status',
                        'work_type',
                        'work_type_other',
@@ -77,8 +80,6 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'next_ap_facility_unit',
                        'next_ap_facility_unit_other',
                        'transport_support',
-                       'call_achievements',
-                       'call_achievements_other',
                        'comments',
                        'cancer_probability',
                        'initial_call_end_time',
@@ -91,6 +92,8 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     radio_fields = {'residential_district': admin.VERTICAL,
                     'primary_clinic': admin.VERTICAL,
                     'education_level': admin.VERTICAL,
+                    'potlako_sms_received': admin.VERTICAL,
+                    'sms_platform': admin.VERTICAL,
                     'work_status': admin.VERTICAL,
                     'work_type': admin.VERTICAL,
                     'unemployed_reason': admin.VERTICAL,
@@ -116,8 +119,7 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'pain_score': admin.VERTICAL,
                     }
 
-    filter_horizontal = ('call_achievements',
-                         'patient_residence')
+    filter_horizontal = ('patient_residence',)
 
     readonly_fields = ('call_duration',)
 

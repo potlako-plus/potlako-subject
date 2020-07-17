@@ -18,8 +18,8 @@ from edc_protocol.validators import date_not_before_study_start
 from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
 from ..choices import DURATION, FACILITY_UNIT, SEVERITY_LEVEL, DISTRICT
 from ..choices import PAIN_SCORE, SCALE, EDUCATION_LEVEL, WORK_TYPE
-from ..choices import UNEMPLOYED_REASON
-from .list_models import CallAchievements, PatientResidence
+from ..choices import SMS_PLATFORM, UNEMPLOYED_REASON
+from .list_models import PatientResidence
 from .model_mixins import CrfModelMixin
 
 
@@ -62,6 +62,21 @@ class PatientCallInitial(CrfModelMixin):
         max_length=15,
         choices=EDUCATION_LEVEL,
         blank=True)
+
+    potlako_sms_received = models.CharField(
+        verbose_name='Have you received Potlako+ messages?',
+        choices=YES_NO,
+        max_length=3)
+
+    sms_platform = models.CharField(
+        verbose_name=('If yes, which Potlako+ messaging platform did you'
+                      ' receive?'),
+        choices=SMS_PLATFORM,
+        max_length=35,
+        blank=True,
+        null=True)
+
+    sms_platform_other = OtherCharField()
 
     work_status = models.CharField(
         verbose_name='Is the patient currently working?',
@@ -258,13 +273,6 @@ class PatientCallInitial(CrfModelMixin):
         choices=YES_NO,
         max_length=3,
         help_text='IF YES, COMPLETE TRANSPORT FORM')
-
-    call_achievements = models.ManyToManyField(
-        CallAchievements,
-        verbose_name='What has been achieved during the call')
-
-    call_achievements_other = OtherCharField(
-        max_length=100)
 
     comments = models.TextField(
         verbose_name=('Any other general comments regarding patient encouter'),
