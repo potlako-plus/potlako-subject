@@ -102,8 +102,6 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
             'fields': (
                 'triage_status',
                 'investigated',
-                'investigation_notes',
-                'investigation_notes_other',
                 'comments',)
         }),
 
@@ -138,7 +136,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     readonly_fields = ('screening_identifier',)
 
-    filter_horizontal = ('symptoms', 'investigation_notes')
+    filter_horizontal = ('symptoms',)
 
     actions = ['export_crf_as_csv']
 

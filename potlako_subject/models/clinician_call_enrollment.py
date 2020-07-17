@@ -11,6 +11,7 @@ from edc_base.model_validators import CellNumber, date_not_future, datetime_not_
 from edc_base.model_validators import date_is_future, TelephoneNumber
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
+from edc_constants.choices import YES_NO_UNKNOWN
 from edc_constants.constants import NOT_APPLICABLE
 
 from ..choices import CANCER_SUSPECT, ENROLLMENT_SITES
@@ -19,7 +20,7 @@ from ..choices import KIN_RELATIONSHIP, SCALE, SEVERITY_LEVEL, PAIN_SCORE
 from ..choices import SUSPECTED_CANCER, TRIAGE_STATUS, DATE_ESTIMATION
 from ..eligibility import Eligibility
 from ..screening_identifier import ScreeningIdentifier
-from .list_models import Symptoms, InvestigationNotes
+from .list_models import Symptoms
 from .validators import datetime_not_now, identity_check
 
 
@@ -312,19 +313,8 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     investigated = models.CharField(
         verbose_name='Were there any investigations ordered or performed '
                      'during this visit?',
-        choices=YES_NO,
-        max_length=3,)
-
-    investigation_notes = models.ManyToManyField(
-        InvestigationNotes,
-        verbose_name='Notes on investigations ordered - continue to Labs '
-                     'only after tests have been done',
-        default=NOT_APPLICABLE,
-        help_text='(COMPLETE \'INVESTIGATIONS FORM\' AFTER TESTS HAVE BEEN '
-                  'COMPLETED)')
-
-    investigation_notes_other = OtherCharField()
-
+        choices=YES_NO_UNKNOWN,
+        max_length=7,)
     comments = models.TextField(
         verbose_name=('Are there any other comments regarding this '
                       'enrollment visit?'),

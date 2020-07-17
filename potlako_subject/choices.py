@@ -282,11 +282,8 @@ FACILITY_UNIT = (
     ('OPD', 'OPD'),
     ('A&E', 'A&E'),
     ('IDCC', 'IDCC'),
-    ('medicine_clinic', 'Medicine clinic'),
-    ('GYN_clnic', 'GYN clinic'),
-    ('surgery_clinic', 'Surgery clinic'),
     (NOT_APPLICABLE, 'Not applicable'),
-    (OTHER, 'Other'),
+    (OTHER, 'Other (specify)'),
 )
 
 HEALTH_FACTOR = (
@@ -514,6 +511,13 @@ SMS_OUTCOME = (
      'SMS sent to next of kin 2 and receipt NOT confirmed'),
     (OTHER, 'Other, specify'),
 )
+
+SMS_PLATFORM = (
+    ('potlako+_iec_material', 'Potlako+ IEC material'),
+    ('group_teaching', 'Group teaching'),
+    ('public_campaign', 'Public campaign'),
+    ('info_from_community_leader', 'Information from community leader'),
+    (OTHER, 'Other, specify'))
 
 SUSPECTED_CANCER = (
     ('breast', 'Breast'),
