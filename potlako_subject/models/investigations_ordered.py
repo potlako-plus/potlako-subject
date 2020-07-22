@@ -6,18 +6,20 @@ from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
-from ..choices import CANCER_STAGES, FACILITY, LAB_TESTS, LAB_TESTS_STATUS
-from ..choices import DATE_ESTIMATION, DIAGNOSIS_RESULTS
+from ..choices import DATE_ESTIMATION, TESTS_ORDERED_TYPE
+from ..choices import FACILITY, LAB_TESTS, LAB_TESTS_STATUS
 from ..choices import IMAGING_STATUS, IMAGING_TESTS, PATHOLOGY_TEST_TYPE
 from .model_mixins import CrfModelMixin
 
 
-class Investigations(CrfModelMixin):
+class InvestigationsOrdered(CrfModelMixin):
 
-    lab_tests_ordered = models.CharField(
-        verbose_name='Were lab tests ordered?',
-        choices=YES_NO,
-        max_length=3)
+    tests_ordered_type = models.CharField(
+        verbose_name='What tests were ordered?',
+        choices=TESTS_ORDERED_TYPE,
+        max_length=10)
+
+    tests_ordered_type_other = OtherCharField()
 
     facility_ordered = models.CharField(
         verbose_name='Facility where labs were ordered',
@@ -48,11 +50,6 @@ class Investigations(CrfModelMixin):
         blank=True,
         null=True,)
 
-    pathology_tests_ordered = models.CharField(
-        verbose_name='Were pathology tests ordered?',
-        choices=YES_NO,
-        max_length=3)
-
     pathology_test = models.CharField(
         verbose_name='Type of pathology test',
         choices=PATHOLOGY_TEST_TYPE,
@@ -60,8 +57,8 @@ class Investigations(CrfModelMixin):
         blank=True,
         null=True)
 
-    biopsy_other = OtherCharField(
-        verbose_name='If other biopsy, please describe',
+    biopsy_specify = OtherCharField(
+        verbose_name='If biopsy, please describe',
         max_length=25,
         blank=True,
         null=True)
@@ -78,35 +75,6 @@ class Investigations(CrfModelMixin):
         blank=True,
         null=True)
 
-    pathology_nhl_date = models.DateField(
-        verbose_name='Date pathology specimen received at NHL',
-        validators=[date_not_before_study_start, date_not_future],
-        blank=True,
-        null=True)
-
-    pathology_result_date = models.DateField(
-        verbose_name='Date pathology results reported',
-        validators=[date_not_before_study_start, date_not_future],
-        blank=True,
-        null=True)
-
-    pathology_received_date = models.DateField(
-        verbose_name='Date pathology results received by clinician',
-        validators=[date_not_before_study_start, date_not_future],
-        blank=True,
-        null=True)
-
-    pathology_communicated_date = models.DateField(
-        verbose_name='Date pathology results communicated to patient',
-        validators=[date_not_before_study_start, date_not_future],
-        blank=True,
-        null=True)
-
-    imaging_tests = models.CharField(
-        verbose_name='Were imaging tests conducted during this encounter?',
-        choices=YES_NO,
-        max_length=3)
-
     imaging_test_status = models.CharField(
         choices=IMAGING_STATUS,
         max_length=15,
@@ -116,6 +84,12 @@ class Investigations(CrfModelMixin):
     imaging_test_type = models.CharField(
         choices=IMAGING_TESTS,
         max_length=20,
+        blank=True,
+        null=True)
+
+    xray_tests = models.CharField(
+        verbose_name='If XRay tests ordered, specify',
+        max_length=25,
         blank=True,
         null=True)
 
@@ -137,7 +111,7 @@ class Investigations(CrfModelMixin):
         blank=True,
         null=True)
 
-    imaging_test_type_other = OtherCharField(
+    imaging_tests_type_other = OtherCharField(
         verbose_name='If other tests ordered, specify',
         max_length=25,
         blank=True,
@@ -149,47 +123,15 @@ class Investigations(CrfModelMixin):
         blank=True,
         null=True)
 
-    specimen_tracking_notes = models.TextField(
-        verbose_name=('Path specimen tracking notes'),
-        max_length=100,
-        blank=True,
-        null=True)
-
-    diagnosis_results = models.CharField(
-        verbose_name='Diagnosis results (provider)',
-        choices=DIAGNOSIS_RESULTS,
-        max_length=20,
-        blank=True,
-        null=True)
-
-    cancer_type = models.CharField(
-        verbose_name='If cancer, type of cancer diagnosed',
-        max_length=15,
-        blank=True,
-        null=True)
-
-    diagnoses_made = models.CharField(
-        verbose_name='If not cancer, diagnosis made',
-        max_length=15,
-        blank=True,
-        null=True)
-
-    cancer_stage = models.CharField(
-        verbose_name='If cancer, stage of cancer',
-        choices=CANCER_STAGES,
-        max_length=10,
-        blank=True,
-        null=True)
-
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
-        verbose_name = 'Investigations'
-        verbose_name_plural = 'Investigations'
+        verbose_name = 'Investigations - Ordered'
+        verbose_name_plural = 'Investigations - Ordered'
 
 
 class LabTest(BaseUuidModel):
 
-    investigations = models.ForeignKey(Investigations, on_delete=PROTECT)
+    investigations = models.ForeignKey(InvestigationsOrdered, on_delete=PROTECT)
 
     lab_test_type = models.CharField(
         verbose_name='Type of lab test.',

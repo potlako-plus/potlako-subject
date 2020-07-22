@@ -2,8 +2,8 @@ from django.contrib import admin
 from edc_model_admin import TabularInlineMixin
 
 from ..admin_site import potlako_subject_admin
-from ..forms import InvestigationsForm, LabTestForm
-from ..models import Investigations, LabTest
+from ..forms import InvestigationsOrderedForm, LabTestForm
+from ..models import InvestigationsOrdered, LabTest
 from .modeladmin_mixins import CrfModelAdminMixin
 
 
@@ -24,10 +24,10 @@ class LabTestInlineAdmin(TabularInlineMixin, admin.TabularInline):
          ),)
 
 
-@admin.register(Investigations, site=potlako_subject_admin)
-class InvestigationsAdmin(CrfModelAdminMixin, admin.ModelAdmin):
+@admin.register(InvestigationsOrdered, site=potlako_subject_admin)
+class InvestigationsOrderedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
-    form = InvestigationsForm
+    form = InvestigationsOrderedForm
 
     inlines = [LabTestInlineAdmin, ]
 
@@ -35,44 +35,32 @@ class InvestigationsAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         (None, {
             'fields': ('subject_visit',
                        'report_datetime',
-                       'lab_tests_ordered',
+                       'tests_ordered_type',
+                       'tests_ordered_type_other',
                        'facility_ordered',
                        'facility_ordered_other',
                        'ordered_date',
                        'ordered_date_estimated',
                        'ordered_date_estimation',
-                       'pathology_tests_ordered',
                        'pathology_test',
-                       'biopsy_other',
+                       'biopsy_specify',
                        'fna_location',
                        'pathology_specimen_date',
-                       'pathology_nhl_date',
-                       'pathology_result_date',
-                       'pathology_received_date',
-                       'pathology_communicated_date',
-                       'imaging_tests',
                        'imaging_test_status',
                        'imaging_test_type',
+                       'xray_tests',
                        'ultrasound_tests',
                        'ct_tests',
                        'mri_tests',
-                       'imaging_test_type_other',
-                       'imaging_tests_date',
-                       'specimen_tracking_notes',
-                       'diagnosis_results',
-                       'cancer_type',
-                       'diagnoses_made',
-                       'cancer_stage',),
+                       'imaging_tests_type_other',
+                       'imaging_tests_date'),
         }),
     )
 
-    radio_fields = {'facility_ordered': admin.VERTICAL,
-                    'lab_tests_ordered': admin.VERTICAL,
+    radio_fields = {'tests_ordered_type': admin.VERTICAL,
+                    'facility_ordered': admin.VERTICAL,
                     'ordered_date_estimated': admin.VERTICAL,
-                    'pathology_tests_ordered': admin.VERTICAL,
+                    'ordered_date_estimation': admin.VERTICAL,
                     'pathology_test': admin.VERTICAL,
-                    'imaging_tests': admin.VERTICAL,
                     'imaging_test_status': admin.VERTICAL,
-                    'imaging_test_type': admin.VERTICAL,
-                    'diagnosis_results': admin.VERTICAL,
-                    'cancer_stage': admin.VERTICAL}
+                    'imaging_test_type': admin.VERTICAL}

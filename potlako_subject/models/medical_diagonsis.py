@@ -5,7 +5,7 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO, YES_NO_UNKNOWN
 
-from ..choices import DATE_ESTIMATION, MEDICAL_CONDITION, TREATMENT_TYPE
+from ..choices import DATE_ESTIMATION, MEDICAL_CONDITION, CHECKUP_FREQUENCY
 from .model_mixins import CrfModelMixin
 
 
@@ -58,10 +58,10 @@ class MedicalConditions(BaseUuidModel):
         max_length=7)
 
     treatment_type = models.CharField(
-        verbose_name=('If the patient is on medication, what treatment are they'
-                      'receiving?'),
-        choices=TREATMENT_TYPE,
-        max_length=16,
+        verbose_name=('how often does the participant see a doctor/nurse for '
+                      'their condition?'),
+        choices=CHECKUP_FREQUENCY,
+        max_length=20,
         blank=True,
         null=True)
 

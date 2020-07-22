@@ -52,6 +52,7 @@ CANCER_EVALUATION = (
 )
 
 CANCER_STAGES = (
+    ('not_yet_established', 'Not yet established'),
     ('stage_0', 'Stage 0'),
     ('stage_I', 'Stage I'),
     ('stage_II', 'Stage II'),
@@ -81,6 +82,14 @@ CANCER_SUSPECT = (
     ('call_with_clinician', 'Phone call with clinician'),
     ('review_clinic_register', 'Review of clinic register'),
     ('clinician_site_visit_discussion', 'Site visit discussion with clinician'),
+    (OTHER, 'Other (specify)')
+)
+
+CHECKUP_FREQUENCY = (
+    ('atleast_once_a_month', 'Atleast once a month'),
+    ('1-3_months', '1-3 months'),
+    ('every_3-6_months', 'Every 3-6 months'),
+    ('once_or_twice_a_year', 'Once or twice a year'),
     (OTHER, 'Other (specify)')
 )
 
@@ -131,6 +140,9 @@ DELAYED_REASON = (
 DIAGNOSIS_RESULTS = (
     ('malignant', 'Malignant'),
     ('non_malignant', 'Non Malignant'),
+    ('inconclusive', 'Inconclusive'),
+    ('untraceable', 'Untraceable'),
+    (OTHER, 'Other (specify)')
 )
 
 DISPOSITION = (
@@ -317,10 +329,8 @@ IMAGING_STATUS = (
 )
 
 IMAGING_TESTS = (
-    ('xray_chest', 'Xray - chest'),
-    ('xray_other', 'Xray - other (specify)'),
-    ('ultrasound_abdomen', 'Ultrasound - abdomen'),
-    ('ultrasound_other', 'Ultrasound - other (specify)'),
+    ('xray', 'Xray (specify)'),
+    ('ultrasound', 'Ultrasound (specify)'),
     ('CT', 'CT (specify)'),
     ('MRI', 'MRI (specify)'),
     (OTHER, 'Other imaging test (specify)')
@@ -426,9 +436,7 @@ PLACE_OF_DEATH = (
 )
 
 PATHOLOGY_TEST_TYPE = (
-    ('biopsy_bone_marrow', 'Biopsy - bone marrow'),
-    ('biopsy_lymph_node', 'Biopsy - lymph node'),
-    ('biopsy_other', 'Biopsy - other (specify)'),
+    ('biopsy', 'Biopsy (specify)'),
     ('FNA', 'FNA'),
     ('pap_smear', 'Pap smear')
 )
@@ -533,21 +541,24 @@ SUSPECTED_CANCER = (
     (OTHER, 'Other (specify)'),
 )
 
+TESTS_ORDERED = (
+    ('ordered', 'Yes, ordered'),
+    ('resulted', 'Yes, resulted'),
+    (UNSURE, 'No, unsure'),
+)
+
+TESTS_ORDERED_TYPE = (
+    ('pathology', 'Pathology'),
+    ('imaging', 'Imaging'),
+    (OTHER, 'Other (specify)')
+)
+
 TRANSPORT_TYPE = (
     ('facility_vehicle', 'Facility Vehicle - Arranged by RC'),
     ('bus', 'Bus Voucher'),
     ('cash', 'Cash transfer to patient'),
     ('patient_arranged_vehicle',
      'Facility Vehicle - Arranged by Patient or Clinician'),
-)
-
-TREATMENT_TYPE = (
-    ('oral', 'Oral medications'),
-    ('suppositories', 'Suppositories'),
-    ('injectable', 'Injectable'),
-    ('topical_ointment', 'Topical/Ointment'),
-    ('inhalation', 'Inhalation'),
-    ('drops', 'Drops')
 )
 
 TREATMENT_INTENT = (
@@ -646,10 +657,4 @@ YES_NO_AOTS = (
     (YES, YES),
     (NO, NO),
     ('already_on_transport_support', 'Already on transport support'),
-)
-
-TESTS_ORDERED = (
-    ('ordered', 'Yes, ordered'),
-    ('resulted', 'Yes, resulted'),
-    (UNSURE, 'No, unsure'),
 )

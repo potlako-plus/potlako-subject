@@ -1,8 +1,9 @@
 from .clinician_call_enrollment_form import ClinicianCallEnrollmentForm
 from .facility_visit_form import FacilityVisitForm
 from .home_visit_form import HomeVisitForm
-from .investigations_form import InvestigationsForm
-from .investigations_form import LabTestForm
+from .investigations_ordered_form import InvestigationsOrderedForm
+from .investigations_ordered_form import LabTestForm
+from .investigations_resulted_form import InvestigationsResultedForm
 from .medical_diagnosis_form import MedicalConditionsForm, MedicalDiagnosisForm
 from .missed_call_form import MissedCallForm
 from .missed_visit_form import MissedVisitForm
