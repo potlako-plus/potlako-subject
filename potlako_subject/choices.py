@@ -435,12 +435,6 @@ PLACE_OF_DEATH = (
     (UNKNOWN, 'Place of death unknown'),
 )
 
-PATHOLOGY_TEST_TYPE = (
-    ('biopsy', 'Biopsy (specify)'),
-    ('FNA', 'FNA'),
-    ('pap_smear', 'Pap smear')
-)
-
 PAIN_SCORE = (
     ('0_no_pain', '0 No pain'),
     ('1_3_mild', '1-3 mild pain'),

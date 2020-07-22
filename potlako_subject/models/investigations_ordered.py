@@ -6,9 +6,9 @@ from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
-from ..choices import DATE_ESTIMATION, TESTS_ORDERED_TYPE
-from ..choices import FACILITY, LAB_TESTS, LAB_TESTS_STATUS
-from ..choices import IMAGING_STATUS, IMAGING_TESTS, PATHOLOGY_TEST_TYPE
+from ..choices import DATE_ESTIMATION, IMAGING_TESTS, TESTS_ORDERED_TYPE
+from ..choices import FACILITY, IMAGING_STATUS, LAB_TESTS, LAB_TESTS_STATUS
+from .list_models import PathologyTestType
 from .model_mixins import CrfModelMixin
 
 
@@ -47,15 +47,13 @@ class InvestigationsOrdered(CrfModelMixin):
         verbose_name='Which part of the date is estimated?',
         choices=DATE_ESTIMATION,
         max_length=15,
-        blank=True,
-        null=True,)
+        null=True,
+        blank=True,)
 
-    pathology_test = models.CharField(
+    pathology_test = models.ManyToManyField(
+        PathologyTestType,
         verbose_name='Type of pathology test',
-        choices=PATHOLOGY_TEST_TYPE,
-        max_length=25,
-        blank=True,
-        null=True)
+        blank=True,)
 
     biopsy_specify = OtherCharField(
         verbose_name='If biopsy, please describe',

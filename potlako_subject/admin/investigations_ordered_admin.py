@@ -61,6 +61,7 @@ class InvestigationsOrderedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'facility_ordered': admin.VERTICAL,
                     'ordered_date_estimated': admin.VERTICAL,
                     'ordered_date_estimation': admin.VERTICAL,
-                    'pathology_test': admin.VERTICAL,
                     'imaging_test_status': admin.VERTICAL,
                     'imaging_test_type': admin.VERTICAL}
+
+    filter_horzontal = ('pathology_test',)

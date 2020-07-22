@@ -42,6 +42,11 @@ list_data = {
         ('live_in_partner', 'Live-in partner'),
         (OTHER, 'Other (specify)')
     ],
+    'potlako_subject.pathologytest': [
+        ('biopsy', 'Biopsy (specify)'),
+        ('FNA', 'FNA'),
+        ('pap_smear', 'Pap smear')
+    ],
     'potlako_subject.symptoms': [
         ('pain', 'Pain'),
         ('mass', 'Mass'),

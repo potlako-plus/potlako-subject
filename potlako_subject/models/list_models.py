@@ -21,6 +21,10 @@ class PatientResidence(ListModelMixin, BaseUuidModel):
     pass
 
 
+class PathologyTestType(ListModelMixin, BaseUuidModel):
+    pass
+
+
 class Symptoms(ListModelMixin, BaseUuidModel):
     pass
 
