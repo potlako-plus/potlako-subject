@@ -21,7 +21,7 @@ class PatientResidence(ListModelMixin, BaseUuidModel):
     pass
 
 
-class PathologyTestType(ListModelMixin, BaseUuidModel):
+class PathologyTest(ListModelMixin, BaseUuidModel):
     pass
 
 

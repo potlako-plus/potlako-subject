@@ -8,7 +8,7 @@ from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DATE_ESTIMATION, IMAGING_TESTS, TESTS_ORDERED_TYPE
 from ..choices import FACILITY, IMAGING_STATUS, LAB_TESTS, LAB_TESTS_STATUS
-from .list_models import PathologyTestType
+from .list_models import PathologyTest
 from .model_mixins import CrfModelMixin
 
 
@@ -51,7 +51,7 @@ class InvestigationsOrdered(CrfModelMixin):
         blank=True,)
 
     pathology_test = models.ManyToManyField(
-        PathologyTestType,
+        PathologyTest,
         verbose_name='Type of pathology test',
         blank=True,)
 
