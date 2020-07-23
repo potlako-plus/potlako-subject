@@ -121,7 +121,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     appt_change_reason_other = OtherCharField()
 
-    investigation_ordered = models.CharField(
+    investigations_ordered = models.CharField(
         verbose_name=('Have there been any interval investigations '
                       'ordered or resulted?'),
         choices=TESTS_ORDERED,
