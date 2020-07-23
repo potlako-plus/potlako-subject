@@ -5,7 +5,7 @@ from edc_visit_tracking.constants import SCHEDULED
 from faker import Faker
 from model_mommy.recipe import Recipe, seq
 
-from .models import ClinicianCallEnrollment, PatientCallInitial
+from .models import ClinicianCallEnrollment, PatientCallInitial, PatientCallFollowUp
 from .models import SubjectConsent, SubjectScreening, SubjectVisit
 
 fake = Faker()
@@ -61,5 +61,14 @@ patientcallinitial = Recipe(
     work_status='no',
     transport_support=NO,
     medical_conditions=NO,
-    tests_ordered='blah'
+    tests_ordered=NO
+)
+
+patientcallfollowup = Recipe(
+    PatientCallFollowUp,
+    encounter_date=get_utcnow().date(),
+    start_time=get_utcnow().time(),
+    investigations_ordered='blah',
+    last_visit_date=get_utcnow() - relativedelta(months=1),
+    next_appointment_date=get_utcnow() - relativedelta(months=2)
 )
