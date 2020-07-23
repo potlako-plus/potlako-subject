@@ -1,6 +1,6 @@
 from dateutil.relativedelta import relativedelta
 from edc_base.utils import get_utcnow
-from edc_constants.constants import ALIVE, YES, ON_STUDY, PARTICIPANT
+from edc_constants.constants import ALIVE, YES, NO, ON_STUDY, PARTICIPANT
 from edc_visit_tracking.constants import SCHEDULED
 from faker import Faker
 from model_mommy.recipe import Recipe, seq
@@ -41,6 +41,7 @@ subjectconsent = Recipe(
     confirm_identity=seq('123425678'),
     identity_type='OMANG',
     is_dob_estimated='-',
+    version='1'
 )
 
 subjectvisit = Recipe(
@@ -58,5 +59,7 @@ patientcallinitial = Recipe(
     age_in_years=25,
     education_level='secondary',
     work_status='no',
-    transport_support=YES,
+    transport_support=NO,
+    medical_conditions=NO,
+    tests_ordered='blah'
 )

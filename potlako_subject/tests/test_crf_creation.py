@@ -11,10 +11,10 @@ from model_mommy import mommy
 from edc_appointment.models import Appointment
 
 from ..forms import (
-    HomeVisitForm, InvestigationsForm, LabTestForm,
+    HomeVisitForm, InvestigationsOrderedForm, LabTestForm,
     PatientCallInitialForm, PhysicianReviewForm, SMSForm,
     TransportForm, MissedCallForm, MissedVisitForm)
-from ..models import Investigations
+from ..models import InvestigationsOrdered
 from ..models.list_models import CallAchievements
 
 
@@ -75,14 +75,14 @@ class Test_Crf_Creation(TestCase):
             bpcc_enrolled=NO,
             end_time=(datetime.now() + relativedelta(hours=2)).time(),)
 
-        investigations = InvestigationsForm(data=form_data)
+        investigations = InvestigationsOrderedForm(data=form_data)
         self.assertTrue(investigations.save())
 
         """Test if lab test form is created succesfully"""
 
         lab_test_data = self.data
         lab_test_data.update(
-            investigations=Investigations.objects.all()[0],
+            investigations=InvestigationsOrdered.objects.all()[0],
             lab_test_type='LFT',
             lab_test_date=get_utcnow() + relativedelta(days=5),
             lab_test_status='specimen_taken',)
