@@ -145,24 +145,16 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         verbose_name='Village or Town where patient resides',
         max_length=50)
 
-    kgotla = models.CharField(
-        verbose_name='Kgotla where patient resides',
-        max_length=50)
-
-    nearest_facility = models.CharField(
-        verbose_name='Nearest primary clinic or health post to where'
-                     ' patient resides',
-        choices=FACILITY,
-        max_length=40,)
-
-    nearest_facility_other = OtherCharField()
+    patient_contact = models.CharField(
+        verbose_name=('Does patient have a cell phone number or telephone '
+                      'number?'),
+        choices=YES_NO,
+        max_length=3,)
 
     primary_cell = EncryptedCharField(
         verbose_name='Patient phone number 1 (Primary)',
         max_length=8,
-        validators=[CellNumber, ],
-        blank=False,
-        null=False)
+        validators=[CellNumber, ])
 
     secondary_cell = EncryptedCharField(
         verbose_name='Patient phone number 2 (Secondary)',
@@ -213,10 +205,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         blank=True,
         null=True
     )
-
-    symptoms_details = models.TextField(
-        verbose_name='Details of symptom duration',
-        max_length=100,)
 
     suspected_cancer = models.CharField(
         verbose_name='Suspected Cancer type',
@@ -297,13 +285,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         choices=YES_NO_NA,
         max_length=3,
         default=NOT_APPLICABLE)
-
-    clinician_designation = models.CharField(
-        verbose_name='Designation of referral clinician patient discussed with',
-        help_text='(If designation is not specified or unknown, please write "UNK")',
-        max_length=50,
-        blank=True,
-        null=True,)
 
     triage_status = models.CharField(
         verbose_name='What is patient\'s triage status?',
