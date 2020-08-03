@@ -32,8 +32,7 @@ class Transport(CrfModelMixin):
 
     criteria_met = models.ManyToManyField(
         TransportCriteria,
-        verbose_name='What criteria has been met for transportation'
-        ' support?')
+        verbose_name='What criteria has been met for transportation support?')
 
     criteria_met_other = OtherCharField()
 
@@ -112,6 +111,8 @@ class Transport(CrfModelMixin):
         verbose_name='Any other general comments regarding transport '
                      'planning',
         max_length=150,
+        blank=True,
+        null=True,
         help_text='(IF NOTHING TO REPORT, PLEASE WRITE "NA")',)
 
     class Meta(CrfModelMixin.Meta):

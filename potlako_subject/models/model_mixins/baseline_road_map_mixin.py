@@ -1,10 +1,10 @@
 from django.apps import apps as django_apps
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import ClinicianCallEnrollment
+from ..clinician_call_enrollment import ClinicianCallEnrollment
 
 
-class BaselineRoadMap:
+class BaselineRoadMapMixin:
     """A class to gather all values from Clinician Call Enrollment, 
     Patient Call Initial, Investigations Ordered, Investigations Resulted
     to build the Baseline Roadmap.

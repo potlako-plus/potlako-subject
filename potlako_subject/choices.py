@@ -466,6 +466,13 @@ REASON_MISSED_VISIT = (
     (OTHER, 'Other (specify)'),
 )
 
+RESULTS_PERSONNEL = (
+    ('M.O', 'M.O'),
+    ('physician', 'Physician'),
+    ('surgeon', 'Surgeon'),
+    (OTHER, 'Other (specify)'),
+)
+
 REVIEWER = (
     ('Neo', 'Neo'),
     ('Scott', 'Scott'),
@@ -519,6 +526,14 @@ SMS_PLATFORM = (
     ('group_teaching', 'Group teaching'),
     ('public_campaign', 'Public campaign'),
     ('info_from_community_leader', 'Information from community leader'),
+    (OTHER, 'Other, specify'))
+
+SPECIALIST_CLINIC = (
+    ('ENT', 'ENT'),
+    ('urology', 'Urology'),
+    ('surgical', 'Surgical'),
+    ('gynecology', 'Gynecology'),
+    ('dermatology', 'Dermatology'),
     (OTHER, 'Other, specify'))
 
 SUSPECTED_CANCER = (
