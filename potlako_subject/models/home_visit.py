@@ -1,13 +1,10 @@
-from django.apps import apps as django_apps
 from django.db import models
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_is_future
-from edc_constants.constants import DEAD
 
 from potlako_prn.action_items import DEATH_REPORT_ACTION, COORDINATOR_EXIT_ACTION
 
 from ..choices import ALIVE_DEAD_LTFU, CLINICIAN_TYPE, FACILITY, VISIT_TYPE
-from .generate_action_item_mixin import trigger_action_item
 from .model_mixins import CrfModelMixin
 
 
@@ -66,18 +63,6 @@ class HomeVisit(CrfModelMixin):
         max_length=150,
         blank=True,
         null=True)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        death_cls = django_apps.get_model('potlako_prn.deathreport')
-        exit_cls = django_apps.get_model('potlako_prn.coordinatorexit')
-        trigger_action_item(self, 'visit_outcome', DEAD,
-                            death_cls, DEATH_REPORT_ACTION,
-                            self.subject_visit.appointment.subject_identifier)
-
-        trigger_action_item(self, 'visit_outcome', 'ltfu',
-                            exit_cls, COORDINATOR_EXIT_ACTION,
-                            self.subject_visit.appointment.subject_identifier)
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'

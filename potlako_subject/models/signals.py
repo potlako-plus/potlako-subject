@@ -1,7 +1,15 @@
 from datetime import datetime
+
+from django.apps import apps as django_apps
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from edc_action_item.site_action_items import site_action_items
+from edc_base.utils import get_utcnow
+from edc_constants.constants import DEAD
+from edc_visit_schedule.site_visit_schedules import site_visit_schedules
+import pytz
+
 from edc_appointment.constants import NEW_APPT
 from edc_appointment.creators import AppointmentInProgressError
 from edc_appointment.creators import InvalidParentAppointmentMissingVisitError
@@ -9,18 +17,17 @@ from edc_appointment.creators import InvalidParentAppointmentStatusError
 from edc_appointment.creators import UnscheduledAppointmentCreator
 from edc_appointment.creators import UnscheduledAppointmentError
 from edc_appointment.models import Appointment
-from edc_base.utils import get_utcnow
-from edc_visit_schedule.site_visit_schedules import site_visit_schedules
-import pytz
+from potlako_prn.action_items import DEATH_REPORT_ACTION
+from potlako_prn.action_items import SUBJECT_OFFSTUDY_ACTION
 
+from .home_visit import HomeVisit
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
 from .subject_consent import SubjectConsent
 from .subject_screening import SubjectScreening
+from .subject_visit import SubjectVisit
 
 
-# from potlako_dashboard.patterns import subject_identifier
-# from .subject_locator import SubjectLocator
 @receiver(post_save, weak=False, sender=SubjectConsent,
           dispatch_uid='subject_consent_on_post_save')
 def subject_consent_on_post_save(sender, instance, raw, created, **kwargs):
@@ -120,3 +127,63 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
             if appt.appt_datetime != timepoint_datetime:
                 appt.appt_datetime = timepoint_datetime
                 appt.save()
+
+
+@receiver(post_save, weak=False, sender=SubjectVisit,
+          dispatch_uid='subject_visit_on_post_save')
+def subject_visit_on_post_save(sender, instance, raw, created, **kwargs):
+    """Trigger death report action item if visit survival status is DEAD.
+    """
+    if not raw:
+        death_report_cls = django_apps.get_model('potlako_prn.deathreport')
+        trigger_action_item(instance, 'survival_status', DEAD,
+                            death_report_cls, DEATH_REPORT_ACTION,
+                            instance.appointment.subject_identifier)
+
+
+@receiver(post_save, weak=False, sender=HomeVisit,
+          dispatch_uid='home_visit_on_post_save')
+def home_visit_on_post_save(sender, instance, raw, created, **kwargs):
+    """Update subject screening consented flag.
+    """
+    if not raw:
+        death_report_cls = django_apps.get_model('potlako_prn.deathreport')
+        exit_cls = django_apps.get_model('potlako_prn.coordinatorexit')
+        trigger_action_item(instance, 'visit_outcome', DEAD,
+                            death_report_cls, DEATH_REPORT_ACTION,
+                            instance.subject_visit.appointment.subject_identifier)
+
+        trigger_action_item(instance, 'visit_outcome', 'ltfu',
+                            exit_cls, SUBJECT_OFFSTUDY_ACTION,
+                            instance.subject_visit.appointment.subject_identifier)
+
+
+def trigger_action_item(obj, field, response, model_cls,
+                        action_name, subject_identifier):
+
+    action_cls = site_action_items.get(
+        model_cls.action_name)
+    action_item_model_cls = action_cls.action_item_model_cls()
+
+    if getattr(obj, field) == response:
+        try:
+            model_cls.objects.get(subject_identifier=subject_identifier)
+        except model_cls.DoesNotExist:
+
+            try:
+                action_item_model_cls.objects.get(
+                    subject_identifier=subject_identifier,
+                    action_type__name=action_name)
+            except action_item_model_cls.DoesNotExist:
+                action_cls = site_action_items.get(action_name)
+                action_cls(
+                    subject_identifier=subject_identifier)
+    else:
+        try:
+            action_item = action_item_model_cls.objects.get(
+                subject_identifier=subject_identifier,
+                action_type__name=action_name)
+        except action_item_model_cls.DoesNotExist:
+            pass
+        else:
+            action_item.delete()
