@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from edc_action_item.site_action_items import site_action_items
 from edc_base.utils import get_utcnow
-from edc_constants.constants import DEAD
+from edc_constants.constants import DEAD, NEW
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 import pytz
 
@@ -182,7 +182,8 @@ def trigger_action_item(obj, field, response, model_cls,
         try:
             action_item = action_item_model_cls.objects.get(
                 subject_identifier=subject_identifier,
-                action_type__name=action_name)
+                action_type__name=action_name,
+                status=NEW)
         except action_item_model_cls.DoesNotExist:
             pass
         else:

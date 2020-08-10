@@ -1,4 +1,5 @@
 from .baseline_roadmap_form import BaselineRoadMapForm
+from .cancer_diagnosis_and_treatment_form import CancerDiagnosisAndTreatmentAssessmentForm
 from .clinician_call_enrollment_form import ClinicianCallEnrollmentForm
 from .facility_visit_form import FacilityVisitForm
 from .home_visit_form import HomeVisitForm
@@ -18,4 +19,5 @@ from .subject_consent_form import SubjectConsentForm
 from .subject_locator_form import SubjectLocatorForm
 from .subject_screening_form import SubjectScreeningForm
 from .subject_visit_form import SubjectVisitForm
+from .symptom_and_care_seeking_form import SymptomAndcareSeekingAssessmentForm
 from .transport_form import TransportForm

@@ -1,6 +1,7 @@
 from django.apps import apps as django_apps
 from django.core.exceptions import ObjectDoesNotExist
 
+from ...constants import UNSURE
 from ..clinician_call_enrollment import ClinicianCallEnrollment
 
 
@@ -47,7 +48,13 @@ class BaselineRoadMapMixin:
             return None
         else:
             for attr in attributes:
-                value = getattr(clinician_call_obj)
+                value = getattr(
+                        clinician_call_obj, 'suspected_cancer')
+
+                if attr == 'suspected_cancer' and value == UNSURE:
+                    value = getattr(
+                        clinician_call_obj, 'suspected_cancer_unsure')
+
                 enrollment_dict.update({attr:value})
 
         return enrollment_dict
@@ -65,7 +72,7 @@ class BaselineRoadMapMixin:
             return None
         else:
             for attr in attributes:
-                value = getattr(model_obj)
+                value = getattr(model_obj, attr)
                 crf_dict.update({attr:value})
 
         return crf_dict

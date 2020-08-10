@@ -1,5 +1,4 @@
 import re
-
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from edc_base.utils import get_utcnow
@@ -7,6 +6,8 @@ from edc_constants.constants import NO, YES
 from edc_facility.import_holidays import import_holidays
 from edc_registration.models import RegisteredSubject
 from model_mommy import mommy
+
+from edc_appointment.models import Appointment
 
 from ..models import Onschedule, SubjectScreening, SubjectConsent
 
@@ -63,7 +64,7 @@ class TestSubjectConsent(TestCase):
             'screening_identifier': self.subject_screening.screening_identifier,
             'consent_datetime': get_utcnow,
             'version': '1'
-            }
+        }
 
         subject_consent = mommy.make_recipe(
             'potlako_subject.subjectconsent', **options)

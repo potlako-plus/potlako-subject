@@ -37,15 +37,15 @@ class TestRuleGroups(TestCase):
             report_datetime=get_utcnow() - relativedelta(days=2),
             appointment=self.appointment_1000)
 
-        self.appointment_1010 = Appointment.objects.get(
+        self.appointment_2000 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
-            visit_code='1010')
+            visit_code='2000')
 
-        self.maternal_visit_1010 = mommy.make_recipe(
+        self.maternal_visit_2000 = mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
             report_datetime=get_utcnow(),
-            appointment=self.appointment_1010)
+            appointment=self.appointment_2000)
 
     def test_transport_form_not_required_subject(self):
         mommy.make_recipe(
@@ -115,47 +115,47 @@ class TestRuleGroups(TestCase):
         self.appointment_1000.save()
         mommy.make_recipe(
             'potlako_subject.patientcallfollowup',
-            subject_visit=self.maternal_visit_1010)
+            subject_visit=self.maternal_visit_2000)
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.investigationsordered',
                 subject_identifier=self.subject_consent.subject_identifier,
-                visit_code='1010').entry_status, NOT_REQUIRED)
+                visit_code='2000').entry_status, NOT_REQUIRED)
 
     def test_investigations_ordered_form_required_subject(self):
         self.appointment_1000.appt_status = INCOMPLETE
         self.appointment_1000.save()
         mommy.make_recipe(
             'potlako_subject.patientcallfollowup',
-            subject_visit=self.maternal_visit_1010,
+            subject_visit=self.maternal_visit_2000,
             investigations_ordered='ordered')
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.investigationsordered',
                 subject_identifier=self.subject_consent.subject_identifier,
-                visit_code='1010').entry_status, REQUIRED)
+                visit_code='2000').entry_status, REQUIRED)
 
     def test_investigations_resulted_form_not_required_subject(self):
         self.appointment_1000.appt_status = INCOMPLETE
         self.appointment_1000.save()
         mommy.make_recipe(
             'potlako_subject.patientcallfollowup',
-            subject_visit=self.maternal_visit_1010)
+            subject_visit=self.maternal_visit_2000)
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.investigationsresulted',
                 subject_identifier=self.subject_consent.subject_identifier,
-                visit_code='1010').entry_status, NOT_REQUIRED)
+                visit_code='2000').entry_status, NOT_REQUIRED)
 
     def test_investigations_resulted_form_required_subject(self):
         self.appointment_1000.appt_status = INCOMPLETE
         self.appointment_1000.save()
         mommy.make_recipe(
             'potlako_subject.patientcallfollowup',
-            subject_visit=self.maternal_visit_1010,
+            subject_visit=self.maternal_visit_2000,
             investigations_ordered='resulted')
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.investigationsresulted',
                 subject_identifier=self.subject_consent.subject_identifier,
-                visit_code='1010').entry_status, REQUIRED)
+                visit_code='2000').entry_status, REQUIRED)

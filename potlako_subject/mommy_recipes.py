@@ -6,7 +6,8 @@ from faker import Faker
 from model_mommy.recipe import Recipe, seq
 
 from .models import ClinicianCallEnrollment, PatientCallInitial, PatientCallFollowUp
-from .models import SubjectConsent, SubjectScreening, SubjectVisit
+from .models import HomeVisit
+from .models import SubjectConsent, SubjectScreening, SubjectVisit, SubjectLocator
 
 fake = Faker()
 
@@ -43,6 +44,10 @@ subjectconsent = Recipe(
     is_dob_estimated='-',
     version='1'
 )
+
+subjectlocator = Recipe(
+    SubjectLocator,
+    subject_identifier=None)
 
 subjectvisit = Recipe(
     SubjectVisit,
