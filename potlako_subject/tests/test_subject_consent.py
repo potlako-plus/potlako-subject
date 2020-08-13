@@ -1,4 +1,5 @@
 import re
+
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from edc_base.utils import get_utcnow
@@ -9,7 +10,7 @@ from model_mommy import mommy
 
 from edc_appointment.models import Appointment
 
-from ..models import Onschedule, SubjectScreening, SubjectConsent
+from ..models import OnscheduleIntervention, SubjectScreening, SubjectConsent
 
 subject_identifier = '132\-[0-9\-]+'
 
@@ -19,8 +20,12 @@ class TestSubjectConsent(TestCase):
     def setUp(self):
         import_holidays()
 
+        clinicial_call_enrolment = self.subject_screening = mommy.make_recipe(
+            'potlako_subject.cliniciancallenrollment')
+
         self.subject_screening = mommy.make_recipe(
-            'potlako_subject.subjectscreening')
+            'potlako_subject.subjectscreening',
+            screening_identifier=clinicial_call_enrolment.screening_identifier)
 
         self.options = {
             'screening_identifier': self.subject_screening.screening_identifier,
@@ -83,12 +88,12 @@ class TestSubjectConsent(TestCase):
             **self.options)
 
         try:
-            Onschedule.objects.get(
+            OnscheduleIntervention.objects.get(
                 subject_identifier=subject_consent.subject_identifier)
-        except Onschedule.DoesNotExist:
+        except OnscheduleIntervention.DoesNotExist:
             raise ValidationError(
                 'Onschedule object does not exist for subject')
-        self.assertEqual(Onschedule.objects.all().count(), 1)
+        self.assertEqual(OnscheduleIntervention.objects.all().count(), 1)
 
     def test_ineligibilty_consent_validation_raised(self):
         """Test validation error raised when subject ineligible

@@ -210,8 +210,8 @@ ENROLLMENT_SITES = (
     ('mmathethe_clinic', 'Mmathethe clinic'),
     ('molapowabojang_clinic', 'Molapowabojang clinic'),
     ('otse_clinic', 'Otse clinic'),
-    ('mmankgodi_clinic', 'Mmankgodi clinic'),
-    ('leentsweletau_clinic', 'Lentsweletau clinic'),
+    ('mankgodi_clinic', 'Mankgodi clinic'),
+    ('lentsweletau_clinic', 'Lentsweletau clinic'),
     ('letlhakeng_clinic', 'Letlhakeng clinic'),
     ('oodi_clinic', 'Oodi clinic'),
     ('bokaa_clinic', 'Bokaa clinic'),
@@ -229,6 +229,7 @@ ENROLLMENT_SITES = (
     ('tati_siding_clinic', 'Tati Siding clinic'),
     ('masunga_primary_hospital', 'Masunga Primary Hospital'),
     ('masunga_clinic', 'Masunga clinic'),
+    ('mathangwane_clinic', 'Mathangwane clinic'),
     ('nata_clinic', 'Nata clinic')
 
 )

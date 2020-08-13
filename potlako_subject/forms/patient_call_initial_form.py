@@ -2,7 +2,6 @@ from django import forms
 from edc_constants.constants import NO, YES
 
 from potlako_validations.form_validators import PatientCallInitialFormValidator
-
 from ..models import PatientCallInitial
 from .form_mixins import SubjectModelFormMixin
 

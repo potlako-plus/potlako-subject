@@ -6,7 +6,6 @@ from faker import Faker
 from model_mommy.recipe import Recipe, seq
 
 from .models import ClinicianCallEnrollment, PatientCallInitial, PatientCallFollowUp
-from .models import HomeVisit
 from .models import SubjectConsent, SubjectScreening, SubjectVisit, SubjectLocator
 
 fake = Faker()
@@ -20,7 +19,8 @@ cliniciancallenrollment = Recipe(
     age_in_years=25,
     national_identity=seq('123425678', increment_by=1),
     primary_cell='77654312',
-    secondary_cell='77654312'
+    secondary_cell='77654312',
+    facility='molapowabojang_clinic'
 )
 
 subjectscreening = Recipe(
@@ -74,6 +74,6 @@ patientcallfollowup = Recipe(
     encounter_date=get_utcnow().date(),
     start_time=get_utcnow().time(),
     investigations_ordered='blah',
-    last_visit_date=get_utcnow() - relativedelta(months=1),
-    next_appointment_date=get_utcnow() - relativedelta(months=2)
+    last_visit_date=get_utcnow() - relativedelta(days=1),
+    next_appointment_date=get_utcnow() + relativedelta(months=2)
 )

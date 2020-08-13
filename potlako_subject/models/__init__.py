@@ -10,7 +10,7 @@ from .medical_diagonsis import MedicalConditions
 from .medical_diagonsis import MedicalDiagnosis
 from .missed_call import MissedCall
 from .missed_visit import MissedVisit
-from .onschedule import Onschedule
+from .onschedule import OnscheduleIntervention, OnscheduleEnhancedCare
 from .patient_call_followup import FacilityVisit
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
