@@ -2,10 +2,13 @@ from django import forms
 from edc_base.sites import SiteModelFormMixin
 from edc_constants.constants import NO, YES
 from edc_form_validators import FormValidatorMixin
+from django.core.exceptions import ValidationError
 
 from potlako_validations.form_validators import ClinicianCallEnrollmentFormValidator
+from potlako_validations.form_validators import NextOfKinFormValidator
 
 from ..models import ClinicianCallEnrollment
+from ..models import NextOfKin
 
 
 class ClinicianCallEnrollmentForm(
@@ -36,4 +39,13 @@ class ClinicianCallEnrollmentForm(
 
     class Meta:
         model = ClinicianCallEnrollment
+        fields = '__all__'
+
+
+class NextOfKinForm(FormValidatorMixin, forms.ModelForm):
+
+    form_validator_cls = NextOfKinFormValidator
+
+    class Meta:
+        model = NextOfKin
         fields = '__all__'
