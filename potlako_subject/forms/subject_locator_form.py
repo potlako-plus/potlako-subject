@@ -1,5 +1,4 @@
 from django import forms
-from django.core.exceptions import ValidationError
 from edc_constants.constants import YES, NO
 from edc_form_validators import FormValidatorMixin
 from edc_locator.forms import (
@@ -32,22 +31,10 @@ class SubjectLocatorFormValidator(BaseSubjectLocatorFormValidator):
                 YES, field='may_visit_home',
                 field_required=field)
 
-        # for field in ['alt_contact_name', 'alt_contact_rel', 'alt_contact_cell']:
-        for field in ['alt_contact_name', 'alt_contact_rel']:
+        for field in ['alt_contact_name', 'alt_contact_rel', 'alt_contact_cell']:
             self.required_if(
                 YES, field='has_alt_contact',
                 field_required=field)
-
-        alt_contact_cell = self.cleaned_data.get('alt_contact_cell')
-        alt_contact_tel = self.cleaned_data.get('alt_contact_tel')
-
-        if alt_contact_cell == '' and alt_contact_tel == '':
-            message = {'alt_contact_cell':
-                           'A cell number or',
-                       'alt_contact_tel':
-                           'telephone number is required'}
-            self._errors.update(message)
-            raise ValidationError(message)
 
         for field in ['other_alt_contact_cell', 'alt_contact_tel']:
             self.not_required_if(

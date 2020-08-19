@@ -364,11 +364,11 @@ class NextOfKin(BaseUuidModel):
     kin_cell = EncryptedCharField(
         verbose_name='Next of kin cellphone number',
         validators=[CellNumber, ],
-        blank=True,
-        null=True)
+        blank=False,
+        null=False)
 
     kin_telephone = EncryptedCharField(
         verbose_name='Next of kin telephone number',
         validators=[TelephoneNumber, ],
-        blank=True,
-        null=True)
+        blank=False,
+        null=False)
