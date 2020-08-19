@@ -313,11 +313,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         null=True,
         editable=False)
 
-    class Meta:
-        app_label = 'potlako_subject'
-        verbose_name = 'Clinician call - Enrollment'
-        verbose_name_plural = 'Clinician call - Enrollment'
-
     def save(self, *args, **kwargs):
         if not self.id:
             self.screening_identifier = self.identifier_cls().identifier
@@ -330,6 +325,11 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         if eligibility_obj.reasons_ineligible:
             self.ineligibility = eligibility_obj.reasons_ineligible
         super().save(*args, **kwargs)
+
+    class Meta:
+        app_label = 'potlako_subject'
+        verbose_name = 'Clinician call - Enrollment'
+        verbose_name_plural = 'Clinician call - Enrollment'
 
 
 class NextOfKin(BaseUuidModel):
