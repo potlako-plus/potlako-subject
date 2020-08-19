@@ -2,7 +2,6 @@ from django import forms
 from edc_base.sites import SiteModelFormMixin
 from edc_constants.constants import NO, YES
 from edc_form_validators import FormValidatorMixin
-from django.core.exceptions import ValidationError
 
 from potlako_validations.form_validators import ClinicianCallEnrollmentFormValidator
 from potlako_validations.form_validators import NextOfKinFormValidator
