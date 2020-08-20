@@ -247,7 +247,9 @@ class PatientCallInitial(CrfModelMixin):
 
     next_appointment_date = models.DateField(
         verbose_name='Next appointment date (per patient report)',
-        validators=[date_is_future])
+        validators=[date_is_future],
+        blank=True,
+        null=True)
 
     next_ap_facility = models.CharField(
         verbose_name='Next appointment facility',

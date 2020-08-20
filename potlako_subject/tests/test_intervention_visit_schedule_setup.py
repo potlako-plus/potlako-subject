@@ -1,17 +1,19 @@
 from dateutil.relativedelta import relativedelta
-from django.test import TestCase
+from django.test import TestCase, tag
 from edc_base.utils import get_utcnow
-from edc_constants.constants import INCOMPLETE
 from edc_facility.import_holidays import import_holidays
 from edc_metadata.constants import REQUIRED, NOT_REQUIRED
 from edc_metadata.models import CrfMetadata
 from model_mommy import mommy
 
+from edc_appointment.constants import IN_PROGRESS_APPT, INCOMPLETE_APPT
 from edc_appointment.models import Appointment
-from ..models import OnscheduleIntervention
+
+from ..models import OnSchedule
 
 
-class TestVisitScheduleSetup(TestCase):
+@tag('2')
+class TestInterventionVisitScheduleSetup(TestCase):
 
     def setUp(self):
         import_holidays()
@@ -36,88 +38,114 @@ class TestVisitScheduleSetup(TestCase):
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='1000')
 
+        self.appointment_2000 = Appointment.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier,
+            visit_code='2000')
+
         self.visit_1000 = mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
             report_datetime=get_utcnow() - relativedelta(days=5),
             appointment=self.appointment_1000)
 
-        self.appointment_1010 = Appointment.objects.get(
-            subject_identifier=self.subject_consent.subject_identifier,
-            visit_code='1010')
+        self.not_required_models = [
+            'transport', 'homevisit', 'physicianreview',
+            'investigationsordered', 'investigationsresulted',
+            'medicaldiagnosis']
 
-        self.visit_1010 = mommy.make_recipe(
-            'potlako_subject.subjectvisit',
-            subject_identifier=self.subject_consent.subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=4),
-            appointment=self.appointment_1010)
-
-        self.appointment_2000 = Appointment.objects.get(
-            subject_identifier=self.subject_consent.subject_identifier,
-            visit_code='2000')
-
-        self.appointment_2010 = Appointment.objects.get(
-            subject_identifier=self.subject_consent.subject_identifier,
-            visit_code='2010')
-
-        self.appointment_3000 = Appointment.objects.get(
-            subject_identifier=self.subject_consent.subject_identifier,
-            visit_code='3000')
-
-        self.appointment_3010 = Appointment.objects.get(
-            subject_identifier=self.subject_consent.subject_identifier,
-            visit_code='3010')
-
-    def test_schedule_name_valid(self):
-        self.assertEqual(OnscheduleIntervention.objects.filter(
+    def test_community_arm_name_valid(self):
+        self.assertEqual(OnSchedule.objects.filter(
             subject_identifier=self.subject_consent.subject_identifier).count(), 1)
 
-        self.assertEqual(self.visit_1000.schedule_name, 'intervention_schedule')
+        self.assertEqual(OnSchedule.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier).community_arm, 'intervention')
+
+    def test_appointments_created(self):
+        """Assert that four appointments were created"""
+
+        self.assertEqual(Appointment.objects.filter(
+            subject_identifier=self.subject_consent.subject_identifier).count(), 3)
 
     def test_metadata_creation_visit_1000(self):
+        """Assert that 1000 metadata is correct"""
 
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.patientcallinitial',
                 subject_identifier=self.subject_consent.subject_identifier,
-                visit_code='1000').entry_status, REQUIRED)
+                visit_code='1000',
+            ).entry_status, REQUIRED)
 
-        self.assertEqual(
-            CrfMetadata.objects.get(
-                model='potlako_subject.transport',
-                subject_identifier=self.subject_consent.subject_identifier,
-                visit_code='1000').entry_status, NOT_REQUIRED)
+        for model in self.not_required_models:
+            self.assertEqual(
+                CrfMetadata.objects.get(
+                    model='potlako_subject.' + model,
+                    subject_identifier=self.subject_consent.subject_identifier,
+                    visit_code='1000').entry_status, NOT_REQUIRED)
 
-    def test_metadata_creation_visit_1010(self):
+    def test_creation_of_1000_continuation_visit(self):
+        """Assert that an unscheduled appointment was created for visit 1000"""
 
-        self.assertEqual(
-            CrfMetadata.objects.get(
-                model='potlako_subject.patientcallfollowup',
-                subject_identifier=self.subject_consent.subject_identifier,
-                visit_code='1010').entry_status, REQUIRED)
-
-        self.assertEqual(
-            CrfMetadata.objects.get(
-                model='potlako_subject.transport',
-                subject_identifier=self.subject_consent.subject_identifier,
-                visit_code='1010').entry_status, NOT_REQUIRED)
-
-    def test_creation_of_1010_continuation_visit(self):
-        self.appointment_1000.appt_status = INCOMPLETE
-        self.appointment_1000.save_base(raw=True)
-
-        self.subject_consent = mommy.make_recipe(
-            'potlako_subject.patientcallfollowup',
-            subject_visit=self.visit_1010)
+        mommy.make_recipe(
+            'potlako_subject.patientcallinitial',
+            subject_visit=self.visit_1000,
+            next_appointment_date=get_utcnow().date() + relativedelta(weeks=1))
 
         self.assertEqual(Appointment.objects.filter(
-            subject_identifier=self.subject_consent.subject_identifier).count(), 7)
+            subject_identifier=self.subject_consent.subject_identifier).count(), 4)
 
         self.assertEqual(Appointment.objects.filter(
             subject_identifier=self.subject_consent.subject_identifier,
-            visit_code=1010).count(), 2)
+            visit_code=1000,
+            visit_code_sequence='1').count(), 1)
+
+    def test_second_creation_of_1000_continuation_visit(self):
+        """Assert that a second unscheduled appointment was created for
+         visit 1000
+        """
+
+        self.appointment_1000.appt_status = INCOMPLETE_APPT
+        self.appointment_1000.save()
+
+        mommy.make_recipe(
+            'potlako_subject.patientcallinitial',
+            subject_visit=self.visit_1000,
+            next_appointment_date=get_utcnow().date() + relativedelta(weeks=1))
+
+        appointment_1000_1 = Appointment.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier,
+            visit_code='1000',
+            visit_code_sequence='1')
+
+        visit_1000_1 = mommy.make_recipe(
+            'potlako_subject.subjectvisit',
+            subject_identifier=self.subject_consent.subject_identifier,
+            report_datetime=get_utcnow() - relativedelta(days=5),
+            appointment=appointment_1000_1)
+
+        self.subject_consent = mommy.make_recipe(
+            'potlako_subject.patientcallfollowup',
+            subject_visit=visit_1000_1,
+            next_appointment_date=get_utcnow().date() + relativedelta(weeks=2))
+
+        self.assertEqual(Appointment.objects.filter(
+            subject_identifier=self.subject_consent.subject_identifier).count(), 5)
+
+        self.assertEqual(Appointment.objects.filter(
+            subject_identifier=self.subject_consent.subject_identifier,
+            visit_code=1000,
+            visit_code_sequence='2').count(), 1)
 
     def test_metadata_creation_visit_2000(self):
+        appts = Appointment.objects.filter(appt_status=IN_PROGRESS_APPT)
+
+        for ap in appts:
+            ap.appt_status = INCOMPLETE_APPT
+            ap.save()
+
+        self.appointment_2000 = Appointment.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier,
+            visit_code='2000')
 
         mommy.make_recipe(
             'potlako_subject.subjectvisit',
@@ -131,38 +159,16 @@ class TestVisitScheduleSetup(TestCase):
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='2000').entry_status, REQUIRED)
 
-    def test_metadata_creation_visit_2010(self):
-
-        mommy.make_recipe(
-            'potlako_subject.subjectvisit',
-            subject_identifier=self.subject_consent.subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=3),
-            appointment=self.appointment_2000)
-
-        mommy.make_recipe(
-            'potlako_subject.subjectvisit',
-            subject_identifier=self.subject_consent.subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=1),
-            appointment=self.appointment_2010)
-
-        self.assertEqual(
-            CrfMetadata.objects.get(
-                model='potlako_subject.patientcallfollowup',
-                subject_identifier=self.subject_consent.subject_identifier,
-                visit_code='2010').entry_status, REQUIRED)
-
     def test_metadata_creation_visit_3000(self):
+        self.appointment_3000 = Appointment.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier,
+            visit_code='3000')
+
         mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
             report_datetime=get_utcnow() - relativedelta(days=3),
             appointment=self.appointment_2000)
-
-        mommy.make_recipe(
-            'potlako_subject.subjectvisit',
-            subject_identifier=self.subject_consent.subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=1),
-            appointment=self.appointment_2010)
 
         mommy.make_recipe(
             'potlako_subject.subjectvisit',
@@ -175,40 +181,3 @@ class TestVisitScheduleSetup(TestCase):
                 model='potlako_subject.cancerdiagnosisandtreatmentassessment',
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='3000').entry_status, REQUIRED)
-
-    def test_metadata_creation_visit_3010(self):
-        mommy.make_recipe(
-            'potlako_subject.subjectvisit',
-            subject_identifier=self.subject_consent.subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=3),
-            appointment=self.appointment_2000)
-
-        mommy.make_recipe(
-            'potlako_subject.subjectvisit',
-            subject_identifier=self.subject_consent.subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=1),
-            appointment=self.appointment_2010)
-
-        mommy.make_recipe(
-            'potlako_subject.subjectvisit',
-            subject_identifier=self.subject_consent.subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=1),
-            appointment=self.appointment_3000)
-
-        mommy.make_recipe(
-            'potlako_subject.subjectvisit',
-            subject_identifier=self.subject_consent.subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=1),
-            appointment=self.appointment_3010)
-
-        self.assertEqual(
-            CrfMetadata.objects.get(
-                model='potlako_subject.patientcallfollowup',
-                subject_identifier=self.subject_consent.subject_identifier,
-                visit_code='3010').entry_status, REQUIRED)
-
-    def test_appointments_created(self):
-        """Assert that four appointments were created"""
-
-        self.assertEqual(Appointment.objects.filter(
-            subject_identifier=self.subject_consent.subject_identifier).count(), 6)
