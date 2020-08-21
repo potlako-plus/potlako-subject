@@ -121,13 +121,9 @@ class PatientCallInitial(CrfModelMixin):
     patient_residence_other = OtherCharField()
 
     patient_info_change = models.CharField(
-        verbose_name=('Any changes to be made to participant residence and '
-                      'contact information since index visit?'),
-        choices=YES_NO,
-        max_length=3)
-
-    nok_change = models.CharField(
-        verbose_name='Any changes to be made to next of kin information?',
+        verbose_name=('Any changes to be made to participant residence, '
+                      'contact and or next of kin information since index '
+                      'visit?'),
         choices=YES_NO,
         max_length=3)
 
@@ -251,7 +247,9 @@ class PatientCallInitial(CrfModelMixin):
 
     next_appointment_date = models.DateField(
         verbose_name='Next appointment date (per patient report)',
-        validators=[date_is_future])
+        validators=[date_is_future],
+        blank=True,
+        null=True)
 
     next_ap_facility = models.CharField(
         verbose_name='Next appointment facility',

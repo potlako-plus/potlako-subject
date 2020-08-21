@@ -48,8 +48,10 @@ list_data = {
         ('pap_smear', 'Pap smear')
     ],
     'potlako_subject.symptoms': [
-        ('pain', 'Pain'),
-        ('mass', 'Mass'),
+        ('mouth_pain', 'Mouth pain'),
+        ('pelvic_pain', 'Pelvic pain'),
+        ('abdominal_pain', 'Abdominal pain'),
+        ('new_mass_lump', 'New mass or lump'),
         ('bleeding', 'Bleeding'),
         ('bowel_movements_change', 'Change in bowel movements'),
         ('discharge', 'Discharge'),
@@ -57,6 +59,8 @@ list_data = {
         ('dysphagia', 'Dysphagia'),
         ('dysuria', 'Dysuria'),
         ('skin_changes', 'Skin changes'),
+        ('cough', 'Cough'),
+
         (OTHER, 'Other (specify)')
     ],
     'potlako_subject.transportcriteria': [

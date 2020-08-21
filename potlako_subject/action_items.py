@@ -9,7 +9,6 @@ class PotlakoSubjectLocatorAction(BaseSubjectLocatorAction):
     display_name = 'Submit Subject Locator'
     reference_model = 'potlako_subject.subjectlocator'
     admin_site_name = 'potlako_subject_admin'
-    singleton = False
 
 
 site_action_items.register(PotlakoSubjectLocatorAction)

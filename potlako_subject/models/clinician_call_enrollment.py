@@ -210,7 +210,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         verbose_name='Suspected Cancer type',
         max_length=30,
         choices=SUSPECTED_CANCER,
-        help_text='((if clinician unsure, select \'unsure\'))',)
+        help_text='(if clinician unsure, select \'unsure\')',)
 
     suspected_cancer_unsure = models.TextField(
         verbose_name=('If unsure of cancer type, kindly list all suspected '
@@ -313,11 +313,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         null=True,
         editable=False)
 
-    class Meta:
-        app_label = 'potlako_subject'
-        verbose_name = 'Clinician call - Enrollment'
-        verbose_name_plural = 'Clinician call - Enrollment'
-
     def save(self, *args, **kwargs):
         if not self.id:
             self.screening_identifier = self.identifier_cls().identifier
@@ -329,7 +324,12 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         self.is_eligible = eligibility_obj.is_eligible
         if eligibility_obj.reasons_ineligible:
             self.ineligibility = eligibility_obj.reasons_ineligible
-        super(ClinicianCallEnrollment, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        app_label = 'potlako_subject'
+        verbose_name = 'Clinician call - Enrollment'
+        verbose_name_plural = 'Clinician call - Enrollment'
 
 
 class NextOfKin(BaseUuidModel):

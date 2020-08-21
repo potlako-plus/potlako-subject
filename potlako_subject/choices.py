@@ -1,5 +1,5 @@
 from edc_constants.constants import (
-    ALIVE, DEAD, OTHER, OFF_STUDY, UNKNOWN, NOT_APPLICABLE, NONE, YES, NO)
+    ALIVE, DEAD, OTHER, OFF_STUDY, UNKNOWN, NOT_APPLICABLE, YES, NO)
 
 from .constants import UNSURE
 
@@ -33,7 +33,7 @@ CANCER_DIAGNOSIS = (
     ('non_hodgkin_lymph', 'Non-Hodgkin Lymphoma'),
     ('hodgkin_lymph', 'Hodgkin Lymphoma'),
     ('esophageal', 'Esophageal'),
-    ('vuginal', 'Vulvar/Vaginal Cancer'),
+    ('vaginal', 'Vulvar/Vaginal Cancer'),
     ('anal', 'Anal Cancer'),
     ('kaposis_sarcoma', 'Kaposi\'s sarcoma'),
     ('penile', 'Penile Cancer'),
@@ -59,6 +59,11 @@ CANCER_STAGES = (
     ('stage_III', 'Stage III'),
     ('stage_IV', 'Stage IV'),
 )
+
+CANCER_DIAGNOSIS_STAGE = (
+    ('limited_stage', 'Limited stage'),
+    ('advanced_stage', 'Advancced stage'),
+    (UNKNOWN, UNKNOWN))
 
 CANCER_STATUS = (
     ('confirmed', 'Confirmed cancer'),
@@ -93,33 +98,21 @@ CHECKUP_FREQUENCY = (
     (OTHER, 'Other (specify)')
 )
 
+CLINICAL_IMPRESSION = (
+    ('confirmed_cancer', 'Confirmed cancer'),
+    ('probable_cancer', 'Probably cancer'),
+    ('possible_not_cancer', 'Possible not cancer'),
+    ('probable_not_cancer', 'Probable not cancer'),
+    ('no_alternative_diagnosis', 'No alternative diagnosis'),
+    ('confirmed_not_cancer', 'Confirmed not cancer'),
+    ('alternative_diagnosis', 'Alternative diagnosis'))
+
 CLINICIAN_TYPE = (
     ('med_officer', 'Medical Officer'),
     ('nurse', 'Nurse'),
     ('smo/cmo', 'SMO/CMO'),
     ('research_team', 'Research team'),
     (OTHER, 'Other type (specify)')
-)
-
-COMPONENTS_RECEIVED = (
-    ('provider_edication', 'Provider education'),
-    ('diagnostic_facilitation', 'Diagnostic facilitation (pre-biopsy/test)'),
-    ('access_to_diagnostic_results',
-     'Access to diagnostic results (e.g. histology)'),
-    ('cancer_treatment_facilitation_post_test_results',
-     'Cancer treatment facilitation post-test results'),
-    ('retention_or_completion_of_cancer_treatment',
-     'Retention or completion of cancer treatment'),
-    (NONE, 'None'),
-    (OTHER, 'Other (specify)'),
-)
-
-DEATH_INFO_SOURCE = (
-    ('clinician', 'Clinician'),
-    ('next_of_kin1', 'Next of kin 1'),
-    ('next_of_kin2', 'Next of kin 2'),
-    ('other_fam_member', 'Other family member'),
-    (OTHER, 'Other (specify)'),
 )
 
 DETERMINE_MISSED_VISIT = (
@@ -130,11 +123,6 @@ DETERMINE_MISSED_VISIT = (
     ('clinician_contacted', 'Patient contacted clinician'),
     ('research_staff_contacted', 'Patient contacted research staff'),
     (OTHER, 'Other (specify)')
-)
-
-DELAYED_REASON = (
-    ('patient_factor', 'Patient Factor'),
-    ('health_system_factor', 'Health System Factor')
 )
 
 DIAGNOSIS_RESULTS = (
@@ -200,6 +188,19 @@ DATE_TIME_ESTIMATION = (
     ('day_month_year', 'Estimated day, month and year')
 )
 
+DISCUSSION_PERSON = (
+    ('mother', 'Mother'),
+    ('father', 'Father'),
+    ('sister', 'Sister'),
+    ('brother', 'Brother'),
+    ('female_family_member', 'Other female family member'),
+    ('male_family_member', 'Other male family member'),
+    ('female_friend', 'Female friend'),
+    ('male_friend', 'Male friend'),
+    ('pastor_religious_leader', 'Pastor or religious leader'),
+    ('traditional_healer', 'Traditional healer'),
+    (OTHER, 'Other (specify)'))
+
 EDUCATION_LEVEL = (
     ('non_formal', 'Non-Formal'),
     ('primary', 'Primary'),
@@ -210,8 +211,8 @@ ENROLLMENT_SITES = (
     ('mmathethe_clinic', 'Mmathethe clinic'),
     ('molapowabojang_clinic', 'Molapowabojang clinic'),
     ('otse_clinic', 'Otse clinic'),
-    ('mmankgodi_clinic', 'Mmankgodi clinic'),
-    ('leentsweletau_clinic', 'Lentsweletau clinic'),
+    ('mankgodi_clinic', 'Mankgodi clinic'),
+    ('lentsweletau_clinic', 'Lentsweletau clinic'),
     ('letlhakeng_clinic', 'Letlhakeng clinic'),
     ('oodi_clinic', 'Oodi clinic'),
     ('bokaa_clinic', 'Bokaa clinic'),
@@ -229,6 +230,7 @@ ENROLLMENT_SITES = (
     ('tati_siding_clinic', 'Tati Siding clinic'),
     ('masunga_primary_hospital', 'Masunga Primary Hospital'),
     ('masunga_clinic', 'Masunga clinic'),
+    ('mathangwane_clinic', 'Mathangwane clinic'),
     ('nata_clinic', 'Nata clinic')
 
 )
@@ -282,38 +284,12 @@ FACILITY = (
 
 )
 
-FACILITY_TYPE = (
-    ('health_post', 'health post'),
-    ('primary_clinic', 'primary clinic'),
-    ('primary_hospital', 'primary hospital'),
-    ('secondary_hospital', 'secondary hospital'),
-    ('referral_hospital', 'referral hospital')
-)
-
 FACILITY_UNIT = (
     ('OPD', 'OPD'),
     ('A&E', 'A&E'),
     ('IDCC', 'IDCC'),
     (NOT_APPLICABLE, 'Not applicable'),
     (OTHER, 'Other (specify)'),
-)
-
-HEALTH_FACTOR = (
-    ('clinic_hospital_unable_schedule_2_weeks', 'Clinic/hospital unable to '
-     'schedule within 2 weeks (overbooked, uncertain schedule, etc)'),
-    ('clinic_hospital_did_not_schedule_2_weeks', 'Clinic/hospital did not '
-     'schedule within 2 weeks (unwilling, low priority case, etc)'),
-    ('clinic_no_transport', 'Clinic/hospital provided transportation not '
-     'available (needed for other clinic use, broken, driver on leave, etc)'),
-    ('service_unavailable',
-     'Clinic/hospital service no available on scheduled date (surgical '
-     'consultation, biopsy clinic, etc)'),
-    ('service_provider_not_available',
-     'Clinic/hospital provider not  available on scheduled date (provider '
-     'called to emergency, provider on leave, etc)'),
-    ('supplies_not_available', 'Clinic/hospital supplies not available on '
-     'scheduled date (no biopsy needles, out of stock chemotherapy, etc)'),
-    (OTHER, 'other clinic or hospital related reason (specify)')
 )
 
 IDENTITY_TYPE = (
@@ -372,17 +348,6 @@ LAB_TESTS_STATUS = (
     (OTHER, 'Other (specify)')
 )
 
-LTFU_CRITERIA = (
-    ('missed_visits', 'Missed visits'),
-    ('attempted_calls_to_patient',
-     'attempted calls to patient x 3 or 3 different days'),
-    ('attempted_calls_to_next_kin1',
-     'attempted calls to next of kin 1 x 3 or 3 different days'),
-    ('attempted_calls_to_next_kin2',
-     'attempted calls to next of kin 2 x 3 or 3 different days'),
-    ('home_visit_done_unable_to_trace', 'home visit done and unable to trace'),
-)
-
 MEDICAL_CONDITION = (
     ('cardiac_condition', 'Cardiac Condition'),
     ('metabolic_disease', 'Metabolic Disease'),
@@ -407,18 +372,6 @@ NON_CANCER_DIAGNOSIS = (
     (OTHER, 'Other'),
 )
 
-PATIENT_FACTOR = (
-    ('patient_work_obligations', 'Patient work obligations (formal '
-     'and informal work, including lands and cattle post)'),
-    ('patient_family_obligations', 'Patient family obligations '
-     '(childcare, funeral, illness in family, etc)'),
-    ('patient_paying_transport_difficulty', 'Patient difficulty paying for '
-     'transportation, including family member to accompany'),
-    ('patient_finding_tarnsport_difficulty', 'Patient difficulty finding '
-     'transportation or family member to accompany'),
-    (OTHER, 'Other patient related reason (specify)')
-)
-
 PEOPLE_INQUIRED_FROM = (
     ('patient_called', 'Patient called (phone answered)'),
     ('kin1_called',
@@ -429,27 +382,11 @@ PEOPLE_INQUIRED_FROM = (
     ('unreachable', 'Unable to reach patient or next of kin'),
 )
 
-PLACE_OF_DEATH = (
-    ('home', 'At home or in the community'),
-    ('facility', 'At facility'),
-    (UNKNOWN, 'Place of death unknown'),
-)
-
 PAIN_SCORE = (
     ('0_no_pain', '0 No pain'),
     ('1_3_mild', '1-3 mild pain'),
     ('4_6_moderate', '4-6 moderate pain'),
     ('7_10_severe', '7-10 severe pain'),
-)
-
-REASON_FOR_EXIT = (
-    ('death', 'Patient death'),
-    ('ltfu', 'Patient lost to follow-up'),
-    ('eval_complete', 'Cancer evaluation complete'),
-    ('declines_further_eval',
-     'Patient or clinician declines further evaluation'),
-    ('patient_requests_removal', 'Patient requests removal from Potlako+'),
-    ('clinician_requests_removal', 'Clinician requests removal from Potlako+'),
 )
 
 REASON_MISSED_VISIT = (
@@ -537,6 +474,18 @@ SPECIALIST_CLINIC = (
     ('anal', 'Anal'),
     (OTHER, 'Other, specify'))
 
+STAGES = (
+    (0, 0),
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4))
+
+METASTASIS_STAGES = (
+    (0, 0),
+    (1, 1),
+    (2, 2))
+
 SUSPECTED_CANCER = (
     ('anal', 'Anal'),
     ('breast', 'Breast'),
@@ -550,6 +499,13 @@ SUSPECTED_CANCER = (
     (UNSURE, 'Unsure'),
     (OTHER, 'Other (specify)'),
 )
+
+SYMPTOMS_CONCERN = (
+    ('not_concerned_at_all', 'Not concerned at all'),
+    ('little_concern', 'Little concern'),
+    ('some_concern', 'Some concern'),
+    ('quite_concerned', 'Quite concerned'),
+    ('very_concerned', 'Very concerned'))
 
 TESTS_ORDERED = (
     ('ordered', 'Yes, ordered'),
@@ -610,14 +566,6 @@ VEHICLE_ARR_STATUS = (
 VISIT_TYPE = (
     ('referral', 'Referral'),
     ('return', 'Return'),
-)
-
-VISIT_UNSCHEDULED_REASON_CHOICE = (
-    ('routine_oncology_clinic_visit',
-     'Routine oncology clinic visit (i.e. planned chemo, follow-up)'),
-    ('ill_oncology_clinic_visit', 'Ill oncology clinic visit'),
-    ('patient_called_to_come_for_visit', 'Patient called to come for visit'),
-    (OTHER, 'Other, specify: '),
 )
 
 VISIT_UNSCHEDULED_REASON = (

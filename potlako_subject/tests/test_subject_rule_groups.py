@@ -1,5 +1,5 @@
 from dateutil.relativedelta import relativedelta
-from django.test.testcases import TestCase
+from django.test import TestCase
 from edc_base.utils import get_utcnow
 from edc_constants.constants import YES, INCOMPLETE
 from edc_facility.import_holidays import import_holidays
@@ -15,16 +15,17 @@ class TestRuleGroups(TestCase):
     def setUp(self):
         import_holidays()
 
-        self.clinician_call_enrollment = mommy.make_recipe(
-            'potlako_subject.cliniciancallenrollment')
+        self.clinician_call = mommy.make_recipe(
+            'potlako_subject.cliniciancallenrollment',
+            screening_identifier='12345')
 
         self.subject_screening = mommy.make_recipe(
             'potlako_subject.subjectscreening',
-            screening_identifier='12345')
+            screening_identifier=self.clinician_call.screening_identifier)
 
         self.subject_consent = mommy.make_recipe(
             'potlako_subject.subjectconsent',
-            screening_identifier='12345',
+            screening_identifier=self.clinician_call.screening_identifier,
             consent_datetime=get_utcnow() - relativedelta(days=3))
 
         self.appointment_1000 = Appointment.objects.get(

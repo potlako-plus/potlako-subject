@@ -1,9 +1,10 @@
 from django.contrib import admin
+from django.core.exceptions import ObjectDoesNotExist
 
 from ..admin_site import potlako_subject_admin
+from ..constants import UNSURE
 from ..forms import BaselineRoadMapForm
-from ..models import BaselineRoadMap
-
+from ..models import BaselineRoadMap, ClinicianCallEnrollment
 from .modeladmin_mixins import ModelAdminMixin
 
 
@@ -35,3 +36,42 @@ class BaselineRoadMapAdmin(ModelAdminMixin, admin.ModelAdmin):
         'specialist_clinic_type': admin.VERTICAL,
         'results_review_personnel': admin.VERTICAL
     }
+
+    def get_clinician_call_attrs(self, subject_identifier=None):
+        """Extract values required for Baseline Map from Clinician Call
+        Enrollment model.
+        """
+
+        enrollment_dict = {}
+        attributes = ['suspected_cancer', 'suspected_cancer_other',
+                      'gender', 'suspicion_level']
+
+        try:
+            clinician_call_obj = ClinicianCallEnrollment.objects.get(
+            subject_identifier=subject_identifier)
+        except ObjectDoesNotExist:
+            return None
+        else:
+            for attr in attributes:
+                value = getattr(
+                        clinician_call_obj, 'suspected_cancer')
+
+                if attr == 'suspected_cancer' and value == UNSURE:
+                    value = getattr(
+                        clinician_call_obj, 'suspected_cancer_unsure')
+
+                enrollment_dict.update({attr:value})
+
+        return enrollment_dict
+
+    def get_form(self, request, obj=None, **kwargs):
+        """Returns a form after adding extra readonly fields
+        """
+        form = super().get_form(request, obj=obj, **kwargs)
+        import pdb; pdb.set_trace()
+#         subject_screening = SubjectScreening.objects.get(
+#             screening_identifier=request.GET.get('screening_identifier'))
+#         if subject_screening.mental_status == ABNORMAL:
+#             form = self.replace_label_text(
+#                 form, 'participant', 'next of kin', skip_fields=['is_incarcerated'])
+#         return form

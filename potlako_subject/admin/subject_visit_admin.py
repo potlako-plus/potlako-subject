@@ -25,6 +25,8 @@ class SubjectVisitAdmin(
                 'reason_unscheduled_other',
                 'info_source',
                 'info_source_other',
+                'survival_status',
+                'last_alive_date',
                 'comments'
             ]}),
         visit_schedule_fieldset_tuple,
@@ -34,4 +36,5 @@ class SubjectVisitAdmin(
     radio_fields = {
         'reason': admin.VERTICAL,
         'reason_unscheduled': admin.VERTICAL,
-        'info_source': admin.VERTICAL}
+        'info_source': admin.VERTICAL,
+        'survival_status': admin.VERTICAL}
