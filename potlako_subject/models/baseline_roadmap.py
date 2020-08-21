@@ -123,3 +123,7 @@ class BaselineRoadMap(SiteModelMixin, BaseUuidModel):
         verbose_name='What is the treatment initiation visit turn-around time?',
         validators=[date_is_future, ])
 
+    class Meta:
+        app_label = 'potlako_subject'
+        verbose_name = 'Baseline Road Map'
+

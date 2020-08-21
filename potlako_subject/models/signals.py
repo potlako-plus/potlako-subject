@@ -173,6 +173,8 @@ def create_unscheduled_appointment(instance=None):
     subject_visit = instance.subject_visit
 
     unscheduled_appointment_cls = UnscheduledAppointmentCreator
+
+#     unscheduled_appointment_cls.parent_appointment =
     options = {
         'subject_identifier': subject_visit.subject_identifier,
         'visit_schedule_name': subject_visit.visit_schedule.name,

@@ -8,6 +8,7 @@ from .investigations_resulted_admin import InvestigationsResultedAdmin
 from .medical_diagnosis_admin import MedicalDiagnosisAdmin
 from .missed_call_admin import MissedCallAdmin
 from .missed_visit_admin import MissedVisitAdmin
+from .navigation_plan_and_summary_admin import NavigationPlanAndSummaryAdmin
 from .patient_call_followup_admin import PatientCallFollowUpAdmin
 from .patient_call_initial_admin import PatientCallInitialAdmin
 from .physician_review_admin import PhysicianReviewAdmin
@@ -17,4 +18,5 @@ from .subject_locator_admin import SubjectLocatorAdmin
 from .subject_screening_admin import SubjectScreeningAdmin
 from .subject_visit_admin import SubjectVisitAdmin
 from .symptom_and_care_seeking_admin import SymptomAndcareSeekingAssessmentAdmin
+from .symptom_and_care_seeking_endpoint_admin import SymptomAndcareSeekingEndpointAdmin
 from .transport_admin import TransportAdmin

@@ -56,4 +56,4 @@ class CancerDiagnosisAndTreatmentAssessment(CrfModelMixin):
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
-        verbose_name = 'Cancer Diagnosis And Treatment Assessments'
+        verbose_name = 'Cancer Diagnosis And Treatment Assessment'

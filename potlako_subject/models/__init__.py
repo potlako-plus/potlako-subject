@@ -12,6 +12,8 @@ from .medical_diagonsis import MedicalConditions
 from .medical_diagonsis import MedicalDiagnosis
 from .missed_call import MissedCall
 from .missed_visit import MissedVisit
+from .navigation_summary_and_plan import EvaluationTimeline
+from .navigation_summary_and_plan import NavigationPlanAndSummary
 from .onschedule import OnSchedule
 from .patient_call_followup import FacilityVisit
 from .patient_call_followup import PatientCallFollowUp
