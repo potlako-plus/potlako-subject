@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
+from edc_model_admin import audit_fieldset_tuple
 
 from ..admin_site import potlako_subject_admin
 from ..constants import UNSURE
@@ -28,8 +29,7 @@ class BaselineRoadMapAdmin(ModelAdminMixin, admin.ModelAdmin):
                        'oncology_turnaround_time',
                        'treatment_initiation_visit',
                        'treatment_initiation_turnaround_time'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
     radio_fields = {
         'specialty_clinic': admin.VERTICAL,
@@ -48,19 +48,19 @@ class BaselineRoadMapAdmin(ModelAdminMixin, admin.ModelAdmin):
 
         try:
             clinician_call_obj = ClinicianCallEnrollment.objects.get(
-            subject_identifier=subject_identifier)
+                subject_identifier=subject_identifier)
         except ObjectDoesNotExist:
             return None
         else:
             for attr in attributes:
                 value = getattr(
-                        clinician_call_obj, 'suspected_cancer')
+                    clinician_call_obj, 'suspected_cancer')
 
                 if attr == 'suspected_cancer' and value == UNSURE:
                     value = getattr(
                         clinician_call_obj, 'suspected_cancer_unsure')
 
-                enrollment_dict.update({attr:value})
+                enrollment_dict.update({attr: value})
 
         return enrollment_dict
 

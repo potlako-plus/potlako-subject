@@ -1,5 +1,5 @@
-from edc_constants.constants import (
-    ALIVE, DEAD, OTHER, OFF_STUDY, UNKNOWN, NOT_APPLICABLE, YES, NO)
+from edc_constants.constants import ALIVE, DEAD, OTHER, OFF_STUDY, UNKNOWN
+from edc_constants.constants import DONE, NOT_DONE, NOT_APPLICABLE, YES, NO
 
 from .constants import UNSURE
 
@@ -200,6 +200,10 @@ DISCUSSION_PERSON = (
     ('pastor_religious_leader', 'Pastor or religious leader'),
     ('traditional_healer', 'Traditional healer'),
     (OTHER, 'Other (specify)'))
+
+DONE_NOT_DONE = (
+    (DONE, 'Done'),
+    (NOT_DONE, 'Not Done'))
 
 EDUCATION_LEVEL = (
     ('non_formal', 'Non-Formal'),
@@ -471,6 +475,7 @@ SPECIALIST_CLINIC = (
     ('surgical', 'Surgical'),
     ('gynecology', 'Gynecology'),
     ('dermatology', 'Dermatology'),
+    ('anal', 'Anal'),
     (OTHER, 'Other, specify'))
 
 STAGES = (

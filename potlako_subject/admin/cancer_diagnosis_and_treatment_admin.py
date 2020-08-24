@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
 from ..forms import CancerDiagnosisAndTreatmentAssessmentForm
 from ..models import CancerDiagnosisAndTreatmentAssessment
@@ -24,8 +24,7 @@ class CancerDiagnosisAndTreatmentAssessmentAdmin(CrfModelAdminMixin, admin.Model
                        'clinical_impression',
                        'cancer_treatment',
                        'treatment_description'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
     radio_fields = {
         'cancer_evaluation': admin.VERTICAL,

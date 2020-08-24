@@ -1,8 +1,9 @@
 from django.contrib import admin
+from edc_model_admin import audit_fieldset_tuple
+
 from ..admin_site import potlako_subject_admin
 from ..forms import PhysicianReviewForm
 from ..models import PhysicianReview
-
 from .modeladmin_mixins import CrfModelAdminMixin
 
 
@@ -29,8 +30,7 @@ class PhysicianReviewAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'cancer_diagnosis',
                        'cancer_diagnosis_other',
                        'to_be_flagged'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
     radio_fields = {'reviewer_name': admin.VERTICAL,
                     'needs_discussion': admin.VERTICAL,

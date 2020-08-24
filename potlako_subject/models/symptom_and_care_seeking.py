@@ -1,7 +1,10 @@
 from potlako_subject.choices import FACILITY
 
 from django.db import models
+from django.db.models.deletion import PROTECT
 from edc_base.model_fields.custom_fields import OtherCharField
+from edc_base.model_mixins import BaseUuidModel
+from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO_UNSURE, YES_NO
 
 from ..choices import DATE_ESTIMATION, SYMPTOMS_CONCERN
@@ -14,11 +17,22 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
     first_visit_promt = models.TextField(
         verbose_name=('Can you please tell me about what first prompted you to'
                       'go to the clinic, nurse or doctor?'),
-        max_length=30,)
+        max_length=100,)
 
-    symptoms_description = models.CharField(
+    symptoms_description = models.TextField(
         verbose_name='Can you describe the symptoms a bit more?',
-        max_length=50)
+        max_length=100,
+        help_text=('Try to identify all participant-reported symptoms first; '
+                   'the checklist comes later.'))
+
+    more_symptoms = models.TextField(
+        verbose_name=('You mentioned (symptoms(s)),were there any more symptoms '
+                      'that you noticed about this time?'),
+        max_length=100)
+
+    symptoms_cope = models.TextField(
+        verbose_name=('What did you do to cope with/help these symptoms?'),
+        max_length=75)
 
     symptoms_present = models.ManyToManyField(
         Symptoms,
@@ -108,3 +122,28 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Symptom And Care Seeking Assessment'
+
+
+class SymptomAssessment(BaseUuidModel):
+
+    Symptom_care_seeking = models.ForeignKey(SymptomAndcareSeekingAssessment, on_delete=PROTECT)
+
+    symptom = models.CharField(
+        max_length=50)
+
+    symptom_date = models.DateField(
+        validators=[date_not_future, ])
+
+    last_visit_date_estimated = models.CharField(
+        verbose_name='Is the symptom date estimated?',
+        choices=YES_NO,
+        max_length=3,
+        blank=True,
+        null=True)
+
+    last_visit_date_estimation = models.CharField(
+        verbose_name='Which part of the date was estimated, if any?',
+        choices=DATE_ESTIMATION,
+        max_length=15,
+        blank=True,
+        null=True,)

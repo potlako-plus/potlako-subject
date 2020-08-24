@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
 from ..forms import CancerDiagnosisAndTreatmentAssessmentForm
 from ..models import CancerDiagnosisAndTreatmentAssessment
@@ -13,7 +13,7 @@ class CancerDiagnosisAndTreatmentAssessmentAdmin(CrfModelAdminMixin, admin.Model
     form = CancerDiagnosisAndTreatmentAssessmentForm
 
     fieldsets = (
-        (None, {
+        ('Diagnosis Details', {
             'fields': ('subject_visit',
                        'report_datetime',
                        'cancer_evaluation',
@@ -30,8 +30,10 @@ class CancerDiagnosisAndTreatmentAssessmentAdmin(CrfModelAdminMixin, admin.Model
                        'cancer_diagnosis_stage',
                        'tumor_stage',
                        'nodal_stage',
-                       'distant_metastasis_stage',
-                       'cancer_therapy',
+                       'distant_metastasis_stage',)
+        }),
+        ('Therapy Details', {
+            'fields': ('cancer_therapy',
                        'treatment_intent',
                        'therapeutic_surgery',
                        'surgery_date',
@@ -45,8 +47,7 @@ class CancerDiagnosisAndTreatmentAssessmentAdmin(CrfModelAdminMixin, admin.Model
                        'radiation_date',
                        'radiation_date_estimated',
                        'radiation_date_estimation'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
     radio_fields = {
         'cancer_evaluation': admin.VERTICAL,

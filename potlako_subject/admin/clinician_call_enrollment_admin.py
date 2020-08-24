@@ -1,6 +1,6 @@
 from django.contrib import admin
 from edc_model_admin import TabularInlineMixin
-from edc_model_admin.model_admin_audit_fields_mixin import audit_fieldset_tuple
+from edc_model_admin import audit_fieldset_tuple
 
 from ..admin_site import potlako_subject_admin
 from ..forms import ClinicianCallEnrollmentForm, NextOfKinForm

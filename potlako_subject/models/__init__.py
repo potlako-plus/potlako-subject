@@ -12,6 +12,8 @@ from .medical_diagonsis import MedicalConditions
 from .medical_diagonsis import MedicalDiagnosis
 from .missed_call import MissedCall
 from .missed_visit import MissedVisit
+from .navigation_summary_and_plan import EvaluationTimeline
+from .navigation_summary_and_plan import NavigationPlanAndSummary
 from .onschedule import OnSchedule
 from .patient_call_followup import FacilityVisit
 from .patient_call_followup import PatientCallFollowUp
@@ -29,5 +31,6 @@ from .subject_locator import SubjectLocator
 from .subject_screening import SubjectScreening
 from .subject_visit import SubjectVisit
 from .symptom_and_care_seeking import SymptomAndcareSeekingAssessment
+from .symptom_and_care_seeking import SymptomAssessment
 from .symptoms_and_care_seeking_endpoint import SymptomsAndCareSeekingEndpointRecording
 from .transport import Transport

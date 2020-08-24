@@ -1,8 +1,9 @@
 from django.contrib import admin
+from edc_model_admin import audit_fieldset_tuple
+
 from ..admin_site import potlako_subject_admin
 from ..forms import SMSForm
 from ..models import SMS
-
 from .modeladmin_mixins import CrfModelAdminMixin
 
 
@@ -18,8 +19,7 @@ class SMSAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'next_ap_date',
                        'date_reminder_sent',
                        'sms_outcome'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
     radio_fields = {'sms_outcome': admin.VERTICAL}
 

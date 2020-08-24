@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
 from ..forms import BaselineClinicalSummaryForm
 from ..models import BaselineClinicalSummary
@@ -18,8 +18,7 @@ class BaselineClincalSummaryAdmin(ModelAdminMixin, admin.ModelAdmin):
                        'cancer_concern',
                        'cancer_concern_other',
                        'cancer_probability'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
     radio_fields = {
         'cancer_concern': admin.VERTICAL,
