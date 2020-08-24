@@ -475,6 +475,7 @@ SPECIALIST_CLINIC = (
     ('surgical', 'Surgical'),
     ('gynecology', 'Gynecology'),
     ('dermatology', 'Dermatology'),
+    ('anal', 'Anal'),
     (OTHER, 'Other, specify'))
 
 STAGES = (
