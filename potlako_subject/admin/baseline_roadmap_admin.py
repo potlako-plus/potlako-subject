@@ -64,11 +64,10 @@ class BaselineRoadMapAdmin(ModelAdminMixin, admin.ModelAdmin):
 
         return enrollment_dict
 
-    def get_form(self, request, obj=None, **kwargs):
-        """Returns a form after adding extra readonly fields
-        """
-        form = super().get_form(request, obj=obj, **kwargs)
-        import pdb; pdb.set_trace()
+#     def get_form(self, request, obj=None, **kwargs):
+#         """Returns a form after adding extra readonly fields
+#         """
+#         form = super().get_form(request, obj=obj, **kwargs)
 #         subject_screening = SubjectScreening.objects.get(
 #             screening_identifier=request.GET.get('screening_identifier'))
 #         if subject_screening.mental_status == ABNORMAL:
