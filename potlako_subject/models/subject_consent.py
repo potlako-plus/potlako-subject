@@ -1,5 +1,7 @@
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
+
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites import CurrentSiteManager
 from edc_base.sites.site_model_mixin import SiteModelMixin
@@ -16,9 +18,12 @@ from edc_consent.managers import ConsentManager as SubjectConsentManager
 from edc_consent.model_mixins import ConsentModelMixin
 from edc_consent.validators import eligible_if_yes
 from edc_search.model_mixins import SearchSlugManager
+from edc_sms.models import SubjectRecipientModelMixin
 
 from ..choices import IDENTITY_TYPE
+from .clinician_call_enrollment import ClinicianCallEnrollment
 from .model_mixins import SearchSlugModelMixin
+
 
 
 class ConsentManager(SubjectConsentManager, SearchSlugManager):
@@ -32,7 +37,7 @@ class ConsentManager(SubjectConsentManager, SearchSlugManager):
 
 
 class SubjectConsent(
-        ConsentModelMixin, SiteModelMixin,
+        ConsentModelMixin, SiteModelMixin, SubjectRecipientModelMixin,
         UpdatesOrCreatesRegistrationModelMixin,
         NonUniqueSubjectIdentifierModelMixin,
         IdentityFieldsMixin, ReviewFieldsMixin, PersonalFieldsMixin,
@@ -131,6 +136,21 @@ class SubjectConsent(
             requesting_model=self._meta.label_lower,
             site=self.site)
         return subject_identifier.identifier
+
+    @property
+    def recipient_number(self):
+        """Return a mobile number.
+
+        Override to return a mobile number format: 26771111111.
+        """
+        try:
+            clinic_call_enrollment = ClinicianCallEnrollment.objects.get(
+                screening_identifier=self.screening_identifier)
+        except ClinicianCallEnrollment.DoesNotExist:
+            raise ValidationError('Missing clinic enrollment')
+        else:
+            return '267' + clinic_call_enrollment.primary_cell
+        return None
 
     @property
     def consent_version(self):
