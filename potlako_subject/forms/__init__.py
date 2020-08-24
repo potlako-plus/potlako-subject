@@ -24,4 +24,5 @@ from .subject_screening_form import SubjectScreeningForm
 from .subject_visit_form import SubjectVisitForm
 from .symptom_and_care_seeking_endpoint_form import SymptomAndcareSeekingEndpointForm
 from .symptom_and_care_seeking_form import SymptomAndcareSeekingAssessmentForm
+from .symptom_and_care_seeking_form import SymptomAssessmentForm
 from .transport_form import TransportForm

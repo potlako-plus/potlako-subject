@@ -1,6 +1,6 @@
 from django.contrib import admin
 from edc_model_admin import TabularInlineMixin
-
+from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
 from ..forms import InvestigationsOrderedForm, LabTestForm
 from ..models import InvestigationsOrdered, LabTest
@@ -54,8 +54,7 @@ class InvestigationsOrderedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'mri_tests',
                        'imaging_tests_type_other',
                        'imaging_tests_date'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
     radio_fields = {'tests_ordered_type': admin.VERTICAL,
                     'facility_ordered': admin.VERTICAL,

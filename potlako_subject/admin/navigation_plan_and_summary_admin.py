@@ -15,13 +15,13 @@ class EvaluationTimelineInlineAdmin(TabularInlineMixin, admin.TabularInline):
 
     fieldsets = (
         (None, {
-            'fields': [
+            'fields': (
                 'key_step',
                 'target_date',
                 'key_step_status',
                 'completion_date',
-                'review_required']}
-         ), audit_fieldset_tuple)
+                'review_required')}
+         ),)
 
 
 @admin.register(NavigationPlanAndSummary, site=potlako_subject_admin)
@@ -34,4 +34,4 @@ class NavigationPlanAndSummaryAdmin(ModelAdminMixin, admin.ModelAdmin):
             'fields': [
                 'report_datetime',
                 'diagnostic_plan', ]}
-         ),)
+         ), audit_fieldset_tuple)

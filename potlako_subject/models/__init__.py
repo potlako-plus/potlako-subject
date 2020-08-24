@@ -31,5 +31,6 @@ from .subject_locator import SubjectLocator
 from .subject_screening import SubjectScreening
 from .subject_visit import SubjectVisit
 from .symptom_and_care_seeking import SymptomAndcareSeekingAssessment
+from .symptom_and_care_seeking import SymptomAssessment
 from .symptoms_and_care_seeking_endpoint import SymptomsAndCareSeekingEndpointRecording
 from .transport import Transport

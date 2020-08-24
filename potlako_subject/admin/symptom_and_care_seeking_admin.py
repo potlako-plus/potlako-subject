@@ -1,16 +1,33 @@
 from django.contrib import admin
+from edc_model_admin import TabularInlineMixin
+from edc_model_admin import audit_fieldset_tuple
 
 from ..admin_site import potlako_subject_admin
-from ..forms import SymptomAndcareSeekingAssessmentForm
-from ..models import SymptomAndcareSeekingAssessment
-
+from ..forms import SymptomAndcareSeekingAssessmentForm, SymptomAssessmentForm
+from ..models import SymptomAndcareSeekingAssessment, SymptomAssessment
 from .modeladmin_mixins import CrfModelAdminMixin
+
+
+class EvaluationTimelineInlineAdmin(TabularInlineMixin, admin.TabularInline):
+    model = SymptomAssessment
+    form = SymptomAssessmentForm
+    extra = 1
+
+    fieldsets = (
+        (None, {
+            'fields': [
+                'symptom',
+                'symptom_date',
+                'last_visit_date_estimated',
+                'last_visit_date_estimation']}
+         ),)
 
 
 @admin.register(SymptomAndcareSeekingAssessment, site=potlako_subject_admin)
 class SymptomAndcareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = SymptomAndcareSeekingAssessmentForm
+    inlines = [EvaluationTimelineInlineAdmin, ]
 
     fieldsets = (
         (None, {
@@ -32,7 +49,7 @@ class SymptomAndcareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin)
                        'clinic_visited',
                        'cause_assumption',
                        'symptoms_concern'),
-        }),
+        }), audit_fieldset_tuple
     )
 
     radio_fields = {'symptoms_discussion': admin.VERTICAL,

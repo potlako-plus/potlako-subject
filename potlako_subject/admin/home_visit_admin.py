@@ -1,9 +1,9 @@
 from django.contrib import admin
+from edc_model_admin import audit_fieldset_tuple
 
 from ..admin_site import potlako_subject_admin
 from ..forms import HomeVisitForm
 from ..models import HomeVisit
-
 from .modeladmin_mixins import CrfModelAdminMixin
 
 
@@ -27,8 +27,7 @@ class HomeVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'next_ap_facility_other',
                        'next_ap_type',
                        'general_comments'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
     radio_fields = {
         'clinician_type': admin.VERTICAL,

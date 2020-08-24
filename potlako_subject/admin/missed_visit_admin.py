@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
 from ..forms import MissedVisitForm
 from ..models import MissedVisit
@@ -39,8 +39,7 @@ class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'clinician_designation',
                        'clinician_designation_other',
                        'comments'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
     radio_fields = {'facility_scheduled': admin.VERTICAL,
                     'visit_type': admin.VERTICAL,
