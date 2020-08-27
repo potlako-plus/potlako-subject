@@ -4,19 +4,17 @@ from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
 from ..forms import SymptomAndcareSeekingEndpointForm
 from ..models import SymptomsAndCareSeekingEndpointRecording
-from .modeladmin_mixins import CrfModelAdminMixin
+from .modeladmin_mixins import ModelAdminMixin
 
 
 @admin.register(SymptomsAndCareSeekingEndpointRecording, site=potlako_subject_admin)
-class SymptomAndcareSeekingEndpointAdmin(CrfModelAdminMixin, admin.ModelAdmin):
+class SymptomAndcareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = SymptomAndcareSeekingEndpointForm
 
     fieldsets = (
         (None, {
-            'fields': ('subject_visit',
-                       'report_datetime',
-                       'cancer_symptom_date',
+            'fields': ('cancer_symptom_date',
                        'cancer_symptom_estimated',
                        'cancer_symptom_estimation',
                        'discussion_date',

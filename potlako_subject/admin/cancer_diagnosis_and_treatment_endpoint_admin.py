@@ -1,22 +1,20 @@
 from django.contrib import admin
 from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
-from ..forms import CancerDiagnosisAndTreatmentAssessmentForm
-from ..models import CancerDiagnosisAndTreatmentAssessment
+from ..forms import CancerDiagnosisAndTreatmentAssessmentEndpointForm
+from ..models import CancerDiagnosisAndTreatmentEndpoint
 
-from .modeladmin_mixins import CrfModelAdminMixin
+from .modeladmin_mixins import ModelAdminMixin
 
 
-@admin.register(CancerDiagnosisAndTreatmentAssessment, site=potlako_subject_admin)
-class CancerDiagnosisAndTreatmentAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin):
+@admin.register(CancerDiagnosisAndTreatmentEndpoint, site=potlako_subject_admin)
+class CancerDiagnosisAndTreatmentAssessmentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
-    form = CancerDiagnosisAndTreatmentAssessmentForm
+    form = CancerDiagnosisAndTreatmentAssessmentEndpointForm
 
     fieldsets = (
         ('Diagnosis Details', {
-            'fields': ('subject_visit',
-                       'report_datetime',
-                       'cancer_evaluation',
+            'fields': ('cancer_evaluation',
                        'diagnosis_date',
                        'diagnosis_date_estimated',
                        'diagnosis_date_estimation',

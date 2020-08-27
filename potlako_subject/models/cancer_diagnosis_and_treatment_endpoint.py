@@ -7,9 +7,11 @@ from ..choices import CANCER_EVALUATION, CLINICAL_IMPRESSION, CANCER_DIAGNOSIS
 from ..choices import METASTASIS_STAGES, STAGES, TREATMENT_INTENT
 from ..choices import NON_CANCER_DIAGNOSIS, DATE_ESTIMATION, CANCER_DIAGNOSIS_STAGE
 from .model_mixins import CrfModelMixin
+from edc_base.sites import SiteModelMixin
+from edc_base.model_mixins import BaseUuidModel
 
 
-class CancerDiagnosisAndTreatmentEndpoint(CrfModelMixin):
+class CancerDiagnosisAndTreatmentEndpoint(SiteModelMixin, BaseUuidModel):
 
     cancer_evaluation = models.CharField(
         max_length=25,

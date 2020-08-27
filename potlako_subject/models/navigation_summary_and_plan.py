@@ -58,5 +58,5 @@ class EvaluationTimeline(BaseUuidModel):
 
     class Meta:
         app_label = 'potlako_subject'
-        verbose_name = 'Evaluiation Timeline'
+        verbose_name = 'Evaluation Timeline'
         unique_together = ('navigation_plan', 'key_step', 'target_date')

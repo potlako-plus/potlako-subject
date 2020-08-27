@@ -1,6 +1,7 @@
 from .baseline_clinical_summary_form import BaselineClinicalSummaryForm
 from .baseline_roadmap_form import BaselineRoadMapForm
 from .cancer_diagnosis_and_treatment_form import CancerDiagnosisAndTreatmentAssessmentForm
+from .cancer_diagnosis_and_treatment_endpoint_form import CancerDiagnosisAndTreatmentAssessmentEndpointForm
 from .clinician_call_enrollment_form import ClinicianCallEnrollmentForm
 from .facility_visit_form import FacilityVisitForm
 from .home_visit_form import HomeVisitForm

@@ -1,6 +1,7 @@
 from .baseline_clinical_summary_admin import BaselineClincalSummaryAdmin
 from .baseline_roadmap_admin import BaselineRoadMapAdmin
 from .cancer_diagnosis_and_treatment_admin import CancerDiagnosisAndTreatmentAssessmentAdmin
+from .cancer_diagnosis_and_treatment_endpoint_admin import CancerDiagnosisAndTreatmentAssessmentAdmin
 from .clinician_call_enrollment_admin import ClinicianCallEnrollmentAdmin
 from .home_visit_admin import HomeVisitAdmin
 from .investigations_ordered_admin import InvestigationsOrderedAdmin

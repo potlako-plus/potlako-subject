@@ -46,9 +46,9 @@ CANCER_EVALUATION = (
     ('complete', 'Complete'),
     ('unable_to_complete',
      'Incomplete, but unable to complete (i.e. death, refusal)'),
-    ('incomplete_needs_priority',
-     'Incomplete, needs priority Potlako+ follow-up'),
-    ('complete_needs_priority', 'Complete, needs priority Potlako+ follow-up')
+    ('incomplete_ongoing_evaluation',
+     'Incomplete, ongoing evaluation'),
+    ('incomplete_12_months', 'Incomplete, 12 month visit')
 )
 
 CANCER_STAGES = (
