@@ -18,7 +18,6 @@ class CancerDiagnosisAndTreatmentAssessmentAdmin(ModelAdminMixin, admin.ModelAdm
                        'diagnosis_date',
                        'diagnosis_date_estimated',
                        'diagnosis_date_estimation',
-                       'clinical_impression',
                        'final_cancer_diagnosis',
                        'final_cancer_diagnosis_other',
                        'non_cancer_diagnosis',

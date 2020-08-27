@@ -37,14 +37,6 @@ class CancerDiagnosisAndTreatmentAssessment(CrfModelMixin):
         null=True,
         blank=True)
     
-    clinical_impression = models.CharField(
-        verbose_name='If not complete, final clinical impression',
-        max_length=50,
-        blank=True,
-        null=True,
-        help_text=('If cancer diagnosed, include all information to guide '
-                   'cancer staging and AJCC stage'))
-
     cancer_treatment = models.CharField(
         verbose_name='Has patient received any treatment for cancer?',
         choices=YES_NO,

@@ -32,7 +32,7 @@ CANCER_DIAGNOSIS = (
     ('head_n_neck', 'Head and Neck Cancer'),
     ('non_hodgkin_lymph', 'Non-Hodgkin Lymphoma'),
     ('hodgkin_lymph', 'Hodgkin Lymphoma'),
-    ('esophageal', 'Esophageal'),
+    ('oesophageal', 'Oesophageal Cancer'),
     ('vaginal', 'Vulvar/Vaginal Cancer'),
     ('anal', 'Anal Cancer'),
     ('kaposis_sarcoma', 'Kaposi\'s sarcoma'),
@@ -442,9 +442,9 @@ SCALE = (
 )
 
 SEVERITY_LEVEL = (
-    ('low', 'Low'),
-    ('moderate', 'Moderate'),
-    ('high', 'High')
+    ('low', 'Low, cancer possible but other conditions are much more likely'),
+    ('moderate', 'Moderate, cancer is among the most likely causes of the symptoms/signs'),
+    ('high', 'High, cancer is the leading suspected cause of the symptoms/signs')
 )
 
 SMS_OUTCOME = (
