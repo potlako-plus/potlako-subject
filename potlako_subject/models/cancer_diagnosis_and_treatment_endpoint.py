@@ -37,11 +37,9 @@ class CancerDiagnosisAndTreatmentEndpoint(SiteModelMixin, BaseUuidModel):
         blank=True)
 
     clinical_impression = models.CharField(
-        verbose_name='If not complete, final clinical impression',
+        verbose_name='Final clinical impression',
         max_length=30,
-        choices=CLINICAL_IMPRESSION,
-        blank=True,
-        null=True)
+        choices=CLINICAL_IMPRESSION,)
 
     final_cancer_diagnosis = models.CharField(
         verbose_name='If confirmed/probable cancer, final cancer diagnosis',
