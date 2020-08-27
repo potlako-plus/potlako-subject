@@ -13,8 +13,7 @@ class BaselineClincalSummaryAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('report_datetime',
-                       'symptoms_summary',
+            'fields': ('symptoms_summary',
                        'cancer_concern',
                        'cancer_concern_other',
                        'cancer_probability'),

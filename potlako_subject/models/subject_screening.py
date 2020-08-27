@@ -12,6 +12,7 @@ from edc_search.model_mixins import SearchSlugManager
 from ..choices import ENROLLMENT_SITES
 from ..eligibility import Eligibility
 from .model_mixins import SearchSlugModelMixin
+from edc_base.utils import get_utcnow
 
 
 class EnrollmentManager(SearchSlugManager, models.Manager):
@@ -37,7 +38,7 @@ class SubjectScreening(
 
     report_datetime = models.DateTimeField(
         verbose_name='Report Date and Time',
-        default=timezone.now,
+        default=get_utcnow,
         help_text='Date and time of report.')
 
     residency = models.CharField(

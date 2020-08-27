@@ -15,7 +15,6 @@ class HomeVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
-                       'report_datetime',
                        'clinician_type',
                        'clinician_type_other',
                        'clinician_facility',

@@ -19,7 +19,6 @@ class SubjectVisitAdmin(
         (None, {
             'fields': [
                 'appointment',
-                'report_datetime',
                 'reason',
                 'reason_unscheduled',
                 'reason_unscheduled_other',

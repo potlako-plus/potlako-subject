@@ -8,13 +8,14 @@ from edc_constants.choices import YES_NO, YES_NO_NA
 from ..choices import (FACILITY, VISIT_TYPE, DETERMINE_MISSED_VISIT,
                        PEOPLE_INQUIRED_FROM, REASON_MISSED_VISIT, CLINICIAN_TYPE)
 from .model_mixins import CrfModelMixin
+from edc_base.utils import get_utcnow
 
 
 class MissedVisit(CrfModelMixin):
 
     report_datetime = models.DateTimeField(
         verbose_name='Report date and time',
-        default=timezone.now,
+        default=get_utcnow,
         validators=[datetime_not_future, ]
     )
 

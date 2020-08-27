@@ -14,7 +14,6 @@ class InvestigationsResultedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
-                       'report_datetime',
                        'tests_resulted_type',
                        'tests_resulted_type_other',
                        'pathology_specimen_date',

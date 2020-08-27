@@ -9,7 +9,7 @@ from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future, datetime_not_future
 from edc_base.model_validators import date_is_future, TelephoneNumber
-from edc_base.sites.site_model_mixin import SiteModelMixin
+from edc_base.sites import SiteModelMixin
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO_UNKNOWN
 from edc_constants.constants import NOT_APPLICABLE
@@ -22,6 +22,7 @@ from ..eligibility import Eligibility
 from ..screening_identifier import ScreeningIdentifier
 from .list_models import Symptoms
 from .validators import datetime_not_now, identity_check
+from edc_base.utils import get_utcnow
 
 
 class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
@@ -31,7 +32,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     report_datetime = models.DateTimeField(
         verbose_name='Report Time and Date',
-        default=timezone.now,
+        default=get_utcnow,
         validators=[datetime_not_future, ],
         help_text='Date and time of report.')
 

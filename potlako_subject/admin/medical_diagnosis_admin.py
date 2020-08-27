@@ -37,6 +37,5 @@ class MedicalDiagnosisAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('subject_visit',
-                       'report_datetime',)
+            'fields': ('subject_visit',)
         }), audit_fieldset_tuple)

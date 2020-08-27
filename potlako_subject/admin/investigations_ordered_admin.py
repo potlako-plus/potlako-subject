@@ -34,7 +34,6 @@ class InvestigationsOrderedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
-                       'report_datetime',
                        'tests_ordered_type',
                        'tests_ordered_type_other',
                        'facility_ordered',

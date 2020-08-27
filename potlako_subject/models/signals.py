@@ -12,7 +12,6 @@ from edc_constants.constants import DEAD, NEW, YES
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 import pytz
 
-from edc_appointment.constants import NEW_APPT
 from edc_appointment.creators import AppointmentInProgressError
 from edc_appointment.creators import InvalidParentAppointmentMissingVisitError
 from edc_appointment.creators import InvalidParentAppointmentStatusError

@@ -15,7 +15,6 @@ class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
-                       'report_datetime',
                        'missed_visit_date',
                        'inquired',
                        'inquired_from',

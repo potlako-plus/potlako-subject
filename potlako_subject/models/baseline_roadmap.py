@@ -9,13 +9,14 @@ from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN
 
 from ..choices import PAIN_SCORE, SCALE, SEVERITY_LEVEL
 from ..choices import RESULTS_PERSONNEL, SPECIALIST_CLINIC, SUSPECTED_CANCER
+from edc_base.utils import get_utcnow
 
 
 class BaselineRoadMap(SiteModelMixin, BaseUuidModel):
 
     report_datetime = models.DateTimeField(
         verbose_name='Report Time and Date',
-        default=timezone.now,
+        default=get_utcnow,
         validators=[datetime_not_future, ],
         help_text='Date and time of report.')
 

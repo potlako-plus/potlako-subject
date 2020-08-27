@@ -15,7 +15,6 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
-                       'report_datetime',
                        'is_criteria_met',
                        'housemate',
                        'housemate_other',
@@ -50,5 +49,5 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     filter_horizontal = ('housemate', 'criteria_met')
 
-    list_display = ('report_datetime', 'is_criteria_met',
+    list_display = ('is_criteria_met',
                     'transport_type')

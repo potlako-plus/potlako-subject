@@ -15,7 +15,6 @@ class CancerDiagnosisAndTreatmentAssessmentAdmin(CrfModelAdminMixin, admin.Model
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
-                       'report_datetime',
                        'symptoms_summary',
                        'cancer_evaluation',
                        'diagnosis_date',

@@ -38,7 +38,6 @@ class SubjectScreeningAdmin(
     fieldsets = (
         (None, {
             'fields': (
-                'report_datetime',
                 'screening_identifier',
                 'residency',
                 'nationality',
@@ -58,4 +57,4 @@ class SubjectScreeningAdmin(
 
     def get_readonly_fields(self, request, obj=None):
         return (super().get_readonly_fields(request, obj=obj) + audit_fields +
-                ('age_in_years', 'report_datetime'))
+                ('age_in_years',))

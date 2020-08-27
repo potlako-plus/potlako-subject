@@ -16,8 +16,7 @@ class BaselineRoadMapAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('report_datetime',
-                       'investigations_turnaround_time',
+            'fields': ('investigations_turnaround_time',
                        'specialty_clinic',
                        'specialist_clinic_type',
                        'specialist_clinic_type_other',

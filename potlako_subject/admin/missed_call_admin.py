@@ -15,7 +15,6 @@ class MissedCallAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
-                       'report_datetime',
                        'notes',
                        'repeat_call'),
         }), audit_fieldset_tuple)
