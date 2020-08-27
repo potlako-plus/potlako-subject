@@ -15,7 +15,7 @@ class CancerDiagnosisAndTreatmentAssessment(CrfModelMixin):
         max_length=150)
 
     cancer_evaluation = models.CharField(
-        max_length=25,
+        max_length=30,
         choices=CANCER_EVALUATION)
 
     diagnosis_date = models.DateField(

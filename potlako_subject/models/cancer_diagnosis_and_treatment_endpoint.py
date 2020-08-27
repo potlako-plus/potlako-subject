@@ -14,7 +14,7 @@ from edc_base.model_mixins import BaseUuidModel
 class CancerDiagnosisAndTreatmentEndpoint(SiteModelMixin, BaseUuidModel):
 
     cancer_evaluation = models.CharField(
-        max_length=25,
+        max_length=30,
         choices=CANCER_EVALUATION)
 
     diagnosis_date = models.DateField(
