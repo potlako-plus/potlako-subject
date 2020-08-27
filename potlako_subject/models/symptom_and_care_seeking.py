@@ -16,27 +16,23 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
 
     first_visit_promt = models.TextField(
         verbose_name=('Can you please tell me about what first prompted you to'
-                      'go to the clinic, nurse or doctor?'),
-        max_length=100,)
-
-    symptoms_description = models.TextField(
-        verbose_name='Can you describe the symptoms a bit more?',
-        max_length=100,
-        help_text=('Try to identify all participant-reported symptoms first; '
-                   'the checklist comes later.'))
-
-    more_symptoms = models.TextField(
-        verbose_name=('You mentioned (symptoms(s)),were there any more symptoms '
-                      'that you noticed about this time?'),
-        max_length=100)
+                      'go to the clinic, nurse or doctor? Can you describe the '
+                      'symptom(s) a bit more? You mentioned (symptoms(s)),were '
+                      'there any more symptoms that you noticed about this time?'),
+        max_length=200,
+        help_text=('Try identify all participant-reported symptoms first; the checklist'
+                   ' comes later'))
 
     symptoms_cope = models.TextField(
         verbose_name=('What did you do to cope with/help these symptoms?'),
-        max_length=75)
+        max_length=100,
+        help_text=('How long did it take before you decided to use any treatment?'
+                   'How long did you try for? Did it help at all?'))
 
     symptoms_present = models.ManyToManyField(
         Symptoms,
-        verbose_name=('Have you had any of the following symptoms?'),
+        verbose_name=('Now, we\'ve talked about the symptoms that you have described: '
+                      'I\'d also like to check whether you had any of the following symptoms'),
         blank=True)
 
     symptoms_discussion = models.CharField(

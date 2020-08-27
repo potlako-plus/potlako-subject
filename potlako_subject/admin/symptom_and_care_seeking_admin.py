@@ -32,9 +32,8 @@ class SymptomAndcareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin)
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
-                       'report_datetime',
                        'first_visit_promt',
-                       'symptoms_description',
+                       'symptoms_cope',
                        'symptoms_present',
                        'symptoms_discussion',
                        'discussion_person',
