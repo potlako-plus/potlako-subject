@@ -36,7 +36,7 @@ class CancerDiagnosisAndTreatmentAssessment(CrfModelMixin):
         max_length=15,
         null=True,
         blank=True)
-    
+
     cancer_treatment = models.CharField(
         verbose_name='Has patient received any treatment for cancer?',
         choices=YES_NO,

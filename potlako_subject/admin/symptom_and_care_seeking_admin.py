@@ -35,6 +35,7 @@ class SymptomAndcareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin)
                        'first_visit_promt',
                        'symptoms_cope',
                        'symptoms_present',
+                       'symptoms_present_other',
                        'symptoms_discussion',
                        'discussion_person',
                        'discussion_person_other',
@@ -46,6 +47,7 @@ class SymptomAndcareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin)
                        'clinic_visit_date_estimated',
                        'clinic_visit_date_estimation',
                        'clinic_visited',
+                       'clinic_visited_other',
                        'cause_assumption',
                        'symptoms_concern'),
         }), audit_fieldset_tuple

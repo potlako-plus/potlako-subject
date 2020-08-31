@@ -6,11 +6,13 @@ from edc_base.model_validators import datetime_not_future
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
+from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 
 from ..choices import DONE_NOT_DONE
 
 
-class NavigationPlanAndSummary(SiteModelMixin, BaseUuidModel):
+class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
+                               SiteModelMixin, BaseUuidModel):
 
     report_datetime = models.DateTimeField(
         verbose_name='Report Time and Date',
@@ -30,7 +32,7 @@ class NavigationPlanAndSummary(SiteModelMixin, BaseUuidModel):
 class EvaluationTimeline(BaseUuidModel):
     """ Inline Evalauttion timeline to capture all key milestones """
 
-    navigation_plan = models.ForeignKey(NavigationPlanAndSummary, on_delete=PROTECT)
+    navigation_plan = models.ForeignKey(NavigationSummaryAndPlan, on_delete=PROTECT)
 
     key_step = models.CharField(
         verbose_name='Key step',

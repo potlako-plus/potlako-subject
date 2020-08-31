@@ -7,7 +7,7 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO_UNSURE, YES_NO
 
-from ..choices import DATE_ESTIMATION, SYMPTOMS_CONCERN
+from ..choices import DATE_ESTIMATION, DISCUSSION_PERSON, SYMPTOMS_CONCERN
 from .list_models import Symptoms
 from .model_mixins import CrfModelMixin
 
@@ -35,6 +35,8 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
                       'I\'d also like to check whether you had any of the following symptoms'),
         blank=True)
 
+    symptoms_present_other = OtherCharField()
+
     symptoms_discussion = models.CharField(
         verbose_name=('Did you discuss your symptoms with anyone before going '
                       'to the clinic?'),
@@ -43,8 +45,8 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
 
     discussion_person = models.CharField(
         verbose_name=('If yes, who did you discuss with?'),
-        choices=YES_NO_UNSURE,
-        max_length=8,
+        choices=DISCUSSION_PERSON,
+        max_length=25,
         blank=True,
         null=True)
 
@@ -52,6 +54,7 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
 
     discussion_date = models.DateField(
         verbose_name='When did this discussion take place?',
+        validators=[date_not_future, ],
         blank=True,
         null=True)
 
@@ -79,9 +82,7 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
 
     clinic_visit_date = models.DateField(
         verbose_name=('When did you go to a clinic or hospital about these '
-                      'symptoms?'),
-        blank=True,
-        null=True)
+                      'symptoms?'))
 
     clinic_visit_date_estimated = models.CharField(
         verbose_name='Is the hospital/clinic visit date estimated?',
@@ -100,9 +101,9 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
     clinic_visited = models.CharField(
         verbose_name='Which clinic or hospital did you go to?',
         choices=FACILITY,
-        max_length=32,
-        null=True,
-        blank=True,)
+        max_length=32, )
+
+    clinic_visited_other = OtherCharField()
 
     cause_assumption = models.TextField(
         verbose_name='What do you think is causing your symptoms?',
@@ -122,7 +123,7 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
 
 class SymptomAssessment(BaseUuidModel):
 
-    Symptom_care_seeking = models.ForeignKey(SymptomAndcareSeekingAssessment, on_delete=PROTECT)
+    symptom_care_seeking = models.ForeignKey(SymptomAndcareSeekingAssessment, on_delete=PROTECT)
 
     symptom = models.CharField(
         max_length=50)

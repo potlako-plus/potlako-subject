@@ -9,7 +9,7 @@ from .investigations_resulted_admin import InvestigationsResultedAdmin
 from .medical_diagnosis_admin import MedicalDiagnosisAdmin
 from .missed_call_admin import MissedCallAdmin
 from .missed_visit_admin import MissedVisitAdmin
-from .navigation_plan_and_summary_admin import NavigationPlanAndSummaryAdmin
+from potlako_subject.admin.navigation_summary_and_plan_admin import NavigationPlanAndSummaryAdmin
 from .patient_call_followup_admin import PatientCallFollowUpAdmin
 from .patient_call_initial_admin import PatientCallInitialAdmin
 from .physician_review_admin import PhysicianReviewAdmin

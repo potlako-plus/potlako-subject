@@ -60,7 +60,6 @@ list_data = {
         ('dysuria', 'Dysuria'),
         ('skin_changes', 'Skin changes'),
         ('cough', 'Cough'),
-
         (OTHER, 'Other (specify)')
     ],
     'potlako_subject.transportcriteria': [

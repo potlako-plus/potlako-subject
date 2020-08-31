@@ -1,17 +1,19 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from edc_base.model_fields.custom_fields import OtherCharField
+from edc_base.model_mixins import BaseUuidModel
+from edc_base.sites import SiteModelMixin
 from edc_constants.choices import YES_NO
+from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 
 from ..choices import CANCER_EVALUATION, CLINICAL_IMPRESSION, CANCER_DIAGNOSIS
 from ..choices import METASTASIS_STAGES, STAGES, TREATMENT_INTENT
 from ..choices import NON_CANCER_DIAGNOSIS, DATE_ESTIMATION, CANCER_DIAGNOSIS_STAGE
 from .model_mixins import CrfModelMixin
-from edc_base.sites import SiteModelMixin
-from edc_base.model_mixins import BaseUuidModel
 
 
-class CancerDiagnosisAndTreatmentEndpoint(SiteModelMixin, BaseUuidModel):
+class CancerDiagnosisAndTreatmentEndpoint(UniqueSubjectIdentifierFieldMixin,
+                                          SiteModelMixin, BaseUuidModel):
 
     cancer_evaluation = models.CharField(
         max_length=30,

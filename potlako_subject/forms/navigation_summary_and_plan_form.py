@@ -1,11 +1,11 @@
 from django import forms
-from ..models import NavigationPlanAndSummary, EvaluationTimeline
+from ..models import NavigationSummaryAndPlan, EvaluationTimeline
 
 
-class NavigationPlanAndSummaryForm(forms.ModelForm):
+class NavigationSummaryAndPlanForm(forms.ModelForm):
 
     class Meta:
-        model = NavigationPlanAndSummary
+        model = NavigationSummaryAndPlan
         fields = '__all__'
 
 

@@ -25,7 +25,6 @@ from .clinician_call_enrollment import ClinicianCallEnrollment
 from .model_mixins import SearchSlugModelMixin
 
 
-
 class ConsentManager(SubjectConsentManager, SearchSlugManager):
 
     def get_by_natural_key(self, subject_identifier, version):
