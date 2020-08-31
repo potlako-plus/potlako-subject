@@ -20,7 +20,6 @@ class CancerDiagnosisAndTreatmentAssessmentAdmin(CrfModelAdminMixin, admin.Model
                        'diagnosis_date',
                        'diagnosis_date_estimated',
                        'diagnosis_date_estimation',
-                       'clinical_impression',
                        'cancer_treatment',
                        'treatment_description'),
         }), audit_fieldset_tuple)
