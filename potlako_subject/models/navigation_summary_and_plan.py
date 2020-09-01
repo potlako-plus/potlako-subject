@@ -30,7 +30,7 @@ class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
 
 
 class EvaluationTimeline(BaseUuidModel):
-    """ Inline Evalauttion timeline to capture all key milestones """
+    """ Inline Evalaution timeline to capture all key milestones """
 
     navigation_plan = models.ForeignKey(NavigationSummaryAndPlan, on_delete=PROTECT)
 
