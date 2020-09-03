@@ -14,7 +14,8 @@ class SymptomAndcareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('cancer_symptom_date',
+            'fields': ('subject_identifier',
+                       'cancer_symptom_date',
                        'cancer_symptom_estimated',
                        'cancer_symptom_estimation',
                        'discussion_date',

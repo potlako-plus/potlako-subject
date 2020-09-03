@@ -60,7 +60,6 @@ class SymptomAndcareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin)
                     'medical_advice': admin.VERTICAL,
                     'clinic_visit_date_estimated': admin.VERTICAL,
                     'clinic_visit_date_estimation': admin.VERTICAL,
-                    'clinic_visited': admin.VERTICAL,
                     'symptoms_concern': admin.VERTICAL,
                     }
 

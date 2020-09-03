@@ -42,6 +42,7 @@ class NavigationPlanAndSummaryAdmin(ModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': [
+                'subject_identifier',
                 'diagnostic_plan', ]}
          ), audit_fieldset_tuple)
     

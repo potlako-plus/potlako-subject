@@ -1,12 +1,11 @@
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_mixins import BaseUuidModel
-from edc_base.model_validators import date_is_future, date_not_future
-from edc_base.model_validators import datetime_not_future
+from edc_base.model_validators import date_not_future
 from edc_base.sites.site_model_mixin import SiteModelMixin
-from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
+from edc_base.model_validators import date_is_future
 
 from ..choices import DONE_NOT_DONE
 
@@ -14,11 +13,6 @@ from ..choices import DONE_NOT_DONE
 class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
                                SiteModelMixin, BaseUuidModel):
 
-    report_datetime = models.DateTimeField(
-        verbose_name='Report Time and Date',
-        default=get_utcnow,
-        validators=[datetime_not_future, ],
-        help_text='Date and time of report.')
 
     diagnostic_plan = models.TextField(
         max_length=500)
@@ -50,13 +44,17 @@ class EvaluationTimeline(BaseUuidModel):
     completion_date = models.DateField(
         verbose_name='Achieved date',
         validators=[date_not_future],
+        null=True,
+        blank=True,
         help_text='or date determined not required'
     )
 
     review_required = models.CharField(
-        verbose_name='Required multidisiciplinary review?',
+        verbose_name='Requires multidisiciplinary review?',
         max_length=3,
-        choices=YES_NO)
+        choices=YES_NO,
+        null=True,
+        blank=True)
 
     class Meta:
         app_label = 'potlako_subject'

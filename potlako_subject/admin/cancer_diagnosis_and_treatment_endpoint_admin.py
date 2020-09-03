@@ -14,7 +14,8 @@ class CancerDiagnosisAndTreatmentAssessmentAdmin(ModelAdminMixin, admin.ModelAdm
 
     fieldsets = (
         ('Diagnosis Details', {
-            'fields': ('cancer_evaluation',
+            'fields': ('subject_identifier',
+                       'cancer_evaluation',
                        'diagnosis_date',
                        'diagnosis_date_estimated',
                        'diagnosis_date_estimation',
