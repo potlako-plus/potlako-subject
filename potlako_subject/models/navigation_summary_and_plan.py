@@ -34,7 +34,8 @@ class EvaluationTimeline(BaseUuidModel):
 
     target_date = models.DateField(
         verbose_name='Target Date',
-        validators=[date_is_future])
+        validators=[date_is_future],
+        )
 
     key_step_status = models.CharField(
         verbose_name='Key step status',

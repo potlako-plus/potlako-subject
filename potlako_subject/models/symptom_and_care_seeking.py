@@ -7,10 +7,8 @@ from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO_UNSURE, YES_NO
 
 from ..choices import DATE_ESTIMATION, DISCUSSION_PERSON, SYMPTOMS_CONCERN
-from ..choices import FACILITY
 from .list_models import Symptoms
 from .model_mixins import CrfModelMixin
-
 
 class SymptomAndcareSeekingAssessment(CrfModelMixin):
 

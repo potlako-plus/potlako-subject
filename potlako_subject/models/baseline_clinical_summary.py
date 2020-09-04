@@ -23,7 +23,7 @@ class BaselineClinicalSummary(UniqueSubjectIdentifierFieldMixin,
 
     symptoms_summary = models.TextField(
         verbose_name=('Summary of presenting symptoms and clinical impression'),
-        max_length=100)
+        max_length=500)
 
     cancer_concern = models.CharField(
         verbose_name='Cancer of greatest concern',
