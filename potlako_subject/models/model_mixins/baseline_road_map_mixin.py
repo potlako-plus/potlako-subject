@@ -3,7 +3,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from ...constants import UNSURE
 from ..clinician_call_enrollment import ClinicianCallEnrollment
-from ..subject_visit import SubjectVisit
 
 class BaselineRoadMapMixin:
     """A class to gather all values from Clinician Call Enrollment, 
