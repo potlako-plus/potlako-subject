@@ -11,6 +11,7 @@
 
 {% block field_sets %}
 
+{% if display_summary %}
 <div class="tab">
 {% if cliniciancallenrollment %}
   <button class="tablinks"  onmouseover="openCity(event, 'cliniciancallenrollment')" disabled>Demographics</button>
@@ -62,10 +63,13 @@
 		<pre> Diagnostic plan: {{ navigationsummaryandplan.diagnostic_plan }} </pre>
   </div>
 <div class='clearfix'></div>
+{% endif %}
 
   {{ block.super }}
 
+
 {% endblock field_sets %}
+
 
 {% block submit_buttons_bottom %}
     {{ block.super }}
