@@ -12,8 +12,8 @@ class BaselineRoadMapMixin:
 
     def __init__(self, subject_identifier=None):
         self.subject_identifier = subject_identifier
-        self.baseline_dict = {'cliniciancallenrollment':
-                              self.clinician_call_attrs}
+        self.baseline_dict = {'display_summary': True,
+                              'cliniciancallenrollment': self.clinician_call_attrs}
         
         non_crfs = ['potlako_subject.baselineclinicalsummary',
                     'potlako_subject.navigationsummaryandplan']
