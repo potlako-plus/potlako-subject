@@ -108,7 +108,6 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'call_clinician_type': admin.VERTICAL,
                     'consented_contact': admin.VERTICAL,
                     'received_training': admin.VERTICAL,
-                    'facility': admin.VERTICAL,
                     'facility_unit': admin.VERTICAL,
                     'gender': admin.VERTICAL,
                     'patient_contact': admin.VERTICAL,

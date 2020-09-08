@@ -139,6 +139,13 @@ DISPOSITION = (
     ('discharge', 'Discharge')
 )
 
+DISINTEREST_REASON = (
+    ('dont_want_to_participate','I don\'t want to be part of a study'),
+    ('dont_think_I_have_cancer', 'I don\'t think I have cancer'),
+    ('partner_doesnt_want_to_participate', 'My partner doesn\'t want me to participate'),
+    (OTHER, 'Other (specify)')
+)
+
 DISTRICT = (
     ('bokaa', 'Bokaa'),
     ('lentsweletau', 'Lentsweletau'),

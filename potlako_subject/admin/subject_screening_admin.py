@@ -44,6 +44,9 @@ class SubjectScreeningAdmin(
                 'age_in_years',
                 'has_diagnosis',
                 'enrollment_site',
+                'enrollment_interest',
+                'disinterest_reason',
+                'disinterest_reason_other'
             )}),
         audit_fieldset_tuple)
 
@@ -53,7 +56,9 @@ class SubjectScreeningAdmin(
         'residency': admin.VERTICAL,
         'nationality': admin.VERTICAL,
         'has_diagnosis': admin.VERTICAL,
-        'enrollment_site': admin.VERTICAL, }
+        'enrollment_site': admin.VERTICAL,
+        'enrollment_interest': admin.VERTICAL,
+        'disinterest_reason': admin.VERTICAL, }
 
     def get_readonly_fields(self, request, obj=None):
         return (super().get_readonly_fields(request, obj=obj) + audit_fields +

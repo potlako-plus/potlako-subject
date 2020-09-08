@@ -1,6 +1,6 @@
 from django.apps import apps as django_apps
 from django.db import models
-from django.utils import timezone
+from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import datetime_not_future
 from edc_base.model_validators import eligible_if_yes
@@ -9,7 +9,7 @@ from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 from edc_search.model_mixins import SearchSlugManager
 
-from ..choices import ENROLLMENT_SITES
+from ..choices import ENROLLMENT_SITES, DISINTEREST_REASON
 from ..eligibility import Eligibility
 from .model_mixins import SearchSlugModelMixin
 from edc_base.utils import get_utcnow
@@ -64,10 +64,27 @@ class SubjectScreening(
         help_text='(Years)',)
 
     enrollment_site = models.CharField(
-        max_length=100,
+        max_length=50,
         null=True,
         choices=ENROLLMENT_SITES,
         help_text="Hospital where subject is recruited")
+    
+    enrollment_interest = models.CharField(
+        verbose_name=('Does the patient want to be enrolled into the'
+                      ' study?'),
+        max_length=3,
+        choices=YES_NO)
+    
+    disinterest_reason = models.CharField(
+        verbose_name=('If no, reason patient does not wish to enroll'
+                      ' into the study'),
+        max_length=50,
+        choices=DISINTEREST_REASON,
+        null=True,
+        blank=True)
+    
+    disinterest_reason_other = OtherCharField()
+    
 
     is_eligible = models.BooleanField(
         default=False,
@@ -108,7 +125,8 @@ class SubjectScreening(
             cancer_status=self.has_diagnosis,
             age_in_years=self.age_in_years,
             residency=self.residency,
-            nationality=self.nationality)
+            nationality=self.nationality,
+            enrollment_interest=self.enrollment_interest)
         self.is_eligible = eligibility_obj.is_eligible
         if eligibility_obj.reasons_ineligible:
             self.ineligibility = eligibility_obj.reasons_ineligible
