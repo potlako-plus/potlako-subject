@@ -47,7 +47,7 @@ class BaselineRoadMapMixin:
                 subject_visit__subject_identifier=self.subject_identifier)
             
             if crf_objs:
-                crf_obj = crf_objs.sort_by('created')[0]
+                crf_obj = crf_objs.order_by('created')[0]
                 crf_dict={}
                 
                 for attr in attrs:
