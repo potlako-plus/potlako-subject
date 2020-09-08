@@ -76,7 +76,7 @@ def patient_call_initial_on_post_save(sender, instance, raw, created, **kwargs):
                     raise ValidationError('Subject screening object does not exist!')
                 else:
                     if (instance.next_appointment_date and get_community_arm(
-                            screening_identifier=subject_screening.screening_identifier) == 'intervention'):
+                            screening_identifier=subject_screening.screening_identifier) == 'Intervention'):
 
                         create_unscheduled_appointment(instance=instance)
 
@@ -247,7 +247,7 @@ def get_community_arm(screening_identifier=None):
                 'nata_clinic', 'mandunyane_clinic', 'sheleketla_clinic']
 
             if clinician_enrollment_obj.facility in enhanced_care_communities:
-                return 'enhanced_care'
+                return 'Standard of Care'
             elif clinician_enrollment_obj.facility in intervention_communities:
-                return 'intervention'
+                return 'Intervention'
     return None
