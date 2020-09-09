@@ -58,7 +58,7 @@ class BaselineRoadMapMixin:
             
             if crf_objs:
                 crf_obj = crf_objs.order_by('created')[0]
-                crf_dict.update({crf_obj.split('.')[1]:
+                crf_dict.update({crf_model.split('.')[1]:
                                            crf_obj})
         return crf_dict
     
