@@ -36,8 +36,8 @@ class BaselineRoadMapMixin:
         try:
             clinician_call_obj = ClinicianCallEnrollment.objects.get(
             screening_identifier=self.screening_identifier)
-        except ClinicianCallEnrollment.ObjectDoesNotExist:
-            return None
+        except ClinicianCallEnrollment.DoesNotExist:
+            return {}
         else:
             return {'cliniciancallenrollment': clinician_call_obj}
     
