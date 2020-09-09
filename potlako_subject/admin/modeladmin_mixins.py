@@ -42,10 +42,12 @@ class ModelAdminMixin(
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         
-        extra_context_dict = BaselineRoadMapMixin(subject_identifier=request.GET.get(
+        
+        extra_context = {} 
+        if self.extra_context_models:
+            extra_context_dict = BaselineRoadMapMixin(subject_identifier=request.GET.get(
             'subject_identifier')).baseline_dict
-        extra_context = {}  
-        [extra_context.update({key: extra_context_dict.get(key)})for key in self.extra_context_models]
+            [extra_context.update({key: extra_context_dict.get(key)})for key in self.extra_context_models]
         return super().change_view(
             request, object_id, form_url=form_url, extra_context=extra_context)
 
