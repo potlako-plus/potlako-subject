@@ -11,7 +11,7 @@
 
 {% block field_sets %}
 
-{% if display_summary %}
+<div class="summary">
 <div class="tab">
 {% if cliniciancallenrollment %}
   <button class="tablinks"  onmouseover="openCity(event, 'cliniciancallenrollment')" disabled>Demographics</button>
@@ -22,7 +22,7 @@
  {% endif %}
  
 {% if baselineclinicalsummary %}
-  <button class="tablinks"  onmouseover="openCity(event, 'baselineclinicalsummary')" disabled>Baseline Summary</button>
+  <button class="tablinks"  onmouseover="openCity(event, 'baselineclinicalsummary')" disabled>Baseline Clinical Summary</button>
  {% endif %}
 
 {% if navigationsummaryandplan %}
@@ -33,17 +33,17 @@
 
 <div id="cliniciancallenrollment" class="tabcontent">
   <pre>
-  Age: {{ cliniciancallenrollment.age_in_years }}
-  Gender: {{ cliniciancallenrollment.gender }}
-  HIV Result: {{ cliniciancallenrollment.last_hiv_result }}
-  Suspected Cancer: {{ cliniciancallenrollment.suspected_cancer }}
-  Suspicion Level: {{ cliniciancallenrollment.suspicion_level }} </pre>
+  Age: {{ cliniciancallenrollment.age_in_years }} <\br>
+  Gender: {{ cliniciancallenrollment.get_gender_display }} <\br>
+  HIV Result: {{ cliniciancallenrollment.last_hiv_result }} <\br>
+  Suspected Cancer: {{ cliniciancallenrollment.get_suspected_cancer_display }} <\br>
+  Suspicion Level: {{ cliniciancallenrollment.get_suspicion_level_display }} </pre>
 </div>
 
   <div id="cancerdiagnosisandtreatmentassessment" class="tabcontent">
 		<pre>
 		Symptoms Summary: {{ cancerdiagnosisandtreatmentassessment.symptoms_summary }}
-		Cancer Evaluation: {{ cancerdiagnosisandtreatmentassessment.cancer_evaluation }}
+		Cancer Evaluation: {{ cancerdiagnosisandtreatmentassessment.get_cancer_evaluation_display }}
 		Diagnoses Date: {{ cancerdiagnosisandtreatmentassessment.diagnoses_date }};
 		{% if cancerdiagnosisandtreatmentassessment.diagnosis_date_estimation %}
   			Diagnoses Date Estimation: {{ cancerdiagnosisandtreatmentassessment.diagnoses_date_estimated }}
@@ -55,16 +55,15 @@
   <div id="baselineclinicalsummary" class="tabcontent">
        <pre>
        Symptoms Summary: {{ baselineclinicalsummary.symptoms_summary }}
-       Cancer Concern: {{ baselineclinicalsummary.cancer_concern }}
-       Cancer Probability: {{ baselineclinicalsummary.cancer_probability }}</pre>
+       Cancer Concern: {{ baselineclinicalsummary.get_cancer_concern_display }}
+       Cancer Probability: {{ baselineclinicalsummary.get_cancer_probability_display }}</pre>
   </div>
   
   <div id="navigationsummaryandplan" class="tabcontent">
 		<pre> Diagnostic plan: {{ navigationsummaryandplan.diagnostic_plan }} </pre>
   </div>
+</div>
 <div class='clearfix'></div>
-{% endif %}
-
   {{ block.super }}
 
 

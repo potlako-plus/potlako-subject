@@ -308,6 +308,19 @@ class PatientCallInitial(CrfModelMixin):
         self.call_duration = self.get_call_duration()
         self.update_age()
         super().save(*args, **kwargs)
+    
+    @property
+    def community_arm(self):
+        onschedule_cls = django_apps.get_model('potlako_subject.onschedule')
+        
+        try:
+            onschedule_obj = onschedule_cls.objects.get(
+                subject_identifier=self.subject_visit.appointment.subject_identifier)
+        except onschedule_cls.DoesNotExist:
+            return None
+        else:
+            return onschedule_obj.community_arm
+            
 
     def update_age(self):
         subject_identifier = self.subject_visit.appointment.subject_identifier

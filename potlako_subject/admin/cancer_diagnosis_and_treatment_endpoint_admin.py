@@ -3,14 +3,17 @@ from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
 from ..forms import CancerDiagnosisAndTreatmentAssessmentEndpointForm
 from ..models import CancerDiagnosisAndTreatmentEndpoint
-
 from .modeladmin_mixins import ModelAdminMixin
 
 
 @admin.register(CancerDiagnosisAndTreatmentEndpoint, site=potlako_subject_admin)
-class CancerDiagnosisAndTreatmentAssessmentAdmin(ModelAdminMixin, admin.ModelAdmin):
+class CancerDiagnosisAndTreatmentAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = CancerDiagnosisAndTreatmentAssessmentEndpointForm
+    extra_context_models = ['cliniciancallenrollment',
+                            'baselineclinicalsummary',
+                            'symptomandcareseekingassessment',
+                            'cancerdiagnosisandtreatmentassessment']
 
     fieldsets = (
         ('Diagnosis Details', {

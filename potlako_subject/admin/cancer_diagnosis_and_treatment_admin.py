@@ -3,7 +3,6 @@ from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
 from ..forms import CancerDiagnosisAndTreatmentAssessmentForm
 from ..models import CancerDiagnosisAndTreatmentAssessment
-
 from .modeladmin_mixins import CrfModelAdminMixin
 
 
@@ -11,6 +10,9 @@ from .modeladmin_mixins import CrfModelAdminMixin
 class CancerDiagnosisAndTreatmentAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     form = CancerDiagnosisAndTreatmentAssessmentForm
+    extra_context_models = ['cliniciancallenrollment',
+                            'baselineclinicalsummary',
+                            'navigationplanandsummary']
 
     fieldsets = (
         (None, {

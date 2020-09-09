@@ -11,6 +11,9 @@ from .modeladmin_mixins import ModelAdminMixin
 class SymptomAndcareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = SymptomAndcareSeekingEndpointForm
+    extra_context_models = ['cliniciancallenrollment',
+                            'baselineclinicalsummary',
+                            'symptomandcareseekingassessment']
 
     fieldsets = (
         (None, {

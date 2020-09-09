@@ -5,7 +5,6 @@ from ..admin_site import potlako_subject_admin
 from ..forms import NavigationSummaryAndPlanForm, EvaluationTimelineForm
 from ..models import NavigationSummaryAndPlan, EvaluationTimeline
 from .modeladmin_mixins import ModelAdminMixin
-from ..models.model_mixins import BaselineRoadMapMixin
 
 class EvaluationTimelineInlineAdmin(TabularInlineMixin, admin.TabularInline):
     model = EvaluationTimeline
@@ -30,6 +29,10 @@ class NavigationPlanAndSummaryAdmin(ModelAdminMixin, admin.ModelAdmin):
     form = NavigationSummaryAndPlanForm
     inlines = [EvaluationTimelineInlineAdmin, ]
     instructions = None
+    extra_context_models = ['cliniciancallenrollment',
+                            'baselineclinicalsummary',
+                            'symptomandcareseekingassessment',
+                            'cancerdiagnosisandtreatmentassessment',]
 
     fieldsets = (
         (None, {
@@ -37,17 +40,3 @@ class NavigationPlanAndSummaryAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'subject_identifier',
                 'diagnostic_plan', ]}
          ), audit_fieldset_tuple)
-    
-    
-    def add_view(self, request, form_url='', extra_context=None):
-        extra_context = BaselineRoadMapMixin(subject_identifier=request.GET.get(
-            'subject_identifier')).baseline_dict
-        return super().add_view(
-            request, form_url=form_url, extra_context=extra_context)
-
-    def change_view(self, request, object_id, form_url='', extra_context=None):
-        extra_context = BaselineRoadMapMixin(subject_identifier=request.GET.get(
-            'subject_identifier')).baseline_dict
-        return super().change_view(
-            request, object_id, form_url=form_url, extra_context=extra_context)
-        
