@@ -29,7 +29,7 @@ class VisitFormValidator(BaseVisitFormValidator):
             field_required='reason_missed')
 
         self.required_if(
-            'Unscheduled visit/contact',
+            'unscheduled_visit/contact',
             field='reason',
             field_required='reason_unscheduled')
 
