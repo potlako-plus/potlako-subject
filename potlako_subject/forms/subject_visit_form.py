@@ -42,6 +42,9 @@ class VisitFormValidator(BaseVisitFormValidator):
             OTHER,
             field='reason_unscheduled',
             field_required='reason_unscheduled_other')
+    
+    def validate_survival_status_if_alive(self):
+        pass
 
 
 class SubjectVisitForm (

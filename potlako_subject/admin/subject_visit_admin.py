@@ -25,7 +25,6 @@ class SubjectVisitAdmin(
                 'info_source',
                 'info_source_other',
                 'survival_status',
-                'last_alive_date',
                 'comments'
             ]}),
         visit_schedule_fieldset_tuple,
