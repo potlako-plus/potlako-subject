@@ -1,7 +1,4 @@
 from datetime import datetime
-from potlako_subject.action_items import SUBJECT_LOCATOR_ACTION
-from potlako_subject.models.subject_locator import SubjectLocator
-
 from django.apps import apps as django_apps
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.models.signals import post_save
@@ -21,6 +18,8 @@ from edc_appointment.models import Appointment
 from potlako_prn.action_items import DEATH_REPORT_ACTION
 from potlako_prn.action_items import SUBJECT_OFFSTUDY_ACTION
 
+from ..action_items import SUBJECT_LOCATOR_ACTION
+from .subject_locator import SubjectLocator
 from .clinician_call_enrollment import ClinicianCallEnrollment
 from .home_visit import HomeVisit
 from .onschedule import OnSchedule

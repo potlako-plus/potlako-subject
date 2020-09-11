@@ -12,7 +12,7 @@ from edc_appointment.models import Appointment
 from ..models import OnSchedule
 
 
-@tag('2')
+@tag('it')
 class TestInterventionVisitScheduleSetup(TestCase):
 
     def setUp(self):
@@ -41,6 +41,10 @@ class TestInterventionVisitScheduleSetup(TestCase):
         self.appointment_2000 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='2000')
+        
+        self.appointment_2000 = Appointment.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier,
+            visit_code='3000')
 
         self.visit_1000 = mommy.make_recipe(
             'potlako_subject.subjectvisit',
@@ -49,9 +53,8 @@ class TestInterventionVisitScheduleSetup(TestCase):
             appointment=self.appointment_1000)
 
         self.not_required_models = [
-            'transport', 'homevisit', 'physicianreview',
-            'investigationsordered', 'investigationsresulted',
-            'medicaldiagnosis']
+            'transport', 'missedvisit','investigationsordered',
+            'investigationsresulted',]
 
     def test_community_arm_name_valid(self):
         self.assertEqual(OnSchedule.objects.filter(
@@ -76,12 +79,11 @@ class TestInterventionVisitScheduleSetup(TestCase):
                 visit_code='1000',
             ).entry_status, REQUIRED)
 
-        for model in self.not_required_models:
-            self.assertEqual(
-                CrfMetadata.objects.get(
-                    model='potlako_subject.' + model,
-                    subject_identifier=self.subject_consent.subject_identifier,
-                    visit_code='1000').entry_status, NOT_REQUIRED)
+        self.assertEqual(
+            CrfMetadata.objects.get(
+                model='potlako_subject.medicaldiagnosis',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='1000').entry_status, NOT_REQUIRED)
 
     def test_creation_of_1000_continuation_visit(self):
         """Assert that an unscheduled appointment was created for visit 1000"""
@@ -143,10 +145,6 @@ class TestInterventionVisitScheduleSetup(TestCase):
             ap.appt_status = INCOMPLETE_APPT
             ap.save()
 
-        self.appointment_2000 = Appointment.objects.get(
-            subject_identifier=self.subject_consent.subject_identifier,
-            visit_code='2000')
-
         mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
@@ -160,9 +158,6 @@ class TestInterventionVisitScheduleSetup(TestCase):
                 visit_code='2000').entry_status, REQUIRED)
 
     def test_metadata_creation_visit_3000(self):
-        self.appointment_3000 = Appointment.objects.get(
-            subject_identifier=self.subject_consent.subject_identifier,
-            visit_code='3000')
 
         mommy.make_recipe(
             'potlako_subject.subjectvisit',

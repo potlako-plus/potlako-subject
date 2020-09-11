@@ -9,7 +9,7 @@ from .investigations_ordered_form import InvestigationsOrderedForm
 from .investigations_ordered_form import LabTestForm
 from .investigations_resulted_form import InvestigationsResultedForm
 from .medical_diagnosis_form import MedicalConditionsForm, MedicalDiagnosisForm
-from .missed_call_form import MissedCallForm
+from .missed_call_form import MissedCallForm, MissedCallRecordForm
 from .missed_visit_form import MissedVisitForm
 from .navigation_summary_and_plan_form import EvaluationTimelineForm
 from .navigation_summary_and_plan_form import NavigationSummaryAndPlanForm
