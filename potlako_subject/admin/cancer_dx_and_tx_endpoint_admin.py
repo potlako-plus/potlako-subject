@@ -1,19 +1,19 @@
 from django.contrib import admin
 from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
-from ..forms import CancerDiagnosisAndTreatmentAssessmentEndpointForm
-from ..models import CancerDiagnosisAndTreatmentEndpoint
+from ..forms import CancerDxAndTxAssessmentEndpointForm
+from ..models import CancerDxAndTxEndpoint
 from .modeladmin_mixins import ModelAdminMixin
 
 
-@admin.register(CancerDiagnosisAndTreatmentEndpoint, site=potlako_subject_admin)
-class CancerDiagnosisAndTreatmentAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
+@admin.register(CancerDxAndTxEndpoint, site=potlako_subject_admin)
+class CancerDxAndTxAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
 
-    form = CancerDiagnosisAndTreatmentAssessmentEndpointForm
+    form = CancerDxAndTxAssessmentEndpointForm
     extra_context_models = ['cliniciancallenrollment',
                             'baselineclinicalsummary',
                             'symptomandcareseekingassessment',
-                            'cancerdiagnosisandtreatmentassessment']
+                            'cancerdxandtx']
 
     fieldsets = (
         ('Diagnosis Details', {

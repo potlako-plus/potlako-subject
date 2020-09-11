@@ -43,7 +43,7 @@ class BaselineRoadMapMixin:
     
     @property
     def crfs_dict(self):
-        crfs_list = ['potlako_subject.cancerdiagnosisandtreatmentassessment',
+        crfs_list = ['potlako_subject.cancerdxandtx',
                      'potlako_subject.symptomandcareseekingassessment',
                      'potlako_subject.patientcallinitial',
                      'potlako_subject.investigationsordered',

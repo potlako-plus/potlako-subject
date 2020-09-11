@@ -153,7 +153,7 @@ class TestInterventionVisitScheduleSetup(TestCase):
 
         self.assertEqual(
             CrfMetadata.objects.get(
-                model='potlako_subject.cancerdiagnosisandtreatmentassessment',
+                model='potlako_subject.cancerdxandtx',
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='2000').entry_status, REQUIRED)
 
@@ -173,6 +173,6 @@ class TestInterventionVisitScheduleSetup(TestCase):
 
         self.assertEqual(
             CrfMetadata.objects.get(
-                model='potlako_subject.cancerdiagnosisandtreatmentassessment',
+                model='potlako_subject.cancerdxandtx',
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='3000').entry_status, REQUIRED)
