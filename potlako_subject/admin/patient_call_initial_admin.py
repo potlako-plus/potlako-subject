@@ -41,6 +41,8 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'primary_clinic',
                        'primary_clinic_other',
                        'education_level',
+                       'heard_of_potlako',
+                       'source_of_info',
                        'potlako_sms_received',
                        'sms_platform',
                        'sms_platform_other',
@@ -80,7 +82,6 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'next_ap_facility_unit_other',
                        'transport_support',
                        'comments',
-                       'cancer_probability',
                        'initial_call_end_time',
                        'call_duration'
                        ),
@@ -91,6 +92,8 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     radio_fields = {'residential_district': admin.VERTICAL,
                     'primary_clinic': admin.VERTICAL,
                     'education_level': admin.VERTICAL,
+                    'heard_of_potlako': admin.VERTICAL,
+                    'source_of_info': admin.VERTICAL,
                     'potlako_sms_received': admin.VERTICAL,
                     'sms_platform': admin.VERTICAL,
                     'work_status': admin.VERTICAL,
@@ -112,7 +115,6 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'next_ap_facility': admin.VERTICAL,
                     'next_ap_facility_unit': admin.VERTICAL,
                     'transport_support': admin.VERTICAL,
-                    'cancer_probability': admin.VERTICAL,
                     'perfomance_status': admin.VERTICAL,
                     'pain_score': admin.VERTICAL,
                     }

@@ -519,9 +519,17 @@ SYMPTOMS_CONCERN = (
     ('quite_concerned', 'Quite concerned'),
     ('very_concerned', 'Very concerned'))
 
+SOURCE_OF_INFO = (
+    ('relative', 'Relative'),
+    ('spouse', 'Spouse'),
+    ('potlako_plus_member', 'Potlako+ team member'),
+    ('health_care_worker', 'Health care worker'),
+    (OTHER, 'Other (specify)'),
+)
+
 TESTS_ORDERED = (
     ('ordered', 'Yes, ordered'),
-    ('resulted', 'Yes, resulted'),
+    ('ordered_and_resulted', 'Yes, ordered and resulted'),
     (UNSURE, 'No, unsure'),
 )
 

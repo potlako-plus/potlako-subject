@@ -21,6 +21,13 @@ class VisitFormValidator(BaseVisitFormValidator):
                     'reason': 'Invalid. This is not an unscheduled visit'},
                     code=INVALID_ERROR)
 
+            reasons = ['missed_quarterly_visit', 'quarterly_visit/contact',
+                       'lost_to_follow_up', 'unscheduled_visit/contact']
+            if (appointment.visit_code == '1000' and reason in reasons):
+                raise forms.ValidationError({
+                    'reason': 'Invalid visit reason'},
+                    code=INVALID_ERROR)
+
     def validate_required_fields(self):
 
         self.required_if(
@@ -42,7 +49,7 @@ class VisitFormValidator(BaseVisitFormValidator):
             OTHER,
             field='reason_unscheduled',
             field_required='reason_unscheduled_other')
-    
+
     def validate_survival_status_if_alive(self):
         pass
 

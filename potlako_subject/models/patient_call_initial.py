@@ -11,14 +11,14 @@ from edc_base.model_validators import date_not_future
 from edc_base.model_validators.date import date_is_future
 from edc_base.utils import age, get_utcnow
 from edc_constants.choices import POS_NEG_UNKNOWN, YES_NO_NA
-from edc_constants.choices import YES_NO, YES_NO_UNSURE
+from edc_constants.choices import YES_NO
 from edc_constants.constants import NOT_APPLICABLE
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
-from ..choices import DURATION, FACILITY_UNIT, SEVERITY_LEVEL, DISTRICT
+from ..choices import DURATION, FACILITY_UNIT, TESTS_ORDERED, DISTRICT
 from ..choices import PAIN_SCORE, SCALE, EDUCATION_LEVEL, WORK_TYPE
-from ..choices import SMS_PLATFORM, UNEMPLOYED_REASON
+from ..choices import SMS_PLATFORM, UNEMPLOYED_REASON, SOURCE_OF_INFO
 from .list_models import PatientResidence
 from .model_mixins import CrfModelMixin
 
@@ -62,6 +62,18 @@ class PatientCallInitial(CrfModelMixin):
         max_length=15,
         choices=EDUCATION_LEVEL,
         blank=True)
+
+    heard_of_potlako = models.CharField(
+        verbose_name='Has the patient heard about Potlako+ ?',
+        max_length=3,
+        choices=YES_NO)
+
+    source_of_info = models.CharField(
+        verbose_name='Where or Who did you hear about Potlako+ from ?',
+        max_length=20,
+        choices=SOURCE_OF_INFO, blank=True, null=True)
+
+    source_of_info_other = OtherCharField()
 
     potlako_sms_received = models.CharField(
         verbose_name='Have you received Potlako+ messages?',
@@ -242,8 +254,8 @@ class PatientCallInitial(CrfModelMixin):
     tests_ordered = models.CharField(
         verbose_name=('Does patient report any tests being ordered or '
                       'done at or since enrollment visit?'),
-        choices=YES_NO_UNSURE,
-        max_length=8)
+        choices=TESTS_ORDERED,
+        max_length=20)
 
     next_appointment_date = models.DateField(
         verbose_name='Next appointment date (per patient report)',
@@ -278,11 +290,6 @@ class PatientCallInitial(CrfModelMixin):
         blank=True,
         null=True)
 
-    cancer_probability = models.CharField(
-        verbose_name='Cancer probability (baseline)',
-        choices=SEVERITY_LEVEL,
-        max_length=10)
-
     initial_call_end_time = models.TimeField(
         verbose_name='End of patient initial call (timestamp)',
     )
@@ -308,11 +315,11 @@ class PatientCallInitial(CrfModelMixin):
         self.call_duration = self.get_call_duration()
         self.update_age()
         super().save(*args, **kwargs)
-    
+
     @property
     def community_arm(self):
         onschedule_cls = django_apps.get_model('potlako_subject.onschedule')
-        
+
         try:
             onschedule_obj = onschedule_cls.objects.get(
                 subject_identifier=self.subject_visit.appointment.subject_identifier)
@@ -320,7 +327,6 @@ class PatientCallInitial(CrfModelMixin):
             return None
         else:
             return onschedule_obj.community_arm
-            
 
     def update_age(self):
         subject_identifier = self.subject_visit.appointment.subject_identifier

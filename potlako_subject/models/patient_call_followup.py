@@ -127,7 +127,7 @@ class PatientCallFollowUp(CrfModelMixin):
         verbose_name=('Have there been any interval investigations '
                       'ordered or resulted?'),
         choices=TESTS_ORDERED,
-        max_length=8,
+        max_length=20,
         help_text='(IF YES, COMPLETE \'INVESTIGATION FORM\')')
 
     transport_support = models.CharField(
