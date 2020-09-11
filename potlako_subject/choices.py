@@ -140,7 +140,7 @@ DISPOSITION = (
 )
 
 DISINTEREST_REASON = (
-    ('dont_want_to_participate','I don\'t want to be part of a study'),
+    ('dont_want_to_participate', 'I don\'t want to be part of a study'),
     ('dont_think_I_have_cancer', 'I don\'t think I have cancer'),
     ('partner_doesnt_want_to_participate', 'My partner doesn\'t want me to participate'),
     (OTHER, 'Other (specify)')
@@ -242,7 +242,8 @@ ENROLLMENT_SITES = (
     ('masunga_primary_hospital', 'Masunga Primary Hospital'),
     ('masunga_clinic', 'Masunga clinic'),
     ('mathangwane_clinic', 'Mathangwane clinic'),
-    ('nata_clinic', 'Nata clinic')
+    ('nata_clinic', 'Nata clinic'),
+    (OTHER, 'Other (specify)')
 
 )
 
@@ -626,4 +627,10 @@ YES_NO_AOTS = (
     (YES, YES),
     (NO, NO),
     ('already_on_transport_support', 'Already on transport support'),
+)
+
+YES_NO_DECEASED = (
+    (YES, YES),
+    (NO, NO),
+    ('deceased', 'Deceased')
 )

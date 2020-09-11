@@ -2,14 +2,13 @@ from django.apps import apps as django_apps
 from django.db import models
 from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
-from edc_base.model_validators import datetime_not_future
 from edc_base.model_validators import eligible_if_yes
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 from edc_search.model_mixins import SearchSlugManager
 
-from ..choices import ENROLLMENT_SITES, DISINTEREST_REASON
+from ..choices import ENROLLMENT_SITES, DISINTEREST_REASON, YES_NO_DECEASED
 from ..eligibility import Eligibility
 from .model_mixins import SearchSlugModelMixin
 from edc_base.utils import get_utcnow
@@ -68,13 +67,15 @@ class SubjectScreening(
         null=True,
         choices=ENROLLMENT_SITES,
         help_text="Hospital where subject is recruited")
-    
+
+    enrollment_site_other = OtherCharField()
+
     enrollment_interest = models.CharField(
         verbose_name=('Does the patient want to be enrolled into the'
                       ' study?'),
-        max_length=3,
-        choices=YES_NO)
-    
+        max_length=8,
+        choices=YES_NO_DECEASED)
+
     disinterest_reason = models.CharField(
         verbose_name=('If no, reason patient does not wish to enroll'
                       ' into the study'),
@@ -82,9 +83,8 @@ class SubjectScreening(
         choices=DISINTEREST_REASON,
         null=True,
         blank=True)
-    
+
     disinterest_reason_other = OtherCharField()
-    
 
     is_eligible = models.BooleanField(
         default=False,

@@ -98,6 +98,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
             'fields': (
                 'triage_status',
                 'investigated',
+                'tests_ordered',
                 'comments',)
         }),
 

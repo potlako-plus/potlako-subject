@@ -13,7 +13,7 @@ from edc_base.model_validators import date_not_future
 from edc_base.model_validators.phone import CellNumber
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_consent.model_mixins import RequiresConsentFieldsModelMixin
-from edc_constants.choices import YES_NO
+from edc_constants.choices import YES_NO_NA
 from edc_locator.model_mixins import LocatorModelMixin, LocatorManager
 
 from ..choices import YES_NO_DW
@@ -52,9 +52,7 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
 
     has_alt_contact = models.CharField(
         max_length=25,
-        choices=YES_NO,
-        blank=True,
-        null=True,
+        choices=YES_NO_NA,
         verbose_name=("If we are unable to contact the person indicated above,"
                       " is there another individual (including next of kin) "
                       "with whom the study team can get in contact with?"),
