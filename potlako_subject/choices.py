@@ -242,7 +242,8 @@ ENROLLMENT_SITES = (
     ('masunga_primary_hospital', 'Masunga Primary Hospital'),
     ('masunga_clinic', 'Masunga clinic'),
     ('mathangwane_clinic', 'Mathangwane clinic'),
-    ('nata_clinic', 'Nata clinic')
+    ('nata_clinic', 'Nata clinic'),
+    (OTHER, 'Other (specify)')
 
 )
 

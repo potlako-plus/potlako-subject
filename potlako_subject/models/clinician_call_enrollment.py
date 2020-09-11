@@ -297,6 +297,12 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
                      'during this visit?',
         choices=YES_NO_UNKNOWN,
         max_length=7,)
+
+    tests_ordered = models.TextField(
+        verbose_name='Indicate which tests were ordered.',
+        max_length=255,
+        blank=True, null=True, )
+
     comments = models.TextField(
         verbose_name=('Are there any other comments regarding this '
                       'enrollment visit?'),
