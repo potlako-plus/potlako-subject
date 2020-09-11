@@ -71,6 +71,13 @@ list_data = {
         ('missed_visits_due_trans_challenges',
          'Has missed appointments due to transportation challenges'),
         (OTHER, 'Other'),
+    ],
+    'potlako_subject.smsplatform': [
+        ('potlako+_iec_material', 'Potlako+ IEC material'),
+        ('group_teaching', 'Group teaching'),
+        ('public_campaign', 'Public campaign'),
+        ('info_from_community_leader', 'Information from community leader'),
+        (OTHER, 'Other, specify'),
     ]
 }
 

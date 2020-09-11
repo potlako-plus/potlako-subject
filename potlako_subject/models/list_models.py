@@ -25,6 +25,10 @@ class PathologyTest(ListModelMixin, BaseUuidModel):
     pass
 
 
+class SmsPlatform(ListModelMixin, BaseUuidModel):
+    pass
+
+
 class Symptoms(ListModelMixin, BaseUuidModel):
     pass
 
