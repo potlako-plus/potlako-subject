@@ -44,6 +44,7 @@ class SubjectScreeningAdmin(
                 'age_in_years',
                 'has_diagnosis',
                 'enrollment_site',
+                'enrollment_site_other',
                 'enrollment_interest',
                 'disinterest_reason',
                 'disinterest_reason_other'
