@@ -470,13 +470,6 @@ SMS_OUTCOME = (
     (OTHER, 'Other, specify'),
 )
 
-SMS_PLATFORM = (
-    ('potlako+_iec_material', 'Potlako+ IEC material'),
-    ('group_teaching', 'Group teaching'),
-    ('public_campaign', 'Public campaign'),
-    ('info_from_community_leader', 'Information from community leader'),
-    (OTHER, 'Other, specify'))
-
 SPECIALIST_CLINIC = (
     ('ENT', 'ENT'),
     ('urology', 'Urology'),

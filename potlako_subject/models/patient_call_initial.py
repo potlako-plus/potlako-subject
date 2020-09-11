@@ -18,8 +18,8 @@ from edc_protocol.validators import date_not_before_study_start
 from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
 from ..choices import DURATION, FACILITY_UNIT, TESTS_ORDERED, DISTRICT
 from ..choices import PAIN_SCORE, SCALE, EDUCATION_LEVEL, WORK_TYPE
-from ..choices import SMS_PLATFORM, UNEMPLOYED_REASON, SOURCE_OF_INFO
-from .list_models import PatientResidence
+from ..choices import UNEMPLOYED_REASON, SOURCE_OF_INFO
+from .list_models import PatientResidence, SmsPlatform
 from .model_mixins import CrfModelMixin
 
 
@@ -80,13 +80,12 @@ class PatientCallInitial(CrfModelMixin):
         choices=YES_NO,
         max_length=3)
 
-    sms_platform = models.CharField(
+    sms_platform = models.ManyToManyField(
+        SmsPlatform,
         verbose_name=('If yes, which Potlako+ messaging platform did you'
                       ' receive?'),
-        choices=SMS_PLATFORM,
         max_length=35,
-        blank=True,
-        null=True)
+        blank=True,)
 
     sms_platform_other = OtherCharField()
 
