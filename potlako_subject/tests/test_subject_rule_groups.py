@@ -67,6 +67,8 @@ class TestRuleGroups(TestCase):
         self.clinician_call.facility = 'otse_clinic'
         self.clinician_call.save()
         
+        self.patient_call_initial.transport_support=YES
+        self.patient_call_initial.save()
         
         self.assertEqual(
             CrfMetadata.objects.get(
@@ -82,6 +84,7 @@ class TestRuleGroups(TestCase):
         self.clinician_call.save()
         
         self.patient_call_initial.transport_support=NO
+        self.patient_call_initial.save()
 
         self.assertEqual(
             CrfMetadata.objects.get(
@@ -194,7 +197,7 @@ class TestRuleGroups(TestCase):
         mommy.make_recipe(
             'potlako_subject.patientcallfollowup',
             subject_visit=self.maternal_visit_1000_1,
-            investigations_ordered='resulted')
+            investigations_ordered='ordered_and_resulted')
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.investigationsresulted',
