@@ -12,7 +12,7 @@ from ..choices import NON_CANCER_DIAGNOSIS, DATE_ESTIMATION, CANCER_DIAGNOSIS_ST
 from .model_mixins import CrfModelMixin
 
 
-class CancerDiagnosisAndTreatmentEndpoint(UniqueSubjectIdentifierFieldMixin,
+class CancerDxAndTxEndpoint(UniqueSubjectIdentifierFieldMixin,
                                           SiteModelMixin, BaseUuidModel):
 
     cancer_evaluation = models.CharField(

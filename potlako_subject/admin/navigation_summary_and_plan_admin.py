@@ -32,7 +32,7 @@ class NavigationPlanAndSummaryAdmin(ModelAdminMixin, admin.ModelAdmin):
     extra_context_models = ['cliniciancallenrollment',
                             'baselineclinicalsummary',
                             'symptomandcareseekingassessment',
-                            'cancerdiagnosisandtreatmentassessment',]
+                            'cancerdxandtx',]
 
     fieldsets = (
         (None, {

@@ -7,7 +7,7 @@ from ..choices import CANCER_EVALUATION
 from .model_mixins import CrfModelMixin
 
 
-class CancerDiagnosisAndTreatmentAssessment(CrfModelMixin):
+class CancerDxAndTx(CrfModelMixin):
 
     symptoms_summary = models.TextField(
         verbose_name=('Summary of symptoms and evaluation over the past 6 '
