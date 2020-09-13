@@ -25,6 +25,8 @@ class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'visit_type',
                        'determine_missed',
                        'determine_missed_other',
+                       'clinician_designation',
+                       'clinician_designation_other',
                        'reason_missed',
                        'reason_missed_other',
                        'next_appointment_date',
@@ -35,8 +37,6 @@ class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'transport_need',
                        'transport_support',
                        'trans_support_comments',
-                       'clinician_designation',
-                       'clinician_designation_other',
                        'comments'),
         }), audit_fieldset_tuple)
 
