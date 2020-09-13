@@ -534,6 +534,8 @@ TRANSPORT_TYPE = (
     ('cash', 'Cash transfer to patient'),
     ('patient_arranged_vehicle',
      'Facility Vehicle - Arranged by Patient or Clinician'),
+    (OTHER, 'Other (specify)'),
+    (NOT_APPLICABLE, 'N/A'),
 )
 
 TREATMENT_INTENT = (

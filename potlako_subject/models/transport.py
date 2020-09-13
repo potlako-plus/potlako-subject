@@ -7,7 +7,7 @@ from edc_constants.choices import YES_NO
 from ..choices import CASH_TRANSFER_STATUS
 from ..choices import FACILITY, TRANSPORT_TYPE
 from ..choices import VEHICLE_ARR_STATUS, BUS_VOUCHER_STATUS
-from .list_models import Housemate, TransportCriteria
+from .list_models import TransportCriteria
 from .model_mixins import CrfModelMixin
 
 
@@ -19,12 +19,6 @@ class Transport(CrfModelMixin):
         choices=YES_NO,
         max_length=3,)
 
-    housemate = models.ManyToManyField(
-        Housemate,
-        verbose_name='Who do you live with?')
-
-    housemate_other = OtherCharField()
-
     car_ownership = models.CharField(
         verbose_name='Is there a car at home?',
         choices=YES_NO,
@@ -32,7 +26,8 @@ class Transport(CrfModelMixin):
 
     criteria_met = models.ManyToManyField(
         TransportCriteria,
-        verbose_name='What criteria has been met for transportation support?')
+        verbose_name='What criteria has been met for transportation support?',
+        blank=True)
 
     criteria_met_other = OtherCharField()
 
@@ -67,18 +62,6 @@ class Transport(CrfModelMixin):
         verbose_name='If other facility vehicle status, describe '
                      'details',
         max_length=100,
-        blank=True,
-        null=True,)
-
-    vehicle_request_date = models.DateField(
-        verbose_name='Date of initial request for facility vehicle',
-        blank=True,
-        null=True,)
-
-    facility_personnel = models.CharField(
-        verbose_name='Facility transport office personnel who received '
-                     'the request',
-        max_length=25,
         blank=True,
         null=True,)
 
