@@ -34,6 +34,13 @@ list_data = {
         ('arrange_transportation', 'Arrange transportation'),
         (OTHER, 'Other')
     ],
+    'potlako_subject.imagingtesttype': [
+        ('xray', 'Xray (specify)'),
+        ('ultrasound', 'Ultrasound (specify)'),
+        ('CT', 'CT (specify)'),
+        ('MRI', 'MRI (specify)'),
+        (OTHER, 'Other imaging test (specify)')
+    ],
     'potlako_subject.investigationnotes': [
         ('LFTs', 'LFTs'),
         ('U&Es', 'U&Es'),
@@ -58,7 +65,8 @@ list_data = {
     'potlako_subject.pathologytest': [
         ('biopsy', 'Biopsy (specify)'),
         ('FNA', 'FNA'),
-        ('pap_smear', 'Pap smear')
+        ('pap_smear', 'Pap smear'),
+        (OTHER, 'Other (specify)')
     ],
     'potlako_subject.symptoms': [
         ('mouth_pain', 'Mouth pain'),
@@ -73,6 +81,11 @@ list_data = {
         ('dysuria', 'Dysuria'),
         ('skin_changes', 'Skin changes'),
         ('cough', 'Cough'),
+        (OTHER, 'Other (specify)')
+    ],
+    'potlako_subject.testsorderedtype': [
+        ('pathology', 'Pathology'),
+        ('imaging', 'Imaging'),
         (OTHER, 'Other (specify)')
     ],
     'potlako_subject.transportcriteria': [

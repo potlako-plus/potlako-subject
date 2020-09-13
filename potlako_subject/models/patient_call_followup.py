@@ -26,15 +26,10 @@ class PatientCallFollowUp(CrfModelMixin):
         verbose_name='Patient follow up: start time',
     )
 
-    patient_residence_change = models.CharField(
-        verbose_name=('Has there been any change in patient '
-                      'residence and contact information?'),
-        choices=YES_NO,
-        max_length=3)
-
-    next_kin_contact_change = models.CharField(
-        verbose_name=('Any changes to be made to next of kin contact '
-                      'information?'),
+    patient_info_change = models.CharField(
+        verbose_name=('Any changes to be made to participant residence, '
+                      'contact and or next of kin information since index '
+                      'visit?'),
         choices=YES_NO,
         max_length=3)
 

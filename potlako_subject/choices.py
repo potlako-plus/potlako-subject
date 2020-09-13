@@ -130,6 +130,7 @@ DIAGNOSIS_RESULTS = (
     ('non_malignant', 'Non Malignant'),
     ('inconclusive', 'Inconclusive'),
     ('untraceable', 'Untraceable'),
+    ('suggestive', 'Suggestive'),
     (OTHER, 'Other (specify)')
 )
 
