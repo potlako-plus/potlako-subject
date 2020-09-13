@@ -2,6 +2,19 @@ from edc_constants.constants import OTHER, NOT_APPLICABLE
 from edc_list_data import PreloadData
 
 list_data = {
+    'potlako_subject.discussionperson': [
+        ('mother', 'Mother'),
+        ('father', 'Father'),
+        ('sister', 'Sister'),
+        ('brother', 'Brother'),
+        ('female_family_member', 'Other female family member'),
+        ('male_family_member', 'Other male family member'),
+        ('female_friend', 'Female friend'),
+        ('male_friend', 'Male friend'),
+        ('pastor_religious_leader', 'Pastor or religious leader'),
+        ('traditional_healer', 'Traditional healer'),
+        (OTHER, 'Other (specify)')
+    ],
     'potlako_subject.disposition': [
         ('return', 'Return'),
         ('refer', 'Refer'),

@@ -37,6 +37,8 @@ class SymptomAndcareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin)
                        'symptoms_present',
                        'symptoms_present_other',
                        'symptoms_discussion',
+                       'reason_no_discussion',
+                       'reason_no_discussion_other',
                        'discussion_person',
                        'discussion_person_other',
                        'discussion_date',
@@ -54,7 +56,7 @@ class SymptomAndcareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin)
     )
 
     radio_fields = {'symptoms_discussion': admin.VERTICAL,
-                    'discussion_person': admin.VERTICAL,
+                    'reason_no_discussion': admin.VERTICAL,
                     'discussion_date_estimated': admin.VERTICAL,
                     'discussion_date_estimation': admin.VERTICAL,
                     'medical_advice': admin.VERTICAL,
@@ -63,4 +65,4 @@ class SymptomAndcareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin)
                     'symptoms_concern': admin.VERTICAL,
                     }
 
-    filter_horizontal = ('symptoms_present',)
+    filter_horizontal = ('symptoms_present', 'discussion_person', )

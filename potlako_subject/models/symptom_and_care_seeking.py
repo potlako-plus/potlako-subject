@@ -6,9 +6,10 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO_UNSURE, YES_NO
 
-from ..choices import DATE_ESTIMATION, DISCUSSION_PERSON, SYMPTOMS_CONCERN
-from .list_models import Symptoms
+from ..choices import DATE_ESTIMATION, REASONS_NOT_DISCUSSED, SYMPTOMS_CONCERN
+from .list_models import DiscussionPerson, Symptoms
 from .model_mixins import CrfModelMixin
+
 
 class SymptomAndcareSeekingAssessment(CrfModelMixin):
 
@@ -41,12 +42,19 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
         choices=YES_NO_UNSURE,
         max_length=8)
 
-    discussion_person = models.CharField(
-        verbose_name=('If yes, who did you discuss with?'),
-        choices=DISCUSSION_PERSON,
-        max_length=25,
+    reason_no_discussion = models.CharField(
+        verbose_name='If no, Why didn\'t you discuss with anyone?',
+        choices=REASONS_NOT_DISCUSSED,
+        max_length=20,
         blank=True,
         null=True)
+
+    reason_no_discussion_other = OtherCharField()
+
+    discussion_person = models.ManyToManyField(
+        DiscussionPerson,
+        verbose_name=('If yes, who did you discuss with?'),
+        blank=True)
 
     discussion_person_other = OtherCharField()
 

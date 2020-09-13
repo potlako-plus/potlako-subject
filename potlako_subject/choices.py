@@ -195,19 +195,6 @@ DATE_TIME_ESTIMATION = (
     ('day_month_year', 'Estimated day, month and year')
 )
 
-DISCUSSION_PERSON = (
-    ('mother', 'Mother'),
-    ('father', 'Father'),
-    ('sister', 'Sister'),
-    ('brother', 'Brother'),
-    ('female_family_member', 'Other female family member'),
-    ('male_family_member', 'Other male family member'),
-    ('female_friend', 'Female friend'),
-    ('male_friend', 'Male friend'),
-    ('pastor_religious_leader', 'Pastor or religious leader'),
-    ('traditional_healer', 'Traditional healer'),
-    (OTHER, 'Other (specify)'))
-
 DONE_NOT_DONE = (
     (DONE, 'Done'),
     (NOT_DONE, 'Not Done'))
@@ -412,6 +399,14 @@ REASON_MISSED_VISIT = (
     ('didnt_think_theyd_get_help',
      'Did not wish to return because they did not think they would get help'),
     ('deceased', 'Patient deceased'),
+    (OTHER, 'Other (specify)'),
+)
+
+REASONS_NOT_DISCUSSED = (
+    ('not_comfortable', 'I was not comfortable to discuss it.'),
+    ('not_trusting', 'I do not trust anyone.'),
+    ('fear_discrimination', 'I fear discrimination/judgement.'),
+    ('not_necessary', 'I do not think it is necessary.'),
     (OTHER, 'Other (specify)'),
 )
 
