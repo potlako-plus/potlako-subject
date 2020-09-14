@@ -27,6 +27,10 @@ class VisitFormValidator(BaseVisitFormValidator):
                 raise forms.ValidationError({
                     'reason': 'Invalid visit reason'},
                     code=INVALID_ERROR)
+            if (appointment.visit_code not in ['1000'] and
+                    reason == 'initial_visit/contact'):
+                raise forms.ValidationError({
+                    'reason': 'This can not be an initial visit/contact.'})
 
     def validate_required_fields(self):
 
