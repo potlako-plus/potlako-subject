@@ -6,7 +6,6 @@ from edc_facility.import_holidays import import_holidays
 from edc_metadata.constants import REQUIRED, NOT_REQUIRED
 from edc_metadata.models import CrfMetadata
 from model_mommy import mommy
-from uuid import uuid4
 from edc_appointment.models import Appointment
 from potlako_subject.models.onschedule import OnSchedule
 
@@ -141,12 +140,30 @@ class TestRuleGroups(TestCase):
                 visit_code_sequence='0').entry_status, NOT_REQUIRED)
 
     def test_tests_ordered_form_required_subject(self):
-        self.patient_call_initial.tests_ordered=YES
+        self.patient_call_initial.tests_ordered='ordered'
         self.patient_call_initial.save()
         
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.investigationsordered',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='1000',
+                visit_code_sequence='0').entry_status, REQUIRED)
+    
+    def test_tests_ordered_and_resulted_form_required_subject(self):
+        self.patient_call_initial.tests_ordered='ordered_and_resulted'
+        self.patient_call_initial.save()
+        
+        self.assertEqual(
+            CrfMetadata.objects.get(
+                model='potlako_subject.investigationsordered',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='1000',
+                visit_code_sequence='0').entry_status, REQUIRED)
+        
+        self.assertEqual(
+            CrfMetadata.objects.get(
+                model='potlako_subject.investigationsresulted',
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='1000',
                 visit_code_sequence='0').entry_status, REQUIRED)
@@ -174,6 +191,26 @@ class TestRuleGroups(TestCase):
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.investigationsordered',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='1000',
+                visit_code_sequence='1').entry_status, REQUIRED)
+    
+    def test_investigations_ordered_and_resulted_form_required_subject(self):
+        self.appointment_1000.appt_status = INCOMPLETE
+        self.appointment_1000.save()
+        mommy.make_recipe(
+            'potlako_subject.patientcallfollowup',
+            subject_visit=self.maternal_visit_1000_1,
+            investigations_ordered='ordered_and_resulted')
+        self.assertEqual(
+            CrfMetadata.objects.get(
+                model='potlako_subject.investigationsordered',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='1000',
+                visit_code_sequence='1').entry_status, REQUIRED)
+        self.assertEqual(
+            CrfMetadata.objects.get(
+                model='potlako_subject.investigationsresulted',
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='1000',
                 visit_code_sequence='1').entry_status, REQUIRED)

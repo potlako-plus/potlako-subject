@@ -52,8 +52,7 @@ class TestStandardofCareVisitSchedule(TestCase):
             visit_code='3000')
 
         self.not_required_models = [
-            'transport', 'missedvisit',
-            'investigationsordered', 'investigationsresulted']
+            'transport', 'investigationsordered', 'investigationsresulted']
 
     def test_community_arm_name_valid(self):
         self.assertEqual(OnSchedule.objects.filter(
@@ -78,7 +77,7 @@ class TestStandardofCareVisitSchedule(TestCase):
         
         self.assertEqual(
                     CrfMetadata.objects.get(
-                        model='potlako_subject.medicaldiagnoses',
+                        model='potlako_subject.medicaldiagnosis',
                         subject_identifier=self.subject_consent.subject_identifier,
                         visit_code='1000').entry_status, NOT_REQUIRED)
 
@@ -138,6 +137,18 @@ class TestStandardofCareVisitSchedule(TestCase):
                         model='potlako_subject.' + model,
                         subject_identifier=self.subject_consent.subject_identifier,
                         visit_code=code).entry_status, NOT_REQUIRED)
+                
+        self.assertEqual(
+                    CrfMetadata.objects.get(
+                        model='potlako_subject.missedvisit',
+                        subject_identifier=self.subject_consent.subject_identifier,
+                        visit_code='1000').entry_status, NOT_REQUIRED)
+        
+        self.assertEqual(
+                    CrfMetadata.objects.get(
+                        model='potlako_subject.missedvisit',
+                        subject_identifier=self.subject_consent.subject_identifier,
+                        visit_code='2000').entry_status, NOT_REQUIRED)
 
     def test_appointments_created(self):
         """Assert that four appointments were created"""
