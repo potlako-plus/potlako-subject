@@ -36,8 +36,7 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
             'fields': ('subject_visit',
                        'encounter_date',
                        'start_time',
-                       'patient_residence_change',
-                       'next_kin_contact_change',
+                       'patient_info_change',
                        'first_specialist_visit',
                        'perfomance_status',
                        'pain_score',
@@ -79,8 +78,7 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         }), audit_fieldset_tuple
     )
 
-    radio_fields = {'patient_residence_change': admin.VERTICAL,
-                    'next_kin_contact_change': admin.VERTICAL,
+    radio_fields = {'patient_info_change': admin.VERTICAL,
                     'first_specialist_visit': admin.VERTICAL,
                     'perfomance_status': admin.VERTICAL,
                     'pain_score': admin.VERTICAL,

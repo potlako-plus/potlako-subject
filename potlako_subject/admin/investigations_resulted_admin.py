@@ -26,10 +26,8 @@ class InvestigationsResultedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'diagnosis_results',
                        'diagnosis_results_other',
                        'cancer_type',
-                       'diagnoses_made',
-                       'cancer_stage',),
+                       'diagnoses_made',),
         }), audit_fieldset_tuple)
 
     radio_fields = {'tests_resulted_type': admin.VERTICAL,
-                    'diagnosis_results': admin.VERTICAL,
-                    'cancer_stage': admin.VERTICAL}
+                    'diagnosis_results': admin.VERTICAL, }

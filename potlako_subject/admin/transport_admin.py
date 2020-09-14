@@ -16,8 +16,6 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         (None, {
             'fields': ('subject_visit',
                        'is_criteria_met',
-                       'housemate',
-                       'housemate_other',
                        'car_ownership',
                        'next_visit_date',
                        'visit_facility',
@@ -25,8 +23,6 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'transport_type',
                        'vehicle_status',
                        'vehicle_status_other',
-                       'vehicle_request_date',
-                       'facility_personnel',
                        'bus_voucher_status',
                        'bus_voucher_status_other',
                        'cash_transfer_status',
@@ -47,7 +43,7 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         'cash_transfer_status': admin.VERTICAL,
     }
 
-    filter_horizontal = ('housemate', 'criteria_met')
+    filter_horizontal = ('criteria_met', )
 
     list_display = ('is_criteria_met',
                     'transport_type')

@@ -1,6 +1,10 @@
 from edc_base.model_mixins import ListModelMixin, BaseUuidModel
 
 
+class DiscussionPerson(ListModelMixin, BaseUuidModel):
+    pass
+
+
 class Disposition(ListModelMixin, BaseUuidModel):
     pass
 
@@ -10,6 +14,10 @@ class CallAchievements(ListModelMixin, BaseUuidModel):
 
 
 class Housemate(ListModelMixin, BaseUuidModel):
+    pass
+
+
+class ImagingTestType(ListModelMixin, BaseUuidModel):
     pass
 
 
@@ -34,6 +42,10 @@ class Symptoms(ListModelMixin, BaseUuidModel):
 
 
 class TestType(ListModelMixin, BaseUuidModel):
+    pass
+
+
+class TestsOrderedType(ListModelMixin, BaseUuidModel):
     pass
 
 

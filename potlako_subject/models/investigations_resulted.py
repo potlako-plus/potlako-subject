@@ -77,13 +77,6 @@ class InvestigationsResulted(CrfModelMixin):
         blank=True,
         null=True)
 
-    cancer_stage = models.CharField(
-        verbose_name='If cancer, stage of cancer',
-        choices=CANCER_STAGES,
-        max_length=20,
-        blank=True,
-        null=True)
-
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Investigations - Resulted'

@@ -2,6 +2,19 @@ from edc_constants.constants import OTHER, NOT_APPLICABLE
 from edc_list_data import PreloadData
 
 list_data = {
+    'potlako_subject.discussionperson': [
+        ('mother', 'Mother'),
+        ('father', 'Father'),
+        ('sister', 'Sister'),
+        ('brother', 'Brother'),
+        ('female_family_member', 'Other female family member'),
+        ('male_family_member', 'Other male family member'),
+        ('female_friend', 'Female friend'),
+        ('male_friend', 'Male friend'),
+        ('pastor_religious_leader', 'Pastor or religious leader'),
+        ('traditional_healer', 'Traditional healer'),
+        (OTHER, 'Other (specify)')
+    ],
     'potlako_subject.disposition': [
         ('return', 'Return'),
         ('refer', 'Refer'),
@@ -20,6 +33,13 @@ list_data = {
         ('confirm_appointment_date', 'Confirm appointment date'),
         ('arrange_transportation', 'Arrange transportation'),
         (OTHER, 'Other')
+    ],
+    'potlako_subject.imagingtesttype': [
+        ('xray', 'Xray (specify)'),
+        ('ultrasound', 'Ultrasound (specify)'),
+        ('CT', 'CT (specify)'),
+        ('MRI', 'MRI (specify)'),
+        (OTHER, 'Other imaging test (specify)')
     ],
     'potlako_subject.investigationnotes': [
         ('LFTs', 'LFTs'),
@@ -45,7 +65,8 @@ list_data = {
     'potlako_subject.pathologytest': [
         ('biopsy', 'Biopsy (specify)'),
         ('FNA', 'FNA'),
-        ('pap_smear', 'Pap smear')
+        ('pap_smear', 'Pap smear'),
+        (OTHER, 'Other (specify)')
     ],
     'potlako_subject.symptoms': [
         ('mouth_pain', 'Mouth pain'),
@@ -60,6 +81,11 @@ list_data = {
         ('dysuria', 'Dysuria'),
         ('skin_changes', 'Skin changes'),
         ('cough', 'Cough'),
+        (OTHER, 'Other (specify)')
+    ],
+    'potlako_subject.testsorderedtype': [
+        ('pathology', 'Pathology'),
+        ('imaging', 'Imaging'),
         (OTHER, 'Other (specify)')
     ],
     'potlako_subject.transportcriteria': [

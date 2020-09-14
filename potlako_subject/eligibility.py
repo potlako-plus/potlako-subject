@@ -24,5 +24,8 @@ class Eligibility:
         if enrollment_interest == NO:
             self.reasons_ineligible.append(
                 'Did not want to enroll.')
+        if enrollment_interest == 'deceased':
+            self.reasons_ineligible.append(
+                'Patient deceased')
 
         self.is_eligible = False if self.reasons_ineligible else True
