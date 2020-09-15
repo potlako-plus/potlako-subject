@@ -16,8 +16,7 @@ class MissedCallRecordInlineAdmin(TabularInlineMixin, admin.TabularInline):
 
     fieldsets = (
         (None, {
-            'fields': ('subject_visit',
-                       'notes',
+            'fields': ('notes',
                        'repeat_call'),
         }), audit_fieldset_tuple)
 

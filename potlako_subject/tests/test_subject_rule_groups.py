@@ -36,7 +36,7 @@ class TestRuleGroups(TestCase):
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='1000')
 
-        self.maternal_visit_1000 = mommy.make_recipe(
+        self.subject_visit_1000 = mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
             report_datetime=get_utcnow() - relativedelta(days=2),
@@ -44,7 +44,7 @@ class TestRuleGroups(TestCase):
         
         self.patient_call_initial = mommy.make_recipe(
             'potlako_subject.patientcallinitial',
-            subject_visit=self.maternal_visit_1000,
+            subject_visit=self.subject_visit_1000,
             transport_support=YES,
             next_appointment_date=get_utcnow())
         
@@ -53,7 +53,7 @@ class TestRuleGroups(TestCase):
             visit_code='1000',
             visit_code_sequence='1')
  
-        self.maternal_visit_1000_1 = mommy.make_recipe(
+        self.subject_visit_1000_1 = mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
             report_datetime=get_utcnow() - relativedelta(days=2),
@@ -174,7 +174,7 @@ class TestRuleGroups(TestCase):
         
         mommy.make_recipe(
             'potlako_subject.patientcallfollowup',
-            subject_visit=self.maternal_visit_1000_1)
+            subject_visit=self.subject_visit_1000_1)
         
         self.assertEqual(
             CrfMetadata.objects.get(
@@ -189,7 +189,7 @@ class TestRuleGroups(TestCase):
         
         mommy.make_recipe(
             'potlako_subject.patientcallfollowup',
-            subject_visit=self.maternal_visit_1000_1,
+            subject_visit=self.subject_visit_1000_1,
             investigations_ordered='ordered')
         
         self.assertEqual(
@@ -205,7 +205,7 @@ class TestRuleGroups(TestCase):
         
         mommy.make_recipe(
             'potlako_subject.patientcallfollowup',
-            subject_visit=self.maternal_visit_1000_1,
+            subject_visit=self.subject_visit_1000_1,
             investigations_ordered='ordered_and_resulted')
         
         self.assertEqual(
@@ -228,7 +228,7 @@ class TestRuleGroups(TestCase):
         
         mommy.make_recipe(
             'potlako_subject.patientcallfollowup',
-            subject_visit=self.maternal_visit_1000_1)
+            subject_visit=self.subject_visit_1000_1)
         
         self.assertEqual(
             CrfMetadata.objects.get(
@@ -243,7 +243,7 @@ class TestRuleGroups(TestCase):
         
         mommy.make_recipe(
             'potlako_subject.patientcallfollowup',
-            subject_visit=self.maternal_visit_1000_1,
+            subject_visit=self.subject_visit_1000_1,
             investigations_ordered='ordered_and_resulted')
         
         self.assertEqual(
@@ -258,7 +258,7 @@ class TestRuleGroups(TestCase):
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='2000')
 
-        self.maternal_visit_2000 = mommy.make_recipe(
+        self.subject_visit_2000 = mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
             report_datetime=get_utcnow() - relativedelta(days=2),
@@ -268,5 +268,40 @@ class TestRuleGroups(TestCase):
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.missedvisit',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='2000').entry_status, REQUIRED)
+
+    @tag('hv')
+    def test_missed_home_visit_metadata(self):
+        self.appointment_2000 = Appointment.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier,
+            visit_code='2000')
+
+        self.subject_visit_2000 = mommy.make_recipe(
+            'potlako_subject.subjectvisit',
+            subject_identifier=self.subject_consent.subject_identifier,
+            report_datetime=get_utcnow() - relativedelta(days=2),
+            appointment=self.appointment_2000)
+        
+        self.missed_call = mommy.make_recipe(
+            'potlako_subject.missedcall',
+            report_datetime=get_utcnow() - relativedelta(days=2),
+            subject_visit=self.subject_visit_2000)
+        
+        mommy.make_recipe(
+            'potlako_subject.missedcallrecord',
+            missed_call=self.missed_call)
+        
+        mommy.make_recipe(
+            'potlako_subject.missedcallrecord',
+            missed_call=self.missed_call)
+        
+        mommy.make_recipe(
+            'potlako_subject.missedcallrecord',
+            missed_call=self.missed_call)
+        
+        self.assertEqual(
+            CrfMetadata.objects.get(
+                model='potlako_subject.homevisit',
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='2000').entry_status, REQUIRED)
