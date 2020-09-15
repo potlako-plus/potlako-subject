@@ -135,7 +135,8 @@ class TestInterventionVisitScheduleSetup(TestCase):
                 CrfMetadata.objects.get(
                     model='potlako_subject.' + model,
                     subject_identifier=self.subject_consent.subject_identifier,
-                    visit_code='1000.1').entry_status, NOT_REQUIRED)
+                    visit_code='1000',
+                    visit_code_sequence='1').entry_status, NOT_REQUIRED)
 
         self.assertEqual(Appointment.objects.filter(
             subject_identifier=self.subject_consent.subject_identifier).count(), 5)

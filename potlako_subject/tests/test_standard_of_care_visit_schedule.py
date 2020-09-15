@@ -46,13 +46,25 @@ class TestStandardofCareVisitSchedule(TestCase):
         self.appointment_2000 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='2000')
+        
+        mommy.make_recipe(
+            'potlako_subject.subjectvisit',
+            subject_identifier=self.subject_consent.subject_identifier,
+            report_datetime=get_utcnow() - relativedelta(days=3),
+            appointment=self.appointment_2000)
 
         self.appointment_3000 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='3000')
+        
+        mommy.make_recipe(
+            'potlako_subject.subjectvisit',
+            subject_identifier=self.subject_consent.subject_identifier,
+            report_datetime=get_utcnow() - relativedelta(days=1),
+            appointment=self.appointment_3000)
 
         self.not_required_models = [
-            'transport', 'investigationsordered', 'investigationsresulted']
+             'transport', 'investigationsordered', 'investigationsresulted']
 
     def test_community_arm_name_valid(self):
         self.assertEqual(OnSchedule.objects.filter(
@@ -82,12 +94,6 @@ class TestStandardofCareVisitSchedule(TestCase):
                         visit_code='1000').entry_status, NOT_REQUIRED)
 
     def test_metadata_creation_visit_2000(self):
-
-        mommy.make_recipe(
-            'potlako_subject.subjectvisit',
-            subject_identifier=self.subject_consent.subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=3),
-            appointment=self.appointment_2000)
         
         self.assertEqual(
             CrfMetadata.objects.get(
@@ -104,23 +110,11 @@ class TestStandardofCareVisitSchedule(TestCase):
 
     def test_metadata_creation_visit_3000(self):
         
-        mommy.make_recipe(
-            'potlako_subject.subjectvisit',
-            subject_identifier=self.subject_consent.subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=3),
-            appointment=self.appointment_2000)
-
-        mommy.make_recipe(
-            'potlako_subject.subjectvisit',
-            subject_identifier=self.subject_consent.subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=1),
-            appointment=self.appointment_3000)
-        
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.patientcallfollowup',
                 subject_identifier=self.subject_consent.subject_identifier,
-                visit_code='2000').entry_status, REQUIRED)
+                visit_code='3000').entry_status, REQUIRED)
 
         self.assertEqual(
             CrfMetadata.objects.get(
@@ -131,10 +125,11 @@ class TestStandardofCareVisitSchedule(TestCase):
     def test_models_not_required(self):
         visit_codes = ['1000', '2000', '3000']
         for code in visit_codes:
-            for model in self.not_required_models:
+            for md in self.not_required_models:
+                
                 self.assertEqual(
                     CrfMetadata.objects.get(
-                        model='potlako_subject.' + model,
+                        model='potlako_subject.' + md,
                         subject_identifier=self.subject_consent.subject_identifier,
                         visit_code=code).entry_status, NOT_REQUIRED)
                 
@@ -142,13 +137,13 @@ class TestStandardofCareVisitSchedule(TestCase):
                     CrfMetadata.objects.get(
                         model='potlako_subject.missedvisit',
                         subject_identifier=self.subject_consent.subject_identifier,
-                        visit_code='1000').entry_status, NOT_REQUIRED)
-        
+                        visit_code='2000').entry_status, NOT_REQUIRED)
+         
         self.assertEqual(
                     CrfMetadata.objects.get(
                         model='potlako_subject.missedvisit',
                         subject_identifier=self.subject_consent.subject_identifier,
-                        visit_code='2000').entry_status, NOT_REQUIRED)
+                        visit_code='3000').entry_status, NOT_REQUIRED)
 
     def test_appointments_created(self):
         """Assert that four appointments were created"""
