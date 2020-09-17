@@ -1,4 +1,5 @@
 from django import forms
+from django.apps import apps as django_apps
 from edc_base.sites import SiteModelFormMixin
 from edc_constants.constants import OTHER
 from edc_form_validators import FormValidatorMixin
@@ -6,11 +7,16 @@ from edc_form_validators.base_form_validator import INVALID_ERROR
 from edc_visit_tracking.constants import UNSCHEDULED, MISSED_VISIT
 from edc_visit_tracking.form_validators import (
     VisitFormValidator as BaseVisitFormValidator)
+from edc_appointment.constants import IN_PROGRESS_APPT
 
 from ..models import SubjectVisit
 
 
 class VisitFormValidator(BaseVisitFormValidator):
+    
+    @property
+    def appointment_cls(self):
+        return django_apps.get_model('edc_appointment.appointment')
 
     def validate_visit_code_sequence_and_reason(self):
         appointment = self.cleaned_data.get('appointment')
@@ -31,6 +37,14 @@ class VisitFormValidator(BaseVisitFormValidator):
                     reason == 'initial_visit/contact'):
                 raise forms.ValidationError({
                     'reason': 'This can not be an initial visit/contact.'})
+                
+        in_progress_count = self.appointment_cls.objects.filter(
+            subject_identifier=appointment.subject_identifier,
+            appt_status=IN_PROGRESS_APPT).count()
+        
+        if in_progress_count > 1:
+            raise forms.ValidationError('There is more than one appointment in progress. '
+                                        'Cannot proceed.')
 
     def validate_required_fields(self):
 

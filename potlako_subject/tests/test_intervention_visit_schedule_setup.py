@@ -1,5 +1,5 @@
 from dateutil.relativedelta import relativedelta
-from django.test import TestCase, tag
+from django.test import TestCase
 from edc_base.utils import get_utcnow
 from edc_facility.import_holidays import import_holidays
 from edc_metadata.constants import REQUIRED, NOT_REQUIRED
@@ -12,7 +12,6 @@ from edc_appointment.models import Appointment
 from ..models import OnSchedule
 
 
-@tag('it')
 class TestInterventionVisitScheduleSetup(TestCase):
 
     def setUp(self):

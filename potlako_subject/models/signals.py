@@ -98,7 +98,15 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
                 visit_code=instance.subject_visit.visit_code,
                 visit_code_sequence=str(next_visit_code))
         except ObjectDoesNotExist:
-            create_unscheduled_appointment(instance=instance)
+            try:
+                subject_screening = SubjectScreening.objects.get(
+                    subject_identifier=instance.subject_visit.subject_identifier)
+            except SubjectScreening.DoesNotExist:
+                raise ValidationError('Subject screening object does not exist!')
+            else:
+                if (instance.next_appointment_date and get_community_arm(
+                        screening_identifier=subject_screening.screening_identifier) == 'Intervention'):
+                    create_unscheduled_appointment(instance=instance)
 
 
 @receiver(post_save, weak=False, sender=SubjectVisit,
@@ -235,9 +243,9 @@ def get_community_arm(screening_identifier=None):
             enhanced_care_communities = [
                 'otse_clinic', 'mmankgodi_clinic', 'letlhakeng_clinic',
                 'mathangwane clinic', 'ramokgonami_clinic', 'sefophe_clinic',
-                'mmadianare_primary_hospital', 'tati_siding_clinic',
+                'mmadinare_primary_hospital', 'tati_siding_clinic',
                 'bokaa_clinic', 'masunga_primary_hospital', 'masunga_clinic',
-                'mathangwane_clinic']
+                'mathangwane_clinic', 'manga_clinic']
 
             intervention_communities = [
                 'mmathethe_clinic', 'molapowabojang_clinic',

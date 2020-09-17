@@ -8,8 +8,6 @@ from edc_facility.import_holidays import import_holidays
 from edc_registration.models import RegisteredSubject
 from model_mommy import mommy
 
-from edc_appointment.models import Appointment
-
 from ..models import OnSchedule, SubjectScreening, SubjectConsent
 
 subject_identifier = '132\-[0-9\-]+'

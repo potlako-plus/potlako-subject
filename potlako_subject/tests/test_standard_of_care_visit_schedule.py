@@ -1,5 +1,5 @@
 from dateutil.relativedelta import relativedelta
-from django.test import TestCase, tag
+from django.test import TestCase
 from edc_base.utils import get_utcnow
 from edc_facility.import_holidays import import_holidays
 from edc_metadata.constants import REQUIRED, NOT_REQUIRED
@@ -8,9 +8,9 @@ from model_mommy import mommy
 
 from edc_appointment.models import Appointment
 from ..models import OnSchedule
+from edc_appointment.constants import INCOMPLETE_APPT
 
 
-@tag('ec')
 class TestStandardofCareVisitSchedule(TestCase):
 
     def setUp(self):
@@ -47,7 +47,7 @@ class TestStandardofCareVisitSchedule(TestCase):
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='2000')
         
-        mommy.make_recipe(
+        self.visit_2000 = mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
             report_datetime=get_utcnow() - relativedelta(days=3),
@@ -106,6 +106,18 @@ class TestStandardofCareVisitSchedule(TestCase):
                 model='potlako_subject.cancerdxandtx',
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='2000').entry_status, REQUIRED)
+    
+    def test_followup_not_required(self):
+        
+        self.appointment_1000.appt_stat = INCOMPLETE_APPT
+        
+        mommy.make_recipe(
+            'potlako_subject.patientcallfollowup',
+            subject_visit=self.visit_2000,
+            investigations_ordered='ordered_and_resulted')
+        
+        self.assertEqual(
+            Appointment.objects.filter(subject_identifier=self.subject_consent.subject_identifier).count(), 3)
         
 
     def test_metadata_creation_visit_3000(self):
