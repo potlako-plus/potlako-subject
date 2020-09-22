@@ -17,8 +17,8 @@
   <button class="tablinks"  onmouseover="openCity(event, 'cliniciancallenrollment')" disabled>Demographics</button>
 {% endif %}
 
-{% if cancerdiagnosisandtreatmentassessment %}
-  <button class="tablinks"  onmouseover="openCity(event, 'cancerdiagnosisandtreatmentassessment')" disabled>Cancer Evaluation</button>
+{% if cancerdxandtx %}
+  <button class="tablinks"  onmouseover="openCity(event, 'cancerdxandtx')" disabled>Cancer Evaluation</button>
  {% endif %}
  
 {% if baselineclinicalsummary %}
@@ -40,16 +40,16 @@
   Suspicion Level: {{ cliniciancallenrollment.get_suspicion_level_display }} </pre>
 </div>
 
-  <div id="cancerdiagnosisandtreatmentassessment" class="tabcontent">
+  <div id="cancerdxandtx" class="tabcontent">
 		<pre>
-		Symptoms Summary: {{ cancerdiagnosisandtreatmentassessment.symptoms_summary }}
-		Cancer Evaluation: {{ cancerdiagnosisandtreatmentassessment.get_cancer_evaluation_display }}
-		Diagnoses Date: {{ cancerdiagnosisandtreatmentassessment.diagnoses_date }};
-		{% if cancerdiagnosisandtreatmentassessment.diagnosis_date_estimation %}
-  			Diagnoses Date Estimation: {{ cancerdiagnosisandtreatmentassessment.diagnoses_date_estimated }}
+		Symptoms Summary: {{ cancerdxandtx.symptoms_summary }}
+		Cancer Evaluation: {{ cancerdxandtx.get_cancer_evaluation_display }}
+		Diagnoses Date: {{ cancerdxandtx.diagnoses_date }};
+		{% if cancerdxandtx.diagnosis_date_estimation %}
+  			Diagnoses Date Estimation: {{ cancerdxandtx.diagnoses_date_estimated }}
   		{% endif %}	
-		Cancer Treatment: {{ cancerdiagnosisandtreatmentassessment.cancer_treatment }}
-		Treatment Description: {{ cancerdiagnosisandtreatmentassessment.treatment_description }}</pre>
+		Cancer Treatment: {{ cancerdxandtx.cancer_treatment }}
+		Treatment Description: {{ cancerdxandtx.treatment_description }}</pre>
   </div>
 
   <div id="baselineclinicalsummary" class="tabcontent">
