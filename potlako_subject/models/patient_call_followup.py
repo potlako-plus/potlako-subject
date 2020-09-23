@@ -216,7 +216,9 @@ class PatientCallFollowUp(CrfModelMixin):
     sms_outcome = models.CharField(
         verbose_name='Outcome of reminder SMS',
         choices=SMS_OUTCOME,
-        max_length=50,)
+        max_length=50,
+        blank=True,
+        null=True)
 
     sms_outcome_other = OtherCharField()
 

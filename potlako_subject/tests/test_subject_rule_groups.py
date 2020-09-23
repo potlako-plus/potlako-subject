@@ -59,6 +59,16 @@ class TestRuleGroups(TestCase):
             appointment=self.appointment_1000_1)
     
     
+    def test_transport_form_required_intervention_subject(self):
+        self.patient_call_initial.transport_support=YES
+        self.patient_call_initial.save()
+        self.assertEqual(
+            CrfMetadata.objects.get(
+                model='potlako_subject.transport',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='1000',
+                visit_code_sequence='0').entry_status, REQUIRED)
+        
     def test_transport_form_not_required_control_subject(self):
         self.onschedule_obj.community_arm = 'Standard of Care'
         self.onschedule_obj.save()
@@ -91,15 +101,7 @@ class TestRuleGroups(TestCase):
                 visit_code='1000',
                 visit_code_sequence='0').entry_status, NOT_REQUIRED)
     
-    def test_transport_form_required_intervention_subject(self):
-        self.patient_call_initial.transport_support=YES
-        self.patient_call_initial.save()
-        self.assertEqual(
-            CrfMetadata.objects.get(
-                model='potlako_subject.transport',
-                subject_identifier=self.subject_consent.subject_identifier,
-                visit_code='1000',
-                visit_code_sequence='0').entry_status, REQUIRED)
+
 
     def test_transport_form_not_required_intervention_subject(self):
         self.patient_call_initial.transport_support=NO

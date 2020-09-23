@@ -36,7 +36,6 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     radio_fields = {
         'is_criteria_met': admin.VERTICAL,
         'car_ownership': admin.VERTICAL,
-        'visit_facility': admin.VERTICAL,
         'transport_type': admin.VERTICAL,
         'vehicle_status': admin.VERTICAL,
         'bus_voucher_status': admin.VERTICAL,
