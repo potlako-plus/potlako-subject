@@ -22,21 +22,22 @@ class VisitFormValidator(BaseVisitFormValidator):
         appointment = self.cleaned_data.get('appointment')
         reason = self.cleaned_data.get('reason')
         if appointment:
-            if (appointment.visit_code not in ['1000'] and reason == UNSCHEDULED):
-                raise forms.ValidationError({
-                    'reason': 'Invalid. This is not an unscheduled visit'},
-                    code=INVALID_ERROR)
-
-            reasons = ['missed_quarterly_visit', 'quarterly_visit/contact',
-                       'lost_to_follow_up', 'unscheduled_visit/contact']
-            if (appointment.visit_code == '1000' and reason in reasons):
-                raise forms.ValidationError({
+            if appointment.visit_code_sequence == 0 :
+                
+                reasons = ['missed_quarterly_visit', 'quarterly_visit/contact',
+                       'lost_to_follow_up']
+                
+                if(appointment.visit_code == '1000' and reason in reasons):
+                    raise forms.ValidationError({
                     'reason': 'Invalid visit reason'},
                     code=INVALID_ERROR)
-            if (appointment.visit_code not in ['1000'] and
-                    reason == 'initial_visit/contact'):
-                raise forms.ValidationError({
-                    'reason': 'This can not be an initial visit/contact.'})
+                if reason == 'unscheduled_visit/contact':
+                    raise forms.ValidationError({
+                    'reason': 'This can not be an unscheduled visit/contact.'})
+            else:
+                if reason == 'initial_visit/contact':
+                    raise forms.ValidationError({
+                        'reason': 'This can not be an initial visit/contact.'})
                 
         in_progress_count = self.appointment_cls.objects.filter(
             subject_identifier=appointment.subject_identifier,
