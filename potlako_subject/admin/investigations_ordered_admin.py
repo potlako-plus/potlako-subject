@@ -56,8 +56,7 @@ class InvestigationsOrderedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'imaging_tests_date'),
         }), audit_fieldset_tuple)
 
-    radio_fields = {'facility_ordered': admin.VERTICAL,
-                    'ordered_date_estimated': admin.VERTICAL,
+    radio_fields = {'ordered_date_estimated': admin.VERTICAL,
                     'ordered_date_estimation': admin.VERTICAL,
                     'imaging_test_status': admin.VERTICAL}
 

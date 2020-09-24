@@ -57,7 +57,6 @@ class SubjectScreeningAdmin(
         'residency': admin.VERTICAL,
         'nationality': admin.VERTICAL,
         'has_diagnosis': admin.VERTICAL,
-        'enrollment_site': admin.VERTICAL,
         'enrollment_interest': admin.VERTICAL,
         'disinterest_reason': admin.VERTICAL, }
 

@@ -90,9 +90,7 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         audit_fieldset_tuple
     )
 
-    radio_fields = {'residential_district': admin.VERTICAL,
-                    'primary_clinic': admin.VERTICAL,
-                    'education_level': admin.VERTICAL,
+    radio_fields = {'education_level': admin.VERTICAL,
                     'heard_of_potlako': admin.VERTICAL,
                     'source_of_info': admin.VERTICAL,
                     'potlako_sms_received': admin.VERTICAL,
@@ -112,7 +110,6 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'cancer_suspicion_known': admin.VERTICAL,
                     'enrollment_visit_method': admin.VERTICAL,
                     'tests_ordered': admin.VERTICAL,
-                    'next_ap_facility': admin.VERTICAL,
                     'next_ap_facility_unit': admin.VERTICAL,
                     'transport_support': admin.VERTICAL,
                     'perfomance_status': admin.VERTICAL,

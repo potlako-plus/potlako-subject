@@ -122,7 +122,6 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'pain_score': admin.VERTICAL,
                     'last_hiv_result': admin.VERTICAL,
                     'patient_disposition': admin.VERTICAL,
-                    'referral_facility': admin.VERTICAL,
                     'referral_unit': admin.VERTICAL,
                     'referral_discussed': admin.VERTICAL,
                     'triage_status': admin.VERTICAL,

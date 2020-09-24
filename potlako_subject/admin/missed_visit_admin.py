@@ -40,14 +40,12 @@ class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'comments'),
         }), audit_fieldset_tuple)
 
-    radio_fields = {'facility_scheduled': admin.VERTICAL,
-                    'visit_type': admin.VERTICAL,
+    radio_fields = {'visit_type': admin.VERTICAL,
                     'determine_missed': admin.VERTICAL,
                     'inquired': admin.VERTICAL,
                     'not_inquired_reason': admin.VERTICAL,
                     'inquired_from': admin.VERTICAL,
                     'reason_missed': admin.VERTICAL,
-                    'next_ap_facility': admin.VERTICAL,
                     'next_ap_type': admin.VERTICAL,
                     'home_visit': admin.VERTICAL,
                     'transport_need': admin.VERTICAL,

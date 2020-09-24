@@ -90,7 +90,6 @@ class PatientCallFollowUpAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'appt_change_reason': admin.VERTICAL,
                     'investigations_ordered': admin.VERTICAL,
                     'transport_support': admin.VERTICAL,
-                    'next_ap_facility': admin.VERTICAL,
                     'transport_support_received': admin.VERTICAL,
                     'clinician_communication_issues': admin.VERTICAL,
                     'communication_issues': admin.VERTICAL,

@@ -30,8 +30,6 @@ class HomeVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     radio_fields = {
         'clinician_type': admin.VERTICAL,
-        'clinician_facility': admin.VERTICAL,
         'visit_outcome': admin.VERTICAL,
-        'next_ap_facility': admin.VERTICAL,
         'next_ap_type': admin.VERTICAL,
     }
