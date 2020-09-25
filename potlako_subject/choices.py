@@ -519,6 +519,7 @@ SOURCE_OF_INFO = (
 TESTS_ORDERED = (
     ('ordered', 'Yes, ordered'),
     ('ordered_and_resulted', 'Yes, ordered and resulted'),
+    ('resulted', 'Resulted'),
     (UNSURE, 'No, unsure'),
 )
 

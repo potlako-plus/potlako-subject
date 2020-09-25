@@ -40,7 +40,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     perfomance_status = models.IntegerField(
         verbose_name='Patient performance status',
-        default=1,
+        default=0,
         choices=SCALE,
         validators=[MinValueValidator(0), MaxValueValidator(5)]
     )

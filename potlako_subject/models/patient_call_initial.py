@@ -279,7 +279,7 @@ class PatientCallInitial(CrfModelMixin):
 
     transport_support = models.CharField(
         verbose_name=('Has patient expressed need for transport support?'),
-        choices=YES_NO,
+        choices=YES_NO_NA,
         max_length=3,
         help_text='IF YES, COMPLETE TRANSPORT FORM')
 
