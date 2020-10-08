@@ -56,7 +56,7 @@ if settings.APP_NAME == 'potlako_subject':
 
         reason_field = {'potlako_subject.subjectvisit': 'reason'}
         other_visit_reasons = [
-            'off study', 'deferred', 'lost_to_follow_up', 'Death',
+            'off study', 'deferred', 'lost_to_follow_up', 'death',
             'missed_quarterly_visit']
         other_create_visit_reasons = [
             'initial_visit/contact', 'quarterly_visit/contact',
