@@ -28,6 +28,7 @@ from .patient_call_initial import PatientCallInitial
 from .subject_consent import SubjectConsent
 from .subject_screening import SubjectScreening
 from .subject_visit import SubjectVisit
+from edc_appointment.constants import NEW_APPT
 
 
 @receiver(post_save, weak=False, sender=SubjectConsent,
@@ -189,6 +190,7 @@ def create_unscheduled_appointment(instance=None):
         'suggested_datetime': timepoint_datetime,
         'timepoint_datetime': timepoint_datetime,
         'check_appointment': False,
+        'appt_status': NEW_APPT,
         'facility': subject_visit.appointment.facility
     }
 
