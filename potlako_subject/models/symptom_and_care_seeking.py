@@ -1,4 +1,3 @@
-from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_fields.custom_fields import OtherCharField
@@ -6,7 +5,8 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO_UNSURE, YES_NO
 
-from ..choices import DATE_ESTIMATION, REASONS_NOT_DISCUSSED, SYMPTOMS_CONCERN
+from ..choices import DATE_ESTIMATION, REASONS_NOT_DISCUSSED
+from ..choices import SYMPTOMS_CONCERN, FACILITY
 from .list_models import DiscussionPerson, Symptoms
 from .model_mixins import CrfModelMixin
 
@@ -18,13 +18,13 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
                       'go to the clinic, nurse or doctor? Can you describe the '
                       'symptom(s) a bit more? You mentioned (symptoms(s)),were '
                       'there any more symptoms that you noticed about this time?'),
-        max_length=200,
+        max_length=500,
         help_text=('Try identify all participant-reported symptoms first; the checklist'
                    ' comes later'))
 
     symptoms_cope = models.TextField(
         verbose_name=('What did you do to cope with/help these symptoms?'),
-        max_length=100,
+        max_length=200,
         help_text=('How long did it take before you decided to use any treatment?'
                    'How long did you try for? Did it help at all?'))
 
@@ -106,19 +106,14 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
 
     clinic_visited = models.CharField(
         verbose_name='Which clinic or hospital did you go to?',
-        max_length=15,
-        validators=[RegexValidator(
-            regex=r'^[0-9]{2}[-][0-9]{1}[-][0-9]{2}$',
-            message='The correct clinic facility or health-post '
-            'code format is XX-X-XX'), ],
-        help_text='provide name of clinic if facility code is '
-        'unknown or is 00-0-00')
+        choices=FACILITY,
+        max_length=32)
 
     clinic_visited_other = OtherCharField()
 
     cause_assumption = models.TextField(
         verbose_name='What do you think is causing your symptoms?',
-        max_length=100)
+        max_length=200)
 
     symptoms_concern = models.CharField(
         verbose_name='How concerned are you about your symptoms?',

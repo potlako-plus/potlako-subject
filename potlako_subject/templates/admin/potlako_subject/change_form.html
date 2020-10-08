@@ -6,38 +6,38 @@
 {% endblock %}
 
 {% block extrastyle %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static 'potlako_subject/css/fontawesome.min.css' %}" >
   <link rel="stylesheet" type="text/css" href="{% static 'potlako_subject/css/patient_summary.css' %}">
 {% endblock %}
 
 {% block field_sets %}
 
+{% if cliniciancallenrollment %}
 <div class="summary">
 <div class="tab">
-{% if cliniciancallenrollment %}
-  <button class="tablinks"  onmouseover="openCity(event, 'cliniciancallenrollment')" disabled>Demographics</button>
-{% endif %}
+  <button class="tablinks"  onmouseover="openCity(event, 'cliniciancallenrollment')">Demographics</button>
 
 {% if cancerdxandtx %}
-  <button class="tablinks"  onmouseover="openCity(event, 'cancerdxandtx')" disabled>Cancer Evaluation</button>
+  <button class="tablinks"  onmouseover="openCity(event, 'cancerdxandtx')">Cancer Evaluation</button>
  {% endif %}
  
 {% if baselineclinicalsummary %}
-  <button class="tablinks"  onmouseover="openCity(event, 'baselineclinicalsummary')" disabled>Baseline Clinical Summary</button>
+  <button class="tablinks"  onmouseover="openCity(event, 'baselineclinicalsummary')">Baseline Clinical Summary</button>
  {% endif %}
 
 {% if navigationsummaryandplan %}
-  <button class="tablinks"  onmouseover="openCity(event, 'navigationsummaryandplan')" disabled>Diagnostic Plan</button>
+  <button class="tablinks"  onmouseover="openCity(event, 'navigationsummaryandplan')">Diagnostic Plan</button>
  {% endif %}
 </div>
 
 
 <div id="cliniciancallenrollment" class="tabcontent">
   <pre>
-  Age: {{ cliniciancallenrollment.age_in_years }} <\br>
-  Gender: {{ cliniciancallenrollment.get_gender_display }} <\br>
-  HIV Result: {{ cliniciancallenrollment.last_hiv_result }} <\br>
-  Suspected Cancer: {{ cliniciancallenrollment.get_suspected_cancer_display }} <\br>
-  Suspicion Level: {{ cliniciancallenrollment.get_suspicion_level_display }} </pre>
+  Age: {{ cliniciancallenrollment.age_in_years }} 
+  Gender: {{ cliniciancallenrollment.get_gender_display }} 
+  HIV Result: {{ cliniciancallenrollment.last_hiv_result }} 
+  Suspected Cancer: {{ cliniciancallenrollment.get_suspected_cancer_display }}
+  <span id='paragraph'>Suspicion Level: {{ cliniciancallenrollment.get_suspicion_level_display }} </span> </pre>
 </div>
 
   <div id="cancerdxandtx" class="tabcontent">
@@ -64,6 +64,7 @@
   </div>
 </div>
 <div class='clearfix'></div>
+{% endif %}
   {{ block.super }}
 
 
