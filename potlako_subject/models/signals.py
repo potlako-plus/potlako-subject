@@ -22,6 +22,7 @@ from ..action_items import SUBJECT_LOCATOR_ACTION
 from .subject_locator import SubjectLocator
 from .clinician_call_enrollment import ClinicianCallEnrollment
 from .home_visit import HomeVisit
+from .missed_call import MissedCallRecord
 from .onschedule import OnSchedule
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
@@ -120,6 +121,16 @@ def subject_visit_on_post_save(sender, instance, raw, created, **kwargs):
         trigger_action_item(instance, 'survival_status', DEAD,
                             death_report_cls, DEATH_REPORT_ACTION,
                             instance.appointment.subject_identifier)
+        
+@receiver(post_save, weak=False, sender=MissedCallRecord,
+          dispatch_uid='missed_call_on_post_save')
+def missed_call_on_post_save(sender, instance, raw, created, **kwargs):
+    """Run rule groups if the third record for missed call is saved.
+    """
+    if not raw:
+        missed_call_count = MissedCallRecord.objects.filter(missed_call=instance.missed_call).count()
+        if missed_call_count >= 3:
+            instance.missed_call.subject_visit.run_metadata_rules(visit=instance.missed_call.visit)
 
 
 @receiver(post_save, weak=False, sender=HomeVisit,
@@ -181,7 +192,6 @@ def create_unscheduled_appointment(instance=None):
 
     unscheduled_appointment_cls = UnscheduledAppointmentCreator
 
-#     unscheduled_appointment_cls.parent_appointment =
     options = {
         'subject_identifier': subject_visit.subject_identifier,
         'visit_schedule_name': subject_visit.visit_schedule.name,

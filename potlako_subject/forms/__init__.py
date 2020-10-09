@@ -27,3 +27,4 @@ from .symptom_and_care_seeking_endpoint_form import SymptomAndcareSeekingEndpoin
 from .symptom_and_care_seeking_form import SymptomAndcareSeekingAssessmentForm
 from .symptom_and_care_seeking_form import SymptomAssessmentForm
 from .transport_form import TransportForm
+from .verbal_consent_form import VerbalConsentForm

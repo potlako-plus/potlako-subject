@@ -21,3 +21,4 @@ from .subject_visit_admin import SubjectVisitAdmin
 from .symptom_and_care_seeking_admin import SymptomAndcareSeekingAssessmentAdmin
 from .symptom_and_care_seeking_endpoint_admin import SymptomAndcareSeekingEndpointAdmin
 from .transport_admin import TransportAdmin
+from .verbal_consent_admin import VerbalConsentAdmin

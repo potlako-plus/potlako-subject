@@ -272,37 +272,67 @@ class TestRuleGroups(TestCase):
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='2000').entry_status, REQUIRED)
 
-#     @tag('hv')
-#     def test_missed_home_visit_metadata(self):
-#         self.appointment_2000 = Appointment.objects.get(
-#             subject_identifier=self.subject_consent.subject_identifier,
-#             visit_code='2000')
-# 
-#         self.subject_visit_2000 = mommy.make_recipe(
-#             'potlako_subject.subjectvisit',
-#             subject_identifier=self.subject_consent.subject_identifier,
-#             report_datetime=get_utcnow() - relativedelta(days=2),
-#             appointment=self.appointment_2000)
-#         
-#         self.missed_call = mommy.make_recipe(
-#             'potlako_subject.missedcall',
-#             report_datetime=get_utcnow() - relativedelta(days=2),
-#             subject_visit=self.subject_visit_2000)
-#         
-#         mommy.make_recipe(
-#             'potlako_subject.missedcallrecord',
-#             missed_call=self.missed_call)
-#         
-#         mommy.make_recipe(
-#             'potlako_subject.missedcallrecord',
-#             missed_call=self.missed_call)
-#         
-#         mommy.make_recipe(
-#             'potlako_subject.missedcallrecord',
-#             missed_call=self.missed_call)
-#         
-#         self.assertEqual(
-#             CrfMetadata.objects.get(
-#                 model='potlako_subject.homevisit',
-#                 subject_identifier=self.subject_consent.subject_identifier,
-#                 visit_code='2000').entry_status, REQUIRED)
+    def test_missed_home_visit_metadata(self):
+        self.appointment_2000 = Appointment.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier,
+            visit_code='2000')
+ 
+        self.subject_visit_2000 = mommy.make_recipe(
+            'potlako_subject.subjectvisit',
+            subject_identifier=self.subject_consent.subject_identifier,
+            report_datetime=get_utcnow() - relativedelta(days=2),
+            appointment=self.appointment_2000)
+         
+        self.missed_call = mommy.make_recipe(
+            'potlako_subject.missedcall',
+            report_datetime=get_utcnow() - relativedelta(days=2),
+            subject_visit=self.subject_visit_2000)
+         
+        mommy.make_recipe(
+            'potlako_subject.missedcallrecord',
+            missed_call=self.missed_call)
+         
+        mommy.make_recipe(
+            'potlako_subject.missedcallrecord',
+            missed_call=self.missed_call)
+         
+        mommy.make_recipe(
+            'potlako_subject.missedcallrecord',
+            missed_call=self.missed_call)
+         
+        self.assertEqual(
+            CrfMetadata.objects.get(
+                model='potlako_subject.homevisit',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='2000').entry_status, REQUIRED)
+    
+    def test_missed_home_visit_metadata_not_required(self):
+        self.appointment_2000 = Appointment.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier,
+            visit_code='2000')
+ 
+        self.subject_visit_2000 = mommy.make_recipe(
+            'potlako_subject.subjectvisit',
+            subject_identifier=self.subject_consent.subject_identifier,
+            report_datetime=get_utcnow() - relativedelta(days=2),
+            appointment=self.appointment_2000)
+         
+        self.missed_call = mommy.make_recipe(
+            'potlako_subject.missedcall',
+            report_datetime=get_utcnow() - relativedelta(days=2),
+            subject_visit=self.subject_visit_2000)
+         
+        mommy.make_recipe(
+            'potlako_subject.missedcallrecord',
+            missed_call=self.missed_call)
+         
+        mommy.make_recipe(
+            'potlako_subject.missedcallrecord',
+            missed_call=self.missed_call)
+         
+         
+        self.assertEqual(
+            CrfMetadata.objects.get(
+                model='potlako_subject.homevisit',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='2000').entry_status, NOT_REQUIRED)

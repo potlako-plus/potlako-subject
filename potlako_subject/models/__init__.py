@@ -26,6 +26,7 @@ from .signals import patient_call_followup_on_post_save
 from .signals import patient_call_initial_on_post_save
 from .signals import subject_consent_on_post_save
 from .signals import subject_visit_on_post_save
+from .signals import missed_call_on_post_save
 from .sms import SMS
 from .subject_consent import SubjectConsent
 from .subject_locator import SubjectLocator
@@ -35,3 +36,4 @@ from .symptom_and_care_seeking import SymptomAndcareSeekingAssessment
 from .symptom_and_care_seeking import SymptomAssessment
 from .symptoms_and_care_seeking_endpoint import SymptomsAndCareSeekingEndpointRecording
 from .transport import Transport
+from .verbal_consent import VerbalConsent

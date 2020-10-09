@@ -16,6 +16,7 @@ class AppConfig(DjangoAppConfig):
         from .models import patient_call_followup_on_post_save
         from .models import subject_visit_on_post_save
         from .models import home_visit_on_post_save
+        from .models import missed_call_on_post_save
 
 
 if settings.APP_NAME == 'potlako_subject':
