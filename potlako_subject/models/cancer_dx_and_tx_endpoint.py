@@ -13,7 +13,7 @@ from .model_mixins import CrfModelMixin
 
 
 class CancerDxAndTxEndpoint(UniqueSubjectIdentifierFieldMixin,
-                                          SiteModelMixin, BaseUuidModel):
+                            SiteModelMixin, BaseUuidModel):
 
     cancer_evaluation = models.CharField(
         max_length=30,
