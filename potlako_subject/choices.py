@@ -590,12 +590,11 @@ VISIT_UNSCHEDULED_REASON = (
 
 VISIT_REASON = (
     ('initial_visit/contact', 'Initial visit/contact'),
-    ('quarterly_visit/contact', 'Quarterly visit/contact'),
+    ('fu_visit/contact', 'Follow up visit/contact'),
     ('unscheduled_visit/contact', 'Unscheduled visit/contact'),
-    ('missed_quarterly_visit', 'Missed quarterly visit'),
-    ('lost_to_follow_up', 'Lost to follow-up (use only when taking subject off study)'),
+    ('missed_visit', 'Missed visit'),
     ('death', 'Death'),
-    (OFF_STUDY, 'Off study'),
+    (OFF_STUDY, 'Off study (use only when taking subject off study)'),
     ('deferred', 'Deferred'),
 )
 

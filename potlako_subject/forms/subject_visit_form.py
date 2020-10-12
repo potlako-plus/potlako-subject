@@ -1,10 +1,9 @@
 from django import forms
 from django.apps import apps as django_apps
 from edc_base.sites import SiteModelFormMixin
-from edc_constants.constants import OTHER, ALIVE, UNKNOWN
+from edc_constants.constants import OTHER, ALIVE, UNKNOWN, PARTICIPANT
 from edc_form_validators import FormValidatorMixin
 from edc_form_validators.base_form_validator import INVALID_ERROR
-from edc_visit_tracking.constants import MISSED_VISIT
 from edc_visit_tracking.form_validators import (
     VisitFormValidator as BaseVisitFormValidator)
 from edc_appointment.constants import IN_PROGRESS_APPT
@@ -24,8 +23,7 @@ class VisitFormValidator(BaseVisitFormValidator):
         if appointment:
             if appointment.visit_code_sequence == 0 :
                 
-                reasons = ['missed_quarterly_visit', 'quarterly_visit/contact',
-                       'lost_to_follow_up']
+                reasons = ['missed_visit', 'fu_visit/contact']
                 
                 if(appointment.visit_code == '1000' and reason in reasons):
                     raise forms.ValidationError({
@@ -50,7 +48,7 @@ class VisitFormValidator(BaseVisitFormValidator):
     def validate_required_fields(self):
 
         self.required_if(
-            MISSED_VISIT,
+            'missed_visit',
             field='reason',
             field_required='reason_missed')
 
@@ -69,7 +67,17 @@ class VisitFormValidator(BaseVisitFormValidator):
             field='reason_unscheduled',
             field_required='reason_unscheduled_other')
         
-        
+    def validate_presence(self):
+        """Raise an exception if 'is_present' does not make sense relative to
+         'survival status', 'reason' and 'info_source'."""
+        cleaned_data = self.cleaned_data
+
+        if (self.cleaned_data.get('reason') == 'death' and 
+              cleaned_data.get('info_source') in ['clinic_visit', 'other_contact_subject']):
+                raise forms.ValidationError(
+                    {'info_source': 'Source of information cannot be from '
+                     'participant if visit reason is \'Death\'.'})
+
 
     def validate_survival_status_if_alive(self):
         if (self.cleaned_data.get('reason') == 'death' and 

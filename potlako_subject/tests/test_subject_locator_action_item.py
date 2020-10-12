@@ -1,5 +1,3 @@
-from potlako_subject.models.patient_call_initial import PatientCallInitial
-
 from django.test import TestCase
 from edc_action_item.models.action_item import ActionItem
 from edc_base.utils import get_utcnow
@@ -8,6 +6,7 @@ from edc_facility.import_holidays import import_holidays
 from model_mommy import mommy
 
 from edc_appointment.models import Appointment
+from ..models import PatientCallInitial
 
 
 class TestSubjectLocatorAction(TestCase):

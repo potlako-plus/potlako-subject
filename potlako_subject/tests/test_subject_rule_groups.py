@@ -263,7 +263,7 @@ class TestRuleGroups(TestCase):
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
             report_datetime=get_utcnow() - relativedelta(days=2),
-            reason = 'missed_quarterly_visit',
+            reason = 'missed_visit',
             appointment=self.appointment_2000)
         
         self.assertEqual(
