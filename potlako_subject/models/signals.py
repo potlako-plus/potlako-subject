@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from edc_action_item.site_action_items import site_action_items
 from edc_base.utils import get_utcnow
-from edc_constants.constants import DEAD, NEW, YES
+from edc_constants.constants import DEAD, NEW, YES, OPEN
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 import pytz
 
@@ -92,23 +92,30 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
     """Create next unscheduled appointment if date is provided.
     """
 
-    if not raw and instance.next_appointment_date:
-        next_visit_code = int(instance.subject_visit.visit_code_sequence) + 1
-        try:
-            Appointment.objects.get(
-                subject_identifier=instance.subject_visit.subject_identifier,
-                visit_code=instance.subject_visit.visit_code,
-                visit_code_sequence=str(next_visit_code))
-        except ObjectDoesNotExist:
+    if not raw:
+        if instance.next_appointment_date:
+            next_visit_code = int(instance.subject_visit.visit_code_sequence) + 1
             try:
-                subject_screening = SubjectScreening.objects.get(
-                    subject_identifier=instance.subject_visit.subject_identifier)
-            except SubjectScreening.DoesNotExist:
-                raise ValidationError('Subject screening object does not exist!')
-            else:
-                if (instance.next_appointment_date and get_community_arm(
-                        screening_identifier=subject_screening.screening_identifier) == 'Intervention'):
-                    create_unscheduled_appointment(instance=instance)
+                Appointment.objects.get(
+                    subject_identifier=instance.subject_visit.subject_identifier,
+                    visit_code=instance.subject_visit.visit_code,
+                    visit_code_sequence=str(next_visit_code))
+            except ObjectDoesNotExist:
+                try:
+                    subject_screening = SubjectScreening.objects.get(
+                        subject_identifier=instance.subject_visit.subject_identifier)
+                except SubjectScreening.DoesNotExist:
+                    raise ValidationError('Subject screening object does not exist!')
+                else:
+                    if (instance.next_appointment_date and get_community_arm(
+                            screening_identifier=subject_screening.screening_identifier) == 'Intervention'):
+                        create_unscheduled_appointment(instance=instance)
+        
+        trigger_action_item(instance, 'patient_info_change', YES,
+                            SubjectLocator, SUBJECT_LOCATOR_ACTION,
+                            instance.subject_visit.appointment.subject_identifier,
+                            trigger=True)
+
 
 
 @receiver(post_save, weak=False, sender=SubjectVisit,
@@ -152,27 +159,32 @@ def home_visit_on_post_save(sender, instance, raw, created, **kwargs):
 
 
 def trigger_action_item(obj, field, response, model_cls,
-                        action_name, subject_identifier):
+                        action_name, subject_identifier,
+                        trigger=False):
 
     action_cls = site_action_items.get(
         model_cls.action_name)
     action_item_model_cls = action_cls.action_item_model_cls()
-
+    
     if getattr(obj, field) == response:
         try:
             model_cls.objects.get(subject_identifier=subject_identifier)
         except model_cls.DoesNotExist:
-
+            trigger = True
+            
+        if trigger:
             try:
-                action_item_model_cls.objects.get(
+                action_item_obj = action_item_model_cls.objects.get(
                     subject_identifier=subject_identifier,
                     action_type__name=action_name)
             except action_item_model_cls.DoesNotExist:
                 action_cls = site_action_items.get(action_name)
-                action_cls(
-                    subject_identifier=subject_identifier)
+                action_cls(subject_identifier=subject_identifier)
+            else:
+                action_item_obj.status = OPEN
+                action_item_obj.save()
     else:
-        try:
+        try: 
             action_item = action_item_model_cls.objects.get(
                 subject_identifier=subject_identifier,
                 action_type__name=action_name,
