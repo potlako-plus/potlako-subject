@@ -83,7 +83,8 @@ def patient_call_initial_on_post_save(sender, instance, raw, created, **kwargs):
 
         trigger_action_item(instance, 'patient_info_change', YES,
                             SubjectLocator, SUBJECT_LOCATOR_ACTION,
-                            instance.subject_visit.appointment.subject_identifier)
+                            instance.subject_visit.appointment.subject_identifier,
+                            repeat=True)
 
 
 @receiver(post_save, weak=False, sender=PatientCallFollowUp,
@@ -114,7 +115,7 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
         trigger_action_item(instance, 'patient_info_change', YES,
                             SubjectLocator, SUBJECT_LOCATOR_ACTION,
                             instance.subject_visit.appointment.subject_identifier,
-                            trigger=True)
+                            repeat=True)
 
 
 
@@ -160,7 +161,7 @@ def home_visit_on_post_save(sender, instance, raw, created, **kwargs):
 
 def trigger_action_item(obj, field, response, model_cls,
                         action_name, subject_identifier,
-                        trigger=False):
+                        repeat=False):
 
     action_cls = site_action_items.get(
         model_cls.action_name)
@@ -171,6 +172,8 @@ def trigger_action_item(obj, field, response, model_cls,
             model_cls.objects.get(subject_identifier=subject_identifier)
         except model_cls.DoesNotExist:
             trigger = True
+        else:
+            trigger=repeat
             
         if trigger:
             try:
