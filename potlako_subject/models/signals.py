@@ -20,6 +20,7 @@ from potlako_prn.action_items import SUBJECT_OFFSTUDY_ACTION
 
 from ..action_items import SUBJECT_LOCATOR_ACTION
 from .subject_locator import SubjectLocator
+from .cancer_dx_and_tx import CancerDxAndTx
 from .clinician_call_enrollment import ClinicianCallEnrollment
 from .home_visit import HomeVisit
 from .missed_call import MissedCallRecord
@@ -111,12 +112,11 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
                     if (instance.next_appointment_date and get_community_arm(
                             screening_identifier=subject_screening.screening_identifier) == 'Intervention'):
                         create_unscheduled_appointment(instance=instance)
-        
+
         trigger_action_item(instance, 'patient_info_change', YES,
                             SubjectLocator, SUBJECT_LOCATOR_ACTION,
                             instance.subject_visit.appointment.subject_identifier,
                             repeat=True)
-
 
 
 @receiver(post_save, weak=False, sender=SubjectVisit,
@@ -129,14 +129,16 @@ def subject_visit_on_post_save(sender, instance, raw, created, **kwargs):
         trigger_action_item(instance, 'survival_status', DEAD,
                             death_report_cls, DEATH_REPORT_ACTION,
                             instance.appointment.subject_identifier)
-        
+
+
 @receiver(post_save, weak=False, sender=MissedCallRecord,
           dispatch_uid='missed_call_on_post_save')
 def missed_call_on_post_save(sender, instance, raw, created, **kwargs):
     """Run rule groups if the third record for missed call is saved.
     """
     if not raw:
-        missed_call_count = MissedCallRecord.objects.filter(missed_call=instance.missed_call).count()
+        missed_call_count = MissedCallRecord.objects.filter(
+            missed_call=instance.missed_call).count()
         if missed_call_count >= 3:
             instance.missed_call.subject_visit.run_metadata_rules(visit=instance.missed_call.visit)
 
@@ -159,6 +161,24 @@ def home_visit_on_post_save(sender, instance, raw, created, **kwargs):
                             instance.subject_visit.appointment.subject_identifier)
 
 
+@receiver(post_save, weak=False, sender=CancerDxAndTx,
+          dispatch_uid='cancer_dx_and_tx_on_post_save')
+def cancer_dx_and_tx_on_post_save(sender, instance, raw, created, **kwargs):
+    """ Trigger subject offstudy based off of the cancer diagnosis and treatment
+        outcome response.
+    """
+    if not raw:
+        subject_offstudy_cls = django_apps.get_model(
+            'potlako_prn.subjectoffstudy')
+
+        field_responses = {'cancer_evaluation': 'unable_to_complete',
+                           'cancer_treatment': YES}
+        for field, response in field_responses.items():
+            trigger_action_item(instance, field, response, subject_offstudy_cls,
+                                SUBJECT_OFFSTUDY_ACTION,
+                                instance.subject_visit.appointment.subject_identifier)
+
+
 def trigger_action_item(obj, field, response, model_cls,
                         action_name, subject_identifier,
                         repeat=False):
@@ -166,7 +186,7 @@ def trigger_action_item(obj, field, response, model_cls,
     action_cls = site_action_items.get(
         model_cls.action_name)
     action_item_model_cls = action_cls.action_item_model_cls()
-    
+
     if getattr(obj, field) == response:
         try:
             model_cls.objects.get(subject_identifier=subject_identifier)
@@ -187,7 +207,7 @@ def trigger_action_item(obj, field, response, model_cls,
                 action_item_obj.status = OPEN
                 action_item_obj.save()
     else:
-        try: 
+        try:
             action_item = action_item_model_cls.objects.get(
                 subject_identifier=subject_identifier,
                 action_type__name=action_name,
