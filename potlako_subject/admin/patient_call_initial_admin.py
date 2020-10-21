@@ -92,7 +92,6 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     radio_fields = {'education_level': admin.VERTICAL,
                     'heard_of_potlako': admin.VERTICAL,
-                    'source_of_info': admin.VERTICAL,
                     'potlako_sms_received': admin.VERTICAL,
                     'work_status': admin.VERTICAL,
                     'work_type': admin.VERTICAL,
@@ -116,7 +115,7 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'pain_score': admin.VERTICAL,
                     }
 
-    filter_horizontal = ('sms_platform', 'patient_residence',)
+    filter_horizontal = ('sms_platform', 'patient_residence', 'source_of_info')
 
     readonly_fields = ('call_duration',)
 
