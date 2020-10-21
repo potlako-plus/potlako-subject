@@ -18,8 +18,8 @@ from edc_protocol.validators import date_not_before_study_start
 from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
 from ..choices import DURATION, FACILITY_UNIT, TESTS_ORDERED, DISTRICT
 from ..choices import PAIN_SCORE, SCALE, EDUCATION_LEVEL, WORK_TYPE
-from ..choices import UNEMPLOYED_REASON, SOURCE_OF_INFO
-from .list_models import PatientResidence, SmsPlatform
+from ..choices import UNEMPLOYED_REASON
+from .list_models import PatientResidence, SmsPlatform, SourceOfInfo
 from .model_mixins import CrfModelMixin
 
 
@@ -68,10 +68,10 @@ class PatientCallInitial(CrfModelMixin):
         max_length=3,
         choices=YES_NO)
 
-    source_of_info = models.CharField(
-        verbose_name='Where or Who did you hear about Potlako+ from ?',
-        max_length=20,
-        choices=SOURCE_OF_INFO, blank=True, null=True)
+    source_of_info = models.ManyToManyField(
+        SourceOfInfo,
+        verbose_name='Where or who did you hear about Potlako+ from ?',
+        blank=True)
 
     source_of_info_other = OtherCharField()
 
@@ -139,7 +139,7 @@ class PatientCallInitial(CrfModelMixin):
         max_length=3)
 
     patient_symptoms = models.TextField(
-        max_length=250,
+        max_length=1000,
         verbose_name=('What symptom(s) is the patient having for which '
                       'they were seen at the clinic 1 week ago?')
     )
@@ -165,9 +165,7 @@ class PatientCallInitial(CrfModelMixin):
         verbose_name=('How long did it take for the participant to present to '
                       'the facility after experiencing their first symptom?'),
         default=0,
-        validators=[MinValueValidator(0)],
-        blank=True,
-        null=True,
+        validators=[MinValueValidator(0)]
     )
 
     symptoms_duration = models.CharField(

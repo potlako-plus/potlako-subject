@@ -70,6 +70,13 @@ list_data = {
         ('pap_smear', 'Pap smear'),
         (OTHER, 'Other (specify)')
     ],
+    'potlako_subject.sourceofinfo': [
+        ('relative', 'Relative'),
+        ('spouse', 'Spouse'),
+        ('potlako_plus_member', 'Potlako+ team member'),
+        ('health_care_worker', 'Health care worker'),
+        (OTHER, 'Other (specify)')
+    ],
     'potlako_subject.symptoms': [
         ('mouth_pain', 'Mouth pain'),
         ('pelvic_pain', 'Pelvic pain'),
