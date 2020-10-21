@@ -7,7 +7,7 @@ from edc_base.utils import get_utcnow
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 
 from .model_mixins import CrfModelMixin
-from ..choices import SMS_OUTCOME
+from ..choices import SMS_STATUS
 
 
 class SMS(NonUniqueSubjectIdentifierFieldMixin, SiteModelMixin, BaseUuidModel):
@@ -27,7 +27,7 @@ class SMS(NonUniqueSubjectIdentifierFieldMixin, SiteModelMixin, BaseUuidModel):
 
     sms_outcome = models.CharField(
         verbose_name='Outcome of reminder SMS',
-        choices=SMS_OUTCOME,
+        choices=SMS_STATUS,
         max_length=50,)
 
     class Meta(CrfModelMixin.Meta):

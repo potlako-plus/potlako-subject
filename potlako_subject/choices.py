@@ -451,6 +451,11 @@ SEVERITY_LEVEL = (
     ('high', 'High, cancer is the leading suspected cause of the symptoms/signs')
 )
 
+SMS_STATUS = (
+    ('sms_sent', 'SMS sent'),
+    ('sms_not_sent', 'SMS not sent'),
+)
+
 SMS_OUTCOME = (
     ('patient_sent_sms_received', 'SMS sent to patient and receipt confirmed'),
     ('patient_sent_sms_not_received', 'SMS sent to patient and receipt NOT '

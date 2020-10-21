@@ -13,6 +13,8 @@ list_data = {
         ('male_friend', 'Male friend'),
         ('pastor_religious_leader', 'Pastor or religious leader'),
         ('traditional_healer', 'Traditional healer'),
+        ('spouse', 'Spouse'),
+        ('children', 'Children'),
         (OTHER, 'Other (specify)')
     ],
     'potlako_subject.disposition': [
