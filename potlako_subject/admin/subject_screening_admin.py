@@ -39,15 +39,15 @@ class SubjectScreeningAdmin(
         (None, {
             'fields': (
                 'screening_identifier',
+                'enrollment_interest',
+                'disinterest_reason',
+                'disinterest_reason_other',
                 'residency',
                 'nationality',
                 'age_in_years',
                 'has_diagnosis',
                 'enrollment_site',
-                'enrollment_site_other',
-                'enrollment_interest',
-                'disinterest_reason',
-                'disinterest_reason_other'
+                'enrollment_site_other'
             )}),
         audit_fieldset_tuple)
 
