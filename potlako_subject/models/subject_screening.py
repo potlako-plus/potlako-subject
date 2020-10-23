@@ -2,7 +2,6 @@ from django.apps import apps as django_apps
 from django.db import models
 from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
-from edc_base.model_validators import eligible_if_yes
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_constants.choices import YES_NO, YES_NO_NA
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
@@ -74,7 +73,6 @@ class SubjectScreening(
         verbose_name="Is the potential participant a cancer suspect? ",
         max_length=3,
         choices=YES_NO,
-        validators=[eligible_if_yes, ],
         help_text="( if 'NO' STOP patient cannot be enrolled )",)
 
     age_in_years = models.IntegerField(
