@@ -16,6 +16,8 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         (None, {
             'fields': ('subject_visit',
                        'is_criteria_met',
+                       'criteria_met',
+                       'criteria_met_other',
                        'car_ownership',
                        'next_visit_date',
                        'visit_facility',
@@ -28,8 +30,6 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'bus_voucher_status_other',
                        'cash_transfer_status',
                        'cash_transfer_status_other',
-                       'criteria_met',
-                       'criteria_met_other',
                        'comments',
                        )
         }), audit_fieldset_tuple)
