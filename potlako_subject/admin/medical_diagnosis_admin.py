@@ -23,7 +23,8 @@ class MedicalConditionsInlineAdmin(TabularInlineMixin, admin.TabularInline):
                 'diagnosis_date_estimate',
                 'diagnosis_date_estimation',
                 'on_medication',
-                'treatment_type')}
+                'treatment_type',
+                'treatment_type_other')}
          ),)
 
 
