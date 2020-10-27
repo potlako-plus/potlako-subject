@@ -234,7 +234,7 @@ class PatientCallInitial(CrfModelMixin):
         validators=[MinValueValidator(0), MaxValueValidator(2000)],
         blank=True,
         null=True,
-        help_text='unit is cells/uL')
+        help_text='unit in cells/uL')
     
     vl_results = models.CharField(
         verbose_name='What is your recent VL results?',
