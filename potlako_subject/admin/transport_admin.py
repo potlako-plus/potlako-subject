@@ -21,6 +21,7 @@ class TransportAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'visit_facility',
                        'visit_facility_other',
                        'transport_type',
+                       'transport_type_other',
                        'vehicle_status',
                        'vehicle_status_other',
                        'bus_voucher_status',

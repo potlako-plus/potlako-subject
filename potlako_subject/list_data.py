@@ -106,6 +106,7 @@ list_data = {
         ('lives_far', 'Lives >= 20km away from nearest health facility'),
         ('missed_visits_due_trans_challenges',
          'Has missed appointments due to transportation challenges'),
+        (NONE, 'None of the above'),
         (OTHER, 'Other'),
     ],
     'potlako_subject.smsplatform': [

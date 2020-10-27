@@ -26,8 +26,7 @@ class Transport(CrfModelMixin):
 
     criteria_met = models.ManyToManyField(
         TransportCriteria,
-        verbose_name='What criteria has been met for transportation support?',
-        blank=True)
+        verbose_name='What criteria has been met for transportation support?')
 
     criteria_met_other = OtherCharField()
 
