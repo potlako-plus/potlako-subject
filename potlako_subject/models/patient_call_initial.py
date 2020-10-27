@@ -18,7 +18,7 @@ from edc_protocol.validators import date_not_before_study_start
 from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
 from ..choices import DURATION, FACILITY_UNIT, TESTS_ORDERED, DISTRICT
 from ..choices import PAIN_SCORE, SCALE, EDUCATION_LEVEL, WORK_TYPE
-from ..choices import UNEMPLOYED_REASON
+from ..choices import UNEMPLOYED_REASON, VL_UNITS
 from .list_models import PatientResidence, SmsPlatform, SourceOfInfo
 from .model_mixins import CrfModelMixin
 
@@ -228,6 +228,20 @@ class PatientCallInitial(CrfModelMixin):
         blank=True,
         null=True,
     )
+    
+    cd4_count = models.IntegerField(
+        verbose_name='What is your recent CD4 count results?',
+        validators=[MinValueValidator(0), MaxValueValidator(2000)],
+        blank=True,
+        null=True,
+        help_text='unit is cells/uL')
+    
+    vl_results = models.CharField(
+        verbose_name='What is your recent VL results?',
+        choices=VL_UNITS,
+        max_length=12,
+        blank=True,
+        null=True,)
 
     cancer_suspicion_known = models.CharField(
         verbose_name=('Is patient aware that cancer is suspected '

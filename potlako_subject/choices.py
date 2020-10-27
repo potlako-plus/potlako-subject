@@ -605,6 +605,11 @@ VISIT_INFO_SOURCE = (
     (OTHER, 'Other,specify'),
 )
 
+VL_UNITS = (
+    ('lt_400copies', '<400copies'),
+    ('gt_400copies', '>400copies')
+)
+
 WORK_TYPE = (
     ('formal_employment', 'Formal employment'),
     ('temporary_employment', 'Temporary Employment'),
