@@ -1,4 +1,4 @@
-from edc_constants.constants import OTHER, NOT_APPLICABLE
+from edc_constants.constants import OTHER, NOT_APPLICABLE, NONE
 from edc_list_data import PreloadData
 
 list_data = {
@@ -90,6 +90,7 @@ list_data = {
         ('dysuria', 'Dysuria'),
         ('skin_changes', 'Skin changes'),
         ('cough', 'Cough'),
+        (NONE, 'None'),
         (OTHER, 'Other (specify)')
     ],
     'potlako_subject.testsorderedtype': [

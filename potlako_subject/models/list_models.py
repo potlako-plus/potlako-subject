@@ -36,6 +36,7 @@ class PathologyTest(ListModelMixin, BaseUuidModel):
 class SmsPlatform(ListModelMixin, BaseUuidModel):
     pass
 
+
 class SourceOfInfo(ListModelMixin, BaseUuidModel):
     pass
 
