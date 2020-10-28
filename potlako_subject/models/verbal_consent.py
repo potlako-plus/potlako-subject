@@ -24,7 +24,8 @@ class VerbalConsent(
     
     version = models.CharField(
         verbose_name='Consent version',
-        max_length=10)
+        max_length=10,
+        default=1)
 
     screening_identifier = models.CharField(
         verbose_name="Screening Identifier",
@@ -37,15 +38,20 @@ class VerbalConsent(
         null=True,
         blank=True)
 
-    file = models.FileField(upload_to='verbal_consents/')
+    file = models.FileField(upload_to='verbal_consents/',
+                            null=True,
+                            blank=True)
     
     user_uploaded = models.CharField(
         max_length=50,
         blank=True,
+        null=True,
         verbose_name='user uploaded',)
     
     datetime_captured = models.DateTimeField(
-        default=get_utcnow)
+        default=get_utcnow,
+        blank=True,
+        null=True,)
 
     language = models.CharField(
         verbose_name='Language of consent',
@@ -55,8 +61,8 @@ class VerbalConsent(
     def verbal_consent_image(self):
             return mark_safe(
                 '<a href="%(url)s">'
-                '<img src="%(url)s" style="padding-right:150px" width="150" height="100" />'
-                '</a>' % {'url': self.image.url})
+                'Consent pdf'
+                '</a>' % {'url': self.file.url})
 
     verbal_consent_image.short_description = 'Verbal Consent'
     
