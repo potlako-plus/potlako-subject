@@ -24,8 +24,7 @@ class VerbalConsent(
     
     version = models.CharField(
         verbose_name='Consent version',
-        max_length=10,
-        default=1)
+        max_length=10,)
 
     screening_identifier = models.CharField(
         verbose_name="Screening Identifier",
@@ -38,20 +37,14 @@ class VerbalConsent(
         null=True,
         blank=True)
 
-    file = models.FileField(upload_to='verbal_consents/',
-                            null=True,
-                            blank=True)
+    file = models.FileField(upload_to='verbal_consents/')
     
     user_uploaded = models.CharField(
         max_length=50,
-        blank=True,
-        null=True,
         verbose_name='user uploaded',)
     
     datetime_captured = models.DateTimeField(
-        default=get_utcnow,
-        blank=True,
-        null=True,)
+        default=get_utcnow,)
 
     language = models.CharField(
         verbose_name='Language of consent',
