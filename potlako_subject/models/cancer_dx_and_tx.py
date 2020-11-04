@@ -7,7 +7,7 @@ from ..choices import CANCER_EVALUATION
 from .model_mixins import CrfModelMixin
 
 
-class CancerDiagnosisAndTreatmentAssessment(CrfModelMixin):
+class CancerDxAndTx(CrfModelMixin):
 
     symptoms_summary = models.TextField(
         verbose_name=('Summary of symptoms and evaluation over the past 6 '
@@ -15,7 +15,7 @@ class CancerDiagnosisAndTreatmentAssessment(CrfModelMixin):
         max_length=150)
 
     cancer_evaluation = models.CharField(
-        max_length=25,
+        max_length=30,
         choices=CANCER_EVALUATION)
 
     diagnosis_date = models.DateField(
@@ -37,12 +37,6 @@ class CancerDiagnosisAndTreatmentAssessment(CrfModelMixin):
         null=True,
         blank=True)
 
-    clinical_impression = models.TextField(
-        verbose_name='Final clinical impression',
-        max_length=150,
-        help_text=('If cancer diagnosed, include all information to guide '
-                   'cancer staging and AJCC stage'))
-
     cancer_treatment = models.CharField(
         verbose_name='Has patient received any treatment for cancer?',
         choices=YES_NO,
@@ -56,4 +50,4 @@ class CancerDiagnosisAndTreatmentAssessment(CrfModelMixin):
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
-        verbose_name = 'Cancer Diagnosis And Treatment Assessments'
+        verbose_name = 'Cancer Diagnosis And Treatment Assessment'

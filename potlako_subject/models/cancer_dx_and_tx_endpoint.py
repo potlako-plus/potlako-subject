@@ -1,7 +1,10 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from edc_base.model_fields.custom_fields import OtherCharField
+from edc_base.model_mixins import BaseUuidModel
+from edc_base.sites import SiteModelMixin
 from edc_constants.choices import YES_NO
+from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 
 from ..choices import CANCER_EVALUATION, CLINICAL_IMPRESSION, CANCER_DIAGNOSIS
 from ..choices import METASTASIS_STAGES, STAGES, TREATMENT_INTENT
@@ -9,10 +12,11 @@ from ..choices import NON_CANCER_DIAGNOSIS, DATE_ESTIMATION, CANCER_DIAGNOSIS_ST
 from .model_mixins import CrfModelMixin
 
 
-class CancerDiagnosisAndTreatmentEndpoint(CrfModelMixin):
+class CancerDxAndTxEndpoint(UniqueSubjectIdentifierFieldMixin,
+                            SiteModelMixin, BaseUuidModel):
 
     cancer_evaluation = models.CharField(
-        max_length=25,
+        max_length=30,
         choices=CANCER_EVALUATION)
 
     diagnosis_date = models.DateField(
@@ -35,11 +39,9 @@ class CancerDiagnosisAndTreatmentEndpoint(CrfModelMixin):
         blank=True)
 
     clinical_impression = models.CharField(
-        verbose_name='Final Clinical Impression',
+        verbose_name='Final clinical impression',
         max_length=30,
-        choices=CLINICAL_IMPRESSION,
-        blank=True,
-        null=True)
+        choices=CLINICAL_IMPRESSION,)
 
     final_cancer_diagnosis = models.CharField(
         verbose_name='If confirmed/probable cancer, final cancer diagnosis',

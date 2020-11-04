@@ -16,6 +16,7 @@ class AppConfig(DjangoAppConfig):
         from .models import patient_call_followup_on_post_save
         from .models import subject_visit_on_post_save
         from .models import home_visit_on_post_save
+        from .models import missed_call_on_post_save
 
 
 if settings.APP_NAME == 'potlako_subject':
@@ -55,12 +56,10 @@ if settings.APP_NAME == 'potlako_subject':
     class EdcMetadataAppConfig(BaseEdcMetadataAppConfig):
 
         reason_field = {'potlako_subject.subjectvisit': 'reason'}
-        other_visit_reasons = [
-            'off study', 'deferred', 'lost_to_follow_up', 'Death',
-            'missed_quarterly_visit']
+        other_visit_reasons = ['off study', 'deferred', 'death']
         other_create_visit_reasons = [
-            'initial_visit/contact', 'quarterly_visit/contact',
-            'unscheduled_visit/contact']
+            'initial_visit/contact', 'fu_visit/contact',
+            'missed_visit', 'unscheduled_visit/contact']
         create_on_reasons = [SCHEDULED, UNSCHEDULED] + other_create_visit_reasons
         delete_on_reasons = [LOST_VISIT] + other_visit_reasons
 

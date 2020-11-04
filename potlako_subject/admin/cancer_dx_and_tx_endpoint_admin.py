@@ -1,21 +1,23 @@
 from django.contrib import admin
-
+from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
-from ..forms import CancerDiagnosisAndTreatmentAssessmentForm
-from ..models import CancerDiagnosisAndTreatmentAssessment
+from ..forms import CancerDxAndTxAssessmentEndpointForm
+from ..models import CancerDxAndTxEndpoint
+from .modeladmin_mixins import ModelAdminMixin
 
-from .modeladmin_mixins import CrfModelAdminMixin
 
+@admin.register(CancerDxAndTxEndpoint, site=potlako_subject_admin)
+class CancerDxAndTxAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
 
-@admin.register(CancerDiagnosisAndTreatmentAssessment, site=potlako_subject_admin)
-class CancerDiagnosisAndTreatmentAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin):
-
-    form = CancerDiagnosisAndTreatmentAssessmentForm
+    form = CancerDxAndTxAssessmentEndpointForm
+    extra_context_models = ['cliniciancallenrollment',
+                            'baselineclinicalsummary',
+                            'symptomandcareseekingassessment',
+                            'cancerdxandtx']
 
     fieldsets = (
-        (None, {
-            'fields': ('subject_visit',
-                       'report_datetime',
+        ('Diagnosis Details', {
+            'fields': ('subject_identifier',
                        'cancer_evaluation',
                        'diagnosis_date',
                        'diagnosis_date_estimated',
@@ -30,8 +32,10 @@ class CancerDiagnosisAndTreatmentAssessmentAdmin(CrfModelAdminMixin, admin.Model
                        'cancer_diagnosis_stage',
                        'tumor_stage',
                        'nodal_stage',
-                       'distant_metastasis_stage',
-                       'cancer_therapy',
+                       'distant_metastasis_stage',)
+        }),
+        ('Therapy Details', {
+            'fields': ('cancer_therapy',
                        'treatment_intent',
                        'therapeutic_surgery',
                        'surgery_date',
@@ -45,8 +49,7 @@ class CancerDiagnosisAndTreatmentAssessmentAdmin(CrfModelAdminMixin, admin.Model
                        'radiation_date',
                        'radiation_date_estimated',
                        'radiation_date_estimation'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
     radio_fields = {
         'cancer_evaluation': admin.VERTICAL,

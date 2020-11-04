@@ -1,5 +1,5 @@
-from edc_constants.constants import (
-    ALIVE, DEAD, OTHER, OFF_STUDY, UNKNOWN, NOT_APPLICABLE, YES, NO)
+from edc_constants.constants import ALIVE, DEAD, OTHER, OFF_STUDY, UNKNOWN
+from edc_constants.constants import DONE, NOT_DONE, NOT_APPLICABLE, YES, NO
 
 from .constants import UNSURE
 
@@ -32,7 +32,7 @@ CANCER_DIAGNOSIS = (
     ('head_n_neck', 'Head and Neck Cancer'),
     ('non_hodgkin_lymph', 'Non-Hodgkin Lymphoma'),
     ('hodgkin_lymph', 'Hodgkin Lymphoma'),
-    ('esophageal', 'Esophageal'),
+    ('oesophageal', 'Oesophageal Cancer'),
     ('vaginal', 'Vulvar/Vaginal Cancer'),
     ('anal', 'Anal Cancer'),
     ('kaposis_sarcoma', 'Kaposi\'s sarcoma'),
@@ -46,9 +46,9 @@ CANCER_EVALUATION = (
     ('complete', 'Complete'),
     ('unable_to_complete',
      'Incomplete, but unable to complete (i.e. death, refusal)'),
-    ('incomplete_needs_priority',
-     'Incomplete, needs priority Potlako+ follow-up'),
-    ('complete_needs_priority', 'Complete, needs priority Potlako+ follow-up')
+    ('incomplete_ongoing_evaluation',
+     'Incomplete, ongoing evaluation'),
+    ('incomplete_12_months', 'Incomplete, 12 month visit')
 )
 
 CANCER_STAGES = (
@@ -130,6 +130,7 @@ DIAGNOSIS_RESULTS = (
     ('non_malignant', 'Non Malignant'),
     ('inconclusive', 'Inconclusive'),
     ('untraceable', 'Untraceable'),
+    ('suggestive', 'Suggestive'),
     (OTHER, 'Other (specify)')
 )
 
@@ -137,6 +138,13 @@ DISPOSITION = (
     ('return', 'Return'),
     ('refer', 'Refer'),
     ('discharge', 'Discharge')
+)
+
+DISINTEREST_REASON = (
+    ('dont_want_to_participate', 'I don\'t want to be part of a study'),
+    ('dont_think_I_have_cancer', 'I don\'t think I have cancer'),
+    ('partner_doesnt_want_to_participate', 'My partner doesn\'t want me to participate'),
+    (OTHER, 'Other (specify)')
 )
 
 DISTRICT = (
@@ -188,18 +196,9 @@ DATE_TIME_ESTIMATION = (
     ('day_month_year', 'Estimated day, month and year')
 )
 
-DISCUSSION_PERSON = (
-    ('mother', 'Mother'),
-    ('father', 'Father'),
-    ('sister', 'Sister'),
-    ('brother', 'Brother'),
-    ('female_family_member', 'Other female family member'),
-    ('male_family_member', 'Other male family member'),
-    ('female_friend', 'Female friend'),
-    ('male_friend', 'Male friend'),
-    ('pastor_religious_leader', 'Pastor or religious leader'),
-    ('traditional_healer', 'Traditional healer'),
-    (OTHER, 'Other (specify)'))
+DONE_NOT_DONE = (
+    (DONE, 'Done'),
+    (NOT_DONE, 'Not Done'))
 
 EDUCATION_LEVEL = (
     ('non_formal', 'Non-Formal'),
@@ -211,7 +210,7 @@ ENROLLMENT_SITES = (
     ('mmathethe_clinic', 'Mmathethe clinic'),
     ('molapowabojang_clinic', 'Molapowabojang clinic'),
     ('otse_clinic', 'Otse clinic'),
-    ('mankgodi_clinic', 'Mankgodi clinic'),
+    ('mmankgodi_clinic', 'Mmankgodi clinic'),
     ('lentsweletau_clinic', 'Lentsweletau clinic'),
     ('letlhakeng_clinic', 'Letlhakeng clinic'),
     ('oodi_clinic', 'Oodi clinic'),
@@ -223,7 +222,7 @@ ENROLLMENT_SITES = (
     ('lerala_clinic', 'Lerala clinic'),
     ('maunatlala_clinic', 'Maunatlala clinic'),
     ('sefophe_clinic', 'Sefophe clinic'),
-    ('mmadianare_primary_hospital', 'Mmadinare Primary Hospital'),
+    ('mmadinare_primary_hospital', 'Mmadinare Primary Hospital'),
     ('manga_clinic', 'Manga clinic'),
     ('mandunyane_clinic', 'Mandunyane clinic'),
     ('mathangwane_clinic', 'Mathangwane clinic'),
@@ -231,7 +230,8 @@ ENROLLMENT_SITES = (
     ('masunga_primary_hospital', 'Masunga Primary Hospital'),
     ('masunga_clinic', 'Masunga clinic'),
     ('mathangwane_clinic', 'Mathangwane clinic'),
-    ('nata_clinic', 'Nata clinic')
+    ('nata_clinic', 'Nata clinic'),
+    (OTHER, 'Other (specify)')
 
 )
 
@@ -403,6 +403,14 @@ REASON_MISSED_VISIT = (
     (OTHER, 'Other (specify)'),
 )
 
+REASONS_NOT_DISCUSSED = (
+    ('not_comfortable', 'I was not comfortable to discuss it.'),
+    ('not_trusting', 'I do not trust anyone.'),
+    ('fear_discrimination', 'I fear discrimination/judgement.'),
+    ('not_necessary', 'I do not think it is necessary.'),
+    (OTHER, 'Other (specify)'),
+)
+
 RESULTS_PERSONNEL = (
     ('M.O', 'M.O'),
     ('physician', 'Physician'),
@@ -438,9 +446,14 @@ SCALE = (
 )
 
 SEVERITY_LEVEL = (
-    ('low', 'Low'),
-    ('moderate', 'Moderate'),
-    ('high', 'High')
+    ('low', 'Low, cancer possible but other conditions are much more likely'),
+    ('moderate', 'Moderate, cancer is among the most likely causes of the symptoms/signs'),
+    ('high', 'High, cancer is the leading suspected cause of the symptoms/signs')
+)
+
+SMS_STATUS = (
+    ('sms_sent', 'SMS sent'),
+    ('sms_not_sent', 'SMS not sent'),
 )
 
 SMS_OUTCOME = (
@@ -457,13 +470,6 @@ SMS_OUTCOME = (
      'SMS sent to next of kin 2 and receipt NOT confirmed'),
     (OTHER, 'Other, specify'),
 )
-
-SMS_PLATFORM = (
-    ('potlako+_iec_material', 'Potlako+ IEC material'),
-    ('group_teaching', 'Group teaching'),
-    ('public_campaign', 'Public campaign'),
-    ('info_from_community_leader', 'Information from community leader'),
-    (OTHER, 'Other, specify'))
 
 SPECIALIST_CLINIC = (
     ('ENT', 'ENT'),
@@ -509,8 +515,10 @@ SYMPTOMS_CONCERN = (
 
 TESTS_ORDERED = (
     ('ordered', 'Yes, ordered'),
-    ('resulted', 'Yes, resulted'),
-    (UNSURE, 'No, unsure'),
+    ('ordered_and_resulted', 'Yes, ordered and resulted'),
+    ('resulted', 'Resulted'),
+    (NO , 'No'),
+    (UNSURE, 'Unsure'),
 )
 
 TESTS_ORDERED_TYPE = (
@@ -525,6 +533,8 @@ TRANSPORT_TYPE = (
     ('cash', 'Cash transfer to patient'),
     ('patient_arranged_vehicle',
      'Facility Vehicle - Arranged by Patient or Clinician'),
+    (OTHER, 'Other (specify)'),
+    (NOT_APPLICABLE, 'N/A'),
 )
 
 TREATMENT_INTENT = (
@@ -578,12 +588,11 @@ VISIT_UNSCHEDULED_REASON = (
 
 VISIT_REASON = (
     ('initial_visit/contact', 'Initial visit/contact'),
-    ('quarterly_visit/contact', 'Quarterly visit/contact'),
+    ('fu_visit/contact', 'Follow up visit/contact'),
     ('unscheduled_visit/contact', 'Unscheduled visit/contact'),
-    ('missed_quarterly_visit', 'Missed quarterly visit'),
-    ('lost_to_follow_up', 'Lost to follow-up (use only when taking subject off study)'),
+    ('missed_visit', 'Missed visit'),
     ('death', 'Death'),
-    (OFF_STUDY, 'Off study'),
+    (OFF_STUDY, 'Off study (use only when taking subject off study)'),
     ('deferred', 'Deferred'),
 )
 
@@ -594,6 +603,11 @@ VISIT_INFO_SOURCE = (
     ('contact_family/designated_person',
      'Contact with family or designated person who can provide information'),
     (OTHER, 'Other,specify'),
+)
+
+VL_UNITS = (
+    ('lt_400copies', '<400copies'),
+    ('gt_400copies', '>400copies')
 )
 
 WORK_TYPE = (
@@ -615,4 +629,10 @@ YES_NO_AOTS = (
     (YES, YES),
     (NO, NO),
     ('already_on_transport_support', 'Already on transport support'),
+)
+
+YES_NO_DECEASED = (
+    (YES, YES),
+    (NO, NO),
+    ('deceased', 'Deceased')
 )

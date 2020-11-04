@@ -1,13 +1,16 @@
 from django.db import models
+from edc_base.model_mixins.base_uuid_model import BaseUuidModel
 from edc_base.model_validators import date_is_future, date_not_future
 from edc_base.model_validators import datetime_not_future
+from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_base.utils import get_utcnow
+from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 
-from ..choices import SMS_OUTCOME
 from .model_mixins import CrfModelMixin
+from ..choices import SMS_STATUS
 
 
-class SMS(CrfModelMixin):
+class SMS(NonUniqueSubjectIdentifierFieldMixin, SiteModelMixin, BaseUuidModel):
 
     date_time_form_filled = models.DateTimeField(
         verbose_name='Date SMS form filled',
@@ -24,7 +27,7 @@ class SMS(CrfModelMixin):
 
     sms_outcome = models.CharField(
         verbose_name='Outcome of reminder SMS',
-        choices=SMS_OUTCOME,
+        choices=SMS_STATUS,
         max_length=50,)
 
     class Meta(CrfModelMixin.Meta):

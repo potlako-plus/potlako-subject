@@ -11,7 +11,7 @@ from edc_model_admin import (
     ModelAdminFormInstructionsMixin, ModelAdminInstitutionMixin,
     ModelAdminNextUrlRedirectMixin, ModelAdminReadOnlyMixin,
     ModelAdminRedirectOnDeleteMixin)
-
+from ..models.model_mixins import BaselineRoadMapMixin
 from edc_metadata import NextFormGetter
 from edc_visit_tracking.modeladmin_mixins import (
     CrfModelAdminMixin as VisitTrackingCrfModelAdminMixin)
@@ -28,6 +28,29 @@ class ModelAdminMixin(
     date_hierarchy = 'modified'
     empty_value_display = '-'
     next_form_getter_cls = NextFormGetter
+    extra_context_models = None
+
+    def add_view(self, request, form_url='', extra_context=None):
+
+        extra_context = {}
+        if self.extra_context_models:
+            extra_context_dict = BaselineRoadMapMixin(
+                subject_identifier=request.GET.get(
+                    'subject_identifier')).baseline_dict
+            [extra_context.update({key: extra_context_dict.get(key)})for key in self.extra_context_models]
+        return super().add_view(
+            request, form_url=form_url, extra_context=extra_context)
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+
+        extra_context = {}
+        if self.extra_context_models:
+            extra_context_dict = BaselineRoadMapMixin(
+                subject_identifier=request.GET.get(
+                    'subject_identifier')).baseline_dict
+            [extra_context.update({key: extra_context_dict.get(key)})for key in self.extra_context_models]
+        return super().change_view(
+            request, object_id, form_url=form_url, extra_context=extra_context)
 
 
 class CrfModelAdminMixin(VisitTrackingCrfModelAdminMixin,

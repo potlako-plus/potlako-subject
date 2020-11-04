@@ -26,15 +26,10 @@ class PatientCallFollowUp(CrfModelMixin):
         verbose_name='Patient follow up: start time',
     )
 
-    patient_residence_change = models.CharField(
-        verbose_name=('Has there been any change in patient '
-                      'residence and contact information?'),
-        choices=YES_NO,
-        max_length=3)
-
-    next_kin_contact_change = models.CharField(
-        verbose_name=('Any changes to be made to next of kin contact '
-                      'information?'),
+    patient_info_change = models.CharField(
+        verbose_name=('Any changes to be made to participant residence, '
+                      'contact and or next of kin information since index '
+                      'visit?'),
         choices=YES_NO,
         max_length=3)
 
@@ -45,7 +40,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     perfomance_status = models.IntegerField(
         verbose_name='Patient performance status',
-        default=1,
+        default=0,
         choices=SCALE,
         validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
@@ -127,7 +122,7 @@ class PatientCallFollowUp(CrfModelMixin):
         verbose_name=('Have there been any interval investigations '
                       'ordered or resulted?'),
         choices=TESTS_ORDERED,
-        max_length=8,
+        max_length=20,
         help_text='(IF YES, COMPLETE \'INVESTIGATION FORM\')')
 
     transport_support = models.CharField(
@@ -221,7 +216,9 @@ class PatientCallFollowUp(CrfModelMixin):
     sms_outcome = models.CharField(
         verbose_name='Outcome of reminder SMS',
         choices=SMS_OUTCOME,
-        max_length=50,)
+        max_length=50,
+        blank=True,
+        null=True)
 
     sms_outcome_other = OtherCharField()
 

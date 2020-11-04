@@ -1,10 +1,9 @@
-from django.test import TestCase, tag
+from django.test import TestCase
 from edc_constants.constants import NO, YES
 
 from ..eligibility import Eligibility
 
 
-@tag('el')
 class TestEligibility(TestCase):
 
     """

@@ -5,11 +5,13 @@ from edc_base.model_validators import datetime_not_future
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_base.utils import get_utcnow
 from edc_protocol.validators import datetime_not_before_study_start
+from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 
 from ..choices import CANCER_DIAGNOSIS, SEVERITY_LEVEL
 
 
-class BaselineClinicalSummary(SiteModelMixin, BaseUuidModel):
+class BaselineClinicalSummary(UniqueSubjectIdentifierFieldMixin,
+                              SiteModelMixin, BaseUuidModel):
 
     report_datetime = models.DateTimeField(
         verbose_name='Report Time and Date',
@@ -21,7 +23,7 @@ class BaselineClinicalSummary(SiteModelMixin, BaseUuidModel):
 
     symptoms_summary = models.TextField(
         verbose_name=('Summary of presenting symptoms and clinical impression'),
-        max_length=100)
+        max_length=500)
 
     cancer_concern = models.CharField(
         verbose_name='Cancer of greatest concern',

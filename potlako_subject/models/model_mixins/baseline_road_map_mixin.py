@@ -1,9 +1,6 @@
 from django.apps import apps as django_apps
-from django.core.exceptions import ObjectDoesNotExist
 
-from ...constants import UNSURE
 from ..clinician_call_enrollment import ClinicianCallEnrollment
-
 
 class BaselineRoadMapMixin:
     """A class to gather all values from Clinician Call Enrollment, 
@@ -11,69 +8,80 @@ class BaselineRoadMapMixin:
     to build the Baseline Roadmap.
     """
 
-    def __init__(self, subject_identifier=None, subject_visit=None):
-
-        baseline_dict = self.get_clinician_call_attrs(
-            subject_identifier=subject_identifier)
-
-        crfs_list = ['potlako_subject.patientcallinitial',
-                     'potlako_subject.investigationsordered',
-                     'potlako_subject.investigationsresulted',
-                      'potlako_subject.medicalconditions']
-
-        attrs_list = [['report_datetime', 'age_in_years', 'hiv_status',
-                      'patient_symptoms', 'perfomance_status', 'pain_score'],
-                       ['tests_ordered_type', ],
-                       ['diagnosis_results', 'cancer_type', 'cancer_stage']]
-
-        for crf_cls, attrs in zip(crfs_list, attrs_list):
-            crf_cls = django_apps.get_model(crf_cls)
-            crf_dict = self.get_crf_attrs(subject_visit=subject_visit,
-                               crf_cls, attrs)
-            baseline_dict.update(crf_dict)
-
-    def get_clinician_call_attrs(self, subject_identifier=None):
+    def __init__(self, subject_identifier=None):
+        self.subject_identifier = subject_identifier
+        self.baseline_dict = {}
+        self.baseline_dict.update(self.clinician_call) 
+        self.baseline_dict.update(self.crfs_dict)
+        self.baseline_dict.update(self.non_crfs_dict)
+                    
+    @property
+    def screening_identifier(self):
+        screening_cls = django_apps.get_model('potlako_subject.subjectscreening')
+        try:
+            screening_obj = screening_cls.objects.get(subject_identifier=self.subject_identifier)
+        except screening_cls.DoesNotExist:
+            return None
+        else:
+            return screening_obj.screening_identifier
+        
+    
+    @property
+    def clinician_call(self):
         """Extract values required for Baseline Map from Clinician Call
         Enrollment model.
         """
-
-        enrollment_dict = {}
-        attributes = ['suspected_cancer', 'suspected_cancer_other',
-                      'gender', 'suspicion_level']
-
+        
         try:
             clinician_call_obj = ClinicianCallEnrollment.objects.get(
-            subject_identifier=subject_identifier)
-        except ObjectDoesNotExist:
-            return None
+            screening_identifier=self.screening_identifier)
+        except ClinicianCallEnrollment.DoesNotExist:
+            return {}
         else:
-            for attr in attributes:
-                value = getattr(
-                        clinician_call_obj, 'suspected_cancer')
-
-                if attr == 'suspected_cancer' and value == UNSURE:
-                    value = getattr(
-                        clinician_call_obj, 'suspected_cancer_unsure')
-
-                enrollment_dict.update({attr:value})
-
-        return enrollment_dict
-
-    def get_crf_attrs(self, subject_visit=None, model_cls, *attributes):
-        """Extract values required for Baseline Map from model.
-        """
-
+            return {'cliniciancallenrollment': clinician_call_obj}
+    
+    @property
+    def crfs_dict(self):
+        crfs_list = ['potlako_subject.cancerdxandtx',
+                     'potlako_subject.symptomandcareseekingassessment',
+                     'potlako_subject.patientcallinitial',
+                     'potlako_subject.investigationsordered',
+                     'potlako_subject.investigationsresulted',
+                      'potlako_subject.medicaldiagnosis']
+     
+                
         crf_dict = {}
-
-        try:
-            model_obj = model_cls.objects.get(
-                subject_visit=subject_visit)
-        except model_cls.DoesNotExist:
-            return None
-        else:
-            for attr in attributes:
-                value = getattr(model_obj, attr)
-                crf_dict.update({attr:value})
-
+        for crf_model in crfs_list:
+            crf_objs = django_apps.get_model(crf_model).objects.filter(
+                subject_visit__subject_identifier=self.subject_identifier)
+            
+            if crf_objs:
+                crf_obj = crf_objs.order_by('created')[0]
+                crf_dict.update({crf_model.split('.')[1]:
+                                           crf_obj})
         return crf_dict
+    
+    @property
+    def non_crfs_dict(self):
+        
+        non_crfs = ['potlako_subject.baselineclinicalsummary',
+                    'potlako_subject.navigationsummaryandplan']
+        
+        crf_dict={}     
+        
+        for crf_model in non_crfs:
+            crf_cls = django_apps.get_model(crf_model)
+            try:
+                crf_obj = crf_cls.objects.get(subject_identifier=self.subject_identifier)
+            except crf_cls.DoesNotExist:
+                pass
+            else:
+                crf_dict.update({crf_model.split('.')[1]:
+                                crf_obj})
+        return crf_dict
+                
+    
+        
+
+
 

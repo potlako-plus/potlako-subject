@@ -1,6 +1,6 @@
 from django.contrib import admin
 from edc_model_admin import TabularInlineMixin
-
+from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
 from ..forms import InvestigationsOrderedForm, LabTestForm
 from ..models import InvestigationsOrdered, LabTest
@@ -34,7 +34,6 @@ class InvestigationsOrderedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
-                       'report_datetime',
                        'tests_ordered_type',
                        'tests_ordered_type_other',
                        'facility_ordered',
@@ -43,6 +42,7 @@ class InvestigationsOrderedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'ordered_date_estimated',
                        'ordered_date_estimation',
                        'pathology_test',
+                       'pathology_test_other',
                        'biopsy_specify',
                        'fna_location',
                        'pathology_specimen_date',
@@ -54,14 +54,10 @@ class InvestigationsOrderedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'mri_tests',
                        'imaging_tests_type_other',
                        'imaging_tests_date'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
-    radio_fields = {'tests_ordered_type': admin.VERTICAL,
-                    'facility_ordered': admin.VERTICAL,
-                    'ordered_date_estimated': admin.VERTICAL,
+    radio_fields = {'ordered_date_estimated': admin.VERTICAL,
                     'ordered_date_estimation': admin.VERTICAL,
-                    'imaging_test_status': admin.VERTICAL,
-                    'imaging_test_type': admin.VERTICAL}
+                    'imaging_test_status': admin.VERTICAL}
 
-    filter_horizontal = ('pathology_test',)
+    filter_horizontal = ('tests_ordered_type', 'pathology_test', 'imaging_test_type')

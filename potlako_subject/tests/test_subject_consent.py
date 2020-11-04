@@ -8,9 +8,7 @@ from edc_facility.import_holidays import import_holidays
 from edc_registration.models import RegisteredSubject
 from model_mommy import mommy
 
-from edc_appointment.models import Appointment
-
-from ..models import OnscheduleIntervention, SubjectScreening, SubjectConsent
+from ..models import OnSchedule, SubjectScreening, SubjectConsent
 
 subject_identifier = '132\-[0-9\-]+'
 
@@ -88,12 +86,13 @@ class TestSubjectConsent(TestCase):
             **self.options)
 
         try:
-            OnscheduleIntervention.objects.get(
-                subject_identifier=subject_consent.subject_identifier)
-        except OnscheduleIntervention.DoesNotExist:
+            OnSchedule.objects.get(
+                subject_identifier=subject_consent.subject_identifier,
+                community_arm='Intervention')
+        except OnSchedule.DoesNotExist:
             raise ValidationError(
                 'Onschedule object does not exist for subject')
-        self.assertEqual(OnscheduleIntervention.objects.all().count(), 1)
+        self.assertEqual(OnSchedule.objects.all().count(), 1)
 
     def test_ineligibilty_consent_validation_raised(self):
         """Test validation error raised when subject ineligible

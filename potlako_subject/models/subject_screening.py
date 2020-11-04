@@ -1,17 +1,17 @@
 from django.apps import apps as django_apps
 from django.db import models
-from django.utils import timezone
+from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
-from edc_base.model_validators import datetime_not_future
-from edc_base.model_validators import eligible_if_yes
 from edc_base.sites.site_model_mixin import SiteModelMixin
-from edc_constants.choices import YES_NO
+from edc_constants.choices import YES_NO, YES_NO_NA
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 from edc_search.model_mixins import SearchSlugManager
 
-from ..choices import ENROLLMENT_SITES
+from ..choices import ENROLLMENT_SITES, DISINTEREST_REASON, YES_NO_DECEASED
 from ..eligibility import Eligibility
 from .model_mixins import SearchSlugModelMixin
+from edc_base.utils import get_utcnow
+from edc_constants.constants import NOT_APPLICABLE
 
 
 class EnrollmentManager(SearchSlugManager, models.Manager):
@@ -37,25 +37,42 @@ class SubjectScreening(
 
     report_datetime = models.DateTimeField(
         verbose_name='Report Date and Time',
-        default=timezone.now,
+        default=get_utcnow,
         help_text='Date and time of report.')
+    
+    enrollment_interest = models.CharField(
+        verbose_name=('Does the patient want to be enrolled into the'
+                      ' study?'),
+        max_length=8,
+        choices=YES_NO_DECEASED)
+
+    disinterest_reason = models.CharField(
+        verbose_name=('If no, reason patient does not wish to enroll'
+                      ' into the study'),
+        max_length=50,
+        choices=DISINTEREST_REASON,
+        null=True,
+        blank=True)
+
+    disinterest_reason_other = OtherCharField()
 
     residency = models.CharField(
         verbose_name=('Does the potential participant spend or intend to spend'
                       ' atleast 14 nights per month in the study community?'),
         max_length=3,
-        choices=YES_NO)
+        default=NOT_APPLICABLE,
+        choices=YES_NO_NA)
 
     nationality = models.CharField(
         verbose_name=("Is the potential participant a Botswana citizen?"),
         max_length=3,
-        choices=YES_NO)
+        default=NOT_APPLICABLE,
+        choices=YES_NO_NA)
 
     has_diagnosis = models.CharField(
         verbose_name="Is the potential participant a cancer suspect? ",
         max_length=3,
         choices=YES_NO,
-        validators=[eligible_if_yes, ],
         help_text="( if 'NO' STOP patient cannot be enrolled )",)
 
     age_in_years = models.IntegerField(
@@ -63,10 +80,12 @@ class SubjectScreening(
         help_text='(Years)',)
 
     enrollment_site = models.CharField(
-        max_length=100,
+        max_length=50,
         null=True,
         choices=ENROLLMENT_SITES,
         help_text="Hospital where subject is recruited")
+
+    enrollment_site_other = OtherCharField()
 
     is_eligible = models.BooleanField(
         default=False,
@@ -107,7 +126,8 @@ class SubjectScreening(
             cancer_status=self.has_diagnosis,
             age_in_years=self.age_in_years,
             residency=self.residency,
-            nationality=self.nationality)
+            nationality=self.nationality,
+            enrollment_interest=self.enrollment_interest)
         self.is_eligible = eligibility_obj.is_eligible
         if eligibility_obj.reasons_ineligible:
             self.ineligibility = eligibility_obj.reasons_ineligible

@@ -14,8 +14,8 @@ class MedicalDiagnosisForm(SubjectModelFormMixin, forms.ModelForm):
         if not self.data.get(
                 'medicalconditions_set-0-medical_condition'):
             raise forms.ValidationError(
-                {'Please complete the medical conditions '
-                 'table below.'})
+                'Please complete the medical conditions '
+                 'table below.')
 
     class Meta:
         model = MedicalDiagnosis

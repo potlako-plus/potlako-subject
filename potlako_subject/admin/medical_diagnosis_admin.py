@@ -1,6 +1,6 @@
 from django.contrib import admin
 from edc_model_admin import TabularInlineMixin
-
+from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
 from ..forms import MedicalConditionsForm, MedicalDiagnosisForm
 from ..models import MedicalConditions, MedicalDiagnosis
@@ -24,7 +24,7 @@ class MedicalConditionsInlineAdmin(TabularInlineMixin, admin.TabularInline):
                 'diagnosis_date_estimation',
                 'on_medication',
                 'treatment_type',
-                'treatment_name')}
+                'treatment_type_other')}
          ),)
 
 
@@ -37,7 +37,5 @@ class MedicalDiagnosisAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('subject_visit',
-                       'report_datetime',)
-        }),
-    )
+            'fields': ('subject_visit',)
+        }), audit_fieldset_tuple)

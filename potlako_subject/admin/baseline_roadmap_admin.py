@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
+from edc_model_admin import audit_fieldset_tuple
 
 from ..admin_site import potlako_subject_admin
 from ..constants import UNSURE
@@ -15,8 +16,7 @@ class BaselineRoadMapAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('report_datetime',
-                       'investigations_turnaround_time',
+            'fields': ('investigations_turnaround_time',
                        'specialty_clinic',
                        'specialist_clinic_type',
                        'specialist_clinic_type_other',
@@ -28,8 +28,7 @@ class BaselineRoadMapAdmin(ModelAdminMixin, admin.ModelAdmin):
                        'oncology_turnaround_time',
                        'treatment_initiation_visit',
                        'treatment_initiation_turnaround_time'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
     radio_fields = {
         'specialty_clinic': admin.VERTICAL,
@@ -48,27 +47,26 @@ class BaselineRoadMapAdmin(ModelAdminMixin, admin.ModelAdmin):
 
         try:
             clinician_call_obj = ClinicianCallEnrollment.objects.get(
-            subject_identifier=subject_identifier)
+                subject_identifier=subject_identifier)
         except ObjectDoesNotExist:
             return None
         else:
             for attr in attributes:
                 value = getattr(
-                        clinician_call_obj, 'suspected_cancer')
+                    clinician_call_obj, 'suspected_cancer')
 
                 if attr == 'suspected_cancer' and value == UNSURE:
                     value = getattr(
                         clinician_call_obj, 'suspected_cancer_unsure')
 
-                enrollment_dict.update({attr:value})
+                enrollment_dict.update({attr: value})
 
         return enrollment_dict
 
-    def get_form(self, request, obj=None, **kwargs):
-        """Returns a form after adding extra readonly fields
-        """
-        form = super().get_form(request, obj=obj, **kwargs)
-        import pdb; pdb.set_trace()
+#     def get_form(self, request, obj=None, **kwargs):
+#         """Returns a form after adding extra readonly fields
+#         """
+#         form = super().get_form(request, obj=obj, **kwargs)
 #         subject_screening = SubjectScreening.objects.get(
 #             screening_identifier=request.GET.get('screening_identifier'))
 #         if subject_screening.mental_status == ABNORMAL:

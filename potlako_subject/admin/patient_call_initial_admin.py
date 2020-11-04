@@ -41,6 +41,9 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'primary_clinic',
                        'primary_clinic_other',
                        'education_level',
+                       'heard_of_potlako',
+                       'source_of_info',
+                       'source_of_info_other',
                        'potlako_sms_received',
                        'sms_platform',
                        'sms_platform_other',
@@ -68,6 +71,8 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'hiv_test_date',
                        'hiv_test_date_estimated',
                        'hiv_test_date_estimation',
+                       'cd4_count',
+                       'vl_results',
                        'cancer_suspicion_known',
                        'enrollment_visit_method',
                        'enrollment_visit_method_other',
@@ -80,7 +85,6 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'next_ap_facility_unit_other',
                        'transport_support',
                        'comments',
-                       'cancer_probability',
                        'initial_call_end_time',
                        'call_duration'
                        ),
@@ -88,11 +92,9 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         audit_fieldset_tuple
     )
 
-    radio_fields = {'residential_district': admin.VERTICAL,
-                    'primary_clinic': admin.VERTICAL,
-                    'education_level': admin.VERTICAL,
+    radio_fields = {'education_level': admin.VERTICAL,
+                    'heard_of_potlako': admin.VERTICAL,
                     'potlako_sms_received': admin.VERTICAL,
-                    'sms_platform': admin.VERTICAL,
                     'work_status': admin.VERTICAL,
                     'work_type': admin.VERTICAL,
                     'unemployed_reason': admin.VERTICAL,
@@ -106,18 +108,17 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                     'hiv_status': admin.VERTICAL,
                     'hiv_test_date_estimated': admin.VERTICAL,
                     'hiv_test_date_estimation': admin.VERTICAL,
+                    'vl_results': admin.VERTICAL,
                     'cancer_suspicion_known': admin.VERTICAL,
                     'enrollment_visit_method': admin.VERTICAL,
                     'tests_ordered': admin.VERTICAL,
-                    'next_ap_facility': admin.VERTICAL,
                     'next_ap_facility_unit': admin.VERTICAL,
                     'transport_support': admin.VERTICAL,
-                    'cancer_probability': admin.VERTICAL,
                     'perfomance_status': admin.VERTICAL,
                     'pain_score': admin.VERTICAL,
                     }
 
-    filter_horizontal = ('patient_residence',)
+    filter_horizontal = ('sms_platform', 'patient_residence', 'source_of_info')
 
     readonly_fields = ('call_duration',)
 

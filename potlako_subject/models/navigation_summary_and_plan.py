@@ -1,0 +1,63 @@
+from django.db import models
+from django.db.models.deletion import PROTECT
+from edc_base.model_mixins import BaseUuidModel
+from edc_base.model_validators import date_not_future
+from edc_base.sites.site_model_mixin import SiteModelMixin
+from edc_constants.choices import YES_NO
+from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
+from edc_base.model_validators import date_is_future
+
+from ..choices import DONE_NOT_DONE
+
+
+class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
+                               SiteModelMixin, BaseUuidModel):
+
+
+    diagnostic_plan = models.TextField(
+        max_length=500)
+
+    class Meta:
+        app_label = 'potlako_subject'
+        verbose_name = 'Navigation Plan And Summary'
+        verbose_name_plural = 'Navigation Plan And Summaries'
+
+
+class EvaluationTimeline(BaseUuidModel):
+    """ Inline Evalaution timeline to capture all key milestones """
+
+    navigation_plan = models.ForeignKey(NavigationSummaryAndPlan, on_delete=PROTECT)
+
+    key_step = models.CharField(
+        verbose_name='Key step',
+        max_length=50,)
+
+    target_date = models.DateField(
+        verbose_name='Target Date',
+        validators=[date_is_future],
+        )
+
+    key_step_status = models.CharField(
+        verbose_name='Key step status',
+        max_length=8,
+        choices=DONE_NOT_DONE)
+
+    completion_date = models.DateField(
+        verbose_name='Achieved date',
+        validators=[date_not_future],
+        null=True,
+        blank=True,
+        help_text='or date determined not required'
+    )
+
+    review_required = models.CharField(
+        verbose_name='Requires multidisiciplinary review?',
+        max_length=3,
+        choices=YES_NO,
+        null=True,
+        blank=True)
+
+    class Meta:
+        app_label = 'potlako_subject'
+        verbose_name = 'Evaluation Timeline'
+        unique_together = ('navigation_plan', 'key_step', 'target_date')

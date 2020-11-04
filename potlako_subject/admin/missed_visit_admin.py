@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
 from ..forms import MissedVisitForm
 from ..models import MissedVisit
@@ -15,7 +15,6 @@ class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('subject_visit',
-                       'report_datetime',
                        'missed_visit_date',
                        'inquired',
                        'inquired_from',
@@ -26,6 +25,8 @@ class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'visit_type',
                        'determine_missed',
                        'determine_missed_other',
+                       'clinician_designation',
+                       'clinician_designation_other',
                        'reason_missed',
                        'reason_missed_other',
                        'next_appointment_date',
@@ -36,20 +37,15 @@ class MissedVisitAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'transport_need',
                        'transport_support',
                        'trans_support_comments',
-                       'clinician_designation',
-                       'clinician_designation_other',
                        'comments'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
-    radio_fields = {'facility_scheduled': admin.VERTICAL,
-                    'visit_type': admin.VERTICAL,
+    radio_fields = {'visit_type': admin.VERTICAL,
                     'determine_missed': admin.VERTICAL,
                     'inquired': admin.VERTICAL,
                     'not_inquired_reason': admin.VERTICAL,
                     'inquired_from': admin.VERTICAL,
                     'reason_missed': admin.VERTICAL,
-                    'next_ap_facility': admin.VERTICAL,
                     'next_ap_type': admin.VERTICAL,
                     'home_visit': admin.VERTICAL,
                     'transport_need': admin.VERTICAL,

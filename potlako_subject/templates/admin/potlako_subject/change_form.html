@@ -1,4 +1,96 @@
-{% extends 'admin/change_form.html' %}
+{% extends 'edc_model_admin/admin/change_form.html' %}
+{% load static %}
+
+{% block extrahead %}{{ block.super }}
+  <script type="text/javascript" charset="utf8" src="{% static 'potlako_subject/js/patient_summary.js' %}"></script>
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static 'potlako_subject/css/fontawesome.min.css' %}" >
+  <link rel="stylesheet" type="text/css" href="{% static 'potlako_subject/css/patient_summary.css' %}">
+{% endblock %}
+
+{% block field_sets %}
+
+{% if cliniciancallenrollment %}
+<div class="summary">
+<div class="tab">
+  <button class="tablinks"  onmouseover="openCity(event, 'cliniciancallenrollment')" >Demographics</button>
+  
+{% if symptomandcareseekingassessment %}
+  <button class="tablinks"  onmouseover="openCity(event, 'symptomandcareseekingassessment')">Symptoms Assessment</button>
+{% endif %}
+
+{% if cancerdxandtx %}
+  <button class="tablinks"  onmouseover="openCity(event, 'cancerdxandtx')">Cancer Evaluation</button>
+ {% endif %}
+ 
+{% if baselineclinicalsummary %}
+  <button class="tablinks"  onmouseover="openCity(event, 'baselineclinicalsummary')">Baseline Clinical Summary</button>
+ {% endif %}
+
+{% if navigationsummaryandplan %}
+  <button class="tablinks"  onmouseover="openCity(event, 'navigationsummaryandplan')">Diagnostic Plan</button>
+ {% endif %}
+</div>
+
+
+<div id="cliniciancallenrollment" class="tabcontent">
+<div class='patient_details'>
+<label class='heading'>Age: </label> {{ cliniciancallenrollment.age_in_years }}  <br>
+<label class='heading'>Gender: </label> {{ cliniciancallenrollment.get_gender_display }} <br>
+<label class='heading'>HIV Result: </label> {{ cliniciancallenrollment.last_hiv_result }} <br>
+<label class='heading'>Suspected Cancer: </label> {{ cliniciancallenrollment.get_suspected_cancer_display }}<br>
+<label class='heading'>Suspicion Level: </label> {{ cliniciancallenrollment.get_suspicion_level_display }} </div>
+</div>
+
+<div id="symptomandcareseekingassessment" class="tabcontent">
+<p class='patient_details'>
+<label class='heading'>First visit promt: </label> {{ symptomandcareseekingassessment.first_visit_promt }}
+   
+<label class='heading'>Cause Assumption: </label> {{ symptomandcareseekingassessment.cause_assumption }}
+   
+<label class='heading'>Symptoms Concern: </label> {{ symptomandcareseekingassessment.get_symptoms_concern_display }}</p>
+</div>
+
+<div id="cancerdxandtx" class="tabcontent">
+<p class='patient_details'>
+<label class='heading'>Symptoms Summary: </label> {{ cancerdxandtx.symptoms_summary }}
+
+<label class='heading'>Cancer Evaluation: </label> {{ cancerdxandtx.get_cancer_evaluation_display }}
+
+<label class='heading'>Diagnoses Date: </label> {{ cancerdxandtx.diagnoses_date }};
+
+{% if cancerdxandtx.diagnosis_date_estimation %}
+<label class='heading'>Diagnoses Date Estimation: </label>{{ cancerdxandtx.diagnoses_date_estimated }}
+{% endif %}	
+
+<label class='heading'>Cancer Treatment: </label> {{ cancerdxandtx.cancer_treatment }}
+
+<label class='heading'> Treatment Description: </label> {{ cancerdxandtx.treatment_description }}</p>
+</div>
+
+<div id="baselineclinicalsummary" class="tabcontent">
+<p class='patient_details'>
+<label class='heading'>Symptoms Summary: </label> {{ baselineclinicalsummary.symptoms_summary }}
+
+<label class='heading'>Cancer Concern: </label> {{ baselineclinicalsummary.get_cancer_concern_display }}
+
+<label class='heading'>Cancer Probability: </label> {{ baselineclinicalsummary.get_cancer_probability_display }} </p>
+</div>
+
+<div id="navigationsummaryandplan" class="tabcontent">
+<p class='patient_details'>
+<label class='heading'>Diagnostic plan: </label> {{ navigationsummaryandplan.diagnostic_plan }} </p>
+</div>
+</div>
+<div class='clearfix'></div>
+{% endif %}
+  {{ block.super }}
+
+
+{% endblock field_sets %}
+
 
 {% block submit_buttons_bottom %}
     {{ block.super }}

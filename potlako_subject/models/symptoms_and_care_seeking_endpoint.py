@@ -1,11 +1,15 @@
 from django.db import models
 from edc_constants.choices import YES_NO
+from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 
 from ..choices import DATE_ESTIMATION
 from .model_mixins import CrfModelMixin
+from edc_base.sites import SiteModelMixin
+from edc_base.model_mixins import BaseUuidModel
 
 
-class SymptomsAndCareSeekingEndpointRecording(CrfModelMixin):
+class SymptomsAndCareSeekingEndpointRecording(UniqueSubjectIdentifierFieldMixin,
+                                              SiteModelMixin, BaseUuidModel):
 
     cancer_symptom_date = models.DateField(
         verbose_name='Date of first possible cancer symptom awareness')

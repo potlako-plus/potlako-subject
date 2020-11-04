@@ -64,12 +64,8 @@ class MedicalConditions(BaseUuidModel):
         max_length=20,
         blank=True,
         null=True)
-
-    treatment_name = models.CharField(
-        verbose_name=('Name of treatment that the patient is taking'),
-        max_length=25,
-        blank=True,
-        null=True)
+    
+    treatment_type_other = OtherCharField()
 
     class Meta:
         unique_together = (

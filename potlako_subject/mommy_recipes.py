@@ -7,6 +7,7 @@ from model_mommy.recipe import Recipe, seq
 
 from .models import ClinicianCallEnrollment, PatientCallInitial, PatientCallFollowUp
 from .models import SubjectConsent, SubjectScreening, SubjectVisit, SubjectLocator
+from .models import MissedVisit, MissedCall, MissedCallRecord
 
 fake = Faker()
 
@@ -77,3 +78,12 @@ patientcallfollowup = Recipe(
     last_visit_date=get_utcnow() - relativedelta(days=1),
     next_appointment_date=get_utcnow() + relativedelta(months=2)
 )
+
+missedvisit = Recipe(
+    MissedVisit,)
+
+missedcall = Recipe(
+    MissedCall,)
+
+missedcallrecord = Recipe(
+    MissedCallRecord,)

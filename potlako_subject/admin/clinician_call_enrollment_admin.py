@@ -1,6 +1,6 @@
 from django.contrib import admin
 from edc_model_admin import TabularInlineMixin
-from edc_model_admin.model_admin_audit_fields_mixin import audit_fieldset_tuple
+from edc_model_admin import audit_fieldset_tuple
 
 from ..admin_site import potlako_subject_admin
 from ..forms import ClinicianCallEnrollmentForm, NextOfKinForm
@@ -35,8 +35,8 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('reg_date',
-                       'report_datetime',
+            'fields': ('report_datetime',
+                       'reg_date',
                        'screening_identifier',
                        'cancer_suspect',
                        'cancer_suspect_other',
@@ -98,6 +98,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
             'fields': (
                 'triage_status',
                 'investigated',
+                'tests_ordered',
                 'comments',)
         }),
 
@@ -108,7 +109,6 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'call_clinician_type': admin.VERTICAL,
                     'consented_contact': admin.VERTICAL,
                     'received_training': admin.VERTICAL,
-                    'facility': admin.VERTICAL,
                     'facility_unit': admin.VERTICAL,
                     'gender': admin.VERTICAL,
                     'patient_contact': admin.VERTICAL,
@@ -122,7 +122,6 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'pain_score': admin.VERTICAL,
                     'last_hiv_result': admin.VERTICAL,
                     'patient_disposition': admin.VERTICAL,
-                    'referral_facility': admin.VERTICAL,
                     'referral_unit': admin.VERTICAL,
                     'referral_discussed': admin.VERTICAL,
                     'triage_status': admin.VERTICAL,

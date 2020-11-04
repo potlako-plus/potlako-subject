@@ -1,21 +1,23 @@
 from django.contrib import admin
+from edc_model_admin import audit_fieldset_tuple
 
 from ..admin_site import potlako_subject_admin
 from ..forms import SymptomAndcareSeekingEndpointForm
 from ..models import SymptomsAndCareSeekingEndpointRecording
-
-from .modeladmin_mixins import CrfModelAdminMixin
+from .modeladmin_mixins import ModelAdminMixin
 
 
 @admin.register(SymptomsAndCareSeekingEndpointRecording, site=potlako_subject_admin)
-class SymptomAndcareSeekingEndpointAdmin(CrfModelAdminMixin, admin.ModelAdmin):
+class SymptomAndcareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = SymptomAndcareSeekingEndpointForm
+    extra_context_models = ['cliniciancallenrollment',
+                            'baselineclinicalsummary',
+                            'symptomandcareseekingassessment']
 
     fieldsets = (
         (None, {
-            'fields': ('subject_visit',
-                       'report_datetime',
+            'fields': ('subject_identifier',
                        'cancer_symptom_date',
                        'cancer_symptom_estimated',
                        'cancer_symptom_estimation',
@@ -28,8 +30,7 @@ class SymptomAndcareSeekingEndpointAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'first_seen_date',
                        'first_seen_date_estimated',
                        'first_seen_date_estimation'),
-        }),
-    )
+        }), audit_fieldset_tuple)
 
     radio_fields = {'cancer_symptom_estimated': admin.VERTICAL,
                     'cancer_symptom_estimation': admin.VERTICAL,

@@ -6,18 +6,17 @@ from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
-from ..choices import DATE_ESTIMATION, IMAGING_TESTS, TESTS_ORDERED_TYPE
+from ..choices import DATE_ESTIMATION
 from ..choices import FACILITY, IMAGING_STATUS, LAB_TESTS, LAB_TESTS_STATUS
-from .list_models import PathologyTest
+from .list_models import ImagingTestType, PathologyTest, TestsOrderedType
 from .model_mixins import CrfModelMixin
 
 
 class InvestigationsOrdered(CrfModelMixin):
 
-    tests_ordered_type = models.CharField(
-        verbose_name='What tests were ordered?',
-        choices=TESTS_ORDERED_TYPE,
-        max_length=10)
+    tests_ordered_type = models.ManyToManyField(
+        TestsOrderedType,
+        verbose_name='What tests were ordered?')
 
     tests_ordered_type_other = OtherCharField()
 
@@ -55,6 +54,8 @@ class InvestigationsOrdered(CrfModelMixin):
         verbose_name='Type of pathology test',
         blank=True,)
 
+    pathology_test_other = OtherCharField()
+
     biopsy_specify = OtherCharField(
         verbose_name='If biopsy, please describe',
         max_length=25,
@@ -79,11 +80,9 @@ class InvestigationsOrdered(CrfModelMixin):
         blank=True,
         null=True)
 
-    imaging_test_type = models.CharField(
-        choices=IMAGING_TESTS,
-        max_length=20,
-        blank=True,
-        null=True)
+    imaging_test_type = models.ManyToManyField(
+        ImagingTestType,
+        blank=True)
 
     xray_tests = models.CharField(
         verbose_name='If XRay tests ordered, specify',
