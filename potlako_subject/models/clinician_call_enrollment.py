@@ -77,7 +77,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         null=True)
 
     consented_contact = models.CharField(
-        verbose_name='Did the potential participant, consent to being '
+        verbose_name='Did the potential participant, agree to being '
                      'contacted by Potlako+ team',
         max_length=3,
         choices=YES_NO)

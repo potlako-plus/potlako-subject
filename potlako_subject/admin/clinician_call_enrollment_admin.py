@@ -35,8 +35,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('report_datetime',
-                       'reg_date',
+            'fields': ('reg_date',
                        'screening_identifier',
                        'cancer_suspect',
                        'cancer_suspect_other',
