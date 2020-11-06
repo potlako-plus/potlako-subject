@@ -68,12 +68,6 @@ class InvestigationsOrdered(CrfModelMixin):
         blank=True,
         null=True)
 
-    imaging_test_status = models.CharField(
-        choices=IMAGING_STATUS,
-        max_length=15,
-        blank=True,
-        null=True)
-
     imaging_test_type = models.ManyToManyField(
         ImagingTestType,
         blank=True)
