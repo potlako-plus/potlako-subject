@@ -29,7 +29,7 @@ class MedicalConditions(BaseUuidModel):
         max_length=30)
 
     medical_condition_specify = models.CharField(
-        verbose_name='Specific condition of the body area that has been affected',
+        verbose_name='Specific diagnosis of the body area that has been affected',
         max_length=35)
 
     medical_condition_other = OtherCharField()
