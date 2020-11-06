@@ -68,12 +68,6 @@ class InvestigationsOrdered(CrfModelMixin):
         blank=True,
         null=True)
 
-    pathology_specimen_date = models.DateField(
-        verbose_name='Date pathology specimen taken',
-        validators=[date_not_before_study_start, date_not_future],
-        blank=True,
-        null=True)
-
     imaging_test_status = models.CharField(
         choices=IMAGING_STATUS,
         max_length=15,
@@ -111,12 +105,6 @@ class InvestigationsOrdered(CrfModelMixin):
     imaging_tests_type_other = OtherCharField(
         verbose_name='If other tests ordered, specify',
         max_length=25,
-        blank=True,
-        null=True)
-
-    imaging_tests_date = models.DateField(
-        verbose_name='Date imaging test performed (completed)',
-        validators=[date_not_before_study_start, date_not_future],
         blank=True,
         null=True)
 
