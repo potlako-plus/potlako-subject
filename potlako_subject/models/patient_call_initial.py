@@ -16,7 +16,7 @@ from edc_constants.constants import NOT_APPLICABLE
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
-from ..choices import DURATION, FACILITY_UNIT, TESTS_ORDERED, DISTRICT
+from ..choices import FACILITY_UNIT, TESTS_ORDERED, DISTRICT
 from ..choices import PAIN_SCORE, SCALE, EDUCATION_LEVEL, WORK_TYPE
 from ..choices import UNEMPLOYED_REASON, VL_UNITS
 from .list_models import PatientResidence, SmsPlatform, SourceOfInfo
@@ -184,20 +184,84 @@ class PatientCallInitial(CrfModelMixin):
         blank=True,
         null=True,
     )
-    
+
+    cd4_count_known = models.CharField(
+        verbose_name='Do you know your recent CD4 results ?',
+        choices=YES_NO,
+        max_length=3)
+
     cd4_count = models.IntegerField(
         verbose_name='What is your recent CD4 count results?',
         validators=[MinValueValidator(0), MaxValueValidator(2000)],
         blank=True,
         null=True,
         help_text='unit in cells/uL')
-    
+
+    cd4_count_date = models.DateField(
+        verbose_name=('When was patient\'s recent CD4 count results?'),
+        validators=[date_not_future, ],
+        blank=True,
+        null=True)
+
+    cd4_count_date_estimated = models.CharField(
+        verbose_name='Is the CD4 count results date estimated?',
+        choices=YES_NO,
+        max_length=3,
+        blank=True,
+        null=True)
+
+    cd4_count_date_estimation = models.CharField(
+        verbose_name='Which part of the date was estimated, if any?',
+        choices=DATE_ESTIMATION,
+        max_length=15,
+        blank=True,
+        null=True,
+    )
+
+    reason_cd4_unknown = models.TextField(
+        verbose_name='Reason cd4 count results unknown',
+        max_length=1000,
+        blank=True,
+        null=True)
+
+    vl_results_known = models.CharField(
+        verbose_name='Do you know your recent viral load results ?',
+        choices=YES_NO,
+        max_length=3)
+
     vl_results = models.CharField(
         verbose_name='What is your recent VL results?',
         choices=VL_UNITS,
         max_length=12,
         blank=True,
         null=True,)
+
+    vl_results_date = models.DateField(
+        verbose_name=('When was patient\'s recent VL results?'),
+        validators=[date_not_future, ],
+        blank=True,
+        null=True)
+
+    vl_results_date_estimated = models.CharField(
+        verbose_name='Is the VL results date estimated?',
+        choices=YES_NO,
+        max_length=3,
+        blank=True,
+        null=True)
+
+    vl_results_date_estimation = models.CharField(
+        verbose_name='Which part of the date was estimated, if any?',
+        choices=DATE_ESTIMATION,
+        max_length=15,
+        blank=True,
+        null=True,
+    )
+
+    reason_vl_unknown = models.TextField(
+        verbose_name='Reason VL results unknown',
+        max_length=1000,
+        blank=True,
+        null=True)
 
     cancer_suspicion_known = models.CharField(
         verbose_name=('Is patient aware that cancer is suspected '

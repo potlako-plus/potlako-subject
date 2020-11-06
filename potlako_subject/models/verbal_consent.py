@@ -21,7 +21,7 @@ class EnrollmentManager(SearchSlugManager, models.Manager):
 class VerbalConsent(
         NonUniqueSubjectIdentifierFieldMixin, SiteModelMixin,
         SearchSlugModelMixin, BaseUuidModel):
-    
+
     version = models.CharField(
         verbose_name='Consent version',
         max_length=10,)
@@ -30,7 +30,7 @@ class VerbalConsent(
         verbose_name="Screening Identifier",
         max_length=36,
         unique=True,)
-    
+
     subject_identifier = models.CharField(
         verbose_name="Subject Identifier",
         max_length=50,
@@ -38,11 +38,11 @@ class VerbalConsent(
         blank=True)
 
     file = models.FileField(upload_to='verbal_consents/')
-    
+
     user_uploaded = models.CharField(
         max_length=50,
         verbose_name='user uploaded',)
-    
+
     datetime_captured = models.DateTimeField(
         default=get_utcnow,)
 
@@ -50,7 +50,7 @@ class VerbalConsent(
         verbose_name='Language of consent',
         max_length=25,
         choices=settings.LANGUAGES)
-    
+
     def verbal_consent_image(self):
             return mark_safe(
                 '<a href="%(url)s">'
@@ -58,7 +58,7 @@ class VerbalConsent(
                 '</a>' % {'url': self.file.url})
 
     verbal_consent_image.short_description = 'Verbal Consent'
-    
+
     verbal_consent_image.allow_tags = True
 
     def __str__(self):
