@@ -8,7 +8,7 @@ from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from edc_base.model_fields import OtherCharField
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future, datetime_not_future
-from edc_base.model_validators import date_is_future, TelephoneNumber
+from edc_base.model_validators import TelephoneNumber
 from edc_base.sites import SiteModelMixin
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO_UNKNOWN
@@ -259,7 +259,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     referral_date = models.DateField(
         verbose_name='Next appointment date',
-        validators=[date_is_future, ],
         blank=True,
         null=True,)
 

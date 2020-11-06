@@ -260,9 +260,7 @@ class FacilityVisit(BaseUuidModel):
 
     interval_visit_date = models.DateField(
         verbose_name='Date of interval visit',
-        validators=[date_not_before_study_start, date_not_future],
-        null=True,
-        blank=True)
+        validators=[date_not_before_study_start, date_not_future])
 
     interval_visit_date_estimated = models.CharField(
         verbose_name='Is the interval visit date estimated?',
