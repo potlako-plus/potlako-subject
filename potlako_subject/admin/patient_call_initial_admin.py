@@ -56,7 +56,6 @@ class PatientCallInitialAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'medical_conditions',
                        'patient_residence',
                        'patient_residence_other',
-                       'symptoms_duration',
                        'other_facility',
                        'facility_number',
                        'perfomance_status',
