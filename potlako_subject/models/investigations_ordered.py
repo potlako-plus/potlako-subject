@@ -7,7 +7,7 @@ from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DATE_ESTIMATION
-from ..choices import FACILITY, IMAGING_STATUS, LAB_TESTS, LAB_TESTS_STATUS
+from ..choices import FACILITY, LAB_TESTS, LAB_TESTS_STATUS
 from .list_models import ImagingTestType, PathologyTest, TestsOrderedType
 from .model_mixins import CrfModelMixin
 
@@ -65,12 +65,6 @@ class InvestigationsOrdered(CrfModelMixin):
     fna_location = OtherCharField(
         verbose_name='If FNA, please indicate location',
         max_length=25,
-        blank=True,
-        null=True)
-
-    imaging_test_status = models.CharField(
-        choices=IMAGING_STATUS,
-        max_length=15,
         blank=True,
         null=True)
 

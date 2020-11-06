@@ -15,6 +15,8 @@ class InvestigationsResultedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         (None, {
             'fields': ('subject_visit',
                        'tests_resulted_type',
+                       'pathology_tests',
+                       'imaging_tests',
                        'tests_resulted_type_other',
                        'pathology_specimen_date',
                        'pathology_nhl_date',
