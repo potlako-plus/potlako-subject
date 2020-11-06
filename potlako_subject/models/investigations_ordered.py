@@ -7,7 +7,7 @@ from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DATE_ESTIMATION
-from ..choices import FACILITY, IMAGING_STATUS, LAB_TESTS, LAB_TESTS_STATUS
+from ..choices import FACILITY, LAB_TESTS, LAB_TESTS_STATUS
 from .list_models import ImagingTestType, PathologyTest, TestsOrderedType
 from .model_mixins import CrfModelMixin
 
