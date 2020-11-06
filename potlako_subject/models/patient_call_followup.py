@@ -33,11 +33,6 @@ class PatientCallFollowUp(CrfModelMixin):
         choices=YES_NO,
         max_length=3)
 
-    first_specialist_visit = models.CharField(
-        verbose_name=('Is this a first specialist visit?'),
-        choices=YES_NO_NA,
-        max_length=15)
-
     perfomance_status = models.IntegerField(
         verbose_name='Patient performance status',
         default=0,
@@ -58,7 +53,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     new_complaints_description = models.TextField(
         verbose_name=('If yes, please describe'),
-        max_length=100,
+        max_length=1200,
         blank=True,
         null=True)
 
@@ -151,7 +146,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     transport_details = models.TextField(
         verbose_name=('Please provide details'),
-        max_length=100,
+        max_length=1200,
         blank=True,
         null=True)
 
@@ -163,7 +158,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     clinician_issues_details = models.TextField(
         verbose_name=('Please provide details'),
-        max_length=100,
+        max_length=1200,
         blank=True,
         null=True)
 
@@ -175,7 +170,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     issues_details = models.TextField(
         verbose_name=('Please provide details'),
-        max_length=100,
+        max_length=1200,
         blank=True,
         null=True)
 
@@ -186,7 +181,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     other_issues_details = models.TextField(
         verbose_name=('Please provide details'),
-        max_length=100,
+        max_length=1200,
         blank=True,
         null=True)
 
@@ -205,12 +200,12 @@ class PatientCallFollowUp(CrfModelMixin):
     next_step_understanding = models.TextField(
         verbose_name=('Give a detailed summary of the pateint\'s understanding'
                       ' of the next steps (details)'),
-        max_length=100)
+        max_length=1200)
 
     sms_received = models.CharField(
         verbose_name=('Did patient receive SMS reminder for last scheduled '
                       'visit?'),
-        choices=YES_NO,
+        choices=YES_NO_NA,
         max_length=3)
 
     sms_outcome = models.CharField(
@@ -224,7 +219,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     additional_comments = models.TextField(
         verbose_name='Provide any additional comments',
-        max_length=100,
+        max_length=1200,
         blank=True,
         null=True)
 
