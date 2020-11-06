@@ -131,50 +131,6 @@ class PatientCallInitial(CrfModelMixin):
 
     patient_residence_other = OtherCharField()
 
-    patient_info_change = models.CharField(
-        verbose_name=('Any changes to be made to participant residence, '
-                      'contact and or next of kin information since index '
-                      'visit?'),
-        choices=YES_NO,
-        max_length=3)
-
-    patient_symptoms = models.TextField(
-        max_length=1000,
-        verbose_name=('What symptom(s) is the patient having for which '
-                      'they were seen at the clinic 1 week ago?')
-    )
-
-    patient_symptoms_date = models.DateField(
-        verbose_name=('Date the symptoms started'),
-        validators=[date_not_future, ])
-
-    patient_symptoms_date_estimated = models.CharField(
-        verbose_name='Is the symptoms date estimated?',
-        choices=YES_NO,
-        max_length=3)
-
-    patient_symptoms_date_estimation = models.CharField(
-        verbose_name='Which part of the date was estimated, if any?',
-        choices=DATE_ESTIMATION,
-        max_length=15,
-        blank=True,
-        null=True,
-    )
-
-    symptoms_duration_report = models.IntegerField(
-        verbose_name=('How long did it take for the participant to present to '
-                      'the facility after experiencing their first symptom?'),
-        default=0,
-        validators=[MinValueValidator(0)]
-    )
-
-    symptoms_duration = models.CharField(
-        verbose_name='What is the above number for?',
-        choices=DURATION,
-        max_length=6,
-        blank=True,
-        null=True,)
-
     other_facility = models.CharField(
         verbose_name=('Before enrollment visit, has the patient been '
                       'seen for similar symptoms at other facilities?'),
