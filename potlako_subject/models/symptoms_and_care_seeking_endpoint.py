@@ -1,11 +1,18 @@
 from django.db import models
+from edc_base.model_managers import HistoricalRecords
 from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 
 from ..choices import DATE_ESTIMATION
 from .model_mixins import CrfModelMixin
-from edc_base.sites import SiteModelMixin
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_base.model_mixins import BaseUuidModel
+
+
+class SymptomsEndpointManager(models.Manager):
+
+    def get_by_natural_key(self, subject_identifier):
+        return self.get(subject_identifier=subject_identifier)
 
 
 class SymptomsAndCareSeekingEndpointRecording(UniqueSubjectIdentifierFieldMixin,
@@ -72,6 +79,16 @@ class SymptomsAndCareSeekingEndpointRecording(UniqueSubjectIdentifierFieldMixin,
         max_length=15,
         null=True,
         blank=True)
+    
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+    
+    objects = SymptomsEndpointManager()
+    
+    def natural_key(self):
+        return (self.subject_identifier, )
+    natural_key.dependencies = ['sites.Site']
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'

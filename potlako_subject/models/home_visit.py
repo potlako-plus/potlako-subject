@@ -2,8 +2,6 @@ from django.db import models
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_is_future
 
-from potlako_prn.action_items import DEATH_REPORT_ACTION, COORDINATOR_EXIT_ACTION
-
 from ..choices import ALIVE_DEAD_LTFU, CLINICIAN_TYPE, FACILITY, VISIT_TYPE
 from .model_mixins import CrfModelMixin
 

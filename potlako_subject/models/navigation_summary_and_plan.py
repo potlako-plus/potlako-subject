@@ -1,8 +1,9 @@
 from django.db import models
 from django.db.models.deletion import PROTECT
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
-from edc_base.sites.site_model_mixin import SiteModelMixin
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 from edc_base.model_validators import date_is_future
@@ -10,12 +11,23 @@ from edc_base.model_validators import date_is_future
 from ..choices import DONE_NOT_DONE
 
 
+class EvaluationTimelineManager(models.Manager):
+
+    def get_by_natural_key(self, navigation_plan, key_step, target_date):
+        return self.get(navigation_plan=navigation_plan,
+                        key_step=key_step,
+                        target_date=target_date)
+    
+
 class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
                                SiteModelMixin, BaseUuidModel):
 
-
     diagnostic_plan = models.TextField(
         max_length=500)
+    
+    def natural_key(self):
+        return (self.subject_identifier, )
+    natural_key.dependencies = ['sites.Site']
 
     class Meta:
         app_label = 'potlako_subject'
@@ -23,7 +35,7 @@ class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
         verbose_name_plural = 'Navigation Plan And Summaries'
 
 
-class EvaluationTimeline(BaseUuidModel):
+class EvaluationTimeline(SiteModelMixin, BaseUuidModel):
     """ Inline Evalaution timeline to capture all key milestones """
 
     navigation_plan = models.ForeignKey(NavigationSummaryAndPlan, on_delete=PROTECT)
@@ -56,6 +68,16 @@ class EvaluationTimeline(BaseUuidModel):
         choices=YES_NO,
         null=True,
         blank=True)
+    
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+    
+    objects = EvaluationTimelineManager()
+    
+    def natural_key(self):
+        return (self.key_step, self.target_date,) + self.navigation_plan.natural_key()
+    natural_key.dependencies = ['potlako_subject.navigationsummaryandplan']
 
     class Meta:
         app_label = 'potlako_subject'

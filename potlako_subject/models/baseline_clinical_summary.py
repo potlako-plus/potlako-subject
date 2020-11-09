@@ -1,14 +1,21 @@
 from django.db import models
 from edc_base.model_fields.custom_fields import OtherCharField
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import datetime_not_future
-from edc_base.sites.site_model_mixin import SiteModelMixin
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_base.utils import get_utcnow
 from edc_protocol.validators import datetime_not_before_study_start
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 
 from ..choices import CANCER_DIAGNOSIS, SEVERITY_LEVEL
 
+
+class BaselineClinicalSummaryManager(models.Manager):
+
+    def get_by_natural_key(self, subject_identifier):
+        self.get(subject_identifier=subject_identifier)
+        
 
 class BaselineClinicalSummary(UniqueSubjectIdentifierFieldMixin,
                               SiteModelMixin, BaseUuidModel):
@@ -35,6 +42,16 @@ class BaselineClinicalSummary(UniqueSubjectIdentifierFieldMixin,
     cancer_probability = models.CharField(
         choices=SEVERITY_LEVEL,
         max_length=8)
+    
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+    
+    objects = BaselineClinicalSummaryManager()
+    
+    def natural_key(self):
+        return (self.subject_identifier, )
+    natural_key.dependencies = ['sites.Site']
 
     class Meta:
         app_label = 'potlako_subject'

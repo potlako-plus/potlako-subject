@@ -4,9 +4,11 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_fields import OtherCharField
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_is_future
 from edc_base.model_validators import date_not_future
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO, YES_NO_NA
 from edc_protocol.validators import date_not_before_study_start
 
@@ -15,6 +17,14 @@ from ..choices import DISPOSITION, FACILITY, SCALE, PAIN_SCORE, TESTS_ORDERED
 from .list_models import CallAchievements
 from .model_mixins import CrfModelMixin
 
+
+class FacilityVisitManager(models.Manager):
+ 
+    def get_by_natural_key(self, patient_call_followup, interval_visit_date, visit_facility):
+        return self.get(patient_call_followup=patient_call_followup,
+                        interval_visit_date=interval_visit_date,
+                        visit_facility=visit_facility)
+    
 
 class PatientCallFollowUp(CrfModelMixin):
 
@@ -254,7 +264,7 @@ class PatientCallFollowUp(CrfModelMixin):
         verbose_name = 'Patient call - FollowUp'
 
 
-class FacilityVisit(BaseUuidModel):
+class FacilityVisit(SiteModelMixin, BaseUuidModel):
 
     patient_call_followup = models.ForeignKey(PatientCallFollowUp, on_delete=PROTECT)
 
@@ -292,6 +302,16 @@ class FacilityVisit(BaseUuidModel):
         verbose_name='What was the outcome of the visit?',
         choices=DISPOSITION,
         max_length=15)
+    
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+    
+    objects = FacilityVisitManager()
+        
+    def natural_key(self):
+        return (self.interval_visit_date, self.visit_facility, ) + self.patient_call_followup.natural_key()
+    natural_key.dependencies = ['potlako_subject.patientcallfollowup']
 
     class Meta:
         app_label = 'potlako_subject'

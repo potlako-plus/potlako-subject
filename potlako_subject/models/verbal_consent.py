@@ -1,7 +1,8 @@
 from django.db import models
-from edc_base.model_mixins import BaseUuidModel
 from django.utils.html import mark_safe
-from edc_base.sites.site_model_mixin import SiteModelMixin
+from edc_base.model_managers import HistoricalRecords
+from edc_base.model_mixins import BaseUuidModel
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 from edc_search.model_mixins import SearchSlugManager
 
@@ -10,7 +11,7 @@ from edc_base.utils import get_utcnow
 from django.conf import settings
 
 
-class EnrollmentManager(SearchSlugManager, models.Manager):
+class VerbalConsentManager(SearchSlugManager, models.Manager):
 
     def get_by_natural_key(self, screening_identifier):
         return self.get(
@@ -50,6 +51,12 @@ class VerbalConsent(
         verbose_name='Language of consent',
         max_length=25,
         choices=settings.LANGUAGES)
+    
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+    
+    objects = VerbalConsentManager()
     
     def verbal_consent_image(self):
             return mark_safe(

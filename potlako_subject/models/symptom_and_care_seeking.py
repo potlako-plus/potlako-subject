@@ -1,14 +1,22 @@
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_fields.custom_fields import OtherCharField
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO_UNSURE, YES_NO
 
 from ..choices import DATE_ESTIMATION, REASONS_NOT_DISCUSSED
 from ..choices import SYMPTOMS_CONCERN, FACILITY
 from .list_models import DiscussionPerson, Symptoms
 from .model_mixins import CrfModelMixin
+
+
+class SMSManager(models.Manager):
+
+    def get_by_natural_key(self, subject_identifier):
+        return self.get(subject_identifier=subject_identifier)
 
 
 class SymptomAndcareSeekingAssessment(CrfModelMixin):
@@ -126,7 +134,7 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
         verbose_name = 'Symptom And Care Seeking Assessment'
 
 
-class SymptomAssessment(BaseUuidModel):
+class SymptomAssessment(SiteModelMixin, BaseUuidModel):
 
     symptom_care_seeking = models.ForeignKey(SymptomAndcareSeekingAssessment, on_delete=PROTECT)
 
@@ -149,3 +157,19 @@ class SymptomAssessment(BaseUuidModel):
         max_length=15,
         blank=True,
         null=True,)
+    
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+    
+    objects = SMSManager()
+    
+    def natural_key(self):
+        return (self.symptom, ) + self.symptom_care_seeking.natural_key()
+    natural_key.dependencies = ['sites.Site']
+    
+    class Meta(CrfModelMixin.Meta):
+        app_label = 'potlako_subject'
+        verbose_name = 'Symptom Assessment'
+        unique_together = ('symptom_care_seeking', 'symptom')
+

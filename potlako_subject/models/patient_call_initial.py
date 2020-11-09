@@ -6,9 +6,11 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_fields import OtherCharField
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
 from edc_base.model_validators.date import date_is_future
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_base.utils import age, get_utcnow
 from edc_constants.choices import POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO
@@ -16,11 +18,20 @@ from edc_constants.constants import NOT_APPLICABLE
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
-from ..choices import DURATION, FACILITY_UNIT, TESTS_ORDERED, DISTRICT
+from ..choices import FACILITY_UNIT, TESTS_ORDERED, DISTRICT
 from ..choices import PAIN_SCORE, SCALE, EDUCATION_LEVEL, WORK_TYPE
 from ..choices import UNEMPLOYED_REASON, VL_UNITS
 from .list_models import PatientResidence, SmsPlatform, SourceOfInfo
 from .model_mixins import CrfModelMixin
+
+
+class PreviousFacilityVisitManager(models.Manager):
+
+    def get_by_natural_key(self, facility_visited,
+                           previous_facility_period, patient_call_initial ):
+        return self.get(facility_visited=facility_visited,
+                        previous_facility_period=previous_facility_period,
+                        patient_call_initial=patient_call_initial)
 
 
 class PatientCallInitial(CrfModelMixin):
@@ -314,7 +325,7 @@ class PatientCallInitial(CrfModelMixin):
         verbose_name_plural = 'Patient call - Initial'
 
 
-class PreviousFacilityVisit(BaseUuidModel):
+class PreviousFacilityVisit(SiteModelMixin, BaseUuidModel):
 
     patient_call_initial = models.ForeignKey(PatientCallInitial, on_delete=PROTECT)
 
@@ -338,6 +349,16 @@ class PreviousFacilityVisit(BaseUuidModel):
         blank=True,
         null=True,
         help_text='specify variable (days, weeks, months, years)')
+    
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+    
+    objects = PreviousFacilityVisitManager()
+    
+    def natural_key(self):
+        return (self.facility_visited, self.previous_facility_period, ) + self.patient_call_initial.natural_key()
+    natural_key.dependencies = ['potlako_subject.patientcallinitial']
 
     class Meta:
         unique_together = (
