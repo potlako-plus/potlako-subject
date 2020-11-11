@@ -40,7 +40,7 @@ class SubjectScreening(
         verbose_name='Report Date and Time',
         default=get_utcnow,
         help_text='Date and time of report.')
-    
+
     enrollment_interest = models.CharField(
         verbose_name=('Does the patient want to be enrolled into the'
                       ' study?'),

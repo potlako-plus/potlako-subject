@@ -29,7 +29,8 @@ from edc_base.utils import get_utcnow
 class ClinicianCallEnrollmentManager(models.Manager):
     def get_by_natural_key(self, screening_identifier):
         return self.get(screening_identifier=screening_identifier)
-    
+
+
 class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     identifier_cls = ScreeningIdentifier
@@ -323,9 +324,9 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         max_length=150,
         null=True,
         editable=False)
-    
+
     objects = ClinicianCallEnrollmentManager()
-    
+
     def natural_key(self):
         return(self.screening_identifier)
     natural_key.dependencies = ['sites.Site']
@@ -349,14 +350,13 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         verbose_name_plural = 'Clinician call - Enrollment'
 
 
-
 class NextOfKinManager(models.Manager):
     def get_by_natural_key(self, kin_cell, kin_telephone, clinician_call_enrollemt):
         return self.get(clinician_call_enrollemt=clinician_call_enrollemt,
                         kin_cell=kin_cell,
                         kin_telephone=kin_telephone)
-    
-    
+
+
 class NextOfKin(BaseUuidModel):
 
     clinician_call_enrollemt = models.ForeignKey(ClinicianCallEnrollment,
@@ -397,15 +397,15 @@ class NextOfKin(BaseUuidModel):
         validators=[TelephoneNumber, ],
         blank=True,
         null=True)
-    
+
     history = HistoricalRecords()
-    
+
     objects = NextOfKinManager()
-    
+
     def natural_key(self):
         return (self.kin_cell, self.kin_telephone,) + self.clinician_call_enrollemt.natural_key()
     natural_key.dependencies = ['potlako_plus.cliniciancallenrollment']
-    
+
     class Meta:
         app_label = 'potlako_subject'
         verbose_name = 'Next Of Kin'
