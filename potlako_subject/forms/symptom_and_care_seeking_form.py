@@ -3,16 +3,16 @@ from django import forms
 from potlako_validations.form_validators import SymptomAssessmentFormValidator
 from potlako_validations.form_validators import SymptomAndCareSeekingFormValidator
 
-from ..models import SymptomAndcareSeekingAssessment, SymptomAssessment
+from ..models import SymptomAndCareSeekingAssessment, SymptomAssessment
 from .form_mixins import SubjectModelFormMixin
 
 
-class SymptomAndcareSeekingAssessmentForm(SubjectModelFormMixin, forms.ModelForm):
+class SymptomAndCareSeekingAssessmentForm(SubjectModelFormMixin, forms.ModelForm):
 
     form_validator_cls = SymptomAndCareSeekingFormValidator
 
     class Meta:
-        model = SymptomAndcareSeekingAssessment
+        model = SymptomAndCareSeekingAssessment
         fields = '__all__'
 
 

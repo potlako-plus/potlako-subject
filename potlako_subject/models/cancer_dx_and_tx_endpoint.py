@@ -6,18 +6,13 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
+from edc_identifier.managers import SubjectIdentifierManager
 
 from ..choices import CANCER_EVALUATION, CLINICAL_IMPRESSION, CANCER_DIAGNOSIS
 from ..choices import METASTASIS_STAGES, STAGES, TREATMENT_INTENT
 from ..choices import NON_CANCER_DIAGNOSIS, DATE_ESTIMATION, CANCER_DIAGNOSIS_STAGE
 from .model_mixins import CrfModelMixin
 
-
-class CancerDxAndTxEndpointManager(models.Manager):
-
-    def get_by_natural_key(self, subject_identifier):
-        return self.get(subject_identifier=subject_identifier)
-    
 
 class CancerDxAndTxEndpoint(UniqueSubjectIdentifierFieldMixin,
                             SiteModelMixin, BaseUuidModel):
@@ -205,7 +200,7 @@ class CancerDxAndTxEndpoint(UniqueSubjectIdentifierFieldMixin,
 
     on_site = CurrentSiteManager()
     
-    objects = CancerDxAndTxEndpointManager()
+    objects = SubjectIdentifierManager()
     
     def natural_key(self):
         return (self.subject_identifier, )

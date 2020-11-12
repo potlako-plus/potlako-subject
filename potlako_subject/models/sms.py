@@ -6,16 +6,11 @@ from edc_base.model_validators import datetime_not_future
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_base.utils import get_utcnow
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
+from edc_identifier.managers import SubjectIdentifierManager
 
 from .model_mixins import CrfModelMixin
 from ..choices import SMS_STATUS
 
-
-class SMSManager(models.Manager):
-
-    def get_by_natural_key(self, subject_identifier):
-        return self.get(subject_identifier=subject_identifier)
-    
 
 class SMS(NonUniqueSubjectIdentifierFieldMixin, SiteModelMixin, BaseUuidModel):
 
@@ -41,7 +36,7 @@ class SMS(NonUniqueSubjectIdentifierFieldMixin, SiteModelMixin, BaseUuidModel):
 
     on_site = CurrentSiteManager()
     
-    objects = SMSManager()
+    objects = SubjectIdentifierManager()
     
     def natural_key(self):
         return (self.subject_identifier, self.date_time_form_filled)

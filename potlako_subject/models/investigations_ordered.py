@@ -1,8 +1,10 @@
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_fields import OtherCharField
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
@@ -12,6 +14,14 @@ from .list_models import ImagingTestType, PathologyTest, TestsOrderedType
 from .model_mixins import CrfModelMixin
 
 
+class LabTestManager(models.Manager):
+
+    def get_by_natural_key(self, lab_test_type, lab_test_date, investigations):
+        return self.get(lab_test_type=lab_test_type,
+                        lab_test_date=lab_test_date,
+                        investigations=investigations)
+    
+    
 class InvestigationsOrdered(CrfModelMixin):
 
     tests_ordered_type = models.ManyToManyField(
@@ -108,7 +118,7 @@ class InvestigationsOrdered(CrfModelMixin):
         verbose_name_plural = 'Investigations - Ordered'
 
 
-class LabTest(BaseUuidModel):
+class LabTest(SiteModelMixin, BaseUuidModel):
 
     investigations = models.ForeignKey(InvestigationsOrdered, on_delete=PROTECT)
 
@@ -137,6 +147,16 @@ class LabTest(BaseUuidModel):
         max_length=50,
         blank=True,
         null=True)
+    
+    history = HistoricalRecords()
 
+    on_site = CurrentSiteManager()
+    
+    objects = LabTestManager()
+    
+    def natural_key(self):
+        return (self.lab_test_type, self.lab_test_date) + self.investigations.natural_key()
+    natural_key.dependencies = ['sites.Site']
+    
     class Meta:
-        pass
+        unique_together = ('investigations', 'lab_test_type', 'lab_test_date')

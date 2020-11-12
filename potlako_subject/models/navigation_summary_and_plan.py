@@ -6,6 +6,7 @@ from edc_base.model_validators import date_not_future
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
+from edc_identifier.managers import SubjectIdentifierManager
 from edc_base.model_validators import date_is_future
 
 from ..choices import DONE_NOT_DONE
@@ -28,6 +29,12 @@ class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
     def natural_key(self):
         return (self.subject_identifier, )
     natural_key.dependencies = ['sites.Site']
+    
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+    
+    objects = SubjectIdentifierManager()
 
     class Meta:
         app_label = 'potlako_subject'

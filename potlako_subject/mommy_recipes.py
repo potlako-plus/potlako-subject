@@ -7,7 +7,8 @@ from model_mommy.recipe import Recipe, seq
 
 from .models import ClinicianCallEnrollment, PatientCallInitial, PatientCallFollowUp
 from .models import SubjectConsent, SubjectScreening, SubjectVisit, SubjectLocator
-from .models import MissedVisit, MissedCall, MissedCallRecord
+from .models import MissedVisit, MissedCall, MissedCallRecord, SubjectLocator
+from .models import SymptomAndCareSeekingAssessment, CancerDxAndTx
 
 fake = Faker()
 
@@ -17,16 +18,18 @@ cliniciancallenrollment = Recipe(
     first_name=fake.first_name,
     last_name=fake.last_name,
     gender='F',
-    age_in_years=25,
-    national_identity=seq('123425678', increment_by=1),
+    age_in_years=35,
+    national_identity=seq('389201239'),
     primary_cell='77654312',
     secondary_cell='77654312',
+    consented_contact=YES,
     facility='molapowabojang_clinic'
 )
 
 subjectscreening = Recipe(
     SubjectScreening,
     has_diagnosis=YES,
+    enrollment_interest=YES,
     enrollment_site='princess_marina_hospital'
 )
 
@@ -39,8 +42,8 @@ subjectconsent = Recipe(
     last_name=fake.last_name,
     initials='XX',
     gender='F',
-    identity=seq('123425678'),
-    confirm_identity=seq('123425678'),
+    identity=seq('389201239'),
+    confirm_identity=seq('389201239'),
     identity_type='OMANG',
     is_dob_estimated='-',
     version='1'
@@ -70,6 +73,9 @@ patientcallinitial = Recipe(
     tests_ordered=NO
 )
 
+symptomandcareseekingassessment = Recipe(
+    SymptomAndCareSeekingAssessment,)
+
 patientcallfollowup = Recipe(
     PatientCallFollowUp,
     encounter_date=get_utcnow().date(),
@@ -78,6 +84,9 @@ patientcallfollowup = Recipe(
     last_visit_date=get_utcnow() - relativedelta(days=1),
     next_appointment_date=get_utcnow() + relativedelta(months=2)
 )
+
+cancerdxtx = Recipe(
+    CancerDxAndTx,)
 
 missedvisit = Recipe(
     MissedVisit,)

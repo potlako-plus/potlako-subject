@@ -13,13 +13,14 @@ from .list_models import DiscussionPerson, Symptoms
 from .model_mixins import CrfModelMixin
 
 
-class SMSManager(models.Manager):
+class SymptomAssessmentManager(models.Manager):
 
-    def get_by_natural_key(self, subject_identifier):
-        return self.get(subject_identifier=subject_identifier)
+    def get_by_natural_key(self, symptom_care_seeking, symptom):
+        return self.get(symptom_care_seeking=symptom_care_seeking,
+                        symptom=symptom)
 
 
-class SymptomAndcareSeekingAssessment(CrfModelMixin):
+class SymptomAndCareSeekingAssessment(CrfModelMixin):
 
     first_visit_promt = models.TextField(
         verbose_name=('Can you please tell me about what first prompted you to'
@@ -136,7 +137,7 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
 
 class SymptomAssessment(SiteModelMixin, BaseUuidModel):
 
-    symptom_care_seeking = models.ForeignKey(SymptomAndcareSeekingAssessment, on_delete=PROTECT)
+    symptom_care_seeking = models.ForeignKey(SymptomAndCareSeekingAssessment, on_delete=PROTECT)
 
     symptom = models.CharField(
         max_length=50)
@@ -162,7 +163,7 @@ class SymptomAssessment(SiteModelMixin, BaseUuidModel):
 
     on_site = CurrentSiteManager()
     
-    objects = SMSManager()
+    objects = SymptomAssessmentManager()
     
     def natural_key(self):
         return (self.symptom, ) + self.symptom_care_seeking.natural_key()

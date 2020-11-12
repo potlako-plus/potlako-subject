@@ -6,7 +6,7 @@ from ..models import SymptomsAndCareSeekingEndpointRecording
 from .form_mixins import SubjectModelFormMixin
 
 
-class SymptomAndcareSeekingEndpointForm(SubjectModelFormMixin, forms.ModelForm):
+class SymptomAndCareSeekingEndpointForm(SubjectModelFormMixin, forms.ModelForm):
 
     form_validator_cls = SymptomsAndCareSeekingEndpointFormValidator
 
