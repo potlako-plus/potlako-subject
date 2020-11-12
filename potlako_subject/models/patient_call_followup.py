@@ -19,12 +19,12 @@ from .model_mixins import CrfModelMixin
 
 
 class FacilityVisitManager(models.Manager):
- 
+
     def get_by_natural_key(self, patient_call_followup, interval_visit_date, visit_facility):
         return self.get(patient_call_followup=patient_call_followup,
                         interval_visit_date=interval_visit_date,
                         visit_facility=visit_facility)
-    
+
 
 class PatientCallFollowUp(CrfModelMixin):
 
@@ -221,9 +221,7 @@ class PatientCallFollowUp(CrfModelMixin):
     sms_outcome = models.CharField(
         verbose_name='Outcome of reminder SMS',
         choices=SMS_OUTCOME,
-        max_length=50,
-        blank=True,
-        null=True)
+        max_length=50)
 
     sms_outcome_other = OtherCharField()
 
@@ -302,13 +300,13 @@ class FacilityVisit(SiteModelMixin, BaseUuidModel):
         verbose_name='What was the outcome of the visit?',
         choices=DISPOSITION,
         max_length=15)
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = FacilityVisitManager()
-        
+
     def natural_key(self):
         return (self.interval_visit_date, self.visit_facility, ) + self.patient_call_followup.natural_key()
     natural_key.dependencies = ['potlako_subject.patientcallfollowup']

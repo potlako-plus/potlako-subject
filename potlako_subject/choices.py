@@ -469,6 +469,7 @@ SMS_OUTCOME = (
     ('kin2_sent_sms_not_received',
      'SMS sent to next of kin 2 and receipt NOT confirmed'),
     (OTHER, 'Other, specify'),
+    (NOT_APPLICABLE, 'N/A')
 )
 
 SPECIALIST_CLINIC = (
