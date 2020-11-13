@@ -7,12 +7,12 @@ from model_mommy import mommy
 
 class SubjectHelperMixin:
     
-    def create_enrollment(self, community):
+    def create_enrollment(self, facility):
         import_holidays()
 
         clinicial_call_enrolment = self.subject_screening = mommy.make_recipe(
             'potlako_subject.cliniciancallenrollment',
-            facility=community)
+            facility=facility)
 
         self.subject_screening = mommy.make_recipe(
             'potlako_subject.subjectscreening',
