@@ -72,7 +72,7 @@ class MedicalConditions(SiteModelMixin, BaseUuidModel):
         max_length=20,
         blank=True,
         null=True)
-    
+
     treatment_type_other = OtherCharField()
     
     history = HistoricalRecords()
@@ -88,3 +88,5 @@ class MedicalConditions(SiteModelMixin, BaseUuidModel):
     class Meta:
         unique_together = (
             'medical_diagnosis', 'medical_condition')
+        verbose_name = 'Medical Conditions'
+        verbose_name_plural = 'Medical Conditions'
