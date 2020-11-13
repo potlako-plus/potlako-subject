@@ -1,36 +1,63 @@
 from dateutil.relativedelta import relativedelta
 from edc_base.utils import get_utcnow
-from edc_constants.constants import ALIVE, YES, NO, ON_STUDY, PARTICIPANT
+from edc_constants.constants import ALIVE, YES, NO, ON_STUDY 
+from edc_constants.constants import PARTICIPANT, NEG, NOT_APPLICABLE
 from edc_visit_tracking.constants import SCHEDULED
 from faker import Faker
 from model_mommy.recipe import Recipe, seq
 
-from .models import ClinicianCallEnrollment, PatientCallInitial, PatientCallFollowUp
+from .models import ClinicianCallEnrollment, PatientCallInitial 
 from .models import SubjectConsent, SubjectScreening, SubjectVisit, SubjectLocator
-from .models import MissedVisit, MissedCall, MissedCallRecord, SubjectLocator
+from .models import MissedVisit, MissedCall, MissedCallRecord, PatientCallFollowUp
 from .models import SymptomAndCareSeekingAssessment, CancerDxAndTx
+
 
 fake = Faker()
 
 cliniciancallenrollment = Recipe(
     ClinicianCallEnrollment,
-    cancer_suspect=YES,
+    reg_date=get_utcnow(),
+    contact_date=get_utcnow() - relativedelta(months=1),
+    cancer_suspect='call_with_clinician',
+    received_training = YES,
+    call_clinician_type='nurse',
+    consented_contact=YES,
+    paper_register=YES,
+    facility='molapowabojang_clinic',
+    facility_unit='OPD',
+    national_identity=seq('389201212'),
     first_name=fake.first_name,
     last_name=fake.last_name,
-    gender='F',
     age_in_years=35,
-    national_identity=seq('389201239'),
-    primary_cell='77654312',
-    secondary_cell='77654312',
-    consented_contact=YES,
-    facility='molapowabojang_clinic'
+    gender='F',
+    patient_contact=YES,
+    primary_cell=seq('77654312'),
+    village_town='molapowabojang',
+    kin_details_provided=NO,
+    clinician_type='med_officer',
+    early_symptoms_date=get_utcnow() - relativedelta(months=1),
+    early_symptoms_date_estimated=NO,
+    suspected_cancer='head_neck',
+    suspicion_level='low',
+    performance=0,
+    pain_score='0_no_pain',
+    last_hiv_result=NEG,
+    patient_disposition='return',
+    referral_date=get_utcnow() + relativedelta(months=1),
+    referral_unit=NOT_APPLICABLE,
+    referral_discussed=NOT_APPLICABLE,
+    triage_status='routine',
+    investigated=NO 
 )
 
 subjectscreening = Recipe(
     SubjectScreening,
     has_diagnosis=YES,
     enrollment_interest=YES,
-    enrollment_site='princess_marina_hospital'
+    residency=YES,
+    nationality=YES,
+    age_in_years=35,
+    enrollment_site='molapowabojang_clinic',
 )
 
 subjectconsent = Recipe(
@@ -42,11 +69,15 @@ subjectconsent = Recipe(
     last_name=fake.last_name,
     initials='XX',
     gender='F',
-    identity=seq('389201239'),
-    confirm_identity=seq('389201239'),
+    language='en',
     identity_type='OMANG',
-    is_dob_estimated='-',
-    version='1'
+    is_dob_estimated=NO,
+    citizen=YES,
+    version='1',
+    consent_reviewed=YES,
+    assessment_score=YES,
+    verbal_script=YES,
+    study_questions=YES,
 )
 
 subjectlocator = Recipe(
@@ -70,7 +101,8 @@ patientcallinitial = Recipe(
     work_status='no',
     transport_support=NO,
     medical_conditions=NO,
-    tests_ordered=NO
+    tests_ordered=NO,
+    heard_of_potlako=YES
 )
 
 symptomandcareseekingassessment = Recipe(

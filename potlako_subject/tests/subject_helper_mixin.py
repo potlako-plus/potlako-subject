@@ -17,15 +17,25 @@ class SubjectHelperMixin:
         self.subject_screening = mommy.make_recipe(
             'potlako_subject.subjectscreening',
             screening_identifier=clinicial_call_enrolment.screening_identifier)
+        
+        
 
         self.options = {
             'screening_identifier': self.subject_screening.screening_identifier,
             'consent_datetime': get_utcnow() - relativedelta(days=5),
+            'first_name': clinicial_call_enrolment.first_name,
+            'last_name': clinicial_call_enrolment.last_name,
+            'identity': clinicial_call_enrolment.national_identity,
+            'confirm_identity': clinicial_call_enrolment.national_identity,
             'version': '1'}
 
         self.subject_consent = mommy.make_recipe(
             'potlako_subject.subjectconsent',
             **self.options)
+        
+        self.subject_screening = mommy.make_recipe(
+            'potlako_subject.subjectlocator',
+            subject_identifier=self.subject_consent.subject_identifier)
         
         return self.subject_consent.subject_identifier
         
