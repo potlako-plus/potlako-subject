@@ -74,13 +74,13 @@ class SymptomsAndCareSeekingEndpointRecording(UniqueSubjectIdentifierFieldMixin,
         max_length=15,
         null=True,
         blank=True)
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = SubjectIdentifierManager()
-    
+
     def natural_key(self):
         return (self.subject_identifier, )
     natural_key.dependencies = ['sites.Site']

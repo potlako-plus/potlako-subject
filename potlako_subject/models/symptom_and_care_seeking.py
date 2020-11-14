@@ -42,7 +42,7 @@ class SymptomAndCareSeekingAssessment(CrfModelMixin):
         verbose_name=('Now, we\'ve talked about the symptoms that you have described: '
                       'I\'d also like to check whether you had any of the following symptoms'))
 
-    symptoms_present_other = OtherCharField()
+    symptoms_present_other = OtherCharField(max_length=100)
 
     symptoms_discussion = models.CharField(
         verbose_name=('Did you discuss your symptoms with anyone before going '
@@ -158,17 +158,17 @@ class SymptomAssessment(SiteModelMixin, BaseUuidModel):
         max_length=15,
         blank=True,
         null=True,)
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = SymptomAssessmentManager()
-    
+
     def natural_key(self):
         return (self.symptom, ) + self.symptom_care_seeking.natural_key()
     natural_key.dependencies = ['sites.Site']
-    
+
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Symptom Assessment'
