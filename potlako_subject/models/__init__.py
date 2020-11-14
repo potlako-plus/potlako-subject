@@ -34,6 +34,6 @@ from .subject_screening import SubjectScreening
 from .subject_visit import SubjectVisit
 from .symptom_and_care_seeking import SymptomAndCareSeekingAssessment
 from .symptom_and_care_seeking import SymptomAssessment
-from .symptoms_and_care_seeking_endpoint import SymptomsAndCareSeekingEndpointRecording
+from .symptoms_and_care_seeking_endpoint import SymptomsAndCareSeekingEndpoint
 from .transport import Transport
 from .verbal_consent import VerbalConsent

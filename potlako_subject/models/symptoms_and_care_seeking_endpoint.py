@@ -10,7 +10,7 @@ from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_base.model_mixins import BaseUuidModel
 
 
-class SymptomsAndCareSeekingEndpointRecording(UniqueSubjectIdentifierFieldMixin,
+class SymptomsAndCareSeekingEndpoint(UniqueSubjectIdentifierFieldMixin,
                                               SiteModelMixin, BaseUuidModel):
 
     cancer_symptom_date = models.DateField(
@@ -87,4 +87,5 @@ class SymptomsAndCareSeekingEndpointRecording(UniqueSubjectIdentifierFieldMixin,
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
-        verbose_name = 'Symptom And Care Seeking - Endpoint Recording'
+        verbose_name = 'Care Seeking Endpoint'
+        verbose_name_plural = 'Symptom And Care Seeking - Endpoint Recording'
