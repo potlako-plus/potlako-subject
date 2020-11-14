@@ -59,6 +59,8 @@ class SubjectConsent(
         verbose_name='Language of consent',
         max_length=5,
         choices=settings.LANGUAGES,
+        null=True,
+        blank=True,
         help_text=(
             'The language used for the consent process will '
             'also be used during data collection.')

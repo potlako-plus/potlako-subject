@@ -27,7 +27,8 @@ class SubjectConsentForm(
     language = forms.ChoiceField(
         label='Language of consent', 
         choices=settings.LANGUAGES,
-        widget=forms.Select(attrs={'disabled':'disabled'}))
+        widget=forms.Select(attrs={'disabled':'disabled'}),
+        required=False)
 
     first_name = forms.CharField(
         label='First Name',

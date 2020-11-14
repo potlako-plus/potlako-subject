@@ -18,8 +18,6 @@ class SubjectHelperMixin:
             'potlako_subject.subjectscreening',
             screening_identifier=clinicial_call_enrolment.screening_identifier)
         
-        
-
         self.options = {
             'screening_identifier': self.subject_screening.screening_identifier,
             'consent_datetime': get_utcnow() - relativedelta(days=5),
