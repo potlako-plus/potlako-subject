@@ -37,10 +37,6 @@ class SubjectConsentForm(
         label='Last Name',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
-    language = forms.CharField(
-        label='Language of consent',
-        widget=forms.TextInput(attrs={'readonly': 'readonly'}))
-
     def clean(self):
         self.cleaned_data['study_site'] = settings.DEFAULT_STUDY_SITE
         self.cleaned_data['report_datetime'] = self.cleaned_data.get('consent_datetime')
