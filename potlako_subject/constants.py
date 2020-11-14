@@ -1,0 +1,2 @@
+MISSING = 'missing'
+UNSURE = 'unsure'
