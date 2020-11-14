@@ -23,6 +23,11 @@ class SubjectConsentForm(
         label='Subject Identifier',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}),
         required=False)
+    
+    language = forms.ChoiceField(
+        label='Language of consent', 
+        choices=settings.LANGUAGES,
+        widget=forms.Select(attrs={'disabled':'disabled'}))
 
     def clean(self):
         self.cleaned_data['study_site'] = settings.DEFAULT_STUDY_SITE

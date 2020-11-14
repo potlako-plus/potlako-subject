@@ -57,7 +57,7 @@ class SubjectConsent(
 
     language = models.CharField(
         verbose_name='Language of consent',
-        max_length=25,
+        max_length=5,
         choices=settings.LANGUAGES,
         help_text=(
             'The language used for the consent process will '
