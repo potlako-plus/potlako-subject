@@ -12,7 +12,6 @@ from .missed_visit_admin import MissedVisitAdmin
 from potlako_subject.admin.navigation_summary_and_plan_admin import NavigationPlanAndSummaryAdmin
 from .patient_call_followup_admin import PatientCallFollowUpAdmin
 from .patient_call_initial_admin import PatientCallInitialAdmin
-from .physician_review_admin import PhysicianReviewAdmin
 from .sms_admin import SMSAdmin
 from .subject_consent_admin import SubjectConsentAdmin
 from .subject_locator_admin import SubjectLocatorAdmin

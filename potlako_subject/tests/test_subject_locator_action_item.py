@@ -1,7 +1,7 @@
-from django.test import TestCase, tag
+from django.test import TestCase
 from edc_action_item.models.action_item import ActionItem
 from edc_base.utils import get_utcnow
-from edc_constants.constants import YES, DONE, NEW, OPEN
+from edc_constants.constants import YES, OPEN
 from edc_facility.import_holidays import import_holidays
 from model_mommy import mommy
 
@@ -26,6 +26,8 @@ class TestSubjectLocatorAction(TestCase):
         self.options = {
             'screening_identifier': self.subject_screening.screening_identifier,
             'consent_datetime': get_utcnow() - relativedelta(days=2),
+            'identity': clinicial_call_enrolment.national_identity,
+            'confirm_identity': clinicial_call_enrolment.national_identity,
             'version': '1'}
 
         self.subject_consent = mommy.make_recipe(
@@ -51,43 +53,6 @@ class TestSubjectLocatorAction(TestCase):
             subject_identifier=self.subject_consent.subject_identifier,
             reference_model='potlako_subject.subjectlocator',
             status='New').count(), 0)
-
-        mommy.make_recipe(
-            'potlako_subject.patientcallinitial',
-            subject_visit=self.maternal_visit_1000,
-            patient_info_change=YES)
-
-        self.assertEqual(ActionItem.objects.filter(
-            subject_identifier=self.subject_consent.subject_identifier,
-            reference_model='potlako_subject.subjectlocator',
-            status='New').count(), 1)
-
-    @tag('ai')
-    def test_subject_locator_action_recreation(self):
-        self.assertEqual(ActionItem.objects.filter(
-            subject_identifier=self.subject_consent.subject_identifier,
-            reference_model='potlako_subject.subjectlocator',
-            status='New').count(), 0)
-
-        mommy.make_recipe(
-            'potlako_subject.patientcallinitial',
-            subject_visit=self.maternal_visit_1000,
-            patient_info_change=YES)
-        
-        mommy.make_recipe(
-            'potlako_subject.subjectlocator',
-            subject_identifier=self.subject_consent.subject_identifier)
-        
-        self.assertEqual(ActionItem.objects.filter(
-            subject_identifier=self.subject_consent.subject_identifier,
-            reference_model='potlako_subject.subjectlocator',
-            status=OPEN).count(), 0)
-
-#         locator_action = ActionItem.objects.get(
-#             subject_identifier=self.subject_consent.subject_identifier,
-#             reference_model='potlako_subject.subjectlocator')
-#         locator_action.status=DONE
-#         locator_action.save()
         
         self.appointment_1000.appt_status = INCOMPLETE_APPT
         self.appointment_1000.save()

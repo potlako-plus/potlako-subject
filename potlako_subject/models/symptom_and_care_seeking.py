@@ -42,7 +42,9 @@ class SymptomAndCareSeekingAssessment(CrfModelMixin):
         verbose_name=('Now, we\'ve talked about the symptoms that you have described: '
                       'I\'d also like to check whether you had any of the following symptoms'))
 
-    symptoms_present_other = OtherCharField(max_length=100)
+    symptoms_present_other = models.TextField(
+        verbose_name='If other symptoms, please specify',
+        max_length=250)
 
     symptoms_discussion = models.CharField(
         verbose_name=('Did you discuss your symptoms with anyone before going '
