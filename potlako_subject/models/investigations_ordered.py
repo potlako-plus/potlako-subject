@@ -20,8 +20,8 @@ class LabTestManager(models.Manager):
         return self.get(lab_test_type=lab_test_type,
                         lab_test_date=lab_test_date,
                         investigations=investigations)
-    
-    
+
+
 class InvestigationsOrdered(CrfModelMixin):
 
     tests_ordered_type = models.ManyToManyField(
@@ -67,7 +67,7 @@ class InvestigationsOrdered(CrfModelMixin):
     pathology_test_other = OtherCharField()
 
     biopsy_specify = OtherCharField(
-        verbose_name='If biopsy, please describe',
+        verbose_name='If biopsy, specify site',
         max_length=25,
         blank=True,
         null=True)

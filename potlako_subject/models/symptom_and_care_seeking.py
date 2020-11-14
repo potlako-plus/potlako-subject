@@ -96,7 +96,8 @@ class SymptomAndCareSeekingAssessment(CrfModelMixin):
 
     clinic_visit_date = models.DateField(
         verbose_name=('When did you go to a clinic or hospital about these '
-                      'symptoms?'))
+                      'symptoms?'),
+        validators=[date_not_future, ])
 
     clinic_visit_date_estimated = models.CharField(
         verbose_name='Is the hospital/clinic visit date estimated?',

@@ -16,10 +16,9 @@ class MedicalConditionsManager(models.Manager):
     def get_by_natural_key(self, medical_condition, medical_diagnosis):
         return self.get(medical_condition=medical_condition,
                         medical_diagnosis=medical_diagnosis)
-    
+
 
 class MedicalDiagnosis(CrfModelMixin):
-
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
@@ -74,13 +73,13 @@ class MedicalConditions(SiteModelMixin, BaseUuidModel):
         null=True)
 
     treatment_type_other = OtherCharField()
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = MedicalConditionsManager()
-    
+
     def natural_key(self):
         return (self.medical_condition, ) + self.medical_diagnosis.natural_key()
     natural_key.dependencies = ['potlako_subject.medicaldiagnosis']
