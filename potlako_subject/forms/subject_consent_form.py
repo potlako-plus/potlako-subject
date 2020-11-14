@@ -23,11 +23,11 @@ class SubjectConsentForm(
         label='Subject Identifier',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}),
         required=False)
-    
+
     language = forms.ChoiceField(
-        label='Language of consent', 
+        label='Language of consent',
         choices=settings.LANGUAGES,
-        widget=forms.Select(attrs={'disabled':'disabled'}),
+        widget=forms.Select(attrs={'disabled': 'disabled'}),
         required=False)
 
     first_name = forms.CharField(

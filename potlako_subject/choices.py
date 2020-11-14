@@ -358,7 +358,7 @@ MEDICAL_CONDITION = (
     ('psychiatric_condition', 'Psychiatric Condition'),
     ('genitourinary_disease', 'Genitourinary Disease'),
     ('gastroenterological_disease', 'Gastroenterological Disease'),
-    (OTHER, 'Other (Specify')
+    (OTHER, 'Other (Specify)')
 )
 
 NON_CANCER_DIAGNOSIS = (
