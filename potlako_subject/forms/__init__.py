@@ -16,7 +16,6 @@ from .navigation_summary_and_plan_form import NavigationSummaryAndPlanForm
 from .next_of_kin_form import NextOfKinForm
 from .patient_call_followup_form import PatientCallFollowUpForm
 from .patient_call_initial_form import PatientCallInitialForm
-from .physician_review_form import PhysicianReviewForm
 from .previous_facility_visit_form import PreviousFacilityVisitForm
 from .sms_form import SMSForm
 from .subject_consent_form import SubjectConsentForm

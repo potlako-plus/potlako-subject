@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import sys
+import configparser
+from django.core.management.color import color_style
+
+# from .logging import LOGGING
+style = color_style()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,6 +26,13 @@ APP_NAME = 'potlako_subject'
 SITE_ID = 1
 
 ETC_DIR = os.path.join(BASE_DIR, 'etc')
+
+CONFIG_FILE = f'potlako.ini'
+
+CONFIG_PATH = os.path.join('/etc', 'potlako', CONFIG_FILE)
+sys.stdout.write(style.SUCCESS(f'  * Reading config from {CONFIG_FILE}\n'))
+config = configparser.ConfigParser()
+config.read(CONFIG_PATH)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -166,6 +178,8 @@ EDC_SYNC_SERVER_IP = None
 EDC_SYNC_FILES_USER = None
 EDC_SYNC_FILES_REMOTE_HOST = None
 EDC_SYNC_FILES_USB_VOLUME = None
+
+COMMUNITIES = config['communities']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

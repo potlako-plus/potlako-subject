@@ -18,16 +18,18 @@ class TestSubjectConsent(TestCase):
     def setUp(self):
         import_holidays()
 
-        clinicial_call_enrolment = self.subject_screening = mommy.make_recipe(
+        self.clinicial_call_enrolment = self.subject_screening = mommy.make_recipe(
             'potlako_subject.cliniciancallenrollment')
 
         self.subject_screening = mommy.make_recipe(
             'potlako_subject.subjectscreening',
-            screening_identifier=clinicial_call_enrolment.screening_identifier)
+            screening_identifier=self.clinicial_call_enrolment.screening_identifier)
 
         self.options = {
             'screening_identifier': self.subject_screening.screening_identifier,
             'consent_datetime': get_utcnow,
+            'identity': self.clinicial_call_enrolment.national_identity,
+            'confirm_identity': self.clinicial_call_enrolment.national_identity,
             'version': '1'}
 
     def test_screening_created(self):
@@ -66,6 +68,8 @@ class TestSubjectConsent(TestCase):
         options = {
             'screening_identifier': self.subject_screening.screening_identifier,
             'consent_datetime': get_utcnow,
+            'identity': self.clinicial_call_enrolment.national_identity,
+            'confirm_identity': self.clinicial_call_enrolment.national_identity,
             'version': '1'
         }
 

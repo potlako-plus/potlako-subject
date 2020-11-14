@@ -26,7 +26,9 @@ class TestRuleGroups(TestCase):
         self.subject_consent = mommy.make_recipe(
             'potlako_subject.subjectconsent',
             screening_identifier=self.clinician_call.screening_identifier,
-            consent_datetime=get_utcnow() - relativedelta(days=3))
+            consent_datetime=get_utcnow() - relativedelta(days=3),
+            identity=self.clinician_call.national_identity,
+            confirm_identity=self.clinician_call.national_identity)
         
         self.onschedule_obj = OnSchedule.objects.get(
             subject_identifier=self.subject_consent.subject_identifier)

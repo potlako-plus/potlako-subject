@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.apps import apps as django_apps
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -282,18 +283,9 @@ def get_community_arm(screening_identifier=None):
                                   'does not exist.')
         else:
 
-            enhanced_care_communities = [
-                'otse_clinic', 'mmankgodi_clinic', 'letlhakeng_clinic',
-                'mathangwane clinic', 'ramokgonami_clinic', 'sefophe_clinic',
-                'mmadinare_primary_hospital', 'tati_siding_clinic',
-                'bokaa_clinic', 'masunga_primary_hospital', 'masunga_clinic',
-                'mathangwane_clinic', 'manga_clinic']
+            enhanced_care_communities = settings.COMMUNITIES.get('enhanced_care')
 
-            intervention_communities = [
-                'mmathethe_clinic', 'molapowabojang_clinic',
-                'lentsweletau_clinic', 'oodi_clinic', 'metsimotlhabe_clinic',
-                'shoshong_clinic', 'lerala_clinic', 'maunatlala_clinic',
-                'nata_clinic', 'mandunyane_clinic', 'sheleketla_clinic']
+            intervention_communities = settings.COMMUNITIES.get('intervention')
 
             if clinician_enrollment_obj.facility in enhanced_care_communities:
                 return 'Standard of Care'

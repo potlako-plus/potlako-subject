@@ -30,6 +30,8 @@ class TestNaturalKey(TestCase):
         self.options = {
             'screening_identifier': self.subject_screening.screening_identifier,
             'consent_datetime': get_utcnow() - relativedelta(days=5),
+            'identity': clinicial_call_enrolment.national_identity,
+            'confirm_identity': clinicial_call_enrolment.national_identity,
             'version': '1'}
 
         self.subject_consent = mommy.make_recipe(
@@ -53,23 +55,4 @@ class TestNaturalKey(TestCase):
         
     def test_get_by_natural_key_attr(self):
         self.sync_test_helper.sync_test_get_by_natural_key_attr('potlako_subject')
-        
-    def test_enrollment_models(self):
-        """potlako_subject.subjectconsent,  potlako_subject.cliniciancallenrollment, potlako_subject.subjectvisit"""
-        verbose = False
-        
-        model_objs = []
-        completed_model_objs = {}
-        completed_model_lower = []
-        for outgoing_transaction in OutgoingTransaction.objects.all():
-            if outgoing_transaction.tx_name in sync_models:
-                model_cls = django_apps.get_app_config('potlako_subject').get_model(
-                    outgoing_transaction.tx_name.split('.')[1])
-                obj = model_cls.objects.get(pk=outgoing_transaction.tx_pk)
-                if outgoing_transaction.tx_name in completed_model_lower:
-                    continue
-                model_objs.append(obj)
-                completed_model_lower.append(outgoing_transaction.tx_name)
-        completed_model_objs.update({'potlako_subject': model_objs})
-        self.sync_test_natural_keys(completed_model_objs, verbose=verbose)
     

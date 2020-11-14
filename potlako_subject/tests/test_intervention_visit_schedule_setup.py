@@ -1,5 +1,5 @@
 from dateutil.relativedelta import relativedelta
-from django.test import TestCase
+from django.test import TestCase, tag
 from edc_base.utils import get_utcnow
 from edc_facility.import_holidays import import_holidays
 from edc_metadata.constants import REQUIRED, NOT_REQUIRED
@@ -12,6 +12,7 @@ from edc_appointment.models import Appointment
 from ..models import OnSchedule
 
 
+@tag('iv')
 class TestInterventionVisitScheduleSetup(TestCase):
 
     def setUp(self):
@@ -27,6 +28,8 @@ class TestInterventionVisitScheduleSetup(TestCase):
         self.options = {
             'screening_identifier': self.subject_screening.screening_identifier,
             'consent_datetime': get_utcnow() - relativedelta(days=5),
+            'identity': clinicial_call_enrolment.national_identity,
+            'confirm_identity': clinicial_call_enrolment.national_identity,
             'version': '1'}
 
         self.subject_consent = mommy.make_recipe(
