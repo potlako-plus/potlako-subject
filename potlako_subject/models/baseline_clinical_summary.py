@@ -7,14 +7,9 @@ from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_base.utils import get_utcnow
 from edc_protocol.validators import datetime_not_before_study_start
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
+from edc_identifier.managers import SubjectIdentifierManager
 
 from ..choices import CANCER_DIAGNOSIS, SEVERITY_LEVEL
-
-
-class BaselineClinicalSummaryManager(models.Manager):
-
-    def get_by_natural_key(self, subject_identifier):
-        self.get(subject_identifier=subject_identifier)
         
 
 class BaselineClinicalSummary(UniqueSubjectIdentifierFieldMixin,
@@ -47,7 +42,7 @@ class BaselineClinicalSummary(UniqueSubjectIdentifierFieldMixin,
 
     on_site = CurrentSiteManager()
     
-    objects = BaselineClinicalSummaryManager()
+    objects = SubjectIdentifierManager()
     
     def natural_key(self):
         return (self.subject_identifier, )

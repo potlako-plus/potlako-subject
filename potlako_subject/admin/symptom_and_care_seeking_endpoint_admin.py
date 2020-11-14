@@ -2,15 +2,15 @@ from django.contrib import admin
 from edc_model_admin import audit_fieldset_tuple
 
 from ..admin_site import potlako_subject_admin
-from ..forms import SymptomAndcareSeekingEndpointForm
+from ..forms import SymptomAndCareSeekingEndpointForm
 from ..models import SymptomsAndCareSeekingEndpointRecording
 from .modeladmin_mixins import ModelAdminMixin
 
 
 @admin.register(SymptomsAndCareSeekingEndpointRecording, site=potlako_subject_admin)
-class SymptomAndcareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
+class SymptomAndCareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
 
-    form = SymptomAndcareSeekingEndpointForm
+    form = SymptomAndCareSeekingEndpointForm
     extra_context_models = ['cliniciancallenrollment',
                             'baselineclinicalsummary',
                             'symptomandcareseekingassessment']

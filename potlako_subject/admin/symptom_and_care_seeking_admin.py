@@ -3,8 +3,8 @@ from edc_model_admin import TabularInlineMixin
 from edc_model_admin import audit_fieldset_tuple
 
 from ..admin_site import potlako_subject_admin
-from ..forms import SymptomAndcareSeekingAssessmentForm, SymptomAssessmentForm
-from ..models import SymptomAndcareSeekingAssessment, SymptomAssessment
+from ..forms import SymptomAndCareSeekingAssessmentForm, SymptomAssessmentForm
+from ..models import SymptomAndCareSeekingAssessment, SymptomAssessment
 from .modeladmin_mixins import CrfModelAdminMixin
 
 
@@ -23,10 +23,10 @@ class EvaluationTimelineInlineAdmin(TabularInlineMixin, admin.TabularInline):
          ),)
 
 
-@admin.register(SymptomAndcareSeekingAssessment, site=potlako_subject_admin)
-class SymptomAndcareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin):
+@admin.register(SymptomAndCareSeekingAssessment, site=potlako_subject_admin)
+class SymptomAndCareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin):
 
-    form = SymptomAndcareSeekingAssessmentForm
+    form = SymptomAndCareSeekingAssessmentForm
     inlines = [EvaluationTimelineInlineAdmin, ]
 
     fieldsets = (

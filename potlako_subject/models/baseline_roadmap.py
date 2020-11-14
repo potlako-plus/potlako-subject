@@ -6,15 +6,10 @@ from edc_base.model_validators import date_is_future, datetime_not_future
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
+from edc_identifier.managers import SubjectIdentifierManager
 
 from ..choices import RESULTS_PERSONNEL, SPECIALIST_CLINIC
 from edc_base.utils import get_utcnow
-
-
-class BaselineRoadMapManager(models.Manager):
-
-    def get_by_natural_key(self, subject_identifier):
-        return self.get(subject_identifier=subject_identifier)
     
 
 class BaselineRoadMap(UniqueSubjectIdentifierFieldMixin, 
@@ -82,7 +77,7 @@ class BaselineRoadMap(UniqueSubjectIdentifierFieldMixin,
 
     on_site = CurrentSiteManager()
     
-    objects = BaselineRoadMapManager()
+    objects = SubjectIdentifierManager()
     
     def natural_key(self):
         return (self.subject_identifier, )
