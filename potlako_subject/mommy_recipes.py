@@ -10,14 +10,15 @@ from .models import ClinicianCallEnrollment, PatientCallInitial
 from .models import SubjectConsent, SubjectScreening, SubjectVisit, SubjectLocator
 from .models import MissedVisit, MissedCall, MissedCallRecord, PatientCallFollowUp
 from .models import SymptomAndCareSeekingAssessment, CancerDxAndTx
+from .models import HomeVisit
 
 
 fake = Faker()
 
 cliniciancallenrollment = Recipe(
     ClinicianCallEnrollment,
-    reg_date=get_utcnow(),
-    contact_date=get_utcnow() - relativedelta(months=1),
+    reg_date=get_utcnow().date(),
+    contact_date=(get_utcnow() - relativedelta(months=1)).date(),
     cancer_suspect='call_with_clinician',
     received_training = YES,
     call_clinician_type='nurse',
@@ -35,7 +36,7 @@ cliniciancallenrollment = Recipe(
     village_town='molapowabojang',
     kin_details_provided=NO,
     clinician_type='med_officer',
-    early_symptoms_date=get_utcnow() - relativedelta(months=1),
+    early_symptoms_date=(get_utcnow() - relativedelta(months=1)).date(),
     early_symptoms_date_estimated=NO,
     suspected_cancer='head_neck',
     suspicion_level='low',
@@ -43,7 +44,7 @@ cliniciancallenrollment = Recipe(
     pain_score='0_no_pain',
     last_hiv_result=NEG,
     patient_disposition='return',
-    referral_date=get_utcnow() + relativedelta(months=1),
+    referral_date=(get_utcnow() + relativedelta(months=1)).date(),
     referral_unit=NOT_APPLICABLE,
     referral_discussed=NOT_APPLICABLE,
     triage_status='routine',
@@ -119,6 +120,10 @@ patientcallfollowup = Recipe(
 
 cancerdxtx = Recipe(
     CancerDxAndTx,)
+
+homevisit = Recipe(
+    HomeVisit,
+    next_appointment=(get_utcnow() + relativedelta(months=1)).date())
 
 missedvisit = Recipe(
     MissedVisit,)
