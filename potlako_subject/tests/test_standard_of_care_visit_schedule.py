@@ -27,6 +27,8 @@ class TestStandardofCareVisitSchedule(TestCase):
         self.options = {
             'screening_identifier': self.subject_screening.screening_identifier,
             'consent_datetime': get_utcnow() - relativedelta(days=5),
+            'identity': clinicial_call_enrolment.national_identity,
+            'confirm_identity': clinicial_call_enrolment.national_identity,
             'version': '1'}
 
         self.subject_consent = mommy.make_recipe(

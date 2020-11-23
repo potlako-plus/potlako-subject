@@ -358,7 +358,7 @@ MEDICAL_CONDITION = (
     ('psychiatric_condition', 'Psychiatric Condition'),
     ('genitourinary_disease', 'Genitourinary Disease'),
     ('gastroenterological_disease', 'Gastroenterological Disease'),
-    (OTHER, 'Other (Specify')
+    (OTHER, 'Other (Specify)')
 )
 
 NON_CANCER_DIAGNOSIS = (
@@ -469,6 +469,7 @@ SMS_OUTCOME = (
     ('kin2_sent_sms_not_received',
      'SMS sent to next of kin 2 and receipt NOT confirmed'),
     (OTHER, 'Other, specify'),
+    (NOT_APPLICABLE, 'N/A')
 )
 
 SPECIALIST_CLINIC = (

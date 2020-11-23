@@ -1,15 +1,25 @@
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_fields import OtherCharField
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DATE_ESTIMATION
-from ..choices import FACILITY, IMAGING_STATUS, LAB_TESTS, LAB_TESTS_STATUS
+from ..choices import FACILITY, LAB_TESTS, LAB_TESTS_STATUS
 from .list_models import ImagingTestType, PathologyTest, TestsOrderedType
 from .model_mixins import CrfModelMixin
+
+
+class LabTestManager(models.Manager):
+
+    def get_by_natural_key(self, lab_test_type, lab_test_date, investigations):
+        return self.get(lab_test_type=lab_test_type,
+                        lab_test_date=lab_test_date,
+                        investigations=investigations)
 
 
 class InvestigationsOrdered(CrfModelMixin):
@@ -57,7 +67,7 @@ class InvestigationsOrdered(CrfModelMixin):
     pathology_test_other = OtherCharField()
 
     biopsy_specify = OtherCharField(
-        verbose_name='If biopsy, please describe',
+        verbose_name='If biopsy, specify site',
         max_length=25,
         blank=True,
         null=True)
@@ -65,18 +75,6 @@ class InvestigationsOrdered(CrfModelMixin):
     fna_location = OtherCharField(
         verbose_name='If FNA, please indicate location',
         max_length=25,
-        blank=True,
-        null=True)
-
-    pathology_specimen_date = models.DateField(
-        verbose_name='Date pathology specimen taken',
-        validators=[date_not_before_study_start, date_not_future],
-        blank=True,
-        null=True)
-
-    imaging_test_status = models.CharField(
-        choices=IMAGING_STATUS,
-        max_length=15,
         blank=True,
         null=True)
 
@@ -114,19 +112,13 @@ class InvestigationsOrdered(CrfModelMixin):
         blank=True,
         null=True)
 
-    imaging_tests_date = models.DateField(
-        verbose_name='Date imaging test performed (completed)',
-        validators=[date_not_before_study_start, date_not_future],
-        blank=True,
-        null=True)
-
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Investigations - Ordered'
         verbose_name_plural = 'Investigations - Ordered'
 
 
-class LabTest(BaseUuidModel):
+class LabTest(SiteModelMixin, BaseUuidModel):
 
     investigations = models.ForeignKey(InvestigationsOrdered, on_delete=PROTECT)
 
@@ -155,6 +147,16 @@ class LabTest(BaseUuidModel):
         max_length=50,
         blank=True,
         null=True)
+    
+    history = HistoricalRecords()
 
+    on_site = CurrentSiteManager()
+    
+    objects = LabTestManager()
+    
+    def natural_key(self):
+        return (self.lab_test_type, self.lab_test_date) + self.investigations.natural_key()
+    natural_key.dependencies = ['sites.Site']
+    
     class Meta:
-        pass
+        unique_together = ('investigations', 'lab_test_type', 'lab_test_date')

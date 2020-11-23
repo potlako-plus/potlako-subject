@@ -1,7 +1,9 @@
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_fields import OtherCharField
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_base.model_validators import date_not_future
 from edc_constants.choices import YES_NO, YES_NO_UNKNOWN
 
@@ -9,9 +11,14 @@ from ..choices import DATE_ESTIMATION, MEDICAL_CONDITION, CHECKUP_FREQUENCY
 from .model_mixins import CrfModelMixin
 
 
-class MedicalDiagnosis(CrfModelMixin):
+class MedicalConditionsManager(models.Manager):
 
-    pass
+    def get_by_natural_key(self, medical_condition, medical_diagnosis):
+        return self.get(medical_condition=medical_condition,
+                        medical_diagnosis=medical_diagnosis)
+
+
+class MedicalDiagnosis(CrfModelMixin):
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
@@ -19,7 +26,7 @@ class MedicalDiagnosis(CrfModelMixin):
         verbose_name_plural = 'Medical Diagnoses'
 
 
-class MedicalConditions(BaseUuidModel):
+class MedicalConditions(SiteModelMixin, BaseUuidModel):
 
     medical_diagnosis = models.ForeignKey(MedicalDiagnosis, on_delete=PROTECT)
 
@@ -29,7 +36,7 @@ class MedicalConditions(BaseUuidModel):
         max_length=30)
 
     medical_condition_specify = models.CharField(
-        verbose_name='Specific condition of the body area that has been affected',
+        verbose_name='Specific diagnosis',
         max_length=35)
 
     medical_condition_other = OtherCharField()
@@ -64,9 +71,21 @@ class MedicalConditions(BaseUuidModel):
         max_length=20,
         blank=True,
         null=True)
-    
+
     treatment_type_other = OtherCharField()
+
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+
+    objects = MedicalConditionsManager()
+
+    def natural_key(self):
+        return (self.medical_condition, ) + self.medical_diagnosis.natural_key()
+    natural_key.dependencies = ['potlako_subject.medicaldiagnosis']
 
     class Meta:
         unique_together = (
             'medical_diagnosis', 'medical_condition')
+        verbose_name = 'Medical Conditions'
+        verbose_name_plural = 'Medical Conditions'

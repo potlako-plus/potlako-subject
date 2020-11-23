@@ -1,12 +1,12 @@
 from django import forms
-# from potlako_validations.form_validators import InvestigationsOrderedFormValidator
+from potlako_validations.form_validators import InvestigationsOrderedFormValidator
 from ..models import InvestigationsOrdered, LabTest
 from .form_mixins import SubjectModelFormMixin
 
 
 class InvestigationsOrderedForm(SubjectModelFormMixin, forms.ModelForm):
 
-#     form_validator_cls = InvestigationsOrderedFormValidator
+    form_validator_cls = InvestigationsOrderedFormValidator
 
     class Meta:
         model = InvestigationsOrdered

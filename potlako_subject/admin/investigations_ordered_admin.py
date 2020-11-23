@@ -36,28 +36,24 @@ class InvestigationsOrderedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
             'fields': ('subject_visit',
                        'tests_ordered_type',
                        'tests_ordered_type_other',
-                       'facility_ordered',
-                       'facility_ordered_other',
-                       'ordered_date',
-                       'ordered_date_estimated',
-                       'ordered_date_estimation',
                        'pathology_test',
                        'pathology_test_other',
                        'biopsy_specify',
                        'fna_location',
-                       'pathology_specimen_date',
-                       'imaging_test_status',
                        'imaging_test_type',
                        'xray_tests',
                        'ultrasound_tests',
                        'ct_tests',
                        'mri_tests',
                        'imaging_tests_type_other',
-                       'imaging_tests_date'),
+                       'facility_ordered',
+                       'facility_ordered_other',
+                       'ordered_date',
+                       'ordered_date_estimated',
+                       'ordered_date_estimation'),
         }), audit_fieldset_tuple)
 
     radio_fields = {'ordered_date_estimated': admin.VERTICAL,
-                    'ordered_date_estimation': admin.VERTICAL,
-                    'imaging_test_status': admin.VERTICAL}
+                    'ordered_date_estimation': admin.VERTICAL}
 
     filter_horizontal = ('tests_ordered_type', 'pathology_test', 'imaging_test_type')

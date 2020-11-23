@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import sys
+import configparser
+from django.core.management.color import color_style
+
+# from .logging import LOGGING
+style = color_style()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,6 +26,13 @@ APP_NAME = 'potlako_subject'
 SITE_ID = 1
 
 ETC_DIR = os.path.join(BASE_DIR, 'etc')
+
+CONFIG_FILE = f'potlako.ini'
+
+CONFIG_PATH = os.path.join('/etc', 'potlako', CONFIG_FILE)
+sys.stdout.write(style.SUCCESS(f'  * Reading config from {CONFIG_FILE}\n'))
+config = configparser.ConfigParser()
+config.read(CONFIG_PATH)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -45,10 +57,12 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_crypto_fields.apps.AppConfig',
     'django_extensions',
+    'rest_framework.authtoken',
     'edc_action_item.apps.AppConfig',
+    'edc_sync.apps.AppConfig',
+    'edc_sync_files.apps.AppConfig',
     'edc_base.apps.AppConfig',
     'edc_consent.apps.AppConfig',
-    'edc_device.apps.AppConfig',
     'edc_identifier.apps.AppConfig',
     'edc_locator.apps.AppConfig',
     'edc_reference.apps.AppConfig',
@@ -64,6 +78,7 @@ INSTALLED_APPS = [
     'potlako_subject.apps.EdcFacilityAppConfig',
     'potlako_subject.apps.EdcMetadataAppConfig',
     'potlako_subject.apps.EdcProtocolAppConfig',
+    'potlako_subject.apps.EdcDeviceAppConfig',
     'potlako_subject.apps.EdcVisitTrackingAppConfig',
     'potlako_subject.apps.AppConfig',
 ]
@@ -111,6 +126,13 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    'PAGE_SIZE': 1,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -151,6 +173,13 @@ DASHBOARD_URL_NAMES = {
 
 HOLIDAY_FILE = os.path.join(BASE_DIR, 'holidays.csv')
 CELLPHONE_REGEX = '^[7]{1}[12345678]{1}[0-9]{6}$|^[2-8]{1}[0-9]{6}$'
+
+EDC_SYNC_SERVER_IP = None
+EDC_SYNC_FILES_USER = None
+EDC_SYNC_FILES_REMOTE_HOST = None
+EDC_SYNC_FILES_USB_VOLUME = None
+
+COMMUNITIES = config['communities']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

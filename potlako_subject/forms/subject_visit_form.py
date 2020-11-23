@@ -48,11 +48,6 @@ class VisitFormValidator(BaseVisitFormValidator):
     def validate_required_fields(self):
 
         self.required_if(
-            'missed_visit',
-            field='reason',
-            field_required='reason_missed')
-
-        self.required_if(
             'unscheduled_visit/contact',
             field='reason',
             field_required='reason_unscheduled')

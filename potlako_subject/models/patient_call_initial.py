@@ -6,9 +6,11 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_fields import OtherCharField
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
 from edc_base.model_validators.date import date_is_future
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_base.utils import age, get_utcnow
 from edc_constants.choices import POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO
@@ -16,11 +18,20 @@ from edc_constants.constants import NOT_APPLICABLE
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DATE_ESTIMATION, ENROLLMENT_VISIT_METHOD, FACILITY
-from ..choices import DURATION, FACILITY_UNIT, TESTS_ORDERED, DISTRICT
+from ..choices import FACILITY_UNIT, TESTS_ORDERED, DISTRICT
 from ..choices import PAIN_SCORE, SCALE, EDUCATION_LEVEL, WORK_TYPE
 from ..choices import UNEMPLOYED_REASON, VL_UNITS
 from .list_models import PatientResidence, SmsPlatform, SourceOfInfo
 from .model_mixins import CrfModelMixin
+
+
+class PreviousFacilityVisitManager(models.Manager):
+
+    def get_by_natural_key(self, facility_visited,
+                           previous_facility_period, patient_call_initial ):
+        return self.get(facility_visited=facility_visited,
+                        previous_facility_period=previous_facility_period,
+                        patient_call_initial=patient_call_initial)
 
 
 class PatientCallInitial(CrfModelMixin):
@@ -131,50 +142,6 @@ class PatientCallInitial(CrfModelMixin):
 
     patient_residence_other = OtherCharField()
 
-    patient_info_change = models.CharField(
-        verbose_name=('Any changes to be made to participant residence, '
-                      'contact and or next of kin information since index '
-                      'visit?'),
-        choices=YES_NO,
-        max_length=3)
-
-    patient_symptoms = models.TextField(
-        max_length=1000,
-        verbose_name=('What symptom(s) is the patient having for which '
-                      'they were seen at the clinic 1 week ago?')
-    )
-
-    patient_symptoms_date = models.DateField(
-        verbose_name=('Date the symptoms started'),
-        validators=[date_not_future, ])
-
-    patient_symptoms_date_estimated = models.CharField(
-        verbose_name='Is the symptoms date estimated?',
-        choices=YES_NO,
-        max_length=3)
-
-    patient_symptoms_date_estimation = models.CharField(
-        verbose_name='Which part of the date was estimated, if any?',
-        choices=DATE_ESTIMATION,
-        max_length=15,
-        blank=True,
-        null=True,
-    )
-
-    symptoms_duration_report = models.IntegerField(
-        verbose_name=('How long did it take for the participant to present to '
-                      'the facility after experiencing their first symptom?'),
-        default=0,
-        validators=[MinValueValidator(0)]
-    )
-
-    symptoms_duration = models.CharField(
-        verbose_name='What is the above number for?',
-        choices=DURATION,
-        max_length=6,
-        blank=True,
-        null=True,)
-
     other_facility = models.CharField(
         verbose_name=('Before enrollment visit, has the patient been '
                       'seen for similar symptoms at other facilities?'),
@@ -228,20 +195,84 @@ class PatientCallInitial(CrfModelMixin):
         blank=True,
         null=True,
     )
-    
+
+    cd4_count_known = models.CharField(
+        verbose_name='Do you know your recent CD4 results ?',
+        choices=YES_NO,
+        max_length=3)
+
     cd4_count = models.IntegerField(
         verbose_name='What is your recent CD4 count results?',
         validators=[MinValueValidator(0), MaxValueValidator(2000)],
         blank=True,
         null=True,
         help_text='unit in cells/uL')
-    
+
+    cd4_count_date = models.DateField(
+        verbose_name=('When was patient\'s recent CD4 count results?'),
+        validators=[date_not_future, ],
+        blank=True,
+        null=True)
+
+    cd4_count_date_estimated = models.CharField(
+        verbose_name='Is the CD4 count results date estimated?',
+        choices=YES_NO,
+        max_length=3,
+        blank=True,
+        null=True)
+
+    cd4_count_date_estimation = models.CharField(
+        verbose_name='Which part of the date was estimated, if any?',
+        choices=DATE_ESTIMATION,
+        max_length=15,
+        blank=True,
+        null=True,
+    )
+
+    reason_cd4_unknown = models.TextField(
+        verbose_name='Reason cd4 count results unknown',
+        max_length=1000,
+        blank=True,
+        null=True)
+
+    vl_results_known = models.CharField(
+        verbose_name='Do you know your recent viral load results ?',
+        choices=YES_NO,
+        max_length=3)
+
     vl_results = models.CharField(
         verbose_name='What is your recent VL results?',
         choices=VL_UNITS,
         max_length=12,
         blank=True,
         null=True,)
+
+    vl_results_date = models.DateField(
+        verbose_name=('When was patient\'s recent VL results?'),
+        validators=[date_not_future, ],
+        blank=True,
+        null=True)
+
+    vl_results_date_estimated = models.CharField(
+        verbose_name='Is the VL results date estimated?',
+        choices=YES_NO,
+        max_length=3,
+        blank=True,
+        null=True)
+
+    vl_results_date_estimation = models.CharField(
+        verbose_name='Which part of the date was estimated, if any?',
+        choices=DATE_ESTIMATION,
+        max_length=15,
+        blank=True,
+        null=True,
+    )
+
+    reason_vl_unknown = models.TextField(
+        verbose_name='Reason VL results unknown',
+        max_length=1000,
+        blank=True,
+        null=True)
 
     cancer_suspicion_known = models.CharField(
         verbose_name=('Is patient aware that cancer is suspected '
@@ -358,7 +389,7 @@ class PatientCallInitial(CrfModelMixin):
         verbose_name_plural = 'Patient call - Initial'
 
 
-class PreviousFacilityVisit(BaseUuidModel):
+class PreviousFacilityVisit(SiteModelMixin, BaseUuidModel):
 
     patient_call_initial = models.ForeignKey(PatientCallInitial, on_delete=PROTECT)
 
@@ -382,6 +413,16 @@ class PreviousFacilityVisit(BaseUuidModel):
         blank=True,
         null=True,
         help_text='specify variable (days, weeks, months, years)')
+    
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+    
+    objects = PreviousFacilityVisitManager()
+    
+    def natural_key(self):
+        return (self.facility_visited, self.previous_facility_period, ) + self.patient_call_initial.natural_key()
+    natural_key.dependencies = ['potlako_subject.patientcallinitial']
 
     class Meta:
         unique_together = (

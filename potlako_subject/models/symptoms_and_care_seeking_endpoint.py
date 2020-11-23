@@ -1,14 +1,16 @@
 from django.db import models
+from edc_base.model_managers import HistoricalRecords
 from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
+from edc_identifier.managers import SubjectIdentifierManager
 
 from ..choices import DATE_ESTIMATION
 from .model_mixins import CrfModelMixin
-from edc_base.sites import SiteModelMixin
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_base.model_mixins import BaseUuidModel
 
 
-class SymptomsAndCareSeekingEndpointRecording(UniqueSubjectIdentifierFieldMixin,
+class SymptomsAndCareSeekingEndpoint(UniqueSubjectIdentifierFieldMixin,
                                               SiteModelMixin, BaseUuidModel):
 
     cancer_symptom_date = models.DateField(
@@ -73,6 +75,17 @@ class SymptomsAndCareSeekingEndpointRecording(UniqueSubjectIdentifierFieldMixin,
         null=True,
         blank=True)
 
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+
+    objects = SubjectIdentifierManager()
+
+    def natural_key(self):
+        return (self.subject_identifier, )
+    natural_key.dependencies = ['sites.Site']
+
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
-        verbose_name = 'Symptom And Care Seeking - Endpoint Recording'
+        verbose_name = 'Care Seeking Endpoint'
+        verbose_name_plural = 'Symptom And Care Seeking - Endpoint Recording'

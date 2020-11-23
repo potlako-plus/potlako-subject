@@ -4,9 +4,11 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_fields import OtherCharField
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_is_future
 from edc_base.model_validators import date_not_future
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO, YES_NO_NA
 from edc_protocol.validators import date_not_before_study_start
 
@@ -14,6 +16,14 @@ from ..choices import DATE_ESTIMATION, APPT_CHANGE_REASON, YES_NO_AOTS, SMS_OUTC
 from ..choices import DISPOSITION, FACILITY, SCALE, PAIN_SCORE, TESTS_ORDERED
 from .list_models import CallAchievements
 from .model_mixins import CrfModelMixin
+
+
+class FacilityVisitManager(models.Manager):
+
+    def get_by_natural_key(self, patient_call_followup, interval_visit_date, visit_facility):
+        return self.get(patient_call_followup=patient_call_followup,
+                        interval_visit_date=interval_visit_date,
+                        visit_facility=visit_facility)
 
 
 class PatientCallFollowUp(CrfModelMixin):
@@ -32,11 +42,6 @@ class PatientCallFollowUp(CrfModelMixin):
                       'visit?'),
         choices=YES_NO,
         max_length=3)
-
-    first_specialist_visit = models.CharField(
-        verbose_name=('Is this a first specialist visit?'),
-        choices=YES_NO_NA,
-        max_length=15)
 
     perfomance_status = models.IntegerField(
         verbose_name='Patient performance status',
@@ -58,7 +63,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     new_complaints_description = models.TextField(
         verbose_name=('If yes, please describe'),
-        max_length=100,
+        max_length=1200,
         blank=True,
         null=True)
 
@@ -151,7 +156,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     transport_details = models.TextField(
         verbose_name=('Please provide details'),
-        max_length=100,
+        max_length=1200,
         blank=True,
         null=True)
 
@@ -163,7 +168,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     clinician_issues_details = models.TextField(
         verbose_name=('Please provide details'),
-        max_length=100,
+        max_length=1200,
         blank=True,
         null=True)
 
@@ -175,7 +180,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     issues_details = models.TextField(
         verbose_name=('Please provide details'),
-        max_length=100,
+        max_length=1200,
         blank=True,
         null=True)
 
@@ -186,7 +191,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     other_issues_details = models.TextField(
         verbose_name=('Please provide details'),
-        max_length=100,
+        max_length=1200,
         blank=True,
         null=True)
 
@@ -205,26 +210,24 @@ class PatientCallFollowUp(CrfModelMixin):
     next_step_understanding = models.TextField(
         verbose_name=('Give a detailed summary of the pateint\'s understanding'
                       ' of the next steps (details)'),
-        max_length=100)
+        max_length=1200)
 
     sms_received = models.CharField(
         verbose_name=('Did patient receive SMS reminder for last scheduled '
                       'visit?'),
-        choices=YES_NO,
+        choices=YES_NO_NA,
         max_length=3)
 
     sms_outcome = models.CharField(
         verbose_name='Outcome of reminder SMS',
         choices=SMS_OUTCOME,
-        max_length=50,
-        blank=True,
-        null=True)
+        max_length=50)
 
     sms_outcome_other = OtherCharField()
 
     additional_comments = models.TextField(
         verbose_name='Provide any additional comments',
-        max_length=100,
+        max_length=1200,
         blank=True,
         null=True)
 
@@ -259,15 +262,13 @@ class PatientCallFollowUp(CrfModelMixin):
         verbose_name = 'Patient call - FollowUp'
 
 
-class FacilityVisit(BaseUuidModel):
+class FacilityVisit(SiteModelMixin, BaseUuidModel):
 
     patient_call_followup = models.ForeignKey(PatientCallFollowUp, on_delete=PROTECT)
 
     interval_visit_date = models.DateField(
         verbose_name='Date of interval visit',
-        validators=[date_not_before_study_start, date_not_future],
-        null=True,
-        blank=True)
+        validators=[date_not_before_study_start, date_not_future])
 
     interval_visit_date_estimated = models.CharField(
         verbose_name='Is the interval visit date estimated?',
@@ -299,6 +300,16 @@ class FacilityVisit(BaseUuidModel):
         verbose_name='What was the outcome of the visit?',
         choices=DISPOSITION,
         max_length=15)
+
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+
+    objects = FacilityVisitManager()
+
+    def natural_key(self):
+        return (self.interval_visit_date, self.visit_facility, ) + self.patient_call_followup.natural_key()
+    natural_key.dependencies = ['potlako_subject.patientcallfollowup']
 
     class Meta:
         app_label = 'potlako_subject'

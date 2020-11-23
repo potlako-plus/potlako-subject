@@ -1,5 +1,5 @@
 from dateutil.relativedelta import relativedelta
-from django.test import TestCase
+from django.test import TestCase, tag
 from edc_base.utils import get_utcnow
 from edc_constants.constants import YES, INCOMPLETE, NO
 from edc_facility.import_holidays import import_holidays
@@ -26,7 +26,9 @@ class TestRuleGroups(TestCase):
         self.subject_consent = mommy.make_recipe(
             'potlako_subject.subjectconsent',
             screening_identifier=self.clinician_call.screening_identifier,
-            consent_datetime=get_utcnow() - relativedelta(days=3))
+            consent_datetime=get_utcnow() - relativedelta(days=3),
+            identity=self.clinician_call.national_identity,
+            confirm_identity=self.clinician_call.national_identity)
         
         self.onschedule_obj = OnSchedule.objects.get(
             subject_identifier=self.subject_consent.subject_identifier)
@@ -272,6 +274,7 @@ class TestRuleGroups(TestCase):
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='2000').entry_status, REQUIRED)
 
+    @tag('mc')
     def test_missed_home_visit_metadata(self):
         self.appointment_2000 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
@@ -290,15 +293,18 @@ class TestRuleGroups(TestCase):
          
         mommy.make_recipe(
             'potlako_subject.missedcallrecord',
-            missed_call=self.missed_call)
+            missed_call=self.missed_call,
+            repeat_call=get_utcnow() + relativedelta(days=1))
          
         mommy.make_recipe(
             'potlako_subject.missedcallrecord',
-            missed_call=self.missed_call)
+            missed_call=self.missed_call,
+            repeat_call=get_utcnow() + relativedelta(days=2))
          
         mommy.make_recipe(
             'potlako_subject.missedcallrecord',
-            missed_call=self.missed_call)
+            missed_call=self.missed_call,
+            repeat_call=get_utcnow() + relativedelta(days=3))
          
         self.assertEqual(
             CrfMetadata.objects.get(
@@ -324,11 +330,13 @@ class TestRuleGroups(TestCase):
          
         mommy.make_recipe(
             'potlako_subject.missedcallrecord',
-            missed_call=self.missed_call)
+            missed_call=self.missed_call,
+            repeat_call=get_utcnow() + relativedelta(days=1))
          
         mommy.make_recipe(
             'potlako_subject.missedcallrecord',
-            missed_call=self.missed_call)
+            missed_call=self.missed_call,
+            repeat_call=get_utcnow() + relativedelta(days=2))
          
          
         self.assertEqual(

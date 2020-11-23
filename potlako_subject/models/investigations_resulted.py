@@ -3,18 +3,30 @@ from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_not_future
 from edc_protocol.validators import date_not_before_study_start
 
-from ..choices import CANCER_STAGES, DIAGNOSIS_RESULTS, TESTS_ORDERED_TYPE
+from ..choices import DIAGNOSIS_RESULTS
+from .list_models import TestsOrderedType
 from .model_mixins import CrfModelMixin
 
 
 class InvestigationsResulted(CrfModelMixin):
 
-    tests_resulted_type = models.CharField(
-        verbose_name='What tests are being resulted?',
-        choices=TESTS_ORDERED_TYPE,
-        max_length=10)
+    tests_resulted_type = models.ManyToManyField(
+        TestsOrderedType,
+        verbose_name='What tests are being resulted?')
 
     tests_resulted_type_other = OtherCharField()
+    
+    pathology_tests = models.CharField(
+        verbose_name='If pathology, please specify',
+        max_length=150,
+        blank=True,
+        null=True)
+    
+    imaging_tests = models.CharField(
+        verbose_name='If imaging, please specify',
+        max_length=150,
+        blank=True,
+        null=True)
 
     pathology_specimen_date = models.DateField(
         verbose_name='Date pathology specimen taken',

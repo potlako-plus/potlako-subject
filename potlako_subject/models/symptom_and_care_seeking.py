@@ -1,8 +1,10 @@
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_fields.custom_fields import OtherCharField
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
+from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO_UNSURE, YES_NO
 
 from ..choices import DATE_ESTIMATION, REASONS_NOT_DISCUSSED
@@ -11,7 +13,14 @@ from .list_models import DiscussionPerson, Symptoms
 from .model_mixins import CrfModelMixin
 
 
-class SymptomAndcareSeekingAssessment(CrfModelMixin):
+class SymptomAssessmentManager(models.Manager):
+
+    def get_by_natural_key(self, symptom_care_seeking, symptom):
+        return self.get(symptom_care_seeking=symptom_care_seeking,
+                        symptom=symptom)
+
+
+class SymptomAndCareSeekingAssessment(CrfModelMixin):
 
     first_visit_promt = models.TextField(
         verbose_name=('Can you please tell me about what first prompted you to'
@@ -33,7 +42,9 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
         verbose_name=('Now, we\'ve talked about the symptoms that you have described: '
                       'I\'d also like to check whether you had any of the following symptoms'))
 
-    symptoms_present_other = OtherCharField()
+    symptoms_present_other = models.TextField(
+        verbose_name='If other symptoms, please specify',
+        max_length=250)
 
     symptoms_discussion = models.CharField(
         verbose_name=('Did you discuss your symptoms with anyone before going '
@@ -87,7 +98,8 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
 
     clinic_visit_date = models.DateField(
         verbose_name=('When did you go to a clinic or hospital about these '
-                      'symptoms?'))
+                      'symptoms?'),
+        validators=[date_not_future, ])
 
     clinic_visit_date_estimated = models.CharField(
         verbose_name='Is the hospital/clinic visit date estimated?',
@@ -126,9 +138,9 @@ class SymptomAndcareSeekingAssessment(CrfModelMixin):
         verbose_name = 'Symptom And Care Seeking Assessment'
 
 
-class SymptomAssessment(BaseUuidModel):
+class SymptomAssessment(SiteModelMixin, BaseUuidModel):
 
-    symptom_care_seeking = models.ForeignKey(SymptomAndcareSeekingAssessment, on_delete=PROTECT)
+    symptom_care_seeking = models.ForeignKey(SymptomAndCareSeekingAssessment, on_delete=PROTECT)
 
     symptom = models.CharField(
         max_length=50)
@@ -149,3 +161,19 @@ class SymptomAssessment(BaseUuidModel):
         max_length=15,
         blank=True,
         null=True,)
+
+    history = HistoricalRecords()
+
+    on_site = CurrentSiteManager()
+
+    objects = SymptomAssessmentManager()
+
+    def natural_key(self):
+        return (self.symptom, ) + self.symptom_care_seeking.natural_key()
+    natural_key.dependencies = ['sites.Site']
+
+    class Meta(CrfModelMixin.Meta):
+        app_label = 'potlako_subject'
+        verbose_name = 'Symptom Assessment'
+        unique_together = ('symptom_care_seeking', 'symptom')
+

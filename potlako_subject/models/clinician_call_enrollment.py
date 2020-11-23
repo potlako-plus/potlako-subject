@@ -6,9 +6,10 @@ from django_crypto_fields.fields import (
     IdentityField, FirstnameField, LastnameField)
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from edc_base.model_fields import OtherCharField
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future, datetime_not_future
-from edc_base.model_validators import date_is_future, TelephoneNumber
+from edc_base.model_validators import TelephoneNumber
 from edc_base.sites import SiteModelMixin
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO_UNKNOWN
@@ -23,6 +24,11 @@ from ..screening_identifier import ScreeningIdentifier
 from .list_models import Symptoms
 from .validators import datetime_not_now, identity_check
 from edc_base.utils import get_utcnow
+
+
+class ClinicianCallEnrollmentManager(models.Manager):
+    def get_by_natural_key(self, screening_identifier):
+        return self.get(screening_identifier=screening_identifier)
 
 
 class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
@@ -77,7 +83,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         null=True)
 
     consented_contact = models.CharField(
-        verbose_name='Did the potential participant, consent to being '
+        verbose_name='Did the potential participant, agree to being '
                      'contacted by Potlako+ team',
         max_length=3,
         choices=YES_NO)
@@ -259,7 +265,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     referral_date = models.DateField(
         verbose_name='Next appointment date',
-        validators=[date_is_future, ],
         blank=True,
         null=True,)
 
@@ -320,10 +325,15 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         null=True,
         editable=False)
 
+    objects = ClinicianCallEnrollmentManager()
+
+    def natural_key(self):
+        return(self.screening_identifier)
+    natural_key.dependencies = ['sites.Site']
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.screening_identifier = self.identifier_cls().identifier
-            self.contact_date = self.report_datetime
 
         eligibility_obj = self.eligibility_cls(
             age_in_years=self.age_in_years,
@@ -337,6 +347,13 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         app_label = 'potlako_subject'
         verbose_name = 'Clinician call - Enrollment'
         verbose_name_plural = 'Clinician call - Enrollment'
+
+
+class NextOfKinManager(models.Manager):
+    def get_by_natural_key(self, kin_cell, kin_telephone, clinician_call_enrollemt):
+        return self.get(clinician_call_enrollemt=clinician_call_enrollemt,
+                        kin_cell=kin_cell,
+                        kin_telephone=kin_telephone)
 
 
 class NextOfKin(BaseUuidModel):
@@ -379,3 +396,16 @@ class NextOfKin(BaseUuidModel):
         validators=[TelephoneNumber, ],
         blank=True,
         null=True)
+
+    history = HistoricalRecords()
+
+    objects = NextOfKinManager()
+
+    def natural_key(self):
+        return (self.kin_cell, self.kin_telephone,) + self.clinician_call_enrollemt.natural_key()
+    natural_key.dependencies = ['potlako_plus.cliniciancallenrollment']
+
+    class Meta:
+        app_label = 'potlako_subject'
+        verbose_name = 'Next Of Kin'
+        unique_together = ('clinician_call_enrollemt', 'kin_cell', 'kin_telephone')
