@@ -4,12 +4,12 @@ from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_is_future, datetime_not_future
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
+from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 from edc_identifier.managers import SubjectIdentifierManager
 
 from ..choices import RESULTS_PERSONNEL, SPECIALIST_CLINIC
-from edc_base.utils import get_utcnow
     
 
 class BaselineRoadMap(UniqueSubjectIdentifierFieldMixin, 
