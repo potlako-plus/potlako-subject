@@ -56,7 +56,7 @@ class SubjectHelperMixin:
         subject_visit = mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=5),
+            report_datetime=get_utcnow(),
             appointment=appt)
         
         mommy.make_recipe(
@@ -112,7 +112,7 @@ class SubjectHelperMixin:
         subject_visit = mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=5),
+            report_datetime=get_utcnow(),
             appointment=appt)
 
         patient_call_fu = mommy.make_recipe(
@@ -155,7 +155,7 @@ class SubjectHelperMixin:
         subject_visit = mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=6),
+            report_datetime=get_utcnow(),
             appointment=appt)
 
         mommy.make_recipe(
@@ -187,7 +187,7 @@ class SubjectHelperMixin:
         subject_visit = mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=6),
+            report_datetime=get_utcnow(),
             appointment=appt)
 
         mommy.make_recipe(
@@ -211,7 +211,7 @@ class SubjectHelperMixin:
         subject_visit = mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=subject_identifier,
-            report_datetime=get_utcnow() - relativedelta(days=5),
+            report_datetime=get_utcnow(),
             appointment=appt)
 
         mommy.make_recipe(
