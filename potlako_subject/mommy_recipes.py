@@ -174,8 +174,8 @@ patientcallfollowup = Recipe(
     encounter_date=get_utcnow().date(),
     start_time=get_utcnow().time(),
     investigations_ordered='blah',
-    last_visit_date=get_utcnow() - relativedelta(days=1),
-    next_appointment_date=get_utcnow() + relativedelta(months=2)
+    last_visit_date=get_utcnow().date(),
+    next_appointment_date=(get_utcnow() + relativedelta(months=2)).date()
 )
 
 facilityvisit = Recipe(
