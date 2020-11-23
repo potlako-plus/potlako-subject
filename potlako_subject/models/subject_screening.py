@@ -113,7 +113,7 @@ class SubjectScreening(
         return f'{self.screening_identifier}, {self.subject_identifier}'
 
     def natural_key(self):
-        return (self.subject_identifier,)
+        return (self.screening_identifier,)
 
     def get_age(self):
         enrollment_cls = django_apps.get_model(self.clinician_enrollment_model)

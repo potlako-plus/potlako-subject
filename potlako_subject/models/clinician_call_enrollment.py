@@ -328,13 +328,12 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     objects = ClinicianCallEnrollmentManager()
 
     def natural_key(self):
-        return(self.screening_identifier)
+        return(self.screening_identifier, )
     natural_key.dependencies = ['sites.Site']
 
     def save(self, *args, **kwargs):
         if not self.id:
             self.screening_identifier = self.identifier_cls().identifier
-            self.contact_date = self.report_datetime
 
         eligibility_obj = self.eligibility_cls(
             age_in_years=self.age_in_years,
