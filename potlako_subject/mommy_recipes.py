@@ -146,7 +146,7 @@ baselineroadmap = Recipe(
     treatment_initiation_visit=(get_utcnow() + relativedelta(days=5)).date(),
     treatment_initiation_turnaround_time=(get_utcnow() + relativedelta(days=5)).date())
 
-cancerdxAndtxendpoint = Recipe(
+cancerdxandtxendpoint = Recipe(
     CancerDxAndTxEndpoint,)
 
 medicalconditions = Recipe(
