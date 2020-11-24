@@ -341,6 +341,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
         self.is_eligible = eligibility_obj.is_eligible
         if eligibility_obj.reasons_ineligible:
             self.ineligibility = eligibility_obj.reasons_ineligible
+        self.contact_date = self.report_datetime.date()
         super().save(*args, **kwargs)
 
     class Meta:
