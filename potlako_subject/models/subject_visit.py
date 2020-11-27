@@ -42,9 +42,9 @@ class SubjectVisit(VisitModelMixin, CreatesMetadataModelMixin, ReferenceModelMix
         max_length=40,
         choices=VISIT_INFO_SOURCE)
 
-    on_site = CurrentSiteManager()
-
     objects = VisitModelManager()
+    
+    on_site = CurrentSiteManager()
 
     history = HistoricalRecords()
 

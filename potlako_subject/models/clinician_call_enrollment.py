@@ -334,7 +334,6 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     def save(self, *args, **kwargs):
         if not self.id:
             self.screening_identifier = self.identifier_cls().identifier
-
         eligibility_obj = self.eligibility_cls(
             age_in_years=self.age_in_years,
             consented_contact=self.consented_contact)
