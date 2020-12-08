@@ -11,6 +11,7 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future, datetime_not_future
 from edc_base.model_validators import TelephoneNumber
 from edc_base.sites import SiteModelMixin
+from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO_UNKNOWN
 from edc_constants.constants import NOT_APPLICABLE
@@ -22,8 +23,7 @@ from ..choices import SUSPECTED_CANCER, TRIAGE_STATUS, DATE_ESTIMATION
 from ..eligibility import Eligibility
 from ..screening_identifier import ScreeningIdentifier
 from .list_models import Symptoms
-from .validators import datetime_not_now, identity_check
-from edc_base.utils import get_utcnow
+from .validators import datetime_not_now, identity_check, age_check
 
 
 class ClinicianCallEnrollmentManager(models.Manager):
@@ -141,6 +141,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     age_in_years = models.IntegerField(
         verbose_name='How old is the patient?',
         help_text='(Years)',
+        validators=[age_check, ],
         blank=False)
 
     gender = models.CharField(
