@@ -93,7 +93,7 @@ class Transport(CrfModelMixin):
     comments = models.TextField(
         verbose_name='Any other general comments regarding transport '
                      'planning',
-        max_length=150,
+        max_length=300,
         blank=True,
         null=True,
         help_text='(IF NOTHING TO REPORT, PLEASE WRITE "NA")',)
