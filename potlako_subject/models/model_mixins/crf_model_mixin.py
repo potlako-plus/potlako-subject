@@ -35,7 +35,9 @@ class CrfModelMixin(BaseCrfModelMixin, SubjectScheduleCrfModelMixin,
     """
 
     subject_visit = models.OneToOneField(SubjectVisit, on_delete=PROTECT)
-    
+
+    crf_date_validator_cls = None
+
     objects = CrfModelManager()
 
     history = HistoricalRecords()
