@@ -15,6 +15,7 @@ from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO_UNKNOWN
 from edc_constants.constants import NOT_APPLICABLE
+from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 
 from ..choices import CANCER_SUSPECT, ENROLLMENT_SITES
 from ..choices import CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION
@@ -31,7 +32,8 @@ class ClinicianCallEnrollmentManager(models.Manager):
         return self.get(screening_identifier=screening_identifier)
 
 
-class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
+class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin,
+                              SiteModelMixin, BaseUuidModel):
 
     identifier_cls = ScreeningIdentifier
     eligibility_cls = Eligibility
@@ -307,7 +309,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     tests_ordered = models.TextField(
         verbose_name='Indicate which tests were ordered.',
         max_length=255,
-        blank=True, null=True, )
+        blank=True, null=True,)
 
     comments = models.TextField(
         verbose_name=('Are there any other comments regarding this '
@@ -329,7 +331,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     objects = ClinicianCallEnrollmentManager()
 
     def natural_key(self):
-        return(self.screening_identifier, )
+        return(self.screening_identifier,)
     natural_key.dependencies = ['sites.Site']
 
     def save(self, *args, **kwargs):
