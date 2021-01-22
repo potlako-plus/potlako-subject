@@ -15,7 +15,6 @@ from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO_UNKNOWN
 from edc_constants.constants import NOT_APPLICABLE
-from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 
 from ..choices import CANCER_SUSPECT, ENROLLMENT_SITES
 from ..choices import CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION
@@ -32,8 +31,7 @@ class ClinicianCallEnrollmentManager(models.Manager):
         return self.get(screening_identifier=screening_identifier)
 
 
-class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin,
-                              SiteModelMixin, BaseUuidModel):
+class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
 
     identifier_cls = ScreeningIdentifier
     eligibility_cls = Eligibility
