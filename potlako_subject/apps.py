@@ -33,7 +33,7 @@ if settings.APP_NAME == 'potlako_subject':
     from edc_visit_tracking.constants import SCHEDULED, UNSCHEDULED, LOST_VISIT
     from edc_visit_tracking.apps import (
         AppConfig as BaseEdcVisitTrackingAppConfig)
-    
+
     class EdcDeviceAppConfig(BaseEdcDeviceAppConfig):
         use_settings = True
         device_permissions = DevicePermissions(
