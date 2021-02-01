@@ -15,6 +15,8 @@ from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO_UNKNOWN
 from edc_constants.constants import NOT_APPLICABLE
+from edc_search.model_mixins import SearchSlugManager
+from edc_search.model_mixins import SearchSlugModelMixin as Base
 
 from ..choices import CANCER_SUSPECT, ENROLLMENT_SITES
 from ..choices import CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION
@@ -26,12 +28,24 @@ from .list_models import Symptoms
 from .validators import datetime_not_now, identity_check, age_check
 
 
-class ClinicianCallEnrollmentManager(models.Manager):
+class SearchSlugModelMixin(Base):
+
+    def get_search_slug_fields(self):
+        fields = super().get_search_slug_fields()
+        fields.append('screening_identifier')
+        fields.append('national_identity')
+        return fields
+
+    class Meta:
+        abstract = True
+
+
+class ClinicianCallEnrollmentManager(SearchSlugManager, models.Manager):
     def get_by_natural_key(self, screening_identifier):
         return self.get(screening_identifier=screening_identifier)
 
 
-class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
+class ClinicianCallEnrollment(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
 
     identifier_cls = ScreeningIdentifier
     eligibility_cls = Eligibility
