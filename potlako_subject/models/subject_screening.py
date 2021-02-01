@@ -102,7 +102,7 @@ class SubjectScreening(
     is_consented = models.BooleanField(
         default=False,
         editable=False)
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
