@@ -32,3 +32,5 @@ class CancerDxAndTxAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         'diagnosis_date_estimation': admin.VERTICAL,
         'cancer_treatment': admin.VERTICAL,
     }
+
+    list_display = ('subject_visit', 'cancer_evaluation', 'cancer_treatment')

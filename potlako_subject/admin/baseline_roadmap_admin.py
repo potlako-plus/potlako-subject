@@ -36,6 +36,13 @@ class BaselineRoadMapAdmin(ModelAdminMixin, admin.ModelAdmin):
         'results_review_personnel': admin.VERTICAL
     }
 
+    list_display = ('subject_identifier',
+                    'specialist_turnaround_time',
+                    'review_turnaround_time',
+                    'oncology_visit',
+                    'oncology_turnaround_time',
+                    'treatment_initiation_visit')
+
     def get_clinician_call_attrs(self, subject_identifier=None):
         """Extract values required for Baseline Map from Clinician Call
         Enrollment model.
@@ -62,14 +69,3 @@ class BaselineRoadMapAdmin(ModelAdminMixin, admin.ModelAdmin):
                 enrollment_dict.update({attr: value})
 
         return enrollment_dict
-
-#     def get_form(self, request, obj=None, **kwargs):
-#         """Returns a form after adding extra readonly fields
-#         """
-#         form = super().get_form(request, obj=obj, **kwargs)
-#         subject_screening = SubjectScreening.objects.get(
-#             screening_identifier=request.GET.get('screening_identifier'))
-#         if subject_screening.mental_status == ABNORMAL:
-#             form = self.replace_label_text(
-#                 form, 'participant', 'next of kin', skip_fields=['is_incarcerated'])
-#         return form

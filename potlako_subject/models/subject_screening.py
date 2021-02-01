@@ -102,7 +102,7 @@ class SubjectScreening(
     is_consented = models.BooleanField(
         default=False,
         editable=False)
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
@@ -124,6 +124,11 @@ class SubjectScreening(
             return self.age_in_years
         else:
             return enrollment_obj.age_in_years
+
+    def get_search_slug_fields(self):
+        fields = super().get_search_slug_fields()
+        fields.extend(['screening_identifier',])
+        return fields
 
     def save(self, *args, **kwargs):
         self.age_in_years = self.get_age()

@@ -33,7 +33,7 @@ if settings.APP_NAME == 'potlako_subject':
     from edc_visit_tracking.constants import SCHEDULED, UNSCHEDULED, LOST_VISIT
     from edc_visit_tracking.apps import (
         AppConfig as BaseEdcVisitTrackingAppConfig)
-    
+
     class EdcDeviceAppConfig(BaseEdcDeviceAppConfig):
         use_settings = True
         device_permissions = DevicePermissions(
@@ -57,7 +57,7 @@ if settings.APP_NAME == 'potlako_subject':
         study_open_datetime = datetime(
             2016, 4, 1, 0, 0, 0, tzinfo=gettz('UTC'))
         study_close_datetime = datetime(
-            2020, 12, 1, 0, 0, 0, tzinfo=gettz('UTC'))
+            2025, 12, 1, 0, 0, 0, tzinfo=gettz('UTC'))
 
     class EdcAppointmentAppConfig(BaseEdcAppointmentAppConfig):
         default_appt_type = 'clinic'

@@ -11,9 +11,13 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, date_not_future, datetime_not_future
 from edc_base.model_validators import TelephoneNumber
 from edc_base.sites import SiteModelMixin
+from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO_UNKNOWN
 from edc_constants.constants import NOT_APPLICABLE
+from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
+from edc_search.model_mixins import SearchSlugManager
+from edc_search.model_mixins import SearchSlugModelMixin as Base
 
 from ..choices import CANCER_SUSPECT, ENROLLMENT_SITES
 from ..choices import CLINICIAN_TYPE, FACILITY, FACILITY_UNIT, DISPOSITION
@@ -22,16 +26,29 @@ from ..choices import SUSPECTED_CANCER, TRIAGE_STATUS, DATE_ESTIMATION
 from ..eligibility import Eligibility
 from ..screening_identifier import ScreeningIdentifier
 from .list_models import Symptoms
-from .validators import datetime_not_now, identity_check
-from edc_base.utils import get_utcnow
+from .validators import datetime_not_now, identity_check, age_check
 
 
-class ClinicianCallEnrollmentManager(models.Manager):
+class SearchSlugModelMixin(Base):
+
+    def get_search_slug_fields(self):
+        fields = super().get_search_slug_fields()
+        fields.append('subject_identifier')
+        fields.append('screening_identifier')
+        fields.append('national_identity')
+        return fields
+
+    class Meta:
+        abstract = True
+
+
+class ClinicianCallEnrollmentManager(SearchSlugManager, models.Manager):
     def get_by_natural_key(self, screening_identifier):
         return self.get(screening_identifier=screening_identifier)
 
 
-class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
+class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin, SiteModelMixin,
+                              SearchSlugModelMixin, BaseUuidModel):
 
     identifier_cls = ScreeningIdentifier
     eligibility_cls = Eligibility
@@ -141,6 +158,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     age_in_years = models.IntegerField(
         verbose_name='How old is the patient?',
         help_text='(Years)',
+        validators=[age_check, ],
         blank=False)
 
     gender = models.CharField(
@@ -306,7 +324,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     tests_ordered = models.TextField(
         verbose_name='Indicate which tests were ordered.',
         max_length=255,
-        blank=True, null=True, )
+        blank=True, null=True,)
 
     comments = models.TextField(
         verbose_name=('Are there any other comments regarding this '
@@ -328,7 +346,7 @@ class ClinicianCallEnrollment(SiteModelMixin, BaseUuidModel):
     objects = ClinicianCallEnrollmentManager()
 
     def natural_key(self):
-        return(self.screening_identifier, )
+        return(self.screening_identifier,)
     natural_key.dependencies = ['sites.Site']
 
     def save(self, *args, **kwargs):

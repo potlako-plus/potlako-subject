@@ -1,5 +1,5 @@
 from dateutil.relativedelta import relativedelta
-from django.test import TestCase, tag
+from django.test import TestCase
 from edc_base.utils import get_utcnow
 from edc_facility.import_holidays import import_holidays
 from edc_metadata.constants import REQUIRED, NOT_REQUIRED
@@ -12,7 +12,6 @@ from edc_appointment.models import Appointment
 from ..models import OnSchedule
 
 
-@tag('iv')
 class TestInterventionVisitScheduleSetup(TestCase):
 
     def setUp(self):
@@ -43,7 +42,7 @@ class TestInterventionVisitScheduleSetup(TestCase):
         self.appointment_2000 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='2000')
-        
+
         self.appointment_3000 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='3000')
@@ -56,7 +55,7 @@ class TestInterventionVisitScheduleSetup(TestCase):
 
         self.not_required_models = [
             'transport', 'missedvisit',
-            'investigationsordered', 'investigationsresulted',]
+            'investigationsordered', 'investigationsresulted', ]
 
     def test_community_arm_name_valid(self):
         self.assertEqual(OnSchedule.objects.filter(
@@ -115,7 +114,7 @@ class TestInterventionVisitScheduleSetup(TestCase):
             'potlako_subject.patientcallinitial',
             subject_visit=self.visit_1000,
             next_appointment_date=get_utcnow().date() + relativedelta(weeks=1))
-        
+
         self.appointment_1000_1 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='1000',
@@ -131,7 +130,7 @@ class TestInterventionVisitScheduleSetup(TestCase):
             'potlako_subject.patientcallfollowup',
             subject_visit=visit_1000_1,
             next_appointment_date=get_utcnow().date() + relativedelta(weeks=2))
-        
+
         for model in self.not_required_models:
             self.assertEqual(
                 CrfMetadata.objects.get(
@@ -149,19 +148,19 @@ class TestInterventionVisitScheduleSetup(TestCase):
             visit_code_sequence='2').count(), 1)
 
     def test_metadata_creation_visit_2000(self):
-        
+
         appts = Appointment.objects.filter(appt_status=IN_PROGRESS_APPT)
 
         for ap in appts:
             ap.appt_status = INCOMPLETE_APPT
             ap.save()
-        
+
         mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
             report_datetime=get_utcnow() - relativedelta(days=3),
             appointment=self.appointment_2000)
-        
+
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.patientcallfollowup',

@@ -80,6 +80,12 @@ class CancerDxAndTxAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
         'radiation_date_estimation': admin.VERTICAL,
     }
     
+    list_display = ('subject_identifier',
+                    'cancer_evaluation',
+                    'clinical_impression',
+                    'final_cancer_diagnosis',
+                    'non_cancer_diagnosis')
+    
     def redirect_url(self, request, obj, post_url_continue=None):
         redirect_url = super().redirect_url(
             request, obj, post_url_continue=post_url_continue)

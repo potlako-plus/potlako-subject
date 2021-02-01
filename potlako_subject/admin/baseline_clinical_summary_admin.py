@@ -24,3 +24,5 @@ class BaselineClincalSummaryAdmin(ModelAdminMixin, admin.ModelAdmin):
         'cancer_concern': admin.VERTICAL,
         'cancer_probability': admin.VERTICAL,
     }
+
+    list_display = ('subject_identifier', 'cancer_concern', 'cancer_concern_other', 'cancer_probability')

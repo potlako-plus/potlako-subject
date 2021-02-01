@@ -135,3 +135,6 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
     actions = ['export_crf_as_csv']
 
     search_fields = ('screening_identifier',)
+
+    list_display = ('screening_identifier', 'subject_identifier', 'suspected_cancer',
+                    'performance', 'pain_score')

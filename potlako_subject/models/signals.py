@@ -45,18 +45,21 @@ def subject_consent_on_post_save(sender, instance, raw, created, **kwargs):
     if not raw:
         if created:
 
-            try:
-                subject_screening = SubjectScreening.objects.get(
-                    screening_identifier=instance.screening_identifier)
-            except SubjectScreening.DoesNotExist:
-                raise ValidationError('Subject screening object does not exist!')
-            else:
-                subject_screening.subject_identifier = instance.subject_identifier
-                subject_screening.is_consented = True
-                subject_screening.save_base(
-                    update_fields=['subject_identifier', 'is_consented'])
+            update_model_fields(instance=instance, 
+                                 model_cls=SubjectScreening,
+                                 fields=[['subject_identifier', instance.subject_identifier],
+                                  ['is_consented', True]])
 
-        put_on_schedule(instance=instance)
+            update_model_fields(instance=instance, 
+                                 model_cls=ClinicianCallEnrollment,
+                                 fields=[['subject_identifier', instance.subject_identifier],])
+
+        try:
+            OnSchedule.objects.get(
+                subject_identifier=instance.subject_identifier,
+                community_arm__isnull=False)
+        except OnSchedule.DoesNotExist:
+            put_on_schedule(instance=instance)
 
 
 @receiver(post_save, weak=False, sender=PatientCallInitial,
@@ -292,3 +295,14 @@ def get_community_arm(screening_identifier=None):
             elif clinician_enrollment_obj.facility in intervention_communities:
                 return 'Intervention'
     return None
+
+def update_model_fields(instance=None, model_cls=None, fields=None):
+    try:
+        model_obj = model_cls.objects.get(
+            screening_identifier=instance.screening_identifier)
+    except model_cls.DoesNotExist:
+        raise ValidationError(f'{model_cls} object does not exist!')
+    else:
+        for field, value in fields:
+            setattr(model_obj, field, value)
+        model_obj.save_base(update_fields=[field[0] for field in fields])
