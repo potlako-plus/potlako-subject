@@ -18,22 +18,22 @@ class EvaluationTimelineManager(models.Manager):
         return self.get(navigation_plan=navigation_plan,
                         key_step=key_step,
                         target_date=target_date)
-    
+
 
 class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
                                SiteModelMixin, BaseUuidModel):
 
     diagnostic_plan = models.TextField(
         max_length=500)
-    
+
     def natural_key(self):
-        return (self.subject_identifier, )
+        return (self.subject_identifier,)
     natural_key.dependencies = ['sites.Site']
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = SubjectIdentifierManager()
 
     class Meta:
@@ -53,7 +53,6 @@ class EvaluationTimeline(SiteModelMixin, BaseUuidModel):
 
     target_date = models.DateField(
         verbose_name='Target Date',
-        validators=[date_is_future],
         )
 
     key_step_status = models.CharField(
@@ -75,13 +74,13 @@ class EvaluationTimeline(SiteModelMixin, BaseUuidModel):
         choices=YES_NO,
         null=True,
         blank=True)
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = EvaluationTimelineManager()
-    
+
     def natural_key(self):
         return (self.key_step, self.target_date,) + self.navigation_plan.natural_key()
     natural_key.dependencies = ['potlako_subject.navigationsummaryandplan']
