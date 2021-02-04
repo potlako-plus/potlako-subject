@@ -16,11 +16,13 @@ from .missed_visit import MissedVisit
 from .navigation_summary_and_plan import EvaluationTimeline
 from .navigation_summary_and_plan import NavigationSummaryAndPlan
 from .onschedule import OnSchedule
+from .patient_availability_log import PatientAvailabilityLog, PatientAvailabilityLogEntry
 from .patient_call_followup import FacilityVisit
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
 from .patient_call_initial import PreviousFacilityVisit
 from .signals import home_visit_on_post_save
+from .signals import clinician_call_enrollment_on_post_save
 from .signals import patient_call_followup_on_post_save
 from .signals import patient_call_initial_on_post_save
 from .signals import subject_consent_on_post_save
