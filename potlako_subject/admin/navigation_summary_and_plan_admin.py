@@ -16,6 +16,7 @@ class EvaluationTimelineInlineAdmin(TabularInlineMixin, admin.TabularInline):
             'fields': (
                 'key_step',
                 'target_date',
+                'adjusted_target_date',
                 'key_step_status',
                 'completion_date',
                 'review_required')}
@@ -32,11 +33,12 @@ class NavigationPlanAndSummaryAdmin(ModelAdminMixin, admin.ModelAdmin):
     extra_context_models = ['cliniciancallenrollment',
                             'baselineclinicalsummary',
                             'symptomandcareseekingassessment',
-                            'cancerdxandtx',]
+                            'cancerdxandtx', ]
 
     fieldsets = (
         (None, {
             'fields': [
                 'subject_identifier',
-                'diagnostic_plan', ]}
+                'diagnostic_plan',
+                'diagnosis_date' ]}
          ), audit_fieldset_tuple)

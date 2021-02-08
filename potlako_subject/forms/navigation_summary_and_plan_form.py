@@ -12,6 +12,7 @@ class NavigationSummaryAndPlanForm(forms.ModelForm):
 
         evaluation_count = self.data.get(
             'evaluationtimeline_set-TOTAL_FORMS')
+        import pdb; pdb.set_trace()
 
         for count in range(int(evaluation_count)):
 
@@ -35,6 +36,12 @@ class NavigationSummaryAndPlanForm(forms.ModelForm):
                             'Completion date cannot be before target date.'
                             'Check entry number ' + str(count + 1))
 
+        if self.instance.diagnosis_date is not None:
+            if cleaned_data.get('diagnosis_date') != self.instance.diagnosis_date:
+                raise forms.ValidationError({
+                        'diagnosis_date': 'The diagnosis date cannot be changed.'})
+
+        return cleaned_data
 
     class Meta:
         model = NavigationSummaryAndPlan
@@ -43,7 +50,12 @@ class NavigationSummaryAndPlanForm(forms.ModelForm):
 
 class EvaluationTimelineForm(forms.ModelForm):
 
-
+    def clean(self):
+        cleaned_data = super().clean()
+        if self.instance.target_date is not None:
+            if cleaned_data.get('target_date') != self.instance.target_date:
+                raise forms.ValidationError({
+                        'target_date': 'The target date cannot be changed.'})
 
     class Meta:
         model = EvaluationTimeline
