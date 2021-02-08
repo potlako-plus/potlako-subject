@@ -27,12 +27,28 @@ from .clinician_call_enrollment import ClinicianCallEnrollment
 from .home_visit import HomeVisit
 from .missed_call import MissedCallRecord
 from .onschedule import OnSchedule
+from .patient_availability_log import PatientAvailabilityLog
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
 from .subject_consent import SubjectConsent
 from .subject_screening import SubjectScreening
 from .subject_visit import SubjectVisit
 from edc_appointment.constants import NEW_APPT
+
+
+@receiver(post_save, weak=False, sender=ClinicianCallEnrollment,
+          dispatch_uid='clinician_call_enrollment_on_post_save')
+def clinician_call_enrollment_on_post_save(sender, instance, raw, created, **kwargs):
+    """
+    - Create Patient Availability log
+    """
+    if not raw:
+        if created:
+
+            try:
+                PatientAvailabilityLog.objects.get(clinician_call=instance)
+            except PatientAvailabilityLog.DoesNotExist:
+                PatientAvailabilityLog.objects.create(clinician_call=instance)
 
 
 @receiver(post_save, weak=False, sender=SubjectConsent,
