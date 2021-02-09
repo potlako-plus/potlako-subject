@@ -1,5 +1,5 @@
 from django.contrib import admin
-from edc_model_admin import audit_fieldset_tuple
+from edc_model_admin import audit_fieldset_tuple, ModelAdminReadOnlyMixin
 from ..admin_site import potlako_subject_admin
 from ..forms import BaselineClinicalSummaryForm
 from ..models import BaselineClinicalSummary
@@ -7,7 +7,7 @@ from .modeladmin_mixins import ModelAdminMixin
 
 
 @admin.register(BaselineClinicalSummary, site=potlako_subject_admin)
-class BaselineClincalSummaryAdmin(ModelAdminMixin, admin.ModelAdmin):
+class BaselineClincalSummaryAdmin(ModelAdminMixin, ModelAdminReadOnlyMixin, admin.ModelAdmin):
 
     form = BaselineClinicalSummaryForm
 
