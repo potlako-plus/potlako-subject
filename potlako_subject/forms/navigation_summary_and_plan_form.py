@@ -12,7 +12,6 @@ class NavigationSummaryAndPlanForm(forms.ModelForm):
 
         evaluation_count = self.data.get(
             'evaluationtimeline_set-TOTAL_FORMS')
-        import pdb; pdb.set_trace()
 
         for count in range(int(evaluation_count)):
 
