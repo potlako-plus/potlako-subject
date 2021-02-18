@@ -3,11 +3,14 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 from edc_base.model_mixins import BaseUuidModel
+from edc_base.model_validators.date import datetime_not_future
 from edc_base.sites import CurrentSiteManager
 from edc_base.sites.site_model_mixin import SiteModelMixin
+from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO, YES_NO_NA
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierModelMixin
 from edc_identifier.subject_identifier import SubjectIdentifier
+from edc_protocol.validators import datetime_not_before_study_start
 from edc_registration.model_mixins import (
     UpdatesOrCreatesRegistrationModelMixin)
 
@@ -43,6 +46,13 @@ class SubjectConsent(
         CitizenFieldsMixin, SearchSlugModelMixin, BaseUuidModel):
 
     subject_screening_model = 'potlako_subject.subjectscreening'
+
+    report_datetime = models.DateTimeField(
+        verbose_name="Report Date",
+        validators=[
+            datetime_not_before_study_start,
+            datetime_not_future],
+        default=get_utcnow,)
 
     screening_identifier = models.CharField(
         verbose_name='Screening identifier',
