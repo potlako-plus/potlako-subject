@@ -51,13 +51,13 @@ class VerbalConsent(
         verbose_name='Language of consent',
         max_length=25,
         choices=settings.LANGUAGES)
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = VerbalConsentManager()
-    
+
     def verbal_consent_image(self):
             return mark_safe(
                 '<a href="%(url)s">'
