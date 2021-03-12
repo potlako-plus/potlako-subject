@@ -6,6 +6,7 @@ from ..forms import NavigationSummaryAndPlanForm, EvaluationTimelineForm
 from ..models import NavigationSummaryAndPlan, EvaluationTimeline
 from .modeladmin_mixins import ModelAdminMixin
 
+
 class EvaluationTimelineInlineAdmin(TabularInlineMixin, admin.TabularInline):
     model = EvaluationTimeline
     form = EvaluationTimelineForm
@@ -31,7 +32,6 @@ class EvaluationTimelineInlineAdmin(TabularInlineMixin, admin.TabularInline):
 
 @admin.register(NavigationSummaryAndPlan, site=potlako_subject_admin)
 class NavigationPlanAndSummaryAdmin(ModelAdminMixin, ModelAdminReadOnlyMixin, admin.ModelAdmin):
-
 
     form = NavigationSummaryAndPlanForm
     inlines = [EvaluationTimelineInlineAdmin, ]
