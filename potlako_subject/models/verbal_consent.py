@@ -3,6 +3,7 @@ from django.utils.html import mark_safe
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
+from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 from edc_search.model_mixins import SearchSlugManager
 
@@ -38,6 +39,11 @@ class VerbalConsent(
         null=True,
         blank=True)
 
+    consented = models.CharField(
+        verbose_name='Agree to Consent',
+        max_length=4,
+        choices=YES_NO)
+
     file = models.FileField(upload_to='verbal_consents/')
 
     user_uploaded = models.CharField(
@@ -51,13 +57,19 @@ class VerbalConsent(
         verbose_name='Language of consent',
         max_length=25,
         choices=settings.LANGUAGES)
-    
+
+    signature = models.CharField(
+        max_length=5,)
+
+    designation = models.CharField(
+        max_length=20,)
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = VerbalConsentManager()
-    
+
     def verbal_consent_image(self):
             return mark_safe(
                 '<a href="%(url)s">'

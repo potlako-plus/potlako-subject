@@ -1,5 +1,5 @@
 from dateutil.relativedelta import relativedelta
-from django.test import TestCase
+from django.test import TestCase, tag
 from edc_base.utils import get_utcnow
 from edc_facility.import_holidays import import_holidays
 from edc_metadata.constants import REQUIRED, NOT_REQUIRED
@@ -8,6 +8,7 @@ from model_mommy import mommy
 
 from edc_appointment.constants import IN_PROGRESS_APPT, INCOMPLETE_APPT
 from edc_appointment.models import Appointment
+from edc_registration.models import RegisteredSubject
 
 from ..models import OnSchedule
 
@@ -64,6 +65,14 @@ class TestInterventionVisitScheduleSetup(TestCase):
         self.assertEqual(OnSchedule.objects.get(
             subject_identifier=self.subject_consent.subject_identifier).community_arm, 'Intervention')
 
+    @tag('rsb')
+    def test_registered_subject(self):
+        self.assertIsNotNone(RegisteredSubject.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier))
+
+        self.assertIsNotNone(RegisteredSubject.objects.get(
+            identity=self.subject_consent.identity))
+
     def test_appointments_created(self):
         """Assert that four appointments were created"""
 
@@ -102,6 +111,7 @@ class TestInterventionVisitScheduleSetup(TestCase):
             visit_code=1000,
             visit_code_sequence='1').count(), 1)
 
+    @tag('retest')
     def test_second_creation_of_1000_continuation_visit(self):
         """Assert that a second unscheduled appointment was created for
          visit 1000

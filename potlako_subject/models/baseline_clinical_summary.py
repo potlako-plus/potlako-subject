@@ -10,7 +10,7 @@ from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 from edc_identifier.managers import SubjectIdentifierManager
 
 from ..choices import CANCER_DIAGNOSIS, SEVERITY_LEVEL
-        
+
 
 class BaselineClinicalSummary(UniqueSubjectIdentifierFieldMixin,
                               SiteModelMixin, BaseUuidModel):
@@ -37,15 +37,15 @@ class BaselineClinicalSummary(UniqueSubjectIdentifierFieldMixin,
     cancer_probability = models.CharField(
         choices=SEVERITY_LEVEL,
         max_length=8)
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = SubjectIdentifierManager()
-    
+
     def natural_key(self):
-        return (self.subject_identifier, )
+        return (self.subject_identifier,)
     natural_key.dependencies = ['sites.Site']
 
     class Meta:
