@@ -67,7 +67,7 @@ class SubjectConsent(
 
     language = models.CharField(
         verbose_name='Language of consent',
-        max_length=5,
+        max_length=50,
         choices=settings.LANGUAGES,
         null=True,
         blank=True,
