@@ -17,12 +17,14 @@ class BaselineClincalSummaryAdmin(ModelAdminMixin, ModelAdminReadOnlyMixin, admi
                        'symptoms_summary',
                        'cancer_concern',
                        'cancer_concern_other',
-                       'cancer_probability'),
+                       'cancer_probability',
+                       'team_discussion'),
         }), audit_fieldset_tuple)
 
     radio_fields = {
         'cancer_concern': admin.VERTICAL,
         'cancer_probability': admin.VERTICAL,
+        'team_discussion': admin.VERTICAL,
     }
 
     list_display = ('subject_identifier', 'cancer_concern', 'cancer_concern_other', 'cancer_probability')
