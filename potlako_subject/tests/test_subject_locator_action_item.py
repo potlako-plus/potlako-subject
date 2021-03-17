@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django.test import TestCase
+from django.test import TestCase, tag
 from edc_action_item.models.action_item import ActionItem
 from edc_base.utils import get_utcnow
 from edc_constants.constants import YES, OPEN, NEW
@@ -11,7 +11,7 @@ from dateutil.relativedelta import relativedelta
 from edc_appointment.constants import INCOMPLETE_APPT
 
 
-
+@tag('sl')
 class TestSubjectLocatorAction(TestCase):
 
     def setUp(self):
@@ -65,8 +65,8 @@ class TestSubjectLocatorAction(TestCase):
             appointment=self.appointment_2000)
 
         mommy.make_recipe('potlako_subject.patientcallfollowup',
-            subject_visit=self.maternal_visit_2000,
-            patient_info_change=YES)
+                          subject_visit=self.maternal_visit_2000,
+                          patient_info_change=YES)
 
         self.assertEqual(ActionItem.objects.filter(
             Q(status=OPEN) | Q(status=NEW),

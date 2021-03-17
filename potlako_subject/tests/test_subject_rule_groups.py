@@ -1,5 +1,5 @@
 from dateutil.relativedelta import relativedelta
-from django.test import TestCase
+from django.test import TestCase, tag
 from edc_base.utils import get_utcnow
 from edc_constants.constants import YES, INCOMPLETE, NO
 from edc_facility.import_holidays import import_holidays
@@ -10,6 +10,7 @@ from edc_appointment.models import Appointment
 from potlako_subject.models.onschedule import OnSchedule
 
 
+@tag('rg')
 class TestRuleGroups(TestCase):
 
     def setUp(self):
@@ -60,7 +61,6 @@ class TestRuleGroups(TestCase):
             report_datetime=get_utcnow() - relativedelta(days=2),
             appointment=self.appointment_1000_1)
 
-
     def test_transport_form_required_intervention_subject(self):
         self.patient_call_initial.transport_support = YES
         self.patient_call_initial.save()
@@ -102,8 +102,6 @@ class TestRuleGroups(TestCase):
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='1000',
                 visit_code_sequence='0').entry_status, NOT_REQUIRED)
-
-
 
     def test_transport_form_not_required_intervention_subject(self):
         self.patient_call_initial.transport_support = NO
@@ -274,6 +272,43 @@ class TestRuleGroups(TestCase):
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='2000').entry_status, REQUIRED)
 
+    @tag('mv')
+    def test_missed_visit_patient_fu_metadata_nr(self):
+        self.appointment_2000 = Appointment.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier,
+            visit_code='2000')
+
+        self.subject_visit_2000 = mommy.make_recipe(
+            'potlako_subject.subjectvisit',
+            subject_identifier=self.subject_consent.subject_identifier,
+            report_datetime=get_utcnow() - relativedelta(days=2),
+            appointment=self.appointment_2000,
+            reason='missed_visit')
+
+        self.assertEqual(
+            CrfMetadata.objects.get(
+                model='potlako_subject.patientcallfollowup',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='2000').entry_status, NOT_REQUIRED)
+
+    @tag('mv')
+    def test_missed_visit_patient_fu_metadata_required(self):
+        self.appointment_2000 = Appointment.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier,
+            visit_code='2000')
+
+        self.subject_visit_2000 = mommy.make_recipe(
+            'potlako_subject.subjectvisit',
+            subject_identifier=self.subject_consent.subject_identifier,
+            report_datetime=get_utcnow() - relativedelta(days=2),
+            appointment=self.appointment_2000)
+
+        self.assertEqual(
+            CrfMetadata.objects.get(
+                model='potlako_subject.patientcallfollowup',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='2000').entry_status, REQUIRED)
+
     def test_missed_home_visit_metadata(self):
         self.appointment_2000 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
@@ -336,7 +371,6 @@ class TestRuleGroups(TestCase):
             'potlako_subject.missedcallrecord',
             missed_call=self.missed_call,
             repeat_call=get_utcnow() + relativedelta(days=2))
-
 
         self.assertEqual(
             CrfMetadata.objects.get(

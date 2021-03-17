@@ -61,14 +61,14 @@ def subject_consent_on_post_save(sender, instance, raw, created, **kwargs):
     if not raw:
         if created:
 
-            update_model_fields(instance=instance, 
-                                 model_cls=SubjectScreening,
-                                 fields=[['subject_identifier', instance.subject_identifier],
-                                  ['is_consented', True]])
+            update_model_fields(instance=instance,
+                                model_cls=SubjectScreening,
+                                fields=[['subject_identifier', instance.subject_identifier],
+                                        ['is_consented', True]])
 
-            update_model_fields(instance=instance, 
-                                 model_cls=ClinicianCallEnrollment,
-                                 fields=[['subject_identifier', instance.subject_identifier],])
+            update_model_fields(instance=instance,
+                                model_cls=ClinicianCallEnrollment,
+                                fields=[['subject_identifier', instance.subject_identifier], ])
 
         try:
             OnSchedule.objects.get(
@@ -311,6 +311,7 @@ def get_community_arm(screening_identifier=None):
             elif clinician_enrollment_obj.facility in intervention_communities:
                 return 'Intervention'
     return None
+
 
 def update_model_fields(instance=None, model_cls=None, fields=None):
     try:
