@@ -5,7 +5,7 @@ class Eligibility:
 
     def __init__(self, cancer_status=None, age_in_years=None,
                  residency=None, nationality=None, consented_contact=None,
-                 enrollment_interest=None):
+                 enrollment_interest=None, verbal_consent=None):
         """checks if participant is eligible otherwise
             error message is the reason for eligibility test failed."""
 
@@ -16,7 +16,7 @@ class Eligibility:
             self.reasons_ineligible.append('Not a Botswana citizen')
         if cancer_status == NO:
             self.reasons_ineligible.append('Not a cancer suspect')
-        if age_in_years < 30:
+        if age_in_years and age_in_years < 30:
             self.reasons_ineligible.append('Younger than 30 years')
         if consented_contact == NO:
             self.reasons_ineligible.append(
@@ -26,6 +26,9 @@ class Eligibility:
                 'Did not want to enroll.')
         if enrollment_interest == 'deceased':
             self.reasons_ineligible.append(
-                'Patient deceased')
+                'Patient deceased.')
+        if verbal_consent == NO:
+            self.reasons_ineligible.append(
+                'Refused verbal consent.')
 
         self.is_eligible = False if self.reasons_ineligible else True
