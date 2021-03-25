@@ -272,8 +272,7 @@ def put_on_schedule(instance=None):
         community_arm = get_community_arm(instance.screening_identifier)
         try:
             onschedule_obj = OnSchedule.objects.get(
-                subject_identifier=instance.subject_identifier,
-                community_arm__isnull=True)
+                subject_identifier=instance.subject_identifier)
         except OnSchedule.DoesNotExist:
             schedule.put_on_schedule(
                 subject_identifier=instance.subject_identifier,

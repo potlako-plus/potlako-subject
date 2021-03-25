@@ -24,16 +24,17 @@ class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
                                SiteModelMixin, BaseUuidModel):
 
     diagnostic_plan = models.TextField(
-        max_length=500)
+        max_length=1000)
 
-    diagnosis_date = models.DateField(
-        verbose_name='Diagnosis Date',
-        validators=[date_not_future],
+    notes = models.TextField(
+        verbose_name='Notes',
+        max_length=1000,
         null=True,
         blank=True)
 
     def natural_key(self):
         return (self.subject_identifier,)
+
     natural_key.dependencies = ['sites.Site']
 
     history = HistoricalRecords()
