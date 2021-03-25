@@ -37,11 +37,6 @@ class NavigationSummaryAndPlanForm(forms.ModelForm):
                             'Completion date cannot be before target date.'
                             'Check entry number ' + str(count + 1))
 
-        if self.instance.diagnosis_date is not None:
-            if cleaned_data.get('diagnosis_date') != self.instance.diagnosis_date:
-                raise forms.ValidationError({
-                        'diagnosis_date': 'The diagnosis date cannot be changed.'})
-
         return cleaned_data
 
     class Meta:

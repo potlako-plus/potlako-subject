@@ -95,6 +95,7 @@ class EvaluationTimeline(SiteModelMixin, BaseUuidModel):
 
     def natural_key(self):
         return (self.key_step, self.target_date,) + self.navigation_plan.natural_key()
+
     natural_key.dependencies = ['potlako_subject.navigationsummaryandplan']
 
     class Meta:
