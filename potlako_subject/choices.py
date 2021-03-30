@@ -90,6 +90,13 @@ CANCER_SUSPECT = (
     (OTHER, 'Other (specify)')
 )
 
+CANT_TALK_REASON = (
+    ('at_work', 'At work'),
+    ('family_responsibilities', 'Family responsibilities e.g household chores, attending a baby'),
+    (OTHER, 'Other'),
+
+)
+
 CHECKUP_FREQUENCY = (
     ('atleast_once_a_month', 'Atleast once a month'),
     ('1-3_months', '1-3 months'),

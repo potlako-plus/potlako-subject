@@ -21,6 +21,7 @@ class VerbalConsentAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'datetime_captured',
                 'screening_identifier',
                 'version',
+                'consented',
                 'subject_identifier',
                 'language'
             )}),
@@ -31,7 +32,7 @@ class VerbalConsentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         return (super().get_readonly_fields(request, obj=obj) + audit_fields +
-                ('language', 'screening_identifier', 
+                ('language', 'screening_identifier',
                  'subject_identifier', 'report_datetime',
                  'verbal_consent_image', 'datetime_captured',
                  'user_uploaded'))

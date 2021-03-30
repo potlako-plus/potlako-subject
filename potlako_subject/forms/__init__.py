@@ -14,6 +14,7 @@ from .missed_visit_form import MissedVisitForm
 from .navigation_summary_and_plan_form import EvaluationTimelineForm
 from .navigation_summary_and_plan_form import NavigationSummaryAndPlanForm
 from .next_of_kin_form import NextOfKinForm
+from .patient_availability_log_entry_form import PatientAvailabilityLog, PatientAvailabilityLogEntryForm
 from .patient_call_followup_form import PatientCallFollowUpForm
 from .patient_call_initial_form import PatientCallInitialForm
 from .previous_facility_visit_form import PreviousFacilityVisitForm

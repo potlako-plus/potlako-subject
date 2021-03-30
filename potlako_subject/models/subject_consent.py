@@ -1,13 +1,17 @@
+from django.apps import apps as django_apps
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 
 from edc_base.model_mixins import BaseUuidModel
+from edc_base.model_validators.date import datetime_not_future
 from edc_base.sites import CurrentSiteManager
 from edc_base.sites.site_model_mixin import SiteModelMixin
+from edc_base.utils import age, get_utcnow
 from edc_constants.choices import YES_NO, YES_NO_NA
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierModelMixin
 from edc_identifier.subject_identifier import SubjectIdentifier
+from edc_protocol.validators import datetime_not_before_study_start
 from edc_registration.model_mixins import (
     UpdatesOrCreatesRegistrationModelMixin)
 
@@ -23,6 +27,10 @@ from edc_sms.models import SubjectRecipientModelMixin
 from ..choices import IDENTITY_TYPE
 from .clinician_call_enrollment import ClinicianCallEnrollment
 from .model_mixins import SearchSlugModelMixin
+
+
+class SubjectScreeningError(Exception):
+    pass
 
 
 class ConsentManager(SubjectConsentManager, SearchSlugManager):
@@ -44,6 +52,13 @@ class SubjectConsent(
 
     subject_screening_model = 'potlako_subject.subjectscreening'
 
+    report_datetime = models.DateTimeField(
+        verbose_name="Report Date",
+        validators=[
+            datetime_not_before_study_start,
+            datetime_not_future],
+        default=get_utcnow,)
+
     screening_identifier = models.CharField(
         verbose_name='Screening identifier',
         null=True,
@@ -57,7 +72,7 @@ class SubjectConsent(
 
     language = models.CharField(
         verbose_name='Language of consent',
-        max_length=5,
+        max_length=50,
         choices=settings.LANGUAGES,
         null=True,
         blank=True,
@@ -116,6 +131,17 @@ class SubjectConsent(
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+        screening_cls = django_apps.get_model('potlako_subject.subjectscreening')
+        try:
+            screening_obj = screening_cls.objects.get(
+                screening_identifier=self.screening_identifier)
+        except screening_cls.DoesNotExist:
+            raise SubjectScreeningError('Missing subject screening object for participant'
+                                        f'{self.subject_identifier}')
+        else:
+            screening_obj.age_in_years = age(self.dob, get_utcnow())
+            screening_obj.save()
         self.subject_type = 'subject'
         self.version = '1'
 

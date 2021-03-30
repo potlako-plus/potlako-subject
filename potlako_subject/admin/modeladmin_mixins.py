@@ -32,7 +32,7 @@ class ModelAdminMixin(
 
     def add_view(self, request, form_url='', extra_context=None):
 
-        extra_context = {}
+        extra_context = extra_context or {}
         if self.extra_context_models:
             extra_context_dict = BaselineRoadMapMixin(
                 subject_identifier=request.GET.get(
@@ -43,7 +43,7 @@ class ModelAdminMixin(
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
 
-        extra_context = {}
+        extra_context = extra_context or {}
         if self.extra_context_models:
             extra_context_dict = BaselineRoadMapMixin(
                 subject_identifier=request.GET.get(

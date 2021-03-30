@@ -1,6 +1,6 @@
 from dateutil.relativedelta import relativedelta
 from django.apps import apps as django_apps
-from django.test import TestCase, tag
+from django.test import TestCase
 from edc_appointment.models import Appointment
 from edc_base.utils import get_utcnow
 from edc_facility.import_holidays import import_holidays
@@ -11,11 +11,10 @@ from model_mommy import mommy
 from ..sync_models import sync_models
 
 
-@tag('nk')
 class TestNaturalKey(TestCase):
-    
+
     sync_test_helper = SyncTestHelper()
-    
+
     def setUp(self):
         import_holidays()
 
@@ -48,11 +47,10 @@ class TestNaturalKey(TestCase):
             report_datetime=get_utcnow() - relativedelta(days=5),
             appointment=self.appointment_1000)
 
-    
-   
+
+
     def test_natural_key_attrs(self):
         self.sync_test_helper.sync_test_natural_key_attr('potlako_subject')
-        
+
     def test_get_by_natural_key_attr(self):
         self.sync_test_helper.sync_test_get_by_natural_key_attr('potlako_subject')
-    

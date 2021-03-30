@@ -7,7 +7,7 @@ from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 from edc_identifier.managers import SubjectIdentifierManager
-from edc_base.model_validators import date_is_future
+from edc_base.model_validators import date_is_future, date_not_future
 
 from ..choices import DONE_NOT_DONE
 
@@ -24,10 +24,17 @@ class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
                                SiteModelMixin, BaseUuidModel):
 
     diagnostic_plan = models.TextField(
-        max_length=500)
+        max_length=1000)
+
+    notes = models.TextField(
+        verbose_name='Notes',
+        max_length=1000,
+        null=True,
+        blank=True)
 
     def natural_key(self):
         return (self.subject_identifier,)
+
     natural_key.dependencies = ['sites.Site']
 
     history = HistoricalRecords()
@@ -54,6 +61,12 @@ class EvaluationTimeline(SiteModelMixin, BaseUuidModel):
     target_date = models.DateField(
         verbose_name='Target Date',
         )
+
+    adjusted_target_date = models.DateField(
+        verbose_name='Adjusted Target Date',
+        validators=[date_is_future],
+        blank=True,
+        null=True)
 
     key_step_status = models.CharField(
         verbose_name='Key step status',
@@ -83,6 +96,7 @@ class EvaluationTimeline(SiteModelMixin, BaseUuidModel):
 
     def natural_key(self):
         return (self.key_step, self.target_date,) + self.navigation_plan.natural_key()
+
     natural_key.dependencies = ['potlako_subject.navigationsummaryandplan']
 
     class Meta:

@@ -147,6 +147,12 @@ AUTH_PASSWORD_VALIDATORS = [
      },
 ]
 
+LANGUAGES = (
+    ('tn', 'Setswana'),
+    ('en', 'English'),
+    ('kck', 'Ikalanga'),
+)
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 

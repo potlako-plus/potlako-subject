@@ -15,6 +15,7 @@ from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO, GENDER, POS_NEG_UNKNOWN, YES_NO_NA
 from edc_constants.choices import YES_NO_UNKNOWN
 from edc_constants.constants import NOT_APPLICABLE
+from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
 from edc_search.model_mixins import SearchSlugManager
 from edc_search.model_mixins import SearchSlugModelMixin as Base
 
@@ -32,6 +33,7 @@ class SearchSlugModelMixin(Base):
 
     def get_search_slug_fields(self):
         fields = super().get_search_slug_fields()
+        fields.append('subject_identifier')
         fields.append('screening_identifier')
         fields.append('national_identity')
         return fields
@@ -45,7 +47,8 @@ class ClinicianCallEnrollmentManager(SearchSlugManager, models.Manager):
         return self.get(screening_identifier=screening_identifier)
 
 
-class ClinicianCallEnrollment(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
+class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin, SiteModelMixin,
+                              SearchSlugModelMixin, BaseUuidModel):
 
     identifier_cls = ScreeningIdentifier
     eligibility_cls = Eligibility

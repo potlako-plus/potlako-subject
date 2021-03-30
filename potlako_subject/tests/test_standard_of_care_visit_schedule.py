@@ -44,11 +44,11 @@ class TestStandardofCareVisitSchedule(TestCase):
             subject_identifier=self.subject_consent.subject_identifier,
             report_datetime=get_utcnow() - relativedelta(days=5),
             appointment=self.appointment_1000)
-        
+
         self.appointment_2000 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='2000')
-        
+
         self.visit_2000 = mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
@@ -58,7 +58,7 @@ class TestStandardofCareVisitSchedule(TestCase):
         self.appointment_3000 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='3000')
-        
+
         mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
@@ -82,13 +82,13 @@ class TestStandardofCareVisitSchedule(TestCase):
                 model='potlako_subject.patientcallinitial',
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='1000').entry_status, REQUIRED)
-        
+
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.symptomandcareseekingassessment',
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='1000').entry_status, REQUIRED)
-        
+
         self.assertEqual(
                     CrfMetadata.objects.get(
                         model='potlako_subject.medicaldiagnosis',
@@ -96,7 +96,7 @@ class TestStandardofCareVisitSchedule(TestCase):
                         visit_code='1000').entry_status, NOT_REQUIRED)
 
     def test_metadata_creation_visit_2000(self):
-        
+
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.patientcallfollowup',
@@ -108,22 +108,22 @@ class TestStandardofCareVisitSchedule(TestCase):
                 model='potlako_subject.cancerdxandtx',
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='2000').entry_status, REQUIRED)
-    
+
     def test_followup_not_required(self):
-        
+
         self.appointment_1000.appt_stat = INCOMPLETE_APPT
-        
+
         mommy.make_recipe(
             'potlako_subject.patientcallfollowup',
             subject_visit=self.visit_2000,
             investigations_ordered='ordered_and_resulted')
-        
+
         self.assertEqual(
             Appointment.objects.filter(subject_identifier=self.subject_consent.subject_identifier).count(), 3)
-        
+
 
     def test_metadata_creation_visit_3000(self):
-        
+
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.patientcallfollowup',
@@ -135,24 +135,24 @@ class TestStandardofCareVisitSchedule(TestCase):
                 model='potlako_subject.cancerdxandtx',
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='3000').entry_status, REQUIRED)
-         
+
     def test_models_not_required(self):
         visit_codes = ['1000', '2000', '3000']
         for code in visit_codes:
             for md in self.not_required_models:
-                
+
                 self.assertEqual(
                     CrfMetadata.objects.get(
                         model='potlako_subject.' + md,
                         subject_identifier=self.subject_consent.subject_identifier,
                         visit_code=code).entry_status, NOT_REQUIRED)
-                
+
         self.assertEqual(
                     CrfMetadata.objects.get(
                         model='potlako_subject.missedvisit',
                         subject_identifier=self.subject_consent.subject_identifier,
                         visit_code='2000').entry_status, NOT_REQUIRED)
-         
+
         self.assertEqual(
                     CrfMetadata.objects.get(
                         model='potlako_subject.missedvisit',

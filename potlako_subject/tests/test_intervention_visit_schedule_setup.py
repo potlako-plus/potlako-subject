@@ -8,11 +8,11 @@ from model_mommy import mommy
 
 from edc_appointment.constants import IN_PROGRESS_APPT, INCOMPLETE_APPT
 from edc_appointment.models import Appointment
+from edc_registration.models import RegisteredSubject
 
 from ..models import OnSchedule
 
 
-@tag('iv')
 class TestInterventionVisitScheduleSetup(TestCase):
 
     def setUp(self):
@@ -43,7 +43,7 @@ class TestInterventionVisitScheduleSetup(TestCase):
         self.appointment_2000 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='2000')
-        
+
         self.appointment_3000 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='3000')
@@ -56,7 +56,7 @@ class TestInterventionVisitScheduleSetup(TestCase):
 
         self.not_required_models = [
             'transport', 'missedvisit',
-            'investigationsordered', 'investigationsresulted',]
+            'investigationsordered', 'investigationsresulted', ]
 
     def test_community_arm_name_valid(self):
         self.assertEqual(OnSchedule.objects.filter(
@@ -64,6 +64,14 @@ class TestInterventionVisitScheduleSetup(TestCase):
 
         self.assertEqual(OnSchedule.objects.get(
             subject_identifier=self.subject_consent.subject_identifier).community_arm, 'Intervention')
+
+    @tag('rsb')
+    def test_registered_subject(self):
+        self.assertIsNotNone(RegisteredSubject.objects.get(
+            subject_identifier=self.subject_consent.subject_identifier))
+
+        self.assertIsNotNone(RegisteredSubject.objects.get(
+            identity=self.subject_consent.identity))
 
     def test_appointments_created(self):
         """Assert that four appointments were created"""
@@ -103,6 +111,7 @@ class TestInterventionVisitScheduleSetup(TestCase):
             visit_code=1000,
             visit_code_sequence='1').count(), 1)
 
+    @tag('retest')
     def test_second_creation_of_1000_continuation_visit(self):
         """Assert that a second unscheduled appointment was created for
          visit 1000
@@ -115,7 +124,7 @@ class TestInterventionVisitScheduleSetup(TestCase):
             'potlako_subject.patientcallinitial',
             subject_visit=self.visit_1000,
             next_appointment_date=get_utcnow().date() + relativedelta(weeks=1))
-        
+
         self.appointment_1000_1 = Appointment.objects.get(
             subject_identifier=self.subject_consent.subject_identifier,
             visit_code='1000',
@@ -131,7 +140,7 @@ class TestInterventionVisitScheduleSetup(TestCase):
             'potlako_subject.patientcallfollowup',
             subject_visit=visit_1000_1,
             next_appointment_date=get_utcnow().date() + relativedelta(weeks=2))
-        
+
         for model in self.not_required_models:
             self.assertEqual(
                 CrfMetadata.objects.get(
@@ -149,19 +158,19 @@ class TestInterventionVisitScheduleSetup(TestCase):
             visit_code_sequence='2').count(), 1)
 
     def test_metadata_creation_visit_2000(self):
-        
+
         appts = Appointment.objects.filter(appt_status=IN_PROGRESS_APPT)
 
         for ap in appts:
             ap.appt_status = INCOMPLETE_APPT
             ap.save()
-        
+
         mommy.make_recipe(
             'potlako_subject.subjectvisit',
             subject_identifier=self.subject_consent.subject_identifier,
             report_datetime=get_utcnow() - relativedelta(days=3),
             appointment=self.appointment_2000)
-        
+
         self.assertEqual(
             CrfMetadata.objects.get(
                 model='potlako_subject.patientcallfollowup',
