@@ -18,10 +18,7 @@ class EvaluationTimelineForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        if self.instance.target_date is not None:
-            if cleaned_data.get('target_date') != self.instance.target_date:
-                raise forms.ValidationError({
-                        'target_date': 'The target date cannot be changed.'})
+
         completion_date = cleaned_data.get('completion_date')
         step_status = cleaned_data.get('key_step_status')
         target_date = cleaned_data.get('target_date')
