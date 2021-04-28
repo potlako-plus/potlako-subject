@@ -1,12 +1,12 @@
 from dateutil.relativedelta import relativedelta
 from edc_base.utils import get_utcnow
-from edc_constants.constants import ALIVE, YES, NO, ON_STUDY 
+from edc_constants.constants import ALIVE, YES, NO, ON_STUDY
 from edc_constants.constants import PARTICIPANT, NEG, NOT_APPLICABLE
 from edc_visit_tracking.constants import SCHEDULED
 from faker import Faker
 from model_mommy.recipe import Recipe, seq
 
-from .models import ClinicianCallEnrollment, PatientCallInitial 
+from .models import ClinicianCallEnrollment, PatientCallInitial
 from .models import SubjectConsent, SubjectScreening, SubjectVisit, SubjectLocator
 from .models import MissedVisit, MissedCall, MissedCallRecord, PatientCallFollowUp
 from .models import SymptomAndCareSeekingAssessment, CancerDxAndTx
@@ -18,7 +18,6 @@ from .models import EvaluationTimeline, NavigationSummaryAndPlan, SMS
 from .models import SymptomAssessment, SymptomsAndCareSeekingEndpoint
 from .models import Transport, VerbalConsent
 
-
 fake = Faker()
 
 cliniciancallenrollment = Recipe(
@@ -28,7 +27,7 @@ cliniciancallenrollment = Recipe(
     contact_date=(get_utcnow() - relativedelta(months=1)).date(),
     cancer_suspect='call_with_clinician',
     cancer_suspect_other='blah',
-    received_training = YES,
+    received_training=YES,
     call_clinician_type='nurse',
     consented_contact=YES,
     paper_register=YES,
@@ -57,7 +56,7 @@ cliniciancallenrollment = Recipe(
     referral_unit=NOT_APPLICABLE,
     referral_discussed=NOT_APPLICABLE,
     triage_status='routine',
-    investigated=NO 
+    investigated=NO
 )
 
 nextofkin = Recipe(
@@ -157,7 +156,6 @@ medicaldiagnosis = Recipe(
 
 evaluationtimeline = Recipe(
     EvaluationTimeline,)
-
 
 navigationsummaryandplan = Recipe(
     NavigationSummaryAndPlan,)

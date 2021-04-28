@@ -59,12 +59,10 @@ class EvaluationTimeline(SiteModelMixin, BaseUuidModel):
         max_length=50,)
 
     target_date = models.DateField(
-        verbose_name='Target Date',
-        )
+        verbose_name='Target Date',)
 
     adjusted_target_date = models.DateField(
         verbose_name='Adjusted Target Date',
-        validators=[date_is_future],
         blank=True,
         null=True)
 
