@@ -14,14 +14,12 @@ class InvestigationsResulted(CrfModelMixin):
         TestsOrderedType,
         verbose_name='What tests are being resulted?')
 
-    tests_resulted_type_other = OtherCharField()
-    
     pathology_tests = models.CharField(
         verbose_name='If pathology, please specify',
         max_length=150,
         blank=True,
         null=True)
-    
+
     imaging_tests = models.CharField(
         verbose_name='If imaging, please specify',
         max_length=150,

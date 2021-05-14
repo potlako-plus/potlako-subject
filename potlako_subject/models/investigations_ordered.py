@@ -147,16 +147,17 @@ class LabTest(SiteModelMixin, BaseUuidModel):
         max_length=50,
         blank=True,
         null=True)
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = LabTestManager()
-    
+
     def natural_key(self):
         return (self.lab_test_type, self.lab_test_date) + self.investigations.natural_key()
+
     natural_key.dependencies = ['sites.Site']
-    
+
     class Meta:
         unique_together = ('investigations', 'lab_test_type', 'lab_test_date')

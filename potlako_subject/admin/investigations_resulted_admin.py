@@ -17,7 +17,6 @@ class InvestigationsResultedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'tests_resulted_type',
                        'pathology_tests',
                        'imaging_tests',
-                       'tests_resulted_type_other',
                        'pathology_specimen_date',
                        'pathology_nhl_date',
                        'pathology_result_date',
@@ -32,6 +31,6 @@ class InvestigationsResultedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         }), audit_fieldset_tuple)
 
     radio_fields = {'diagnosis_results': admin.VERTICAL, }
-    
+
     filter_horizontal = ('tests_resulted_type',)
 

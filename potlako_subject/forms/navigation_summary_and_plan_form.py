@@ -1,5 +1,3 @@
-from datetime import datetime
-from django.conf import settings
 from django import forms
 from edc_base.utils import get_utcnow
 from edc_constants.constants import DONE
