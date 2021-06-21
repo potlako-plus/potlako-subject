@@ -12,7 +12,7 @@ class CancerDxAndTx(CrfModelMixin):
     symptoms_summary = models.TextField(
         verbose_name=('Summary of symptoms and evaluation over the past 6 '
                       'months'),
-        max_length=750)
+        max_length=2000)
 
     cancer_evaluation = models.CharField(
         max_length=30,
