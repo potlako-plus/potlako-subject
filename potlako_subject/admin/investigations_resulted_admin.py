@@ -15,15 +15,10 @@ class InvestigationsResultedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
         (None, {
             'fields': ('subject_visit',
                        'tests_resulted_type',
-                       'pathology_tests',
                        'imaging_tests',
-                       'pathology_specimen_date',
-                       'pathology_nhl_date',
-                       'pathology_result_date',
                        'pathology_received_date',
                        'pathology_communicated_date',
                        'imaging_tests_date',
-                       'specimen_tracking_notes',
                        'diagnosis_results',
                        'diagnosis_results_other',
                        'cancer_type',
@@ -33,4 +28,3 @@ class InvestigationsResultedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     radio_fields = {'diagnosis_results': admin.VERTICAL, }
 
     filter_horizontal = ('tests_resulted_type',)
-

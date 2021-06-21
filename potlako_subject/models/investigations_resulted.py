@@ -14,33 +14,9 @@ class InvestigationsResulted(CrfModelMixin):
         TestsOrderedType,
         verbose_name='What tests are being resulted?')
 
-    pathology_tests = models.CharField(
-        verbose_name='If pathology, please specify',
-        max_length=150,
-        blank=True,
-        null=True)
-
     imaging_tests = models.CharField(
         verbose_name='If imaging, please specify',
         max_length=150,
-        blank=True,
-        null=True)
-
-    pathology_specimen_date = models.DateField(
-        verbose_name='Date pathology specimen taken',
-        validators=[date_not_before_study_start, date_not_future],
-        blank=True,
-        null=True)
-
-    pathology_nhl_date = models.DateField(
-        verbose_name='Date pathology specimen received at NHL',
-        validators=[date_not_before_study_start, date_not_future],
-        blank=True,
-        null=True)
-
-    pathology_result_date = models.DateField(
-        verbose_name='Date pathology results reported',
-        validators=[date_not_before_study_start, date_not_future],
         blank=True,
         null=True)
 
@@ -59,12 +35,6 @@ class InvestigationsResulted(CrfModelMixin):
     imaging_tests_date = models.DateField(
         verbose_name='Date imaging test performed (completed)',
         validators=[date_not_before_study_start, date_not_future],
-        blank=True,
-        null=True)
-
-    specimen_tracking_notes = models.TextField(
-        verbose_name=('Path specimen tracking notes'),
-        max_length=100,
         blank=True,
         null=True)
 

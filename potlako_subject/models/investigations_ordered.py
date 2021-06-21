@@ -3,6 +3,7 @@ from django.db.models.deletion import PROTECT
 from edc_base.model_fields import OtherCharField
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
+from edc_base.model_validators import date_not_future
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
@@ -108,6 +109,30 @@ class InvestigationsOrdered(CrfModelMixin):
     imaging_tests_type_other = OtherCharField(
         verbose_name='If other tests ordered, specify',
         max_length=25,
+        blank=True,
+        null=True)
+
+    pathology_specimen_date = models.DateField(
+        verbose_name='Date pathology specimen taken',
+        validators=[date_not_before_study_start, date_not_future],
+        blank=True,
+        null=True)
+
+    pathology_nhl_date = models.DateField(
+        verbose_name='Date pathology specimen received at NHL',
+        validators=[date_not_before_study_start, date_not_future],
+        blank=True,
+        null=True)
+
+    pathology_result_date = models.DateField(
+        verbose_name='Date pathology results reported',
+        validators=[date_not_before_study_start, date_not_future],
+        blank=True,
+        null=True)
+
+    specimen_tracking_notes = models.TextField(
+        verbose_name=('Path specimen tracking notes'),
+        max_length=1500,
         blank=True,
         null=True)
 

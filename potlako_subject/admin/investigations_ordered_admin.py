@@ -38,6 +38,9 @@ class InvestigationsOrderedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'tests_ordered_type_other',
                        'pathology_test',
                        'pathology_test_other',
+                       'pathology_specimen_date',
+                       'pathology_nhl_date',
+                       'pathology_result_date',
                        'biopsy_specify',
                        'fna_location',
                        'imaging_test_type',
@@ -50,7 +53,8 @@ class InvestigationsOrderedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'facility_ordered_other',
                        'ordered_date',
                        'ordered_date_estimated',
-                       'ordered_date_estimation'),
+                       'ordered_date_estimation',
+                       'specimen_tracking_notes',),
         }), audit_fieldset_tuple)
 
     radio_fields = {'ordered_date_estimated': admin.VERTICAL,
