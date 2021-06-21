@@ -24,11 +24,11 @@ class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
                                SiteModelMixin, BaseUuidModel):
 
     diagnostic_plan = models.TextField(
-        max_length=1000)
+        max_length=3000)
 
     notes = models.TextField(
         verbose_name='Notes',
-        max_length=1000,
+        max_length=5000,
         null=True,
         blank=True)
 
