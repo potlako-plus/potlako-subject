@@ -236,31 +236,47 @@ def trigger_action_item(obj, field, response, model_cls,
 def create_unscheduled_appointment(instance=None):
 
     next_app = instance.next_appointment_date
-    timepoint_datetime = datetime.combine(next_app, get_utcnow().time())
-    timepoint_datetime = pytz.utc.localize(timepoint_datetime)
+    appt_cls = django_apps.get_model('edc_appointment.appointment')
     subject_visit = instance.subject_visit
 
-    unscheduled_appointment_cls = UnscheduledAppointmentCreator
-
-    options = {
-        'subject_identifier': subject_visit.subject_identifier,
-        'visit_schedule_name': subject_visit.visit_schedule.name,
-        'schedule_name': subject_visit.schedule.name,
-        'visit_code': subject_visit.visit_code,
-        'suggested_datetime': timepoint_datetime,
-        'timepoint_datetime': timepoint_datetime,
-        'check_appointment': False,
-        'appt_status': NEW_APPT,
-        'facility': subject_visit.appointment.facility
-    }
-
     try:
-        unscheduled_appointment_cls(**options)
-    except (ObjectDoesNotExist, UnscheduledAppointmentError,
-            InvalidParentAppointmentMissingVisitError,
-            InvalidParentAppointmentStatusError,
-            AppointmentInProgressError) as e:
-        raise ValidationError(str(e))
+        next_visit_code = str(int(subject_visit.visit_code) + 1000)
+        next_appt_obj = appt_cls.objects.get(
+            visit_code=next_visit_code)
+    except appt_cls.DoesNotExist:
+        create_unscheduled = True
+    else:
+        if next_appt_obj.appt_datetime.date() > next_app:
+            create_unscheduled = True
+        else:
+            create_unscheduled = False
+
+    if create_unscheduled:
+
+        timepoint_datetime = datetime.combine(next_app, get_utcnow().time())
+        timepoint_datetime = pytz.utc.localize(timepoint_datetime)
+
+        unscheduled_appointment_cls = UnscheduledAppointmentCreator
+
+        options = {
+            'subject_identifier': subject_visit.subject_identifier,
+            'visit_schedule_name': subject_visit.visit_schedule.name,
+            'schedule_name': subject_visit.schedule.name,
+            'visit_code': subject_visit.visit_code,
+            'suggested_datetime': timepoint_datetime,
+            'timepoint_datetime': timepoint_datetime,
+            'check_appointment': False,
+            'appt_status': NEW_APPT,
+            'facility': subject_visit.appointment.facility
+        }
+
+        try:
+            unscheduled_appointment_cls(**options)
+        except (ObjectDoesNotExist, UnscheduledAppointmentError,
+                InvalidParentAppointmentMissingVisitError,
+                InvalidParentAppointmentStatusError,
+                AppointmentInProgressError) as e:
+            raise ValidationError(str(e))
 
 
 def put_on_schedule(instance=None):
