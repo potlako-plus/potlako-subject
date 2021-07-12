@@ -21,6 +21,7 @@ class InvestigationsResultedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'imaging_tests_date',
                        'diagnosis_results',
                        'diagnosis_results_other',
+                       'pathology_result_date',
                        'cancer_type',
                        'diagnoses_made',),
         }), audit_fieldset_tuple)

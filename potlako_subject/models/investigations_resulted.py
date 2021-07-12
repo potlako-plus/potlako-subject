@@ -45,6 +45,12 @@ class InvestigationsResulted(CrfModelMixin):
 
     diagnosis_results_other = OtherCharField()
 
+    pathology_result_date = models.DateField(
+        verbose_name='Date pathology results reported',
+        validators=[date_not_before_study_start, date_not_future],
+        blank=True,
+        null=True)
+
     cancer_type = models.CharField(
         verbose_name='If cancer, type of cancer diagnosed',
         max_length=15,

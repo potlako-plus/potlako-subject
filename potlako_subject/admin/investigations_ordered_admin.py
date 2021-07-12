@@ -40,7 +40,6 @@ class InvestigationsOrderedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'pathology_test_other',
                        'pathology_specimen_date',
                        'pathology_nhl_date',
-                       'pathology_result_date',
                        'biopsy_specify',
                        'fna_location',
                        'imaging_test_type',
