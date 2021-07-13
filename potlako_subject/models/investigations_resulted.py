@@ -6,6 +6,7 @@ from edc_protocol.validators import date_not_before_study_start
 from ..choices import DIAGNOSIS_RESULTS
 from .list_models import TestsOrderedType
 from .model_mixins import CrfModelMixin
+from edc_constants.choices import YES_NO
 
 
 class InvestigationsResulted(CrfModelMixin):
@@ -60,6 +61,13 @@ class InvestigationsResulted(CrfModelMixin):
     diagnoses_made = models.CharField(
         verbose_name='If not cancer, diagnosis made',
         max_length=15,
+        blank=True,
+        null=True)
+
+    results_reviewed = models.CharField(
+        verbose_name='Results reviewed?',
+        choices=YES_NO,
+        max_length=3,
         blank=True,
         null=True)
 

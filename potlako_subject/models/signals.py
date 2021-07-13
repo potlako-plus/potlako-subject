@@ -93,13 +93,13 @@ def patient_call_initial_on_post_save(sender, instance, raw, created, **kwargs):
                 visit_code_sequence='1')
         except ObjectDoesNotExist:
                 try:
-                    subject_screening = SubjectScreening.objects.get(
+                    subject_consent = SubjectConsent.objects.get(
                         subject_identifier=instance.subject_visit.subject_identifier)
-                except SubjectScreening.DoesNotExist:
-                    raise ValidationError('Subject screening object does not exist!')
+                except SubjectConsent.DoesNotExist:
+                    raise ValidationError('Subject consent object does not exist!')
                 else:
                     if (instance.next_appointment_date and get_community_arm(
-                            screening_identifier=subject_screening.screening_identifier) == 'Intervention'):
+                            screening_identifier=subject_consent.screening_identifier) == 'Intervention'):
 
                         create_unscheduled_appointment(instance=instance)
 
@@ -120,13 +120,13 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
                     visit_code_sequence=str(next_visit_code))
             except ObjectDoesNotExist:
                 try:
-                    subject_screening = SubjectScreening.objects.get(
+                    subject_consent = SubjectConsent.objects.get(
                         subject_identifier=instance.subject_visit.subject_identifier)
-                except SubjectScreening.DoesNotExist:
+                except SubjectConsent.DoesNotExist:
                     raise ValidationError('Subject screening object does not exist!')
                 else:
                     if (instance.next_appointment_date and get_community_arm(
-                            screening_identifier=subject_screening.screening_identifier) == 'Intervention'):
+                            screening_identifier=subject_consent.screening_identifier) == 'Intervention'):
                         create_unscheduled_appointment(instance=instance)
 
         trigger_action_item(instance, 'patient_info_change', YES,
@@ -242,6 +242,7 @@ def create_unscheduled_appointment(instance=None):
     try:
         next_visit_code = str(int(subject_visit.visit_code) + 1000)
         next_appt_obj = appt_cls.objects.get(
+            subject_identifier=instance.subject_visit.subject_identifier,
             visit_code=next_visit_code)
     except appt_cls.DoesNotExist:
         create_unscheduled = True

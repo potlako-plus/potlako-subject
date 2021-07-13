@@ -1,4 +1,5 @@
 from django.contrib import admin
+from edc_fieldsets.fieldlist import Insert
 from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import potlako_subject_admin
 from ..forms import InvestigationsResultedForm
@@ -23,9 +24,22 @@ class InvestigationsResultedAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                        'diagnosis_results_other',
                        'pathology_result_date',
                        'cancer_type',
-                       'diagnoses_made',),
+                       'diagnoses_made'),
         }), audit_fieldset_tuple)
 
-    radio_fields = {'diagnosis_results': admin.VERTICAL, }
+    radio_fields = {'diagnosis_results': admin.VERTICAL,
+                    'results_reviewed': admin.VERTICAL, }
 
     filter_horizontal = ('tests_resulted_type',)
+
+    conditional_fieldlists = {}
+
+    def get_key(self, request, obj=None):
+
+        usr_groups = [g.name for g in request.user.groups.all()]
+
+        return 'Physician' in usr_groups
+
+    conditional_fieldlists.update(
+        {True:
+         Insert('results_reviewed', after='diagnoses_made'), })
