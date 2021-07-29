@@ -93,13 +93,13 @@ def patient_call_initial_on_post_save(sender, instance, raw, created, **kwargs):
                 visit_code_sequence='1')
         except ObjectDoesNotExist:
                 try:
-                    subject_screening = SubjectScreening.objects.get(
+                    subject_consent = SubjectConsent.objects.get(
                         subject_identifier=instance.subject_visit.subject_identifier)
-                except SubjectScreening.DoesNotExist:
-                    raise ValidationError('Subject screening object does not exist!')
+                except SubjectConsent.DoesNotExist:
+                    raise ValidationError('Subject consent object does not exist!')
                 else:
                     if (instance.next_appointment_date and get_community_arm(
-                            screening_identifier=subject_screening.screening_identifier) == 'Intervention'):
+                            screening_identifier=subject_consent.screening_identifier) == 'Intervention'):
 
                         create_unscheduled_appointment(instance=instance)
 
@@ -120,13 +120,13 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
                     visit_code_sequence=str(next_visit_code))
             except ObjectDoesNotExist:
                 try:
-                    subject_screening = SubjectScreening.objects.get(
+                    subject_consent = SubjectConsent.objects.get(
                         subject_identifier=instance.subject_visit.subject_identifier)
-                except SubjectScreening.DoesNotExist:
+                except SubjectConsent.DoesNotExist:
                     raise ValidationError('Subject screening object does not exist!')
                 else:
                     if (instance.next_appointment_date and get_community_arm(
-                            screening_identifier=subject_screening.screening_identifier) == 'Intervention'):
+                            screening_identifier=subject_consent.screening_identifier) == 'Intervention'):
                         create_unscheduled_appointment(instance=instance)
 
         trigger_action_item(instance, 'patient_info_change', YES,
@@ -236,31 +236,48 @@ def trigger_action_item(obj, field, response, model_cls,
 def create_unscheduled_appointment(instance=None):
 
     next_app = instance.next_appointment_date
-    timepoint_datetime = datetime.combine(next_app, get_utcnow().time())
-    timepoint_datetime = pytz.utc.localize(timepoint_datetime)
+    appt_cls = django_apps.get_model('edc_appointment.appointment')
     subject_visit = instance.subject_visit
 
-    unscheduled_appointment_cls = UnscheduledAppointmentCreator
-
-    options = {
-        'subject_identifier': subject_visit.subject_identifier,
-        'visit_schedule_name': subject_visit.visit_schedule.name,
-        'schedule_name': subject_visit.schedule.name,
-        'visit_code': subject_visit.visit_code,
-        'suggested_datetime': timepoint_datetime,
-        'timepoint_datetime': timepoint_datetime,
-        'check_appointment': False,
-        'appt_status': NEW_APPT,
-        'facility': subject_visit.appointment.facility
-    }
-
     try:
-        unscheduled_appointment_cls(**options)
-    except (ObjectDoesNotExist, UnscheduledAppointmentError,
-            InvalidParentAppointmentMissingVisitError,
-            InvalidParentAppointmentStatusError,
-            AppointmentInProgressError) as e:
-        raise ValidationError(str(e))
+        next_visit_code = str(int(subject_visit.visit_code) + 1000)
+        next_appt_obj = appt_cls.objects.get(
+            subject_identifier=instance.subject_visit.subject_identifier,
+            visit_code=next_visit_code)
+    except appt_cls.DoesNotExist:
+        create_unscheduled = True
+    else:
+        if next_appt_obj.appt_datetime.date() > next_app:
+            create_unscheduled = True
+        else:
+            create_unscheduled = False
+
+    if create_unscheduled:
+
+        timepoint_datetime = datetime.combine(next_app, get_utcnow().time())
+        timepoint_datetime = pytz.utc.localize(timepoint_datetime)
+
+        unscheduled_appointment_cls = UnscheduledAppointmentCreator
+
+        options = {
+            'subject_identifier': subject_visit.subject_identifier,
+            'visit_schedule_name': subject_visit.visit_schedule.name,
+            'schedule_name': subject_visit.schedule.name,
+            'visit_code': subject_visit.visit_code,
+            'suggested_datetime': timepoint_datetime,
+            'timepoint_datetime': timepoint_datetime,
+            'check_appointment': False,
+            'appt_status': NEW_APPT,
+            'facility': subject_visit.appointment.facility
+        }
+
+        try:
+            unscheduled_appointment_cls(**options)
+        except (ObjectDoesNotExist, UnscheduledAppointmentError,
+                InvalidParentAppointmentMissingVisitError,
+                InvalidParentAppointmentStatusError,
+                AppointmentInProgressError) as e:
+            raise ValidationError(str(e))
 
 
 def put_on_schedule(instance=None):

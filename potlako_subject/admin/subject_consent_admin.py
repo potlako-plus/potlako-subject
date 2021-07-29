@@ -16,6 +16,7 @@ from simple_history.admin import SimpleHistoryAdmin
 from ..admin_site import potlako_subject_admin
 from ..forms import SubjectConsentForm
 from ..models import SubjectConsent
+from .admin_filter_mixins import FacilityListFilter
 
 
 class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
@@ -101,9 +102,11 @@ class SubjectConsentAdmin(ModelAdminBasicMixin, ModelAdminMixin,
                     'modified',
                     'user_created',
                     'user_modified')
+
     list_filter = ('language',
                    'is_verified',
-                   'identity_type')
+                   'identity_type',
+                   FacilityListFilter)
     search_fields = ('subject_identifier', 'dob',)
 
     def get_actions(self, request):

@@ -1,9 +1,10 @@
 from dateutil.relativedelta import relativedelta
-from django.test import TestCase
+from django.test import TestCase, tag
 from edc_base.utils import get_utcnow
 from edc_facility.import_holidays import import_holidays
 from edc_metadata.constants import REQUIRED, NOT_REQUIRED
 from edc_metadata.models import CrfMetadata
+from edc_visit_schedule.models import SubjectScheduleHistory
 from model_mommy import mommy
 
 from edc_appointment.models import Appointment
@@ -11,6 +12,7 @@ from ..models import OnSchedule
 from edc_appointment.constants import INCOMPLETE_APPT
 
 
+@tag('soc')
 class TestStandardofCareVisitSchedule(TestCase):
 
     def setUp(self):
@@ -73,7 +75,8 @@ class TestStandardofCareVisitSchedule(TestCase):
             subject_identifier=self.subject_consent.subject_identifier).count(), 1)
 
         self.assertEqual(OnSchedule.objects.get(
-            subject_identifier=self.subject_consent.subject_identifier).community_arm, 'Standard of Care')
+            subject_identifier=self.subject_consent.subject_identifier).community_arm,
+            'Standard of Care')
 
     def test_metadata_creation_visit_1000(self):
 
@@ -121,7 +124,6 @@ class TestStandardofCareVisitSchedule(TestCase):
         self.assertEqual(
             Appointment.objects.filter(subject_identifier=self.subject_consent.subject_identifier).count(), 3)
 
-
     def test_metadata_creation_visit_3000(self):
 
         self.assertEqual(
@@ -164,3 +166,10 @@ class TestStandardofCareVisitSchedule(TestCase):
 
         self.assertEqual(Appointment.objects.filter(
             subject_identifier=self.subject_consent.subject_identifier).count(), 3)
+
+    @tag('soc1')
+    def test_schedule_history_object_created(self):
+        """Assert that four appointments were created"""
+
+        self.assertEqual(SubjectScheduleHistory.objects.filter(
+            subject_identifier=self.subject_consent.subject_identifier).count(), 1)

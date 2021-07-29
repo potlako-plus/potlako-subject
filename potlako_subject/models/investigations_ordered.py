@@ -41,7 +41,7 @@ class InvestigationsOrdered(CrfModelMixin):
 
     ordered_date = models.DateField(
         verbose_name='Date of clinic visit where labs were ordered',
-        validators=[date_not_before_study_start, date_not_future],
+        validators=[date_not_before_study_start],
         blank=True,
         null=True,)
 
@@ -112,6 +112,24 @@ class InvestigationsOrdered(CrfModelMixin):
         blank=True,
         null=True)
 
+    pathology_specimen_date = models.DateField(
+        verbose_name='Date pathology specimen taken',
+        validators=[date_not_before_study_start, date_not_future],
+        blank=True,
+        null=True)
+
+    pathology_nhl_date = models.DateField(
+        verbose_name='Date pathology specimen received at NHL',
+        validators=[date_not_before_study_start, date_not_future],
+        blank=True,
+        null=True)
+
+    specimen_tracking_notes = models.TextField(
+        verbose_name=('Path specimen tracking notes'),
+        max_length=1500,
+        blank=True,
+        null=True)
+
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
         verbose_name = 'Investigations - Ordered'
@@ -147,16 +165,17 @@ class LabTest(SiteModelMixin, BaseUuidModel):
         max_length=50,
         blank=True,
         null=True)
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = LabTestManager()
-    
+
     def natural_key(self):
         return (self.lab_test_type, self.lab_test_date) + self.investigations.natural_key()
+
     natural_key.dependencies = ['sites.Site']
-    
+
     class Meta:
         unique_together = ('investigations', 'lab_test_type', 'lab_test_date')

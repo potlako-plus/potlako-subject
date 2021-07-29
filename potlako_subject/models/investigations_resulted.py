@@ -6,6 +6,7 @@ from edc_protocol.validators import date_not_before_study_start
 from ..choices import DIAGNOSIS_RESULTS
 from .list_models import TestsOrderedType
 from .model_mixins import CrfModelMixin
+from edc_constants.choices import YES_NO
 
 
 class InvestigationsResulted(CrfModelMixin):
@@ -14,35 +15,9 @@ class InvestigationsResulted(CrfModelMixin):
         TestsOrderedType,
         verbose_name='What tests are being resulted?')
 
-    tests_resulted_type_other = OtherCharField()
-    
-    pathology_tests = models.CharField(
-        verbose_name='If pathology, please specify',
-        max_length=150,
-        blank=True,
-        null=True)
-    
     imaging_tests = models.CharField(
         verbose_name='If imaging, please specify',
         max_length=150,
-        blank=True,
-        null=True)
-
-    pathology_specimen_date = models.DateField(
-        verbose_name='Date pathology specimen taken',
-        validators=[date_not_before_study_start, date_not_future],
-        blank=True,
-        null=True)
-
-    pathology_nhl_date = models.DateField(
-        verbose_name='Date pathology specimen received at NHL',
-        validators=[date_not_before_study_start, date_not_future],
-        blank=True,
-        null=True)
-
-    pathology_result_date = models.DateField(
-        verbose_name='Date pathology results reported',
-        validators=[date_not_before_study_start, date_not_future],
         blank=True,
         null=True)
 
@@ -64,18 +39,18 @@ class InvestigationsResulted(CrfModelMixin):
         blank=True,
         null=True)
 
-    specimen_tracking_notes = models.TextField(
-        verbose_name=('Path specimen tracking notes'),
-        max_length=100,
-        blank=True,
-        null=True)
-
     diagnosis_results = models.CharField(
         verbose_name='Diagnosis results (provider)',
         choices=DIAGNOSIS_RESULTS,
         max_length=20)
 
     diagnosis_results_other = OtherCharField()
+
+    pathology_result_date = models.DateField(
+        verbose_name='Date pathology results reported',
+        validators=[date_not_before_study_start, date_not_future],
+        blank=True,
+        null=True)
 
     cancer_type = models.CharField(
         verbose_name='If cancer, type of cancer diagnosed',
@@ -86,6 +61,13 @@ class InvestigationsResulted(CrfModelMixin):
     diagnoses_made = models.CharField(
         verbose_name='If not cancer, diagnosis made',
         max_length=15,
+        blank=True,
+        null=True)
+
+    results_reviewed = models.CharField(
+        verbose_name='Results reviewed?',
+        choices=YES_NO,
+        max_length=3,
         blank=True,
         null=True)
 

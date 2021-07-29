@@ -13,6 +13,7 @@ from edc_registration.models import RegisteredSubject
 from ..models import OnSchedule
 
 
+@tag('iv')
 class TestInterventionVisitScheduleSetup(TestCase):
 
     def setUp(self):
@@ -111,7 +112,25 @@ class TestInterventionVisitScheduleSetup(TestCase):
             visit_code=1000,
             visit_code_sequence='1').count(), 1)
 
-    @tag('retest')
+    @tag('ov')
+    def test_creation_of_continuation_visit_overlap(self):
+        """Assert that an unscheduled appointment was not created for visit 1000
+        if it overlaps with 2000 visit"""
+
+        mommy.make_recipe(
+            'potlako_subject.patientcallinitial',
+            subject_visit=self.visit_1000,
+            next_appointment_date=(self.appointment_2000.appt_datetime.date() +
+                                   relativedelta(weeks=1)))
+
+        self.assertEqual(Appointment.objects.filter(
+            subject_identifier=self.subject_consent.subject_identifier).count(), 3)
+
+        self.assertEqual(Appointment.objects.filter(
+            subject_identifier=self.subject_consent.subject_identifier,
+            visit_code=1000,
+            visit_code_sequence='1').count(), 0)
+
     def test_second_creation_of_1000_continuation_visit(self):
         """Assert that a second unscheduled appointment was created for
          visit 1000
