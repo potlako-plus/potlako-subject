@@ -124,6 +124,12 @@ class InvestigationsOrdered(CrfModelMixin):
         blank=True,
         null=True)
 
+    pathology_result_date = models.DateField(
+        verbose_name='Date pathology results reported',
+        validators=[date_not_before_study_start, date_not_future],
+        blank=True,
+        null=True)
+
     specimen_tracking_notes = models.TextField(
         verbose_name=('Path specimen tracking notes'),
         max_length=1500,
