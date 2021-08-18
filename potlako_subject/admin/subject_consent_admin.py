@@ -106,6 +106,7 @@ class SubjectConsentAdmin(ModelAdminBasicMixin, ModelAdminMixin,
     list_filter = ('language',
                    'is_verified',
                    'identity_type',
+                   'gender',
                    FacilityListFilter)
     search_fields = ('subject_identifier', 'dob',)
 
