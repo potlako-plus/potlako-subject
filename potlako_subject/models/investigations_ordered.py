@@ -31,7 +31,7 @@ class InvestigationsOrdered(CrfModelMixin):
     tests_ordered_type_other = OtherCharField()
 
     facility_ordered = models.CharField(
-        verbose_name='Facility where labs were ordered',
+        verbose_name='Add facility where labs/tests were ordered"',
         max_length=40,
         choices=FACILITY,
         blank=True,
@@ -40,7 +40,7 @@ class InvestigationsOrdered(CrfModelMixin):
     facility_ordered_other = OtherCharField()
 
     ordered_date = models.DateField(
-        verbose_name='Date when Investigations where ordered',
+        verbose_name='Date of clinic visit when labs/tests were ordered"',
         validators=[date_not_before_study_start],
         blank=True,
         null=True,)
