@@ -40,7 +40,7 @@ class InvestigationsOrdered(CrfModelMixin):
     facility_ordered_other = OtherCharField()
 
     ordered_date = models.DateField(
-        verbose_name='Date when Investigations where ordered.',
+        verbose_name='Date when Investigations where ordered',
         validators=[date_not_before_study_start],
         blank=True,
         null=True,)
