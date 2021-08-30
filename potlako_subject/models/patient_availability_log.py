@@ -1,6 +1,4 @@
 from django.db import models
-from django.utils import timezone
-
 from django_crypto_fields.fields import EncryptedTextField
 from edc_base.model_fields import OtherCharField
 from edc_base.model_managers import HistoricalRecords
@@ -18,15 +16,15 @@ class PatientAvailabilityLogManager(SearchSlugManager, models.Manager):
 
     def get_by_natural_key(self, screening_identifier):
         return self.get(
-            screening_identifier=screening_identifier,
+            clinician_call__screening_identifier=screening_identifier,
         )
 
 
 class PatientAvailabilityLogEntryManager(SearchSlugManager, models.Manager):
 
-    def get_by_natural_key(self, patient_availability_log, report_datetime):
+    def get_by_natural_key(self, screening_identifier, report_datetime):
         return self.get(
-            patient_availability_log=patient_availability_log,
+            patient_availability_log__clinician_call__screening_identifier=screening_identifier,
             report_datetime=report_datetime
         )
 
@@ -81,9 +79,9 @@ class PatientAvailabilityLogEntry(BaseUuidModel):
         verbose_name="Comments",
         max_length=250,
         null=True,
-        blank=True, )
+        blank=True,)
 
-    date_created = models.DateField(default=timezone.now)
+    date_created = models.DateField(default=get_utcnow().date)
 
     objects = PatientAvailabilityLogEntryManager()
 
