@@ -9,7 +9,8 @@ from edc_consent.actions import (
 from edc_model_admin import (
     ModelAdminFormAutoNumberMixin, ModelAdminInstitutionMixin,
     audit_fieldset_tuple, audit_fields, ModelAdminNextUrlRedirectMixin,
-    ModelAdminNextUrlRedirectError, ModelAdminReplaceLabelTextMixin)
+    ModelAdminNextUrlRedirectError, ModelAdminReplaceLabelTextMixin,
+    ModelAdminAuditFieldsMixin)
 from edc_model_admin import ModelAdminBasicMixin, ModelAdminReadOnlyMixin
 from simple_history.admin import SimpleHistoryAdmin
 
@@ -21,7 +22,7 @@ from .admin_filter_mixins import FacilityListFilter
 
 class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
                       ModelAdminFormAutoNumberMixin, ModelAdminRevisionMixin,
-                      ModelAdminReplaceLabelTextMixin,
+                      ModelAdminReplaceLabelTextMixin, ModelAdminAuditFieldsMixin,
                       ModelAdminInstitutionMixin, ModelAdminReadOnlyMixin):
 
     list_per_page = 10
