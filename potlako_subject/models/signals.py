@@ -70,12 +70,7 @@ def subject_consent_on_post_save(sender, instance, raw, created, **kwargs):
                                 model_cls=ClinicianCallEnrollment,
                                 fields=[['subject_identifier', instance.subject_identifier], ])
 
-        try:
-            OnSchedule.objects.get(
-                subject_identifier=instance.subject_identifier,
-                community_arm__isnull=False)
-        except OnSchedule.DoesNotExist:
-            put_on_schedule(instance=instance)
+        put_on_schedule(instance=instance)
 
 
 @receiver(post_save, weak=False, sender=PatientCallInitial,
@@ -287,23 +282,20 @@ def put_on_schedule(instance=None):
             'potlako_subject.onschedule')
 
         community_arm = get_community_arm(instance.screening_identifier)
-        try:
-            onschedule_obj = OnSchedule.objects.get(
-                subject_identifier=instance.subject_identifier)
-        except OnSchedule.DoesNotExist:
-            schedule.put_on_schedule(
-                subject_identifier=instance.subject_identifier,
-                onschedule_datetime=instance.consent_datetime)
 
+        schedule.put_on_schedule(
+            subject_identifier=instance.subject_identifier,
+            onschedule_datetime=instance.consent_datetime)
+
+        try:
             onschedule_obj = OnSchedule.objects.get(
                 subject_identifier=instance.subject_identifier,
                 community_arm__isnull=True)
+        except OnSchedule.DoesNotExist:
+            pass
         else:
-            schedule.refresh_schedule(
-                subject_identifier=instance.subject_identifier)
-
-        onschedule_obj.community_arm = community_arm
-        onschedule_obj.save()
+            onschedule_obj.community_arm = community_arm
+            onschedule_obj.save()
 
 
 def get_community_arm(screening_identifier=None):
