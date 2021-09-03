@@ -106,13 +106,13 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
     """
 
     if not raw:
-        if instance.next_appointment_date:
+        if instance.next_appointment_date and instance.subject_visit.visit_code != '3000':
             next_visit_code = int(instance.subject_visit.visit_code_sequence) + 1
             try:
                 Appointment.objects.get(
                     subject_identifier=instance.subject_visit.subject_identifier,
                     visit_code=instance.subject_visit.visit_code,
-                    visit_code_sequence=str(next_visit_code))
+                    visit_code_sequence=next_visit_code)
             except ObjectDoesNotExist:
                 try:
                     subject_consent = SubjectConsent.objects.get(
@@ -236,16 +236,13 @@ def create_unscheduled_appointment(instance=None):
 
     try:
         next_visit_code = str(int(subject_visit.visit_code) + 1000)
-        next_appt_obj = appt_cls.objects.get(
+        next_appt_obj = appt_cls.objects.filter(
             subject_identifier=instance.subject_visit.subject_identifier,
-            visit_code=next_visit_code)
+            visit_code=next_visit_code).latest('appt_datetime')
     except appt_cls.DoesNotExist:
         create_unscheduled = True
     else:
-        if next_appt_obj.appt_datetime.date() > next_app:
-            create_unscheduled = True
-        else:
-            create_unscheduled = False
+        create_unscheduled = next_appt_obj.appt_datetime.date() > next_app
 
     if create_unscheduled:
 
