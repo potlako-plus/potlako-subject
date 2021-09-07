@@ -14,7 +14,7 @@ class InvestigationsResulted(CrfModelMixin):
         TestsOrderedType,
         verbose_name='What tests are being resulted?')
 
-    other_tests_resulted_type = models.CharField(
+    tests_resulted_type_other = models.CharField(
         verbose_name='Specify other',
         max_length=30,
         blank=True,
