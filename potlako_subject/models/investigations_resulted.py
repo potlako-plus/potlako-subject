@@ -10,10 +10,16 @@ from edc_constants.choices import YES_NO
 
 
 class InvestigationsResulted(CrfModelMixin):
-
     tests_resulted_type = models.ManyToManyField(
         TestsOrderedType,
         verbose_name='What tests are being resulted?')
+
+    other_tests_resulted_type = models.CharField(
+        verbose_name='Specify other',
+        max_length=30,
+        blank=True,
+        null=True,
+    )
 
     imaging_tests = models.CharField(
         verbose_name='If imaging, please specify',
