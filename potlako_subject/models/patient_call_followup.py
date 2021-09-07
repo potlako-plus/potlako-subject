@@ -26,7 +26,6 @@ class FacilityVisitManager(models.Manager):
 
 
 class PatientCallFollowUp(CrfModelMixin):
-
     encounter_date = models.DateField(
         verbose_name='Date of research staff encounter',
         validators=[date_not_future])
@@ -56,12 +55,12 @@ class PatientCallFollowUp(CrfModelMixin):
         choices=PAIN_SCORE)
 
     new_complaints = models.CharField(
-        verbose_name=('Does the patient have any new complaints?'),
+        verbose_name='Does the patient have any new complaints?',
         choices=YES_NO,
         max_length=3)
 
     new_complaints_description = models.TextField(
-        verbose_name=('If yes, please describe'),
+        verbose_name='Detail the patients current presentation',
         max_length=1200,
         blank=True,
         null=True)
@@ -98,7 +97,7 @@ class PatientCallFollowUp(CrfModelMixin):
         choices=DATE_ESTIMATION,
         max_length=15,
         blank=True,
-        null=True,)
+        null=True, )
 
     last_visit_facility = models.CharField(
         verbose_name=('Which health facility did the patient go to on last '
@@ -118,7 +117,7 @@ class PatientCallFollowUp(CrfModelMixin):
         max_length=30,
         choices=APPT_CHANGE_REASON,
         blank=True,
-        null=True,)
+        null=True, )
 
     appt_change_reason_other = OtherCharField()
 
@@ -261,7 +260,6 @@ class PatientCallFollowUp(CrfModelMixin):
 
 
 class FacilityVisit(SiteModelMixin, BaseUuidModel):
-
     patient_call_followup = models.ForeignKey(PatientCallFollowUp, on_delete=PROTECT)
 
     interval_visit_date = models.DateField(
