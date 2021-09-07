@@ -44,6 +44,7 @@ class CrfModelMixin(BaseCrfModelMixin, SubjectScheduleCrfModelMixin,
 
     def natural_key(self):
         return self.subject_visit.natural_key()
+
     natural_key.dependencies = [
         'potlako_subject.subjectvisit',
         'sites.Site',

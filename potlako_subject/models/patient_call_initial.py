@@ -9,7 +9,6 @@ from edc_base.model_fields import OtherCharField
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
-from edc_base.model_validators.date import date_is_future
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_base.utils import age, get_utcnow
 from edc_constants.choices import POS_NEG_UNKNOWN, YES_NO_NA
@@ -28,7 +27,7 @@ from .model_mixins import CrfModelMixin
 class PreviousFacilityVisitManager(models.Manager):
 
     def get_by_natural_key(self, facility_visited,
-                           previous_facility_period, patient_call_initial ):
+                           previous_facility_period, patient_call_initial):
         return self.get(facility_visited=facility_visited,
                         previous_facility_period=previous_facility_period,
                         patient_call_initial=patient_call_initial)
@@ -301,7 +300,6 @@ class PatientCallInitial(CrfModelMixin):
 
     next_appointment_date = models.DateField(
         verbose_name='Next appointment date (per patient report)',
-        validators=[date_is_future],
         blank=True,
         null=True)
 
@@ -413,15 +411,16 @@ class PreviousFacilityVisit(SiteModelMixin, BaseUuidModel):
         blank=True,
         null=True,
         help_text='specify variable (days, weeks, months, years)')
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = PreviousFacilityVisitManager()
-    
+
     def natural_key(self):
-        return (self.facility_visited, self.previous_facility_period, ) + self.patient_call_initial.natural_key()
+        return (self.facility_visited, self.previous_facility_period,) + self.patient_call_initial.natural_key()
+
     natural_key.dependencies = ['potlako_subject.patientcallinitial']
 
     class Meta:
