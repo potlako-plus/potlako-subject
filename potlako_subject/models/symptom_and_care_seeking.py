@@ -41,7 +41,6 @@ class SymptomAndCareSeekingAssessment(CrfModelMixin):
         Symptoms,
         verbose_name=('Now, we\'ve talked about the symptoms that you have described: '
                       'I\'d also like to check whether you had any of the following symptoms'),
-        null=True,
         blank=True
     )
 
