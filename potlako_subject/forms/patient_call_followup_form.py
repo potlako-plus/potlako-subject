@@ -14,7 +14,8 @@ class PatientCallFollowUpForm(SubjectModelFormMixin, forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        self.validate_date_is_future()
+        if self.cleaned_data.get('next_appointment_date'):
+            self.validate_date_is_future()
 
         interval_visit_date = self.data.get(
             'facilityvisit_set-0-interval_visit_date')
