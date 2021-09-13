@@ -40,7 +40,9 @@ class SymptomAndCareSeekingAssessment(CrfModelMixin):
     symptoms_present = models.ManyToManyField(
         Symptoms,
         verbose_name=('Now, we\'ve talked about the symptoms that you have described: '
-                      'I\'d also like to check whether you had any of the following symptoms'))
+                      'I\'d also like to check whether you had any of the following symptoms'),
+        blank=True
+    )
 
     symptoms_present_other = models.TextField(
         verbose_name='If other symptoms, please specify',
