@@ -14,7 +14,8 @@ class PatientCallInitialForm(SubjectModelFormMixin, forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        self.validate_date_is_future()
+        if self.cleaned_data.get('next_appointment_date'):
+            self.validate_date_is_future()
 
         previous_facility_visit = self.data.get(
             'previousfacilityvisit_set-0-facility_visited')
