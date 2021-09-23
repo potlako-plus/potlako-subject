@@ -6,13 +6,13 @@ from edc_base.model_validators import date_is_future, datetime_not_future
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
-from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 from edc_identifier.managers import SubjectIdentifierManager
+from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 
 from ..choices import RESULTS_PERSONNEL, SPECIALIST_CLINIC
-    
 
-class BaselineRoadMap(UniqueSubjectIdentifierFieldMixin, 
+
+class BaselineRoadMap(UniqueSubjectIdentifierFieldMixin,
                       SiteModelMixin, BaseUuidModel):
 
     report_datetime = models.DateTimeField(
@@ -72,15 +72,16 @@ class BaselineRoadMap(UniqueSubjectIdentifierFieldMixin,
     treatment_initiation_turnaround_time = models.DateField(
         verbose_name='What is the treatment initiation visit turn-around time?',
         validators=[date_is_future, ])
-    
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = SubjectIdentifierManager()
-    
+
     def natural_key(self):
-        return (self.subject_identifier, )
+        return (self.subject_identifier,)
+
     natural_key.dependencies = ['sites.Site']
 
     class Meta:
