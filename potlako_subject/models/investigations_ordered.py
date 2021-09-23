@@ -141,7 +141,7 @@ class LabTest(SiteModelMixin, BaseUuidModel):
     investigations = models.ForeignKey(InvestigationsOrdered, on_delete=PROTECT)
 
     lab_test_type = models.CharField(
-        verbose_name='Lab test status.',
+        verbose_name='Type of lab test.',
         choices=LAB_TESTS,
         max_length=25,
         help_text='(IF PATIENT CALL, ONLY ASK ABOUT RFT, FBC, LFT )')
@@ -156,7 +156,7 @@ class LabTest(SiteModelMixin, BaseUuidModel):
         null=True)
 
     lab_test_status = models.CharField(
-        verbose_name='Type of lab test.',
+        verbose_name='Lab test status.',
         choices=LAB_TESTS_STATUS,
         max_length=50)
 
