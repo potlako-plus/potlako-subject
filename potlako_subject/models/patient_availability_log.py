@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 from django_crypto_fields.fields import EncryptedTextField
 from edc_base.model_fields import OtherCharField
@@ -8,8 +9,8 @@ from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 from edc_search.model_mixins import SearchSlugManager
 
-from .clinician_call_enrollment import ClinicianCallEnrollment
 from ..choices import CANT_TALK_REASON
+from .clinician_call_enrollment import ClinicianCallEnrollment
 
 
 class PatientAvailabilityLogManager(SearchSlugManager, models.Manager):
@@ -81,7 +82,8 @@ class PatientAvailabilityLogEntry(BaseUuidModel):
         null=True,
         blank=True,)
 
-    date_created = models.DateField(default=get_utcnow().date)
+    date_created = models.DateField(
+        default=date.today)
 
     objects = PatientAvailabilityLogEntryManager()
 
