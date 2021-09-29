@@ -17,7 +17,8 @@ class BaselineRoadMapMixin:
         self.baseline_dict.update(self.clinician_call)
         self.baseline_dict.update(self.crfs_dict)
         self.baseline_dict.update(self.non_crfs_dict)
-        self.baseline_dict.update(self.extra_symptoms_description)
+        if self.extra_symptoms_description:
+            self.baseline_dict.update(self.extra_symptoms_description)
 
     @property
     def screening_identifier(self):
@@ -49,12 +50,13 @@ class BaselineRoadMapMixin:
            Followup models.
         """
 
-        complaints = PatientCallFollowUp.objects.filter(
-                ~Q(new_complaints_description=''),
-                subject_visit__subject_identifier=self.subject_identifier).latest(
-                    'report_datetime')
+        patient_call_fu_objs = PatientCallFollowUp.objects.filter(
+            ~Q(new_complaints_description=''),
+            subject_visit__subject_identifier=self.subject_identifier)
+        if patient_call_fu_objs:
+            complaints = patient_call_fu_objs.latest('report_datetime')
 
-        return {'extra_symptoms_description': complaints.new_complaints_description}
+            return {'extra_symptoms_description': complaints.new_complaints_description}
 
     @property
     def crfs_dict(self):
