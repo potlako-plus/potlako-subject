@@ -87,4 +87,3 @@ class BaselineRoadMap(UniqueSubjectIdentifierFieldMixin,
     class Meta:
         app_label = 'potlako_subject'
         verbose_name = 'Baseline Road Map'
-
