@@ -1,10 +1,12 @@
 from django.apps import apps as django_apps
+from django.db.models import Q
 
 from ..clinician_call_enrollment import ClinicianCallEnrollment
+from ..patient_call_followup import PatientCallFollowUp
 
 
 class BaselineRoadMapMixin:
-    """A class to gather all values from Clinician Call Enrollment, 
+    """A class to gather all values from Clinician Call Enrollment,
     Patient Call Initial, Investigations Ordered, Investigations Resulted
     to build the Baseline Roadmap.
     """
@@ -15,6 +17,8 @@ class BaselineRoadMapMixin:
         self.baseline_dict.update(self.clinician_call)
         self.baseline_dict.update(self.crfs_dict)
         self.baseline_dict.update(self.non_crfs_dict)
+        if self.extra_symptoms_description:
+            self.baseline_dict.update(self.extra_symptoms_description)
 
     @property
     def screening_identifier(self):
@@ -39,6 +43,20 @@ class BaselineRoadMapMixin:
             return {}
         else:
             return {'cliniciancallenrollment': clinician_call_obj}
+
+    @property
+    def extra_symptoms_description(self):
+        """Extract all  new_symptoms_description required for Baseline Map from all Patient Call
+           Followup models.
+        """
+
+        patient_call_fu_objs = PatientCallFollowUp.objects.filter(
+            ~Q(new_complaints_description=''),
+            subject_visit__subject_identifier=self.subject_identifier)
+        if patient_call_fu_objs:
+            complaints = patient_call_fu_objs.latest('report_datetime')
+
+            return {'extra_symptoms_description': complaints.new_complaints_description}
 
     @property
     def crfs_dict(self):
