@@ -31,6 +31,8 @@ class VerbalConsentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     list_display = ('screening_identifier', 'subject_identifier', 'language', 'is_eligible')
 
+    list_filter = ('language', 'is_eligible', 'user_uploaded')
+
     def get_readonly_fields(self, request, obj=None):
         return (super().get_readonly_fields(request, obj=obj) + audit_fields +
                 ('language', 'screening_identifier',
