@@ -2,10 +2,10 @@ from django.contrib import admin
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fields, audit_fieldset_tuple)
 
-from .modeladmin_mixins import ModelAdminMixin
 from ..admin_site import potlako_subject_admin
 from ..forms import VerbalConsentForm
 from ..models import VerbalConsent
+from .modeladmin_mixins import ModelAdminMixin
 
 
 @admin.register(VerbalConsent, site=potlako_subject_admin)
@@ -29,6 +29,7 @@ class VerbalConsentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     search_fields = ('subject_identifier',)
 
+    list_display = ('screening_identifier', 'subject_identifier', 'language', 'is_eligible')
 
     def get_readonly_fields(self, request, obj=None):
         return (super().get_readonly_fields(request, obj=obj) + audit_fields +
