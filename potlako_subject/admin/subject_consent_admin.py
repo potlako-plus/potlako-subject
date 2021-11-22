@@ -92,8 +92,6 @@ class SubjectConsentAdmin(ModelAdminBasicMixin, ModelAdminMixin,
         'verbal_script': admin.VERTICAL}
 
     list_display = ('subject_identifier',
-                    'is_verified',
-                    'is_verified_datetime',
                     'first_name',
                     'initials',
                     'gender',
@@ -105,38 +103,11 @@ class SubjectConsentAdmin(ModelAdminBasicMixin, ModelAdminMixin,
                     'user_modified')
 
     list_filter = ('language',
-                   'is_verified',
                    'identity_type',
                    'gender',
                    FacilityListFilter)
+
     search_fields = ('subject_identifier', 'dob',)
-
-    def get_actions(self, request):
-
-        super_actions = super().get_actions(request)
-
-        if ('potlako_subject.change_subjectconsent'
-                in request.user.get_group_permissions()):
-
-            consent_actions = [
-                flag_as_verified_against_paper,
-                unflag_as_verified_against_paper]
-
-            # Add actions from this ModelAdmin.
-            actions = (self.get_action(action) for action in consent_actions)
-            # get_action might have returned None, so filter any of those out.
-            actions = filter(None, actions)
-
-            actions = self._filter_actions_by_permissions(request, actions)
-            # Convert the actions into an OrderedDict keyed by name.
-            actions = OrderedDict(
-                (name, (func, name, desc))
-                for func, name, desc in actions
-            )
-
-            super_actions.update(actions)
-
-        return super_actions
 
     def get_readonly_fields(self, request, obj=None):
         return audit_fields
