@@ -42,6 +42,9 @@ class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
 
     objects = SubjectIdentifierManager()
 
+    def __str__(self):
+        return (f'{self.subject_identifier}')
+
     class Meta:
         app_label = 'potlako_subject'
         verbose_name = 'Navigation Plan And Summary'

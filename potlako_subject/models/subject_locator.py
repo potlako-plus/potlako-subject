@@ -111,10 +111,11 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
     objects = LocatorManager()
 
     def __str__(self):
-        return '{}'.format(self.subject_identifier)
+        return (f'{self.subject_identifier}')
 
     def natural_key(self):
         return (self.subject_identifier,)
+
     natural_key.dependencies = ['sites.Site']
 
     class Meta:

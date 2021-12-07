@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from django.apps import apps as django_apps
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
@@ -8,20 +9,20 @@ from django.dispatch import receiver
 from edc_action_item.site_action_items import site_action_items
 from edc_base.utils import get_utcnow
 from edc_constants.constants import DEAD, NEW, YES, OPEN
-from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 import pytz
 
+from edc_appointment.constants import NEW_APPT
 from edc_appointment.creators import AppointmentInProgressError
 from edc_appointment.creators import InvalidParentAppointmentMissingVisitError
 from edc_appointment.creators import InvalidParentAppointmentStatusError
 from edc_appointment.creators import UnscheduledAppointmentCreator
 from edc_appointment.creators import UnscheduledAppointmentError
 from edc_appointment.models import Appointment
+from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 from potlako_prn.action_items import DEATH_REPORT_ACTION
 from potlako_prn.action_items import SUBJECT_OFFSTUDY_ACTION
 
 from ..action_items import SUBJECT_LOCATOR_ACTION
-from .subject_locator import SubjectLocator
 from .cancer_dx_and_tx import CancerDxAndTx
 from .clinician_call_enrollment import ClinicianCallEnrollment
 from .home_visit import HomeVisit
@@ -31,9 +32,10 @@ from .patient_availability_log import PatientAvailabilityLog
 from .patient_call_followup import PatientCallFollowUp
 from .patient_call_initial import PatientCallInitial
 from .subject_consent import SubjectConsent
+from .subject_locator import SubjectLocator
 from .subject_screening import SubjectScreening
 from .subject_visit import SubjectVisit
-from edc_appointment.constants import NEW_APPT
+from .verbal_consent import VerbalConsent
 
 
 @receiver(post_save, weak=False, sender=ClinicianCallEnrollment,
@@ -68,6 +70,10 @@ def subject_consent_on_post_save(sender, instance, raw, created, **kwargs):
 
             update_model_fields(instance=instance,
                                 model_cls=ClinicianCallEnrollment,
+                                fields=[['subject_identifier', instance.subject_identifier], ])
+
+            update_model_fields(instance=instance,
+                                model_cls=VerbalConsent,
                                 fields=[['subject_identifier', instance.subject_identifier], ])
 
         put_on_schedule(instance=instance)
