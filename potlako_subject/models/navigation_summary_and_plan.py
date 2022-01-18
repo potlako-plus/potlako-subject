@@ -68,7 +68,7 @@ class EvaluationTimeline(SiteModelMixin, BaseUuidModel):
 
     key_step_status = models.CharField(
         verbose_name='Key step status',
-        max_length=8,
+        max_length=16,
         choices=DONE_NOT_DONE)
 
     completion_date = models.DateField(
