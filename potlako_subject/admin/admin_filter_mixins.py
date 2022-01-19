@@ -1,6 +1,8 @@
 from django.apps import apps as django_apps
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
+from edc_constants.choices import YES_NO
+
 from ..choices import ENROLLMENT_SITES
 
 
@@ -38,6 +40,32 @@ class FacilityListFilter(admin.SimpleListFilter):
 
         if clinician_call_enrol_ids:
 
-            return queryset.filter(screening_identifier__in=clinician_call_enrol_ids)
+            return queryset.filter(
+                screening_identifier__in=clinician_call_enrol_ids)
+        else:
+            return queryset
+
+
+class CancerTreatmentFilter(admin.SimpleListFilter):
+    title = _('Cancer Treatment')
+
+    parameter_name = 'cancer_treatment'
+
+    def lookups(self, request, model_admin):
+        return YES_NO
+
+    def queryset(self, request, queryset):
+        cancer_dx_and_tx_cls = django_apps.get_model(
+            'potlako_subject.cancerdxandtx'
+        )
+
+        cancer_dx_and_tx_ids = cancer_dx_and_tx_cls.objects.values_list(
+            'cancer_treatment', flat=True).filter(
+            cancer_treatment=self.value())
+
+        if cancer_dx_and_tx_ids:
+
+            return queryset.filter(
+                cancer_treatment__in=cancer_dx_and_tx_ids)
         else:
             return queryset

@@ -1,19 +1,24 @@
 from django.contrib import admin
 from edc_model_admin import audit_fieldset_tuple
+
+from .admin_filter_mixins import CancerTreatmentFilter
+from .modeladmin_mixins import CrfModelAdminMixin
 from ..admin_site import potlako_subject_admin
 from ..forms import CancerDxAndTxAssessmentForm
 from ..models import CancerDxAndTx
-from .modeladmin_mixins import CrfModelAdminMixin
 
 
 @admin.register(CancerDxAndTx, site=potlako_subject_admin)
 class CancerDxAndTxAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin):
-
     form = CancerDxAndTxAssessmentForm
     extra_context_models = ['cliniciancallenrollment',
                             'baselineclinicalsummary',
                             'navigationplanandsummary',
                             'extra_symptoms_description']
+
+    list_filter = [CancerTreatmentFilter, ]
+
+    search_fields = ('subject_visit', 'cancer_evaluation', 'cancer_treatment')
 
     fieldsets = (
         (None, {
