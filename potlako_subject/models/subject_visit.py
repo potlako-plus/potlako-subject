@@ -7,10 +7,10 @@ from edc_consent.model_mixins import RequiresConsentFieldsModelMixin
 from edc_constants.constants import NOT_APPLICABLE
 from edc_metadata.model_mixins.creates import CreatesMetadataModelMixin
 from edc_reference.model_mixins import ReferenceModelMixin
-from edc_visit_tracking.managers import VisitModelManager
-from edc_visit_tracking.model_mixins import VisitModelMixin
 
 from edc_appointment.models import Appointment
+from edc_visit_tracking.managers import VisitModelManager
+from edc_visit_tracking.model_mixins import VisitModelMixin
 
 from ..choices import VISIT_INFO_SOURCE, VISIT_UNSCHEDULED_REASON, VISIT_REASON
 
@@ -43,7 +43,7 @@ class SubjectVisit(VisitModelMixin, CreatesMetadataModelMixin, ReferenceModelMix
         choices=VISIT_INFO_SOURCE)
 
     objects = VisitModelManager()
-    
+
     on_site = CurrentSiteManager()
 
     history = HistoricalRecords()

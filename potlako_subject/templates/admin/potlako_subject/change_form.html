@@ -57,6 +57,10 @@
 <p class='patient_details'>
 <label class='heading'>Symptoms Summary: </label> {{ cancerdxandtx.symptoms_summary }}
 
+{% if extra_symptoms_description %}
+<label class='heading'>Additional Symptoms Summary: </label> {{ extra_symptoms_description }}
+{% endif %}
+
 <label class='heading'>Cancer Evaluation: </label> {{ cancerdxandtx.get_cancer_evaluation_display }}
 
 <label class='heading'>Diagnoses Date: </label> {{ cancerdxandtx.diagnoses_date }};

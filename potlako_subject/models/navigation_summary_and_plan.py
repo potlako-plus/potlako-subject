@@ -5,9 +5,8 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO
-from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 from edc_identifier.managers import SubjectIdentifierManager
-from edc_base.model_validators import date_is_future, date_not_future
+from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 
 from ..choices import DONE_NOT_DONE
 
@@ -42,6 +41,9 @@ class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
     on_site = CurrentSiteManager()
 
     objects = SubjectIdentifierManager()
+
+    def __str__(self):
+        return (f'{self.subject_identifier}')
 
     class Meta:
         app_label = 'potlako_subject'

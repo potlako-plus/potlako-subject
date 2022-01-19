@@ -13,7 +13,6 @@ from .modeladmin_mixins import ModelAdminMixin
 
 @admin.register(SymptomsAndCareSeekingEndpoint, site=potlako_subject_admin)
 class SymptomAndCareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
-    
 
     form = SymptomAndCareSeekingEndpointForm
     extra_context_models = ['cliniciancallenrollment',
@@ -46,7 +45,7 @@ class SymptomAndCareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'first_seen_date_estimated': admin.VERTICAL,
                     'first_seen_date_estimation': admin.VERTICAL,
                     }
-    
+
     def redirect_url(self, request, obj, post_url_continue=None):
         redirect_url = super().redirect_url(
             request, obj, post_url_continue=post_url_continue)

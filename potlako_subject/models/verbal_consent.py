@@ -68,7 +68,7 @@ class VerbalConsent(
         max_length=30,)
 
     is_eligible = models.BooleanField(
-        default=False,
+        default=True,
         editable=False)
 
     ineligibility = models.TextField(

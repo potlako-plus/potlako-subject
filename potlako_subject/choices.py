@@ -206,8 +206,7 @@ DATE_TIME_ESTIMATION = (
 DONE_NOT_DONE = (
     (DONE, 'Done'),
     (NOT_DONE, 'Not Done'),
-    ('new_date_secured', 'New Date Secured'),
-)
+    (NOT_APPLICABLE, 'Not Applicable'),)
 
 EDUCATION_LEVEL = (
     ('non_formal', 'Non-Formal'),

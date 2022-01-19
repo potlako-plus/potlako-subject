@@ -6,7 +6,6 @@ from django.db.models.deletion import PROTECT
 from edc_base.model_fields import OtherCharField
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
-from edc_base.model_validators import date_is_future
 from edc_base.model_validators import date_not_future
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO, YES_NO_NA
@@ -27,7 +26,6 @@ class FacilityVisitManager(models.Manager):
 
 
 class PatientCallFollowUp(CrfModelMixin):
-
     encounter_date = models.DateField(
         verbose_name='Date of research staff encounter',
         validators=[date_not_future])
@@ -57,12 +55,12 @@ class PatientCallFollowUp(CrfModelMixin):
         choices=PAIN_SCORE)
 
     new_complaints = models.CharField(
-        verbose_name=('Does the patient have any new complaints?'),
+        verbose_name='Does the patient have any new complaints?',
         choices=YES_NO,
         max_length=3)
 
     new_complaints_description = models.TextField(
-        verbose_name=('If yes, please describe'),
+        verbose_name='Detail the patients current presentation',
         max_length=1200,
         blank=True,
         null=True)
@@ -99,7 +97,7 @@ class PatientCallFollowUp(CrfModelMixin):
         choices=DATE_ESTIMATION,
         max_length=15,
         blank=True,
-        null=True,)
+        null=True, )
 
     last_visit_facility = models.CharField(
         verbose_name=('Which health facility did the patient go to on last '
@@ -119,7 +117,7 @@ class PatientCallFollowUp(CrfModelMixin):
         max_length=30,
         choices=APPT_CHANGE_REASON,
         blank=True,
-        null=True,)
+        null=True, )
 
     appt_change_reason_other = OtherCharField()
 
@@ -137,8 +135,7 @@ class PatientCallFollowUp(CrfModelMixin):
         help_text='(IF YES, COMPLETE \'TRANSPORT FORM\')')
 
     next_appointment_date = models.DateField(
-        verbose_name='Next appointment date (per patient report)',
-        validators=[date_is_future])
+        verbose_name='Next appointment date (per patient report)')
 
     next_ap_facility = models.CharField(
         verbose_name='Next appointment facility and type',
@@ -263,7 +260,6 @@ class PatientCallFollowUp(CrfModelMixin):
 
 
 class FacilityVisit(SiteModelMixin, BaseUuidModel):
-
     patient_call_followup = models.ForeignKey(PatientCallFollowUp, on_delete=PROTECT)
 
     interval_visit_date = models.DateField(
@@ -308,7 +304,8 @@ class FacilityVisit(SiteModelMixin, BaseUuidModel):
     objects = FacilityVisitManager()
 
     def natural_key(self):
-        return (self.interval_visit_date, self.visit_facility, ) + self.patient_call_followup.natural_key()
+        return (self.interval_visit_date, self.visit_facility,) + self.patient_call_followup.natural_key()
+
     natural_key.dependencies = ['potlako_subject.patientcallfollowup']
 
     class Meta:

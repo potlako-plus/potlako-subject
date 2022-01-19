@@ -1,19 +1,25 @@
 from django.db import models
 from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_not_future
+from edc_constants.choices import YES_NO
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import DIAGNOSIS_RESULTS
 from .list_models import TestsOrderedType
 from .model_mixins import CrfModelMixin
-from edc_constants.choices import YES_NO
 
 
 class InvestigationsResulted(CrfModelMixin):
-
     tests_resulted_type = models.ManyToManyField(
         TestsOrderedType,
         verbose_name='What tests are being resulted?')
+
+    tests_resulted_type_other = models.CharField(
+        verbose_name='Specify other',
+        max_length=30,
+        blank=True,
+        null=True,
+    )
 
     imaging_tests = models.CharField(
         verbose_name='If imaging, please specify',
@@ -44,7 +50,11 @@ class InvestigationsResulted(CrfModelMixin):
         choices=DIAGNOSIS_RESULTS,
         max_length=20)
 
-    diagnosis_results_other = OtherCharField()
+    diagnosis_results_other = models.TextField(
+        verbose_name='If other, please specify',
+        max_length=150,
+        blank=True,
+        null=True)
 
     pathology_result_date = models.DateField(
         verbose_name='Date pathology results reported',

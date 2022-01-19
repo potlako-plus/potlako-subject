@@ -156,7 +156,7 @@ class LabTest(SiteModelMixin, BaseUuidModel):
         null=True)
 
     lab_test_status = models.CharField(
-        verbose_name='Type of lab test.',
+        verbose_name='Lab test status.',
         choices=LAB_TESTS_STATUS,
         max_length=50)
 

@@ -36,4 +36,8 @@ class FacilityListFilter(admin.SimpleListFilter):
         clinician_call_enrol_ids = clinician_enrollment_cls.objects.values_list(
             'screening_identifier', flat=True).filter(facility=self.value())
 
-        return queryset.filter(screening_identifier__in=clinician_call_enrol_ids)
+        if clinician_call_enrol_ids:
+
+            return queryset.filter(screening_identifier__in=clinician_call_enrol_ids)
+        else:
+            return queryset
