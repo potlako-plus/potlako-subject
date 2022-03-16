@@ -48,3 +48,5 @@ class NavigationPlanAndSummaryAdmin(ModelAdminMixin, ModelAdminReadOnlyMixin, ad
                 'diagnostic_plan',
                 'notes']}
          ), audit_fieldset_tuple)
+
+    search_fields = ('subject_identifier',)

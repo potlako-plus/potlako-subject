@@ -47,8 +47,6 @@ class TestNaturalKey(TestCase):
             report_datetime=get_utcnow() - relativedelta(days=5),
             appointment=self.appointment_1000)
 
-
-
     def test_natural_key_attrs(self):
         self.sync_test_helper.sync_test_natural_key_attr('potlako_subject')
 
