@@ -2,6 +2,7 @@ from django.apps import apps as django_apps
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators.date import datetime_not_future
 from edc_base.sites import CurrentSiteManager
@@ -123,6 +124,8 @@ class SubjectConsent(
     objects = ConsentManager()
 
     on_site = CurrentSiteManager()
+
+    history = HistoricalRecords()
 
     def __str__(self):
         return f'{self.subject_identifier} V{self.version}'

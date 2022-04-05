@@ -29,7 +29,8 @@ class VerbalConsentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     search_fields = ('subject_identifier',)
 
-    list_display = ('screening_identifier', 'subject_identifier', 'language', 'is_eligible')
+    list_display = ('subject_identifier', 'screening_identifier',
+                    'language', 'is_eligible')
 
     list_filter = ('language', 'is_eligible', 'user_uploaded')
 

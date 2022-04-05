@@ -43,6 +43,7 @@ class SearchSlugModelMixin(Base):
 
 
 class ClinicianCallEnrollmentManager(SearchSlugManager, models.Manager):
+
     def get_by_natural_key(self, screening_identifier):
         return self.get(screening_identifier=screening_identifier)
 
@@ -345,8 +346,11 @@ class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin, SiteModelMix
 
     objects = ClinicianCallEnrollmentManager()
 
+    history = HistoricalRecords()
+
     def natural_key(self):
         return(self.screening_identifier,)
+
     natural_key.dependencies = ['sites.Site']
 
     def save(self, *args, **kwargs):
@@ -368,6 +372,7 @@ class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin, SiteModelMix
 
 
 class NextOfKinManager(models.Manager):
+
     def get_by_natural_key(self, kin_cell, kin_telephone, clinician_call_enrollemt):
         return self.get(clinician_call_enrollemt=clinician_call_enrollemt,
                         kin_cell=kin_cell,
@@ -421,6 +426,7 @@ class NextOfKin(BaseUuidModel):
 
     def natural_key(self):
         return (self.kin_cell, self.kin_telephone,) + self.clinician_call_enrollemt.natural_key()
+
     natural_key.dependencies = ['potlako_plus.cliniciancallenrollment']
 
     class Meta:
