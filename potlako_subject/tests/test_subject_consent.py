@@ -1,7 +1,8 @@
+from potlako_subject.models.verbal_consent import VerbalConsent
 import re
 
 from django.core.exceptions import ValidationError
-from django.test import TestCase
+from django.test import TestCase, tag
 from edc_base.utils import get_utcnow
 from edc_constants.constants import NO, YES
 from edc_facility.import_holidays import import_holidays
@@ -59,6 +60,19 @@ class TestSubjectConsent(TestCase):
             screening_identifier=self.subject_screening.screening_identifier)
         self.assertEqual(
             subject_screening.subject_identifier,
+            subject_consent.subject_identifier)
+
+    @tag('this_one')
+    def test_update_subject_identifier_on_verbal_consent(self):
+        """Test if subject identifier on verbal consent is updated after consent
+        """
+
+        subject_consent = mommy.make_recipe(
+            'potlako_subject.subjectconsent', **self.options)
+        verbal_consent = VerbalConsent.objects.get(
+            screening_identifier=self.subject_screening.screening_identifier)
+        self.assertEqual(
+            verbal_consent.subject_identifier,
             subject_consent.subject_identifier)
 
     def test_consent_creates_registered_subject(self):

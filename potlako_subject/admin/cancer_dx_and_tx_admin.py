@@ -15,6 +15,10 @@ class CancerDxAndTxAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin):
                             'navigationplanandsummary',
                             'extra_symptoms_description']
 
+    list_filter = ['cancer_treatment']
+
+    search_fields = ('subject_visit', 'cancer_evaluation', 'cancer_treatment')
+
     fieldsets = (
         (None, {
             'fields': ('subject_visit',

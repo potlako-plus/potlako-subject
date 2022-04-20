@@ -173,7 +173,8 @@ class SymptomAssessment(SiteModelMixin, BaseUuidModel):
     objects = SymptomAssessmentManager()
 
     def natural_key(self):
-        return (self.symptom, ) + self.symptom_care_seeking.natural_key()
+        return (self.symptom,) + self.symptom_care_seeking.natural_key()
+
     natural_key.dependencies = ['sites.Site']
 
     class Meta(CrfModelMixin.Meta):
