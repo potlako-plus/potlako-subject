@@ -61,9 +61,7 @@ class PatientCallFollowUp(CrfModelMixin):
 
     new_complaints_description = models.TextField(
         verbose_name='Detail the patients current presentation',
-        max_length=1200,
-        blank=True,
-        null=True)
+        max_length=1200)
 
     interval_visit = models.CharField(
         verbose_name=('Has there been an interval visit(s) to any facility(s) '
@@ -97,7 +95,7 @@ class PatientCallFollowUp(CrfModelMixin):
         choices=DATE_ESTIMATION,
         max_length=15,
         blank=True,
-        null=True, )
+        null=True,)
 
     last_visit_facility = models.CharField(
         verbose_name=('Which health facility did the patient go to on last '
@@ -117,7 +115,7 @@ class PatientCallFollowUp(CrfModelMixin):
         max_length=30,
         choices=APPT_CHANGE_REASON,
         blank=True,
-        null=True, )
+        null=True,)
 
     appt_change_reason_other = OtherCharField()
 
