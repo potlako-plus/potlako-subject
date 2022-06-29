@@ -1,11 +1,13 @@
 from dateutil.relativedelta import relativedelta
 from django.test import TestCase, tag
+from django_q.models import Schedule
 from edc_base.utils import get_utcnow
 from edc_facility.import_holidays import import_holidays
 from edc_metadata.constants import REQUIRED, NOT_REQUIRED
 from edc_metadata.models import CrfMetadata
 from edc_visit_schedule.models import SubjectScheduleHistory
 from model_mommy import mommy
+from ast import literal_eval as make_tuple
 
 from edc_appointment.models import Appointment
 from ..models import OnSchedule
@@ -32,6 +34,10 @@ class TestStandardofCareVisitSchedule(TestCase):
             'identity': clinicial_call_enrolment.national_identity,
             'confirm_identity': clinicial_call_enrolment.national_identity,
             'version': '1'}
+
+        mommy.make_recipe(
+            'potlako_subject.verbalconsent',
+            screening_identifier=self.subject_screening.screening_identifier)
 
         self.subject_consent = mommy.make_recipe(
             'potlako_subject.subjectconsent',
@@ -68,7 +74,7 @@ class TestStandardofCareVisitSchedule(TestCase):
             appointment=self.appointment_3000)
 
         self.not_required_models = [
-             'transport', 'investigationsordered', 'investigationsresulted']
+            'transport', 'investigationsordered', 'investigationsresulted']
 
     def test_community_arm_name_valid(self):
         self.assertEqual(OnSchedule.objects.filter(
@@ -76,7 +82,7 @@ class TestStandardofCareVisitSchedule(TestCase):
 
         self.assertEqual(OnSchedule.objects.get(
             subject_identifier=self.subject_consent.subject_identifier).community_arm,
-            'Standard of Care')
+                         'Standard of Care')
 
     def test_metadata_creation_visit_1000(self):
 
@@ -93,10 +99,10 @@ class TestStandardofCareVisitSchedule(TestCase):
                 visit_code='1000').entry_status, REQUIRED)
 
         self.assertEqual(
-                    CrfMetadata.objects.get(
-                        model='potlako_subject.medicaldiagnosis',
-                        subject_identifier=self.subject_consent.subject_identifier,
-                        visit_code='1000').entry_status, NOT_REQUIRED)
+            CrfMetadata.objects.get(
+                model='potlako_subject.medicaldiagnosis',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='1000').entry_status, NOT_REQUIRED)
 
     def test_metadata_creation_visit_2000(self):
 
@@ -122,7 +128,8 @@ class TestStandardofCareVisitSchedule(TestCase):
             investigations_ordered='ordered_and_resulted')
 
         self.assertEqual(
-            Appointment.objects.filter(subject_identifier=self.subject_consent.subject_identifier).count(), 3)
+            Appointment.objects.filter(
+                subject_identifier=self.subject_consent.subject_identifier).count(), 3)
 
     def test_metadata_creation_visit_3000(self):
 
@@ -142,7 +149,6 @@ class TestStandardofCareVisitSchedule(TestCase):
         visit_codes = ['1000', '2000', '3000']
         for code in visit_codes:
             for md in self.not_required_models:
-
                 self.assertEqual(
                     CrfMetadata.objects.get(
                         model='potlako_subject.' + md,
@@ -150,16 +156,16 @@ class TestStandardofCareVisitSchedule(TestCase):
                         visit_code=code).entry_status, NOT_REQUIRED)
 
         self.assertEqual(
-                    CrfMetadata.objects.get(
-                        model='potlako_subject.missedvisit',
-                        subject_identifier=self.subject_consent.subject_identifier,
-                        visit_code='2000').entry_status, NOT_REQUIRED)
+            CrfMetadata.objects.get(
+                model='potlako_subject.missedvisit',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='2000').entry_status, NOT_REQUIRED)
 
         self.assertEqual(
-                    CrfMetadata.objects.get(
-                        model='potlako_subject.missedvisit',
-                        subject_identifier=self.subject_consent.subject_identifier,
-                        visit_code='3000').entry_status, NOT_REQUIRED)
+            CrfMetadata.objects.get(
+                model='potlako_subject.missedvisit',
+                subject_identifier=self.subject_consent.subject_identifier,
+                visit_code='3000').entry_status, NOT_REQUIRED)
 
     def test_appointments_created(self):
         """Assert that four appointments were created"""
@@ -173,3 +179,14 @@ class TestStandardofCareVisitSchedule(TestCase):
 
         self.assertEqual(SubjectScheduleHistory.objects.filter(
             subject_identifier=self.subject_consent.subject_identifier).count(), 1)
+
+    def test_sms_not_set(self):
+        """
+        Test if an appointment has not been scheduled for participant in soc communities
+        :return: None
+        """
+        scheduled_sms = Schedule.objects.all()
+        for index, sms in enumerate(scheduled_sms):
+            if self.subject_consent.subject_identifier in make_tuple(sms.args):
+                self.assertNotIn(self.subject_consent.subject_identifier,
+                                 make_tuple(sms.args))

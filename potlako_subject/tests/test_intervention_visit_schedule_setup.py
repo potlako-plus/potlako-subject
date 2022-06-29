@@ -1,10 +1,13 @@
 from dateutil.relativedelta import relativedelta
 from django.test import TestCase, tag
+from django_q.models import Schedule as TaskScheduled
 from edc_base.utils import get_utcnow
 from edc_facility.import_holidays import import_holidays
 from edc_metadata.constants import REQUIRED, NOT_REQUIRED
 from edc_metadata.models import CrfMetadata
+from edc_visit_schedule import Schedule
 from model_mommy import mommy
+from ast import literal_eval as make_tuple
 
 from edc_appointment.constants import IN_PROGRESS_APPT, INCOMPLETE_APPT
 from edc_appointment.models import Appointment
@@ -20,7 +23,8 @@ class TestInterventionVisitScheduleSetup(TestCase):
         import_holidays()
 
         clinicial_call_enrolment = self.subject_screening = mommy.make_recipe(
-            'potlako_subject.cliniciancallenrollment')
+            'potlako_subject.cliniciancallenrollment',
+            facility='mmathethe_clinic')
 
         self.subject_screening = mommy.make_recipe(
             'potlako_subject.subjectscreening',
@@ -32,6 +36,10 @@ class TestInterventionVisitScheduleSetup(TestCase):
             'identity': clinicial_call_enrolment.national_identity,
             'confirm_identity': clinicial_call_enrolment.national_identity,
             'version': '1'}
+
+        mommy.make_recipe(
+            'potlako_subject.verbalconsent',
+            screening_identifier=self.subject_screening.screening_identifier)
 
         self.subject_consent = mommy.make_recipe(
             'potlako_subject.subjectconsent',
@@ -64,7 +72,8 @@ class TestInterventionVisitScheduleSetup(TestCase):
             subject_identifier=self.subject_consent.subject_identifier).count(), 1)
 
         self.assertEqual(OnSchedule.objects.get(
-            subject_identifier=self.subject_consent.subject_identifier).community_arm, 'Intervention')
+            subject_identifier=self.subject_consent.subject_identifier).community_arm,
+                         'Intervention')
 
     @tag('rsb')
     def test_registered_subject(self):
@@ -221,3 +230,14 @@ class TestInterventionVisitScheduleSetup(TestCase):
                 model='potlako_subject.cancerdxandtx',
                 subject_identifier=self.subject_consent.subject_identifier,
                 visit_code='3000').entry_status, REQUIRED)
+
+    def test_sms_scheduled(self):
+        """
+        Test if an appointment has not been scheduled for participant in soc communities
+        :return: None
+        """
+        scheduled_sms = TaskScheduled.objects.all()
+        for index, sms in enumerate(scheduled_sms):
+            if self.subject_consent.subject_identifier in make_tuple(sms.args):
+                self.assertIn(self.subject_consent.subject_identifier,
+                              make_tuple(sms.args))
