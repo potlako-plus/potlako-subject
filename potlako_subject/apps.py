@@ -33,6 +33,8 @@ if settings.APP_NAME == 'potlako_subject':
     from edc_visit_tracking.constants import SCHEDULED, UNSCHEDULED, LOST_VISIT
     from edc_visit_tracking.apps import (
         AppConfig as BaseEdcVisitTrackingAppConfig)
+    from edc_sms.apps import AppConfig as BaseEdcSmsAppConfig
+
 
     class EdcDeviceAppConfig(BaseEdcDeviceAppConfig):
         use_settings = True
@@ -44,10 +46,12 @@ if settings.APP_NAME == 'potlako_subject':
                 model='plot.plot',
                 device_roles=[NODE_SERVER, CENTRAL_SERVER, CLIENT]))
 
+
     class EdcVisitTrackingAppConfig(BaseEdcVisitTrackingAppConfig):
         visit_models = {
             'potlako_subject': (
                 'subject_visit', 'potlako_subject.subjectvisit')}
+
 
     class EdcProtocolAppConfig(BaseEdcProtocolAppConfig):
         protocol = 'BHP132'
@@ -59,16 +63,19 @@ if settings.APP_NAME == 'potlako_subject':
         study_close_datetime = datetime(
             2025, 12, 1, 0, 0, 0, tzinfo=gettz('UTC'))
 
+
     class EdcAppointmentAppConfig(BaseEdcAppointmentAppConfig):
         default_appt_type = 'clinic'
+        apply_community_filter = True
+        send_sms_reminders = True
         configurations = [
             AppointmentConfig(
                 model='edc_appointment.appointment',
                 related_visit_model='potlako_subject.subjectvisit')
         ]
 
-    class EdcMetadataAppConfig(BaseEdcMetadataAppConfig):
 
+    class EdcMetadataAppConfig(BaseEdcMetadataAppConfig):
         reason_field = {'potlako_subject.subjectvisit': 'reason'}
         other_visit_reasons = ['off study', 'deferred', 'death']
         other_create_visit_reasons = [
@@ -76,6 +83,7 @@ if settings.APP_NAME == 'potlako_subject':
             'missed_visit', 'unscheduled_visit/contact']
         create_on_reasons = [SCHEDULED, UNSCHEDULED] + other_create_visit_reasons
         delete_on_reasons = [LOST_VISIT] + other_visit_reasons
+
 
     class EdcFacilityAppConfig(BaseEdcFacilityAppConfig):
         country = 'botswana'
@@ -85,3 +93,8 @@ if settings.APP_NAME == 'potlako_subject':
             '5-day clinic': dict(days=[MO, TU, WE, TH, FR],
                                  slots=[100, 100, 100, 100, 100])}
 
+
+    class EdcSmsAppConfig(BaseEdcSmsAppConfig):
+        locator_model = 'potlako_subject.subjectlocator'
+        consent_model = 'potlako_subject.subjectconsent'
+        sms_model = 'potlako_subject.sms'
