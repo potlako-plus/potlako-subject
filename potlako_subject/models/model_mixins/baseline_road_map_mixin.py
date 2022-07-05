@@ -22,13 +22,37 @@ class BaselineRoadMapMixin:
 
     @property
     def screening_identifier(self):
+        
+        screening_identifier = None
+        
+        subject_consent_cls = django_apps.get_model('potlako_subject.subjectconsent')
         screening_cls = django_apps.get_model('potlako_subject.subjectscreening')
+
         try:
-            screening_obj = screening_cls.objects.get(subject_identifier=self.subject_identifier)
+            screening_obj = screening_cls.objects.get(
+                subject_identifier=self.subject_identifier)
+            
         except screening_cls.DoesNotExist:
-            return None
+            pass
+        
+        except screening_cls.MultipleObjectsReturned:
+            """
+            If two screenings are returned get the screening identifier from
+            the consent
+            """
+            try:
+                subject_consent_obj = subject_consent_cls.objects.get(
+                    subject_identifier=self.subject_identifier)
+                
+            except subject_consent_cls.MultipleObjectsReturned:
+                pass
+            
+            else:
+                screening_identifier = subject_consent_obj.screening_identifier
         else:
-            return screening_obj.screening_identifier
+            screening_identifier = screening_obj.screening_identifier
+        
+        return screening_identifier
 
     @property
     def clinician_call(self):
