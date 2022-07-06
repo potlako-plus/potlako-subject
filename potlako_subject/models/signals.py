@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from edc_action_item.site_action_items import site_action_items
+from edc_appointment.appointment_sms_reminder import AppointmentSmsReminder
 from edc_base.utils import get_utcnow
 from edc_constants.constants import DEAD, NEW, YES, OPEN
 import pytz
@@ -62,19 +63,21 @@ def subject_consent_on_post_save(sender, instance, raw, created, **kwargs):
     """
     if not raw:
         if created:
-
             update_model_fields(instance=instance,
                                 model_cls=SubjectScreening,
-                                fields=[['subject_identifier', instance.subject_identifier],
-                                        ['is_consented', True]])
+                                fields=[
+                                    ['subject_identifier', instance.subject_identifier],
+                                    ['is_consented', True]])
 
             update_model_fields(instance=instance,
                                 model_cls=ClinicianCallEnrollment,
-                                fields=[['subject_identifier', instance.subject_identifier], ])
+                                fields=[['subject_identifier',
+                                         instance.subject_identifier], ])
 
             update_model_fields(instance=instance,
                                 model_cls=VerbalConsent,
-                                fields=[['subject_identifier', instance.subject_identifier], ])
+                                fields=[['subject_identifier',
+                                         instance.subject_identifier], ])
 
         put_on_schedule(instance=instance)
 
@@ -93,16 +96,15 @@ def patient_call_initial_on_post_save(sender, instance, raw, created, **kwargs):
                 visit_code=instance.subject_visit.visit_code,
                 visit_code_sequence='1')
         except ObjectDoesNotExist:
-                try:
-                    subject_consent = SubjectConsent.objects.get(
-                        subject_identifier=instance.subject_visit.subject_identifier)
-                except SubjectConsent.DoesNotExist:
-                    raise ValidationError('Subject consent object does not exist!')
-                else:
-                    if (instance.next_appointment_date and get_community_arm(
-                            screening_identifier=subject_consent.screening_identifier) == 'Intervention'):
-
-                        create_unscheduled_appointment(instance=instance)
+            try:
+                subject_consent = SubjectConsent.objects.get(
+                    subject_identifier=instance.subject_visit.subject_identifier)
+            except SubjectConsent.DoesNotExist:
+                raise ValidationError('Subject consent object does not exist!')
+            else:
+                if (instance.next_appointment_date and get_community_arm(
+                        screening_identifier=subject_consent.screening_identifier) == 'Intervention'):
+                    create_unscheduled_appointment(instance=instance)
 
 
 @receiver(post_save, weak=False, sender=PatientCallFollowUp,
@@ -157,7 +159,8 @@ def missed_call_on_post_save(sender, instance, raw, created, **kwargs):
         missed_call_count = MissedCallRecord.objects.filter(
             missed_call=instance.missed_call).count()
         if missed_call_count >= 3:
-            instance.missed_call.subject_visit.run_metadata_rules(visit=instance.missed_call.visit)
+            instance.missed_call.subject_visit.run_metadata_rules(
+                visit=instance.missed_call.visit)
 
 
 @receiver(post_save, weak=False, sender=HomeVisit,
@@ -196,10 +199,69 @@ def cancer_dx_and_tx_on_post_save(sender, instance, raw, created, **kwargs):
                                 instance.subject_visit.appointment.subject_identifier)
 
 
-def trigger_action_item(obj, field, response, model_cls,
-                        action_name, subject_identifier,
-                        repeat=False):
+@receiver(post_save, weak=True, sender=Appointment,
+          dispatch_uid='appointment_reminder_on_post_save')
+def appointment_reminder_on_post_save(sender, instance, raw, created, using, **kwargs):
+    """
+    Schedule a sms reminder when appointment is created.
+    """
+    if not raw:
+        if created:
+            # Appointment sms reminder
+            app_config = django_apps.get_app_config('edc_appointment')
+            send_sms_reminders = app_config.send_sms_reminders
+            edc_sms_app_config = django_apps.get_app_config('edc_sms')
+            if send_sms_reminders:
+                try:
+                    appt_datetime = instance.appt_datetime.strftime(
+                        "%B+%d,+%Y,+%H:%M:%S")
+                except AttributeError:
+                    pass
+                else:
+                    consent_mdl_cls = django_apps.get_model(
+                        edc_sms_app_config.consent_model)
+                    consent = consent_mdl_cls.objects.filter(
+                        subject_identifier=instance.subject_identifier)
+                    if consent:
+                        consent = consent[0]
+                    if not is_soc_community_arm(consent):
+                        schedule_sms(appt_datetime, instance, consent)
 
+
+def schedule_sms(appt_datetime, instance, consent):
+    """
+    Schedule or send SMS when called
+    :param appt_datetime: date of the appointment from the appointment report date time
+    in string format
+    :param instance: Instance of the appointment created on post save
+    :param consent: Participant's consent object
+    :return: None
+    """
+    sms_message_data = (
+        f'Dear+participant+Reminder+for+an+appointment+on+{appt_datetime}')
+    appt_sms_reminder = AppointmentSmsReminder(
+        subject_identifier=instance.subject_identifier,
+        appt_datetime=instance.appt_datetime,
+        sms_message_data=sms_message_data,
+        recipient_number=consent.recipient_number)
+    appt_reminder_date = instance.appt_datetime
+    appt_sms_reminder.schedule_or_send_sms_reminder(
+        appt_reminder_date=appt_reminder_date)
+
+
+def is_soc_community_arm(consent):
+    """
+    Returns the community that a participant is enrolled for potlako participants
+    :param consent: Participant's consent object
+    :return: boolean
+    """
+    community_arm = get_community_arm(consent.screening_identifier)
+    return False if (community_arm == 'Intervention') else True
+
+
+def trigger_action_item(obj, field, response, model_cls,
+        action_name, subject_identifier,
+        repeat=False):
     action_cls = site_action_items.get(
         model_cls.action_name)
     action_item_model_cls = action_cls.action_item_model_cls()
@@ -235,7 +297,6 @@ def trigger_action_item(obj, field, response, model_cls,
 
 
 def create_unscheduled_appointment(instance=None):
-
     next_app = instance.next_appointment_date
     appt_cls = django_apps.get_model('edc_appointment.appointment')
     subject_visit = instance.subject_visit
@@ -302,7 +363,6 @@ def put_on_schedule(instance=None):
 
 
 def get_community_arm(screening_identifier=None):
-
     if screening_identifier:
 
         try:

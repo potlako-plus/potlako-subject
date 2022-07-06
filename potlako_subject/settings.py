@@ -45,9 +45,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# EDC SMS configuration
+BASE_API_URL = config['edc_sms']['base_api_url']
+
 # Application definition
 
 INSTALLED_APPS = [
+    'django_q',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,6 +84,7 @@ INSTALLED_APPS = [
     'potlako_subject.apps.EdcProtocolAppConfig',
     'potlako_subject.apps.EdcDeviceAppConfig',
     'potlako_subject.apps.EdcVisitTrackingAppConfig',
+    'potlako_subject.apps.EdcSmsAppConfig',
     'potlako_subject.apps.AppConfig',
 ]
 
@@ -193,7 +198,6 @@ COMMUNITIES = config['communities']
 STATIC_URL = '/static/'
 
 if 'test' in sys.argv:
-
     class DisableMigrations:
 
         def __contains__(self, item):
@@ -201,6 +205,7 @@ if 'test' in sys.argv:
 
         def __getitem__(self, item):
             return None
+
 
     MIGRATION_MODULES = DisableMigrations()
     PASSWORD_HASHERS = ('django.contrib.auth.hashers.MD5PasswordHasher',)
