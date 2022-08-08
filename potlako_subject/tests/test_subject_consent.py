@@ -14,6 +14,7 @@ from ..models import OnSchedule, SubjectScreening, SubjectConsent
 subject_identifier = '132\-[0-9\-]+'
 
 
+@tag('sc')
 class TestSubjectConsent(TestCase):
 
     def setUp(self):
@@ -24,6 +25,10 @@ class TestSubjectConsent(TestCase):
 
         self.subject_screening = mommy.make_recipe(
             'potlako_subject.subjectscreening',
+            screening_identifier=self.clinicial_call_enrolment.screening_identifier)
+
+        self.verbal_consent = mommy.make_recipe(
+            'potlako_subject.verbalconsent',
             screening_identifier=self.clinicial_call_enrolment.screening_identifier)
 
         self.options = {
@@ -62,7 +67,6 @@ class TestSubjectConsent(TestCase):
             subject_screening.subject_identifier,
             subject_consent.subject_identifier)
 
-    @tag('this_one')
     def test_update_subject_identifier_on_verbal_consent(self):
         """Test if subject identifier on verbal consent is updated after consent
         """
@@ -75,6 +79,7 @@ class TestSubjectConsent(TestCase):
             verbal_consent.subject_identifier,
             subject_consent.subject_identifier)
 
+    @tag('sc1')
     def test_consent_creates_registered_subject(self):
         """Test if registered subject is created.
         """
