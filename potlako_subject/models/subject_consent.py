@@ -51,7 +51,7 @@ class ConsentManager(SubjectConsentManager, SearchSlugManager):
         # attach target_date to consent
         queryset = super().get_queryset().annotate(
             target_date = Subquery(key_steps.values('target_date')[:1])
-        ).order_by('-target_date')
+        )
         
         return queryset
 
