@@ -6,12 +6,12 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from edc_action_item.site_action_items import site_action_items
-from edc_appointment.appointment_sms_reminder import AppointmentSmsReminder
 from edc_base.utils import get_utcnow
 from edc_constants.constants import DEAD, NEW, YES, OPEN
 import pytz
 
+from edc_action_item.site_action_items import site_action_items
+from edc_appointment.appointment_sms_reminder import AppointmentSmsReminder
 from edc_appointment.constants import NEW_APPT
 from edc_appointment.creators import AppointmentInProgressError
 from edc_appointment.creators import InvalidParentAppointmentMissingVisitError
@@ -28,6 +28,7 @@ from .cancer_dx_and_tx import CancerDxAndTx
 from .clinician_call_enrollment import ClinicianCallEnrollment
 from .home_visit import HomeVisit
 from .missed_call import MissedCallRecord
+from .missed_visit import MissedVisit
 from .onschedule import OnSchedule
 from .patient_availability_log import PatientAvailabilityLog
 from .patient_call_followup import PatientCallFollowUp
@@ -136,6 +137,32 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
                             SubjectLocator, SUBJECT_LOCATOR_ACTION,
                             instance.subject_visit.appointment.subject_identifier,
                             repeat=True)
+
+
+@receiver(post_save, weak=False, sender=MissedVisit,
+          dispatch_uid='missed_visit_on_post_save')
+def missed_visit_on_post_save(sender, instance, raw, created, **kwargs):
+    """Create next unscheduled appointment if date is provided.
+    """
+    if not raw:
+
+        if instance.next_appointment_date and instance.subject_visit.visit_code != '3000':
+            next_visit_code = int(instance.subject_visit.visit_code_sequence) + 1
+            try:
+                Appointment.objects.get(
+                    subject_identifier=instance.subject_visit.subject_identifier,
+                    visit_code=instance.subject_visit.visit_code,
+                    visit_code_sequence=next_visit_code)
+            except ObjectDoesNotExist:
+                try:
+                    subject_consent = SubjectConsent.objects.get(
+                        subject_identifier=instance.subject_visit.subject_identifier)
+                except SubjectConsent.DoesNotExist:
+                    raise ValidationError('Subject screening object does not exist!')
+                else:
+                    if (instance.next_appointment_date and get_community_arm(
+                            screening_identifier=subject_consent.screening_identifier) == 'Intervention'):
+                        create_unscheduled_appointment(instance=instance)
 
 
 @receiver(post_save, weak=False, sender=SubjectVisit,
