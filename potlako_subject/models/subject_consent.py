@@ -26,7 +26,8 @@ from edc_sms.models import SubjectRecipientModelMixin
 from ..choices import IDENTITY_TYPE
 from .clinician_call_enrollment import ClinicianCallEnrollment
 from .model_mixins import SearchSlugModelMixin
-
+from edc_constants.constants import NOT_DONE
+from django.db.models import OuterRef, Subquery
 
 class SubjectScreeningError(Exception):
     pass
@@ -37,6 +38,22 @@ class ConsentManager(SubjectConsentManager, SearchSlugManager):
     def get_by_natural_key(self, subject_identifier, version):
         return self.get(
             subject_identifier=subject_identifier, version=version)
+        
+    def get_queryset(self):
+        
+        evaluationtimeline_model_cls = django_apps.get_model('potlako_subject.evaluationtimeline')
+
+        
+        key_steps = evaluationtimeline_model_cls.objects.filter(
+            navigation_plan__subject_identifier=OuterRef('subject_identifier'),
+            key_step_status=NOT_DONE).order_by('-created', '-modified')
+        
+        # attach target_date to consent
+        queryset = super().get_queryset().annotate(
+            target_date = Subquery(key_steps.values('target_date')[:1])
+        )
+        
+        return queryset
 
     class Meta:
         abstract = True
