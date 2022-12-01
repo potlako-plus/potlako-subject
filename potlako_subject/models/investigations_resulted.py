@@ -61,15 +61,15 @@ class InvestigationsResulted(CrfModelMixin):
         blank=True,
         null=True)
 
-    cancer_type = models.CharField(
+    cancer_type = models.TextField(
         verbose_name='If cancer, type of cancer diagnosed',
-        max_length=15,
+        max_length=1000,
         blank=True,
         null=True)
 
-    diagnoses_made = models.CharField(
+    diagnoses_made = models.TextField(
         verbose_name='If not cancer, diagnosis made',
-        max_length=15,
+        max_length=1000,
         blank=True,
         null=True)
 
