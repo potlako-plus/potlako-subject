@@ -16,6 +16,7 @@ class CancerDxAndTxAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
     form = CancerDxAndTxAssessmentEndpointForm
     extra_context_models = ['cliniciancallenrollment',
                             'baselineclinicalsummary',
+                            'patientcallinitial',
                             'symptomandcareseekingassessment',
                             'cancerdxandtx']
 

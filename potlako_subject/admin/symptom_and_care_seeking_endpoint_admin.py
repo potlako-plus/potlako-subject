@@ -16,6 +16,7 @@ class SymptomAndCareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = SymptomAndCareSeekingEndpointForm
     extra_context_models = ['cliniciancallenrollment',
+                            'patientcallinitial',
                             'baselineclinicalsummary',
                             'symptomandcareseekingassessment']
 

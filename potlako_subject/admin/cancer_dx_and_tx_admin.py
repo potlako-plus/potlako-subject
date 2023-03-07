@@ -12,6 +12,7 @@ class CancerDxAndTxAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin):
     form = CancerDxAndTxAssessmentForm
     extra_context_models = ['cliniciancallenrollment',
                             'baselineclinicalsummary',
+                            'patientcallinitial',
                             'navigationplanandsummary',
                             'extra_symptoms_description']
 
