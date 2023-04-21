@@ -27,13 +27,13 @@ class SymptomAndCareSeekingAssessment(CrfModelMixin):
                       'go to the clinic, nurse or doctor? Can you describe the '
                       'symptom(s) a bit more? You mentioned (symptoms(s)),were '
                       'there any more symptoms that you noticed about this time?'),
-        max_length=1000,
+        max_length=100000,
         help_text=('Try identify all participant-reported symptoms first; the checklist'
                    ' comes later'))
 
     symptoms_cope = models.TextField(
         verbose_name=('What did you do to cope with/help these symptoms?'),
-        max_length=1000,
+        max_length=100000,
         help_text=('How long did it take before you decided to use any treatment?'
                    'How long did you try for? Did it help at all?'))
 
