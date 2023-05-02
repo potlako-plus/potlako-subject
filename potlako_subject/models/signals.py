@@ -83,6 +83,22 @@ def subject_consent_on_post_save(sender, instance, raw, created, **kwargs):
         put_on_schedule(instance=instance)
 
 
+@receiver(post_save, weak=False, sender=VerbalConsent,
+          dispatch_uid='verbal_consent_on_post_save')
+def verbal_consent_on_post_save(sender, instance, raw, created, **kwargs):
+    """
+    -subject identifier for clinician call enrollment
+    """
+    if not raw:
+        update_model_fields(instance=instance,
+                            model_cls=ClinicianCallEnrollment,
+                            fields=[
+                                ['subject_identifier', instance.subject_identifier],
+                                ['is_eligible', instance.is_eligible],
+                                ['ineligibility', instance.ineligibility]
+                            ])
+
+
 @receiver(post_save, weak=False, sender=PatientCallInitial,
           dispatch_uid='patient_call_initial_on_post_save')
 def patient_call_initial_on_post_save(sender, instance, raw, created, **kwargs):
@@ -287,8 +303,8 @@ def is_soc_community_arm(consent):
 
 
 def trigger_action_item(obj, field, response, model_cls,
-        action_name, subject_identifier,
-        repeat=False):
+                        action_name, subject_identifier,
+                        repeat=False):
     action_cls = site_action_items.get(
         model_cls.action_name)
     action_item_model_cls = action_cls.action_item_model_cls()
