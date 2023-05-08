@@ -63,6 +63,10 @@ def subject_consent_on_post_save(sender, instance, raw, created, **kwargs):
     -Put participant on schedule and define community arm
     """
     if not raw:
+        update_model_fields(instance=instance,
+                            model_cls=ClinicianCallEnrollment,
+                            fields=[['subject_identifier',
+                                     instance.subject_identifier], ])
         if created:
             update_model_fields(instance=instance,
                                 model_cls=SubjectScreening,
@@ -71,32 +75,11 @@ def subject_consent_on_post_save(sender, instance, raw, created, **kwargs):
                                     ['is_consented', True]])
 
             update_model_fields(instance=instance,
-                                model_cls=ClinicianCallEnrollment,
-                                fields=[['subject_identifier',
-                                         instance.subject_identifier], ])
-
-            update_model_fields(instance=instance,
                                 model_cls=VerbalConsent,
                                 fields=[['subject_identifier',
                                          instance.subject_identifier], ])
 
         put_on_schedule(instance=instance)
-
-
-@receiver(post_save, weak=False, sender=VerbalConsent,
-          dispatch_uid='verbal_consent_on_post_save')
-def verbal_consent_on_post_save(sender, instance, raw, created, **kwargs):
-    """
-    -subject identifier for clinician call enrollment
-    """
-    if not raw:
-        update_model_fields(instance=instance,
-                            model_cls=ClinicianCallEnrollment,
-                            fields=[
-                                ['subject_identifier', instance.subject_identifier],
-                                ['is_eligible', instance.is_eligible],
-                                ['ineligibility', instance.ineligibility]
-                            ])
 
 
 @receiver(post_save, weak=False, sender=PatientCallInitial,
