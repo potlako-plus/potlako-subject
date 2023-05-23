@@ -63,17 +63,16 @@ def subject_consent_on_post_save(sender, instance, raw, created, **kwargs):
     -Put participant on schedule and define community arm
     """
     if not raw:
+        update_model_fields(instance=instance,
+                            model_cls=ClinicianCallEnrollment,
+                            fields=[['subject_identifier',
+                                     instance.subject_identifier], ])
         if created:
             update_model_fields(instance=instance,
                                 model_cls=SubjectScreening,
                                 fields=[
                                     ['subject_identifier', instance.subject_identifier],
                                     ['is_consented', True]])
-
-            update_model_fields(instance=instance,
-                                model_cls=ClinicianCallEnrollment,
-                                fields=[['subject_identifier',
-                                         instance.subject_identifier], ])
 
             update_model_fields(instance=instance,
                                 model_cls=VerbalConsent,
@@ -287,8 +286,8 @@ def is_soc_community_arm(consent):
 
 
 def trigger_action_item(obj, field, response, model_cls,
-        action_name, subject_identifier,
-        repeat=False):
+                        action_name, subject_identifier,
+                        repeat=False):
     action_cls = site_action_items.get(
         model_cls.action_name)
     action_item_model_cls = action_cls.action_item_model_cls()
