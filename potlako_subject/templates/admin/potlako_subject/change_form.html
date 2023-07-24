@@ -16,10 +16,6 @@
 <div class="summary">
 <div class="tab">
   <button class="tablinks"  onmouseover="openCity(event, 'cliniciancallenrollment')" >Demographics</button>
-  
-{% if symptomandcareseekingassessment %}
-  <button class="tablinks"  onmouseover="openCity(event, 'symptomandcareseekingassessment')">Symptoms Assessment</button>
-{% endif %}
 
 {% if cancerdxandtx %}
   <button class="tablinks"  onmouseover="openCity(event, 'cancerdxandtx')">Cancer Evaluation</button>
@@ -30,7 +26,7 @@
  {% endif %}
 
 {% if navigationsummaryandplan %}
-  <button class="tablinks"  onmouseover="openCity(event, 'navigationsummaryandplan')">Diagnostic Plan</button>
+  <button class="tablinks"  onmouseover="openCity(event, 'navigationsummaryandplan')">Navigation Summary</button>
  {% endif %}
 </div>
 
@@ -42,15 +38,6 @@
 <label class='heading'>HIV Result: </label> {{ patientcallinitial.hiv_status }} <br>
 <label class='heading'>Suspected Cancer: </label> {{ cliniciancallenrollment.get_suspected_cancer_display }}<br>
 <label class='heading'>Suspicion Level: </label> {{ cliniciancallenrollment.get_suspicion_level_display }} </div>
-</div>
-
-<div id="symptomandcareseekingassessment" class="tabcontent">
-<p class='patient_details'>
-<label class='heading'>First visit promt: </label> {{ symptomandcareseekingassessment.first_visit_promt }}
-   
-<label class='heading'>Cause Assumption: </label> {{ symptomandcareseekingassessment.cause_assumption }}
-   
-<label class='heading'>Symptoms Concern: </label> {{ symptomandcareseekingassessment.get_symptoms_concern_display }}</p>
 </div>
 
 <div id="cancerdxandtx" class="tabcontent">
@@ -86,6 +73,7 @@
 <div id="navigationsummaryandplan" class="tabcontent">
 <p class='patient_details'>
 <label class='heading'>Diagnostic plan: </label> {{ navigationsummaryandplan.diagnostic_plan }} </p>
+<label class='heading'>Notes: </label> {{ navigationsummaryandplan.notes }} </p>
 </div>
 </div>
 <div class='clearfix'></div>
