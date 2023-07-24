@@ -197,13 +197,13 @@ def home_visit_on_post_save(sender, instance, raw, created, **kwargs):
     """
     if not raw:
         death_report_cls = django_apps.get_model('potlako_prn.deathreport')
-        exit_cls = django_apps.get_model('potlako_prn.coordinatorexit')
+        subject_offstudy_cls = django_apps.get_model('potlako_prn.subjectoffstudy')
         trigger_action_item(instance, 'visit_outcome', DEAD,
                             death_report_cls, DEATH_REPORT_ACTION,
                             instance.subject_visit.appointment.subject_identifier)
 
         trigger_action_item(instance, 'visit_outcome', 'ltfu',
-                            exit_cls, SUBJECT_OFFSTUDY_ACTION,
+                            subject_offstudy_cls, SUBJECT_OFFSTUDY_ACTION,
                             instance.subject_visit.appointment.subject_identifier)
 
 
