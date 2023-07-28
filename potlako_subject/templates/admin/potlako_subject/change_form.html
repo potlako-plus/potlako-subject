@@ -17,6 +17,10 @@
 <div class="tab">
   <button class="tablinks"  onmouseover="openCity(event, 'cliniciancallenrollment')" >Demographics</button>
 
+{% if symptomandcareseekingassessment%}
+  <button class="tablinks"  onmouseover="openCity(event, 'symptomandcareseekingassessment')">Symptoms Assessment</button>
+  {% endif %}
+
 {% if cancerdxandtx %}
   <button class="tablinks"  onmouseover="openCity(event, 'cancerdxandtx')">Cancer Evaluation</button>
  {% endif %}
@@ -69,6 +73,15 @@
 
 <label class='heading'>Cancer Probability: </label> {{ baselineclinicalsummary.get_cancer_probability_display }} </p>
 </div>
+
+<div id="symptomandcareseekingassessment" class="tabcontent">
+  <p class='patient_details'>
+  <label class='heading'>First visit promt: </label> {{ symptomandcareseekingassessment.first_visit_promt }}
+     
+  <label class='heading'>Cause Assumption: </label> {{ symptomandcareseekingassessment.cause_assumption }}
+     
+  <label class='heading'>Symptoms Concern: </label> {{ symptomandcareseekingassessment.get_symptoms_concern_display }}</p>
+  </div>
 
 <div id="navigationsummaryandplan" class="tabcontent">
 <p class='patient_details'>
