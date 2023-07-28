@@ -1,22 +1,23 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.apps import apps as django_apps
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from edc_base.model_fields.custom_fields import OtherCharField
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO
-from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 from edc_identifier.managers import SubjectIdentifierManager
+from edc_visit_schedule import site_visit_schedules
+from edc_visit_schedule.model_mixins import OffScheduleModelMixin
 
-from ..choices import CANCER_EVALUATION, CLINICAL_IMPRESSION, CANCER_DIAGNOSIS
-from ..choices import METASTASIS_STAGES, STAGES, TREATMENT_INTENT
-from ..choices import NON_CANCER_DIAGNOSIS, DATE_ESTIMATION, CANCER_DIAGNOSIS_STAGE
 from .model_mixins import CrfModelMixin
+from ..choices import CANCER_DIAGNOSIS, CANCER_EVALUATION, CLINICAL_IMPRESSION, \
+    MORE_INFO_EXIT
+from ..choices import CANCER_DIAGNOSIS_STAGE, DATE_ESTIMATION, NON_CANCER_DIAGNOSIS
+from ..choices import METASTASIS_STAGES, STAGES, TREATMENT_INTENT
 
 
-class CancerDxAndTxEndpoint(UniqueSubjectIdentifierFieldMixin,
-                            SiteModelMixin, BaseUuidModel):
-
+class CancerDxAndTxEndpoint(OffScheduleModelMixin, SiteModelMixin, BaseUuidModel):
     cancer_evaluation = models.CharField(
         max_length=30,
         choices=CANCER_EVALUATION)
@@ -31,7 +32,7 @@ class CancerDxAndTxEndpoint(UniqueSubjectIdentifierFieldMixin,
         choices=YES_NO,
         max_length=3,
         blank=True,
-        null=True,)
+        null=True, )
 
     diagnosis_date_estimation = models.CharField(
         verbose_name='Which part of the date is estimated?',
@@ -43,7 +44,7 @@ class CancerDxAndTxEndpoint(UniqueSubjectIdentifierFieldMixin,
     clinical_impression = models.CharField(
         verbose_name='Final clinical impression',
         max_length=30,
-        choices=CLINICAL_IMPRESSION,)
+        choices=CLINICAL_IMPRESSION, )
 
     final_cancer_diagnosis = models.CharField(
         verbose_name='If confirmed/probable cancer, final cancer diagnosis',
@@ -135,7 +136,7 @@ class CancerDxAndTxEndpoint(UniqueSubjectIdentifierFieldMixin,
         choices=YES_NO,
         max_length=3,
         blank=True,
-        null=True,)
+        null=True, )
 
     surgery_date_estimation = models.CharField(
         verbose_name='Which part of the date is estimated?',
@@ -161,7 +162,7 @@ class CancerDxAndTxEndpoint(UniqueSubjectIdentifierFieldMixin,
         choices=YES_NO,
         max_length=3,
         blank=True,
-        null=True,)
+        null=True, )
 
     chemotherapy_date_estimation = models.CharField(
         verbose_name='Which part of the date is estimated?',
@@ -187,7 +188,7 @@ class CancerDxAndTxEndpoint(UniqueSubjectIdentifierFieldMixin,
         choices=YES_NO,
         max_length=3,
         blank=True,
-        null=True,)
+        null=True, )
 
     radiation_date_estimation = models.CharField(
         verbose_name='Which part of the date is estimated?',
@@ -195,15 +196,30 @@ class CancerDxAndTxEndpoint(UniqueSubjectIdentifierFieldMixin,
         max_length=15,
         null=True,
         blank=True)
-    
+
+    final_deposition = models.CharField(
+        verbose_name='Patient final disposition',
+        choices=MORE_INFO_EXIT,
+        default='',
+        max_length=50, )
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
-    
+
     objects = SubjectIdentifierManager()
-    
+
+    def take_off_schedule(self):
+        on_schedule = django_apps.get_model(
+            'potlako_subject.onschedule')
+        if self.final_deposition == 'exit':
+            _, schedule = site_visit_schedules.get_by_onschedule_model(
+                onschedule_model=on_schedule._meta.label_lower)
+            schedule.take_off_schedule(offschedule_model_obj=self)
+
     def natural_key(self):
-        return (self.subject_identifier, )
+        return (self.subject_identifier,)
+
     natural_key.dependencies = ['sites.Site']
 
     class Meta(CrfModelMixin.Meta):

@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.deletion import PROTECT
+from edc_action_item.model_mixins import ActionModelMixin
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import date_not_future
@@ -8,6 +9,7 @@ from edc_constants.choices import YES_NO
 from edc_identifier.managers import SubjectIdentifierManager
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 
+from ..action_items import NAVIGATION_PLANS_ACTION
 from ..choices import DONE_NOT_DONE
 
 
@@ -19,8 +21,10 @@ class EvaluationTimelineManager(models.Manager):
                         target_date=target_date)
 
 
-class NavigationSummaryAndPlan(UniqueSubjectIdentifierFieldMixin,
-                               SiteModelMixin, BaseUuidModel):
+class NavigationSummaryAndPlan(ActionModelMixin, SiteModelMixin, BaseUuidModel):
+    action_name = NAVIGATION_PLANS_ACTION
+
+    tracking_identifier_prefix = 'NP'
 
     diagnostic_plan = models.TextField(
         max_length=3000)
@@ -58,10 +62,10 @@ class EvaluationTimeline(SiteModelMixin, BaseUuidModel):
 
     key_step = models.CharField(
         verbose_name='Key step',
-        max_length=50,)
+        max_length=50, )
 
     target_date = models.DateField(
-        verbose_name='Target Date',)
+        verbose_name='Target Date', )
 
     adjusted_target_date = models.DateField(
         verbose_name='Adjusted Target Date',
