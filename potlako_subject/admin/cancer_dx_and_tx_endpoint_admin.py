@@ -16,8 +16,8 @@ class CancerDxAndTxAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
     extra_context_models = ['cliniciancallenrollment',
                             'baselineclinicalsummary',
                             'patientcallinitial',
-                            'symptomandcareseekingassessment',
-                            'cancerdxandtx']
+                            'cancerdxandtx',
+                            'navigationsummaryandplan']
 
     fieldsets = (
         ('Diagnosis Details', {
@@ -91,7 +91,8 @@ class CancerDxAndTxAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
         redirect_url = super().redirect_url(
             request, obj, post_url_continue=post_url_continue)
         if request.GET.dict().get('next'):
-            url_name = settings.DASHBOARD_URL_NAMES.get('endpoint_listboard_url')
+            url_name = settings.DASHBOARD_URL_NAMES.get(
+                'endpoint_listboard_url')
             attrs = request.GET.dict().get('next').split(',')[1:]
             options = {k: request.GET.dict().get(k)
                        for k in attrs if request.GET.dict().get(k)}
