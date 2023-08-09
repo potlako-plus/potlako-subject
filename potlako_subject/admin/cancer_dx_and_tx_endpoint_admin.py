@@ -17,7 +17,6 @@ class CancerDxAndTxAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
     extra_context_models = ['cliniciancallenrollment',
                             'baselineclinicalsummary',
                             'patientcallinitial',
-                            'cancerdxandtx',
                             'navigationsummaryandplan']
 
     fieldsets = (
