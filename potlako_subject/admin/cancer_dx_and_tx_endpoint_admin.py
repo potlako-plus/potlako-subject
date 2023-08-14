@@ -30,8 +30,6 @@ class CancerDxAndTxAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
                        'final_cancer_diagnosis_other',
                        'non_cancer_diagnosis',
                        'non_cancer_diagnosis_other',
-                       'cancer_diagnosis',
-                       'cancer_histology_code',
                        'cancer_diagnosis_stage',
                        'tumor_stage',
                        'nodal_stage',
