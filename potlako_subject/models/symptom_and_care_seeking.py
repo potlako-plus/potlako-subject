@@ -7,6 +7,7 @@ from edc_base.model_validators import date_not_future
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO_UNSURE, YES_NO
 
+from .validators import datetime_not_now
 from ..choices import DATE_ESTIMATION, REASONS_NOT_DISCUSSED
 from ..choices import SYMPTOMS_CONCERN, FACILITY
 from .list_models import DiscussionPerson, Symptoms
@@ -21,7 +22,6 @@ class SymptomAssessmentManager(models.Manager):
 
 
 class SymptomAndCareSeekingAssessment(CrfModelMixin):
-
     first_visit_promt = models.TextField(
         verbose_name=('Can you please tell me about what first prompted you to'
                       'go to the clinic, nurse or doctor? Can you describe the '
@@ -40,7 +40,8 @@ class SymptomAndCareSeekingAssessment(CrfModelMixin):
     symptoms_present = models.ManyToManyField(
         Symptoms,
         verbose_name=('Now, we\'ve talked about the symptoms that you have described: '
-                      'I\'d also like to check whether you had any of the following symptoms'),
+                      'I\'d also like to check whether you had any of the following '
+                      'symptoms'),
         blank=True
     )
 
@@ -110,14 +111,14 @@ class SymptomAndCareSeekingAssessment(CrfModelMixin):
         choices=YES_NO,
         max_length=3,
         blank=True,
-        null=True,)
+        null=True, )
 
     clinic_visit_date_estimation = models.CharField(
         verbose_name='Which part of the date is estimated?',
         choices=DATE_ESTIMATION,
         max_length=15,
         null=True,
-        blank=True,)
+        blank=True, )
 
     clinic_visited = models.CharField(
         verbose_name='Which clinic or hospital did you go to?',
@@ -135,7 +136,24 @@ class SymptomAndCareSeekingAssessment(CrfModelMixin):
         choices=SYMPTOMS_CONCERN,
         max_length=25,
         null=True,
-        blank=True,)
+        blank=True, )
+
+    early_symptoms_date = models.DateField(
+        verbose_name='Date of earliest onset symptom(s)',
+        validators=[date_not_future, datetime_not_now])
+
+    early_symptoms_date_estimated = models.CharField(
+        verbose_name='Is the symptoms date estimated?',
+        choices=YES_NO,
+        max_length=3)
+
+    early_symptoms_date_estimation = models.CharField(
+        verbose_name='Which part of the date was estimated, if any?',
+        choices=DATE_ESTIMATION,
+        max_length=15,
+        blank=True,
+        null=True
+    )
 
     class Meta(CrfModelMixin.Meta):
         app_label = 'potlako_subject'
@@ -143,8 +161,8 @@ class SymptomAndCareSeekingAssessment(CrfModelMixin):
 
 
 class SymptomAssessment(SiteModelMixin, BaseUuidModel):
-
-    symptom_care_seeking = models.ForeignKey(SymptomAndCareSeekingAssessment, on_delete=PROTECT)
+    symptom_care_seeking = models.ForeignKey(SymptomAndCareSeekingAssessment,
+                                             on_delete=PROTECT)
 
     symptom = models.CharField(
         max_length=50)
@@ -164,7 +182,7 @@ class SymptomAssessment(SiteModelMixin, BaseUuidModel):
         choices=DATE_ESTIMATION,
         max_length=15,
         blank=True,
-        null=True,)
+        null=True, )
 
     history = HistoricalRecords()
 
@@ -181,4 +199,3 @@ class SymptomAssessment(SiteModelMixin, BaseUuidModel):
         app_label = 'potlako_subject'
         verbose_name = 'Symptom Assessment'
         unique_together = ('symptom_care_seeking', 'symptom')
-
