@@ -75,6 +75,15 @@ class SymptomsAndCareSeekingEndpoint(UniqueSubjectIdentifierFieldMixin,
         null=True,
         blank=True)
 
+    initial_symptom = models.TextField()
+
+    first_discussion = models.TextField()
+
+    seek_help_decision = models.TextField(
+        verbose_name='Decision to seek help')
+
+    clinic_1st_visit = models.TextField(verbose_name='First clinic visit')
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()
