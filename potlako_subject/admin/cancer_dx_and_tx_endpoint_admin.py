@@ -21,19 +21,20 @@ class CancerDxAndTxAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         ('Diagnosis Details', {
             'fields': ('subject_identifier',
-                       'cancer_evaluation',
-                       'diagnosis_date',
-                       'diagnosis_date_estimated',
-                       'diagnosis_date_estimation',
                        'clinical_impression',
                        'final_cancer_diagnosis',
                        'final_cancer_diagnosis_other',
                        'non_cancer_diagnosis',
                        'non_cancer_diagnosis_other',
+                       'icd_10_code',
                        'cancer_diagnosis_stage',
                        'tumor_stage',
                        'nodal_stage',
-                       'distant_metastasis_stage',)
+                       'distant_metastasis_stage',
+                       'cancer_evaluation',
+                       'diagnosis_date',
+                       'diagnosis_date_estimated',
+                       'diagnosis_date_estimation',)
         }),
         ('Therapy Details', {
             'fields': ('cancer_therapy',
