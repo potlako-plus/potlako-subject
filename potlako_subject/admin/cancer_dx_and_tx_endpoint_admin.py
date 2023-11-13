@@ -4,10 +4,11 @@ from django.urls.base import reverse
 from django.urls.exceptions import NoReverseMatch
 from edc_model_admin import audit_fieldset_tuple
 from edc_model_admin import ModelAdminNextUrlRedirectError
+
+from .modeladmin_mixins import ModelAdminMixin
 from ..admin_site import potlako_subject_admin
 from ..forms import CancerDxAndTxAssessmentEndpointForm
 from ..models import CancerDxAndTxEndpoint
-from .modeladmin_mixins import ModelAdminMixin
 
 
 @admin.register(CancerDxAndTxEndpoint, site=potlako_subject_admin)
@@ -83,7 +84,10 @@ class CancerDxAndTxAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'cancer_evaluation',
                     'clinical_impression',
                     'final_cancer_diagnosis',
-                    'non_cancer_diagnosis')
+                    'non_cancer_diagnosis',
+                    'final_deposition',)
+
+    list_filter = 'final_deposition',
 
     def redirect_url(self, request, obj, post_url_continue=None):
         redirect_url = super().redirect_url(
