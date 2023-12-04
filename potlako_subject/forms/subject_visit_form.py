@@ -2,13 +2,13 @@ from django import forms
 from django.apps import apps as django_apps
 from django.core.exceptions import ObjectDoesNotExist
 from edc_action_item import site_action_items
+from edc_appointment.constants import IN_PROGRESS_APPT
 from edc_base.sites import SiteModelFormMixin
-from edc_constants.constants import OPEN, OTHER, ALIVE, UNKNOWN, DEAD
+from edc_constants.constants import ALIVE, DEAD, NEW, OPEN, OTHER, UNKNOWN
 from edc_form_validators import FormValidatorMixin
 from edc_form_validators.base_form_validator import INVALID_ERROR
 from edc_visit_tracking.form_validators import (
     VisitFormValidator as BaseVisitFormValidator)
-from edc_appointment.constants import IN_PROGRESS_APPT
 
 from ..action_items import NAVIGATION_PLANS_ACTION
 from ..models import SubjectVisit
@@ -103,7 +103,7 @@ class VisitFormValidator(BaseVisitFormValidator):
             action_item_model_cls.objects.get(
                 subject_identifier=appointment.subject_identifier,
                 action_type__name=NAVIGATION_PLANS_ACTION,
-                status=OPEN
+                status__in=[OPEN, NEW]
             )
         except ObjectDoesNotExist:
             pass
@@ -111,8 +111,7 @@ class VisitFormValidator(BaseVisitFormValidator):
             raise forms.ValidationError('Complete navigation plans action item first')
 
 
-class SubjectVisitForm(
-    SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
+class SubjectVisitForm(SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
     form_validator_cls = VisitFormValidator
 
     class Meta:
