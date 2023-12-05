@@ -99,15 +99,12 @@ class VisitFormValidator(BaseVisitFormValidator):
         action_cls = site_action_items.get(
             NAVIGATION_PLANS_ACTION)
         action_item_model_cls = action_cls.action_item_model_cls()
-        try:
-            action_item_model_cls.objects.get(
+        nav_actions=action_item_model_cls.objects.filter(
                 subject_identifier=appointment.subject_identifier,
                 action_type__name=NAVIGATION_PLANS_ACTION,
                 status__in=[OPEN, NEW]
             )
-        except ObjectDoesNotExist:
-            pass
-        else:
+        if nav_actions.exists():
             raise forms.ValidationError('Complete navigation plans action item first')
 
 
