@@ -1,6 +1,5 @@
 from django import forms
 from django.apps import apps as django_apps
-from django.core.exceptions import ObjectDoesNotExist
 from edc_action_item import site_action_items
 from edc_appointment.constants import IN_PROGRESS_APPT
 from edc_base.sites import SiteModelFormMixin
@@ -99,11 +98,11 @@ class VisitFormValidator(BaseVisitFormValidator):
         action_cls = site_action_items.get(
             NAVIGATION_PLANS_ACTION)
         action_item_model_cls = action_cls.action_item_model_cls()
-        nav_actions=action_item_model_cls.objects.filter(
-                subject_identifier=appointment.subject_identifier,
-                action_type__name=NAVIGATION_PLANS_ACTION,
-                status__in=[OPEN, NEW]
-            )
+        nav_actions = action_item_model_cls.objects.filter(
+            subject_identifier=appointment.subject_identifier,
+            action_type__name=NAVIGATION_PLANS_ACTION,
+            status__in=[OPEN, NEW]
+        )
         if nav_actions.exists():
             raise forms.ValidationError('Complete navigation plans action item first')
 
