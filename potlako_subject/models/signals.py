@@ -1,15 +1,12 @@
 from datetime import datetime
 
+import pytz
 from django.apps import apps as django_apps
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from edc_base.utils import get_utcnow
-from edc_constants.constants import DEAD, NEW, YES, OPEN
-import pytz
-
 from edc_action_item.site_action_items import site_action_items
 from edc_appointment.appointment_sms_reminder import AppointmentSmsReminder
 from edc_appointment.constants import NEW_APPT
@@ -19,11 +16,12 @@ from edc_appointment.creators import InvalidParentAppointmentStatusError
 from edc_appointment.creators import UnscheduledAppointmentCreator
 from edc_appointment.creators import UnscheduledAppointmentError
 from edc_appointment.models import Appointment
+from edc_base.utils import get_utcnow
+from edc_constants.constants import DEAD, NEW, OPEN, YES
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
+
 from potlako_prn.action_items import DEATH_REPORT_ACTION
 from potlako_prn.action_items import SUBJECT_OFFSTUDY_ACTION
-
-from ..action_items import SUBJECT_LOCATOR_ACTION
 from .cancer_dx_and_tx import CancerDxAndTx
 from .clinician_call_enrollment import ClinicianCallEnrollment
 from .home_visit import HomeVisit
@@ -38,6 +36,7 @@ from .subject_locator import SubjectLocator
 from .subject_screening import SubjectScreening
 from .subject_visit import SubjectVisit
 from .verbal_consent import VerbalConsent
+from ..action_items import NAVIGATION_PLANS_ACTION, SUBJECT_LOCATOR_ACTION
 
 
 @receiver(post_save, weak=False, sender=ClinicianCallEnrollment,
@@ -197,13 +196,13 @@ def home_visit_on_post_save(sender, instance, raw, created, **kwargs):
     """
     if not raw:
         death_report_cls = django_apps.get_model('potlako_prn.deathreport')
-        exit_cls = django_apps.get_model('potlako_prn.coordinatorexit')
+        subject_offstudy_cls = django_apps.get_model('potlako_prn.subjectoffstudy')
         trigger_action_item(instance, 'visit_outcome', DEAD,
                             death_report_cls, DEATH_REPORT_ACTION,
                             instance.subject_visit.appointment.subject_identifier)
 
         trigger_action_item(instance, 'visit_outcome', 'ltfu',
-                            exit_cls, SUBJECT_OFFSTUDY_ACTION,
+                            subject_offstudy_cls, SUBJECT_OFFSTUDY_ACTION,
                             instance.subject_visit.appointment.subject_identifier)
 
 
@@ -236,7 +235,6 @@ def appointment_reminder_on_post_save(sender, instance, raw, created, using, **k
             # Appointment sms reminder
             app_config = django_apps.get_app_config('edc_appointment')
             send_sms_reminders = app_config.send_sms_reminders
-            edc_sms_app_config = django_apps.get_app_config('edc_sms')
             if send_sms_reminders:
                 try:
                     appt_datetime = instance.appt_datetime.strftime(
@@ -244,14 +242,28 @@ def appointment_reminder_on_post_save(sender, instance, raw, created, using, **k
                 except AttributeError:
                     pass
                 else:
-                    consent_mdl_cls = django_apps.get_model(
-                        edc_sms_app_config.consent_model)
-                    consent = consent_mdl_cls.objects.filter(
-                        subject_identifier=instance.subject_identifier)
-                    if consent:
-                        consent = consent[0]
-                    if not is_soc_community_arm(consent):
+                    consent = subject_consent(instance)
+                    if consent and not is_soc_community_arm(consent):
                         schedule_sms(appt_datetime, instance, consent)
+
+        visit_codes = ['2000', '3000']
+        consent = subject_consent(instance)
+        if consent and is_soc_community_arm(consent) and instance.visit_code in \
+                visit_codes:
+            navigation_plan_cls = django_apps.get_model(
+                'potlako_subject.navigationsummaryandplan')
+            trigger_action_item(instance, 'appt_status', 'done',
+                                navigation_plan_cls, NAVIGATION_PLANS_ACTION,
+                                instance.subject_identifier,
+                                repeat=True)
+
+
+def subject_consent(instance=None):
+    edc_sms_app_config = django_apps.get_app_config('edc_sms')
+    consent_mdl_cls = django_apps.get_model(
+        edc_sms_app_config.consent_model)
+    return consent_mdl_cls.objects.filter(
+        subject_identifier=instance.subject_identifier).latest('consent_datetime')
 
 
 def schedule_sms(appt_datetime, instance, consent):
@@ -286,8 +298,8 @@ def is_soc_community_arm(consent):
 
 
 def trigger_action_item(obj, field, response, model_cls,
-                        action_name, subject_identifier,
-                        repeat=False):
+        action_name, subject_identifier,
+        repeat=False):
     action_cls = site_action_items.get(
         model_cls.action_name)
     action_item_model_cls = action_cls.action_item_model_cls()

@@ -78,7 +78,7 @@ CASH_TRANSFER_STATUS = (
     ('not_initiated', 'Transaction not yet initiated'),
     ('successful_confirmed', 'Transaction successful and patient confirmed'),
     ('successful_unconfirmed', 'Transaction successful but no patient '
-     'confirmation'),
+                               'confirmation'),
     ('not_successful', 'Transaction not successful (specify)'),
     (NOT_APPLICABLE, 'N/A'),
 )
@@ -92,7 +92,8 @@ CANCER_SUSPECT = (
 
 CANT_TALK_REASON = (
     ('at_work', 'At work'),
-    ('family_responsibilities', 'Family responsibilities e.g household chores, attending a baby'),
+    ('family_responsibilities',
+     'Family responsibilities e.g household chores, attending a baby'),
     (OTHER, 'Other'),
 
 )
@@ -388,7 +389,7 @@ PEOPLE_INQUIRED_FROM = (
      'Next of kin 1 called (phone answered) after patient called (NO answer, '
      'SMS sent)'),
     ('kin2_called', 'Next of kin 2 called (phone answered) after patient and '
-     'next of kin 1 called (NO answer for both, SMS sent to both)'),
+                    'next of kin 1 called (NO answer for both, SMS sent to both)'),
     ('unreachable', 'Unable to reach patient or next of kin'),
 )
 
@@ -457,7 +458,8 @@ SCALE = (
 
 SEVERITY_LEVEL = (
     ('low', 'Low, cancer possible but other conditions are much more likely'),
-    ('moderate', 'Moderate, cancer is among the most likely causes of the symptoms/signs'),
+    (
+    'moderate', 'Moderate, cancer is among the most likely causes of the symptoms/signs'),
     ('high', 'High, cancer is the leading suspected cause of the symptoms/signs')
 )
 
@@ -469,13 +471,13 @@ SMS_STATUS = (
 SMS_OUTCOME = (
     ('patient_sent_sms_received', 'SMS sent to patient and receipt confirmed'),
     ('patient_sent_sms_not_received', 'SMS sent to patient and receipt NOT '
-     'confirmed'),
+                                      'confirmed'),
     ('kin1_sent_sms_received', 'SMS sent to next of kin 1 and receipt '
-     'confirmed'),
+                               'confirmed'),
     ('kin1_sent_sms_not_received',
      'SMS sent to next of kin 1 and receipt NOT confirmed'),
     ('kin2_sent_sms_received', 'SMS sent to next of kin 2 and receipt '
-     'confirmed'),
+                               'confirmed'),
     ('kin2_sent_sms_not_received',
      'SMS sent to next of kin 2 and receipt NOT confirmed'),
     (OTHER, 'Other, specify'),
@@ -528,7 +530,7 @@ TESTS_ORDERED = (
     ('ordered', 'Yes, ordered'),
     ('ordered_and_resulted', 'Yes, ordered and resulted'),
     ('resulted', 'Resulted'),
-    (NO , 'No'),
+    (NO, 'No'),
     (UNSURE, 'Unsure'),
 )
 
@@ -579,7 +581,7 @@ VEHICLE_ARR_STATUS = (
      'Arrangement confirmed by facility and communicated to the patient '
      'and clinician'),
     ('vehicle_cannot_be_provided', 'Request made facility NOT able to '
-     'provide transport/vehicle for patient'),
+                                   'provide transport/vehicle for patient'),
     (OTHER, 'Other (specify)'),
     (NOT_APPLICABLE, 'N/A'),
 )
@@ -646,4 +648,9 @@ YES_NO_DECEASED = (
     (YES, YES),
     (NO, NO),
     ('deceased', 'Deceased')
+)
+
+MORE_INFO_EXIT = (
+    ('more_info', 'More information needed'),
+    ('exit', 'Exit'),
 )

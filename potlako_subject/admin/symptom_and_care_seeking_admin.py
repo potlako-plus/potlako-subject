@@ -51,7 +51,11 @@ class SymptomAndCareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin)
                        'clinic_visited',
                        'clinic_visited_other',
                        'cause_assumption',
-                       'symptoms_concern'),
+                       'symptoms_concern',
+                       'early_symptoms_date',
+                       'early_symptoms_date_estimated',
+                       'early_symptoms_date_estimation',
+                       ),
         }), audit_fieldset_tuple
     )
 
@@ -63,6 +67,8 @@ class SymptomAndCareSeekingAssessmentAdmin(CrfModelAdminMixin, admin.ModelAdmin)
                     'clinic_visit_date_estimated': admin.VERTICAL,
                     'clinic_visit_date_estimation': admin.VERTICAL,
                     'symptoms_concern': admin.VERTICAL,
+                    'early_symptoms_date_estimated': admin.VERTICAL,
+                    'early_symptoms_date_estimation': admin.VERTICAL,
                     }
 
     filter_horizontal = ('symptoms_present', 'discussion_person', )

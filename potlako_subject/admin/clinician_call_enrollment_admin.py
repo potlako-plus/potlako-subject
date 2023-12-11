@@ -71,9 +71,6 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'clinician_other',
                 'symptoms',
                 'symptoms_other',
-                'early_symptoms_date',
-                'early_symptoms_date_estimated',
-                'early_symptoms_date_estimation',
                 'suspected_cancer',
                 'suspected_cancer_unsure',
                 'suspected_cancer_other',
@@ -83,7 +80,7 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'last_hiv_result',
                 'patient_disposition',)
         }),
-        ('Referral Details', {
+        ('Referral Details',   {
             'fields': (
                 'referral_reason',
                 'referral_facility',
@@ -113,8 +110,6 @@ class ClinicianCallEnrollmentAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'patient_contact': admin.VERTICAL,
                     'kin_details_provided': admin.VERTICAL,
                     'clinician_type': admin.VERTICAL,
-                    'early_symptoms_date_estimated': admin.VERTICAL,
-                    'early_symptoms_date_estimation': admin.VERTICAL,
                     'suspected_cancer': admin.VERTICAL,
                     'suspicion_level': admin.VERTICAL,
                     'performance': admin.VERTICAL,

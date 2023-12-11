@@ -18,20 +18,24 @@ class SymptomAndCareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
     extra_context_models = ['cliniciancallenrollment',
                             'patientcallinitial',
                             'baselineclinicalsummary',
-                            'symptomandcareseekingassessment']
+                            'navigationsummaryandplan']
 
     fieldsets = (
         (None, {
             'fields': ('subject_identifier',
+                       'initial_symptom',
                        'cancer_symptom_date',
                        'cancer_symptom_estimated',
                        'cancer_symptom_estimation',
+                       'first_discussion',
                        'discussion_date',
                        'discussion_date_estimated',
                        'discussion_date_estimation',
+                       'seek_help_decision',
                        'seek_help_date',
                        'seek_help_date_estimated',
                        'seek_help_date_estimation',
+                       'clinic_1st_visit',
                        'first_seen_date',
                        'first_seen_date_estimated',
                        'first_seen_date_estimation'),
@@ -51,7 +55,8 @@ class SymptomAndCareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
         redirect_url = super().redirect_url(
             request, obj, post_url_continue=post_url_continue)
         if request.GET.dict().get('next'):
-            url_name = settings.DASHBOARD_URL_NAMES.get('endpoint_listboard_url')
+            url_name = settings.DASHBOARD_URL_NAMES.get(
+                'endpoint_listboard_url')
             attrs = request.GET.dict().get('next').split(',')[1:]
             options = {k: request.GET.dict().get(k)
                        for k in attrs if request.GET.dict().get(k)}

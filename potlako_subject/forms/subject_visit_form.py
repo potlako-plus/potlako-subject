@@ -1,17 +1,23 @@
 from django import forms
 from django.apps import apps as django_apps
+from edc_action_item import site_action_items
+from edc_appointment.constants import IN_PROGRESS_APPT
 from edc_base.sites import SiteModelFormMixin
-from edc_constants.constants import OTHER, ALIVE, UNKNOWN, DEAD
+from edc_constants.constants import ALIVE, DEAD, NEW, OPEN, OTHER, UNKNOWN
 from edc_form_validators import FormValidatorMixin
 from edc_form_validators.base_form_validator import INVALID_ERROR
 from edc_visit_tracking.form_validators import (
     VisitFormValidator as BaseVisitFormValidator)
-from edc_appointment.constants import IN_PROGRESS_APPT
 
+from ..action_items import NAVIGATION_PLANS_ACTION
 from ..models import SubjectVisit
 
 
 class VisitFormValidator(BaseVisitFormValidator):
+
+    def clean(self):
+        super().clean()
+        self.validate_navigation_action_required()
 
     @property
     def appointment_cls(self):
@@ -25,7 +31,7 @@ class VisitFormValidator(BaseVisitFormValidator):
 
                 reasons = ['missed_visit', 'fu_visit/contact']
 
-                if(appointment.visit_code == '1000' and reason in reasons):
+                if (appointment.visit_code == '1000' and reason in reasons):
                     raise forms.ValidationError(
                         {'reason': 'Invalid visit reason'},
                         code=INVALID_ERROR)
@@ -69,9 +75,9 @@ class VisitFormValidator(BaseVisitFormValidator):
 
         if (self.cleaned_data.get('reason') == 'death' and cleaned_data.get(
                 'info_source') in ['clinic_visit', 'other_contact_subject']):
-                raise forms.ValidationError(
-                    {'info_source': 'Source of information cannot be from '
-                     'participant if visit reason is \'Death\'.'})
+            raise forms.ValidationError(
+                {'info_source': 'Source of information cannot be from '
+                                'participant if visit reason is \'Death\'.'})
 
     def validate_survival_status_if_alive(self):
         if (self.cleaned_data.get('reason') == 'death' and self.cleaned_data.get(
@@ -85,10 +91,23 @@ class VisitFormValidator(BaseVisitFormValidator):
             raise forms.ValidationError(
                 {'reason': 'Survival status is deceased, visit reason must be death.'})
 
+    def validate_navigation_action_required(self):
+        """Raise an exception if the subject has not completed the navigation
+        plans action item."""
+        appointment = self.cleaned_data.get('appointment')
+        action_cls = site_action_items.get(
+            NAVIGATION_PLANS_ACTION)
+        action_item_model_cls = action_cls.action_item_model_cls()
+        nav_actions = action_item_model_cls.objects.filter(
+            subject_identifier=appointment.subject_identifier,
+            action_type__name=NAVIGATION_PLANS_ACTION,
+            status__in=[OPEN, NEW]
+        )
+        if nav_actions.exists():
+            raise forms.ValidationError('Complete navigation plans action item first')
 
-class SubjectVisitForm (
-        SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
 
+class SubjectVisitForm(SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
     form_validator_cls = VisitFormValidator
 
     class Meta:
