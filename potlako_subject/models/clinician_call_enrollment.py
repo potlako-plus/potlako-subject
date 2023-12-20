@@ -217,12 +217,16 @@ class ClinicianCallEnrollment(NonUniqueSubjectIdentifierFieldMixin, SiteModelMix
 
     early_symptoms_date = models.DateField(
         verbose_name='Date of earliest onset symptom(s)',
-        validators=[date_not_future, datetime_not_now])
+        validators=[date_not_future, datetime_not_now],
+        blank=True,
+        null=True)
 
     early_symptoms_date_estimated = models.CharField(
         verbose_name='Is the symptoms date estimated?',
         choices=YES_NO,
-        max_length=3)
+        max_length=3,
+        blank=True,
+        null=True)
 
     early_symptoms_date_estimation = models.CharField(
         verbose_name='Which part of the date was estimated, if any?',
