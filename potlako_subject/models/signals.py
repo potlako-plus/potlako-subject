@@ -127,7 +127,10 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
                 except SubjectConsent.DoesNotExist:
                     raise ValidationError('Subject screening object does not exist!')
                 else:
-                    if (instance.next_appointment_date and get_community_arm(
+                    appt_status = instance.subject_visit.appointment.next_by_timepoint.appt_status
+                    if appt_status == 'done':
+                        pass
+                    elif (instance.next_appointment_date and get_community_arm(
                             screening_identifier=subject_consent.screening_identifier) == 'Intervention'):
                         create_unscheduled_appointment(instance=instance)
 
