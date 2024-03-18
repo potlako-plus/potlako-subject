@@ -18,7 +18,8 @@ class SymptomAndCareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
     extra_context_models = ['cliniciancallenrollment',
                             'patientcallinitial',
                             'baselineclinicalsummary',
-                            'navigationsummaryandplan']
+                            'navigationsummaryandplan',
+                            'symptomandcareseekingassessment']
 
     fieldsets = (
         (None, {
@@ -27,7 +28,7 @@ class SymptomAndCareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
                        'cancer_symptom_date',
                        'cancer_symptom_estimated',
                        'cancer_symptom_estimation',
-                       'first_discussion',
+                       'symptoms_discussion',
                        'discussion_date',
                        'discussion_date_estimated',
                        'discussion_date_estimation',
@@ -49,6 +50,7 @@ class SymptomAndCareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'seek_help_date_estimation': admin.VERTICAL,
                     'first_seen_date_estimated': admin.VERTICAL,
                     'first_seen_date_estimation': admin.VERTICAL,
+                    'symptoms_discussion': admin.VERTICAL,
                     }
 
     def redirect_url(self, request, obj, post_url_continue=None):

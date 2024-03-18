@@ -1,6 +1,6 @@
 from django.db import models
 from edc_base.model_managers import HistoricalRecords
-from edc_constants.choices import YES_NO
+from edc_constants.choices import YES_NO, YES_NO_UNSURE
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 from edc_identifier.managers import SubjectIdentifierManager
 
@@ -77,7 +77,10 @@ class SymptomsAndCareSeekingEndpoint(UniqueSubjectIdentifierFieldMixin,
 
     initial_symptom = models.TextField()
 
-    first_discussion = models.TextField()
+    symptoms_discussion = models.CharField(
+        verbose_name=('Did the patient discuss their symptom with anyone?'),
+        choices=YES_NO_UNSURE,
+        max_length=8)
 
     seek_help_decision = models.TextField(
         verbose_name='Decision to seek help')
