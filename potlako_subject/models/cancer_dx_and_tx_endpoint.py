@@ -203,7 +203,10 @@ class CancerDxAndTxEndpoint(OffScheduleModelMixin, SiteModelMixin, BaseUuidModel
         default='',
         max_length=50, )
 
-    icd_10_code = models.TextField(verbose_name='ICD-10 Code')
+    icd_10_code = models.TextField(
+        verbose_name='ICD-10 Code',
+        blank=True,
+        null=True)
 
     history = HistoricalRecords()
 
