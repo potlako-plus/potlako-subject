@@ -87,6 +87,11 @@ class SymptomsAndCareSeekingEndpoint(UniqueSubjectIdentifierFieldMixin,
 
     clinic_1st_visit = models.TextField(verbose_name='First clinic visit')
 
+    comments = models.TextField(
+        verbose_name="Any comment for care seeking form",
+        blank=False,
+        null=False)
+
     history = HistoricalRecords()
 
     on_site = CurrentSiteManager()

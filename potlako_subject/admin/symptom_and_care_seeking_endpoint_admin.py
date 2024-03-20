@@ -32,14 +32,13 @@ class SymptomAndCareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
                        'discussion_date',
                        'discussion_date_estimated',
                        'discussion_date_estimation',
-                       'seek_help_decision',
                        'seek_help_date',
                        'seek_help_date_estimated',
                        'seek_help_date_estimation',
-                       'clinic_1st_visit',
                        'first_seen_date',
                        'first_seen_date_estimated',
-                       'first_seen_date_estimation'),
+                       'first_seen_date_estimation',
+                       'comments'),
         }), audit_fieldset_tuple)
 
     radio_fields = {'cancer_symptom_estimated': admin.VERTICAL,
