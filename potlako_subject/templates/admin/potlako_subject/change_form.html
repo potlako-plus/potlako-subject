@@ -24,7 +24,7 @@
 {% if cancerdxandtx %}
   <button class="tablinks"  onmouseover="openCity(event, 'cancerdxandtx')">Cancer Evaluation</button>
  {% endif %}
- 
+
 {% if baselineclinicalsummary %}
   <button class="tablinks"  onmouseover="openCity(event, 'baselineclinicalsummary')">Baseline Clinical Summary</button>
  {% endif %}
@@ -58,7 +58,7 @@
 
 {% if cancerdxandtx.diagnosis_date_estimation %}
 <label class='heading'>Diagnoses Date Estimation: </label>{{ cancerdxandtx.diagnoses_date_estimated }}
-{% endif %}	
+{% endif %}
 
 <label class='heading'>Cancer Treatment: </label> {{ cancerdxandtx.cancer_treatment }}
 
@@ -77,9 +77,9 @@
 <div id="symptomandcareseekingassessment" class="tabcontent">
   <p class='patient_details'>
   <label class='heading'>First visit promt: </label> {{ symptomandcareseekingassessment.first_visit_promt }}
-     
+
   <label class='heading'>Cause Assumption: </label> {{ symptomandcareseekingassessment.cause_assumption }}
-     
+
   <label class='heading'>Symptoms Concern: </label> {{ symptomandcareseekingassessment.get_symptoms_concern_display }}</p>
   </div>
 
