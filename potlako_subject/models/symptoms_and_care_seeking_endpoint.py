@@ -29,12 +29,16 @@ class SymptomsAndCareSeekingEndpoint(UniqueSubjectIdentifierFieldMixin,
         blank=True)
 
     discussion_date = models.DateField(
-        verbose_name='Date of first discussion with someone')
+        verbose_name='Date of first discussion with someone',
+        null=True,
+        blank=True)
 
     discussion_date_estimated = models.CharField(
         verbose_name='Is the discussion date estimated?',
         choices=YES_NO,
-        max_length=3)
+        max_length=3,
+        null=True,
+        blank=True)
 
     discussion_date_estimation = models.CharField(
         verbose_name='Which part of the date is estimated?',
