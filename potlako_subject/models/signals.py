@@ -134,11 +134,9 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
                             screening_identifier=subject_consent.screening_identifier) == 'Intervention'):
                         create_unscheduled_appointment(instance=instance)
 
-        trigger_action_item(instance, 'patient_info_change', YES,
-                            SubjectLocator, SUBJECT_LOCATOR_ACTION,
-                            instance.subject_visit.appointment.subject_identifier,
-                            repeat=True)
-
+        # Create data action assigned to individual adding crf to update locator information if changed.
+        if getattr(instance, 'patient_info_change', None) == YES:
+            create_or_update_locator_info(instance, 'patient_info_change', YES)
 
 @receiver(post_save, weak=False, sender=MissedVisit,
           dispatch_uid='missed_visit_on_post_save')
@@ -435,3 +433,29 @@ def update_model_fields(instance=None, model_cls=None, fields=None):
         for field, value in fields:
             setattr(model_obj, field, value)
         model_obj.save_base(update_fields=[field[0] for field in fields])
+
+
+def create_or_update_locator_info(instance, field, response):
+    """ Checks if a subject locator instance exists, and creates a data action item
+        to notify user to update locator information; otherwise an action item is
+        created for user to add new locator.
+    """
+    data_action_item_cls = django_apps.get_model('edc_data_manager.dataactionitem')
+
+    try:
+        SubjectLocator.objects.get(subject_identifier=instance.subject_identifier)
+    except SubjectLocator.DoesNotExist:
+        trigger_action_item(instance, field, response,
+                            SubjectLocator, SUBJECT_LOCATOR_ACTION,
+                            instance.subject_visit.appointment.subject_identifier,
+                            trigger=True)
+    else:
+        data_action_item_cls.objects.update_or_create(
+            subject_identifier=instance.subject_identifier,
+            subject='*Update the subject locator information*',
+            defaults={
+                'assigned': instance.user_modified or instance.user_created,
+                'comment': 'Patient locator information has changed, please update the locator form.',
+                'user_created': instance.user_modified or instance.user_created,
+                'action_priority': 'high'}, )
+    
