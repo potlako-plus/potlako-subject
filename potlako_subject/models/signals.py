@@ -36,6 +36,7 @@ from .subject_locator import SubjectLocator
 from .subject_screening import SubjectScreening
 from .subject_visit import SubjectVisit
 from .verbal_consent import VerbalConsent
+from .navigation_summary_and_plan import NavigationSummaryAndPlan
 from ..action_items import NAVIGATION_PLANS_ACTION, SUBJECT_LOCATOR_ACTION
 
 
@@ -247,16 +248,17 @@ def appointment_reminder_on_post_save(sender, instance, raw, created, using, **k
                     if consent and not is_soc_community_arm(consent):
                         schedule_sms(appt_datetime, instance, consent)
 
-        visit_codes = ['2000', '3000']
         consent = subject_consent(instance)
-        if consent and is_soc_community_arm(consent) and instance.visit_code in \
-                visit_codes:
+        if consent and is_soc_community_arm(consent) and instance.visit_code == '2000':
             navigation_plan_cls = django_apps.get_model(
                 'potlako_subject.navigationsummaryandplan')
             trigger_action_item(instance, 'appt_status', 'done',
                                 navigation_plan_cls, NAVIGATION_PLANS_ACTION,
                                 instance.subject_identifier,
                                 repeat=True)
+
+        if consent and is_soc_community_arm(consent) and instance.visit_code == '3000':
+            trigger_navigation_summary_reminder(instance)
 
 
 def subject_consent(instance=None):
@@ -458,4 +460,28 @@ def create_or_update_locator_info(instance, field, response):
                 'comment': 'Patient locator information has changed, please update the locator form.',
                 'user_created': instance.user_modified or instance.user_created,
                 'action_priority': 'high'}, )
-    
+
+
+def trigger_navigation_summary_reminder(instance):
+    """ Checks if a navigation summary had been updated and creates a data action item
+        to notify user to update a navigation summary plan for visit 3000
+    """
+    data_action_item_cls = django_apps.get_model('edc_data_manager.dataactionitem')
+
+    try:
+        obj = NavigationSummaryAndPlan.objects.get(subject_identifier=instance.subject_identifier)
+    except NavigationSummaryAndPlan.DoesNotExist:
+        pass
+    else:
+        is_modified = obj.created > obj.modified
+        if is_modified:
+
+            data_action_item_cls.objects.update_or_create(
+                subject_identifier=instance.subject_identifier,
+                subject='*Update the navigation plan summary*',
+                defaults={
+                    'assigned': instance.user_modified or instance.user_created,
+                    'comment': 'Update the navigation plan summary before visit 3000',
+                    'user_created': instance.user_modified or instance.user_created,
+                    'action_priority': 'high',
+                    'status': 'open'}, )
