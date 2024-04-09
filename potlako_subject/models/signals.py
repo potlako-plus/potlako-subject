@@ -254,8 +254,7 @@ def appointment_reminder_on_post_save(sender, instance, raw, created, using, **k
                 'potlako_subject.navigationsummaryandplan')
             trigger_action_item(instance, 'appt_status', 'done',
                                 navigation_plan_cls, NAVIGATION_PLANS_ACTION,
-                                instance.subject_identifier,
-                                repeat=True)
+                                instance.subject_identifier)
 
         if consent and is_soc_community_arm(consent) and instance.visit_code == '3000':
             trigger_navigation_summary_reminder(instance)
