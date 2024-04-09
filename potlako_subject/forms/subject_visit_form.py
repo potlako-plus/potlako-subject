@@ -19,6 +19,7 @@ class VisitFormValidator(BaseVisitFormValidator):
     def clean(self):
         super().clean()
         self.validate_navigation_action_required()
+        self.validate_navigation_updated()
 
     @property
     def appointment_cls(self):
