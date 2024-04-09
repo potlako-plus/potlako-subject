@@ -468,21 +468,18 @@ def trigger_navigation_summary_reminder(instance):
     data_action_item_cls = django_apps.get_model('edc_data_manager.dataactionitem')
 
     try:
-        obj = NavigationSummaryAndPlan.objects.get(subject_identifier=instance.subject_identifier)
+        NavigationSummaryAndPlan.objects.get(subject_identifier=instance.subject_identifier)
     except NavigationSummaryAndPlan.DoesNotExist:
         trigger_action_item(instance, 'appt_status', 'done',
                             NavigationSummaryAndPlan, NAVIGATION_PLANS_ACTION,
                             instance.subject_identifier)
     else:
-        is_modified = obj.created > obj.modified
-        if is_modified:
-
-            data_action_item_cls.objects.update_or_create(
-                subject_identifier=instance.subject_identifier,
-                subject='*Update the navigation plan summary*',
-                defaults={
-                    'assigned': instance.user_modified or instance.user_created,
-                    'comment': 'Update the navigation plan summary before visit 3000',
-                    'user_created': instance.user_modified or instance.user_created,
-                    'action_priority': 'high',
-                    'status': 'open'}, )
+        data_action_item_cls.objects.update_or_create(
+            subject_identifier=instance.subject_identifier,
+            subject='*Update the navigation plan summary*',
+            defaults={
+                'assigned': instance.user_modified or instance.user_created,
+                'comment': 'Update the navigation plan summary before visit 3000',
+                'user_created': instance.user_modified or instance.user_created,
+                'action_priority': 'high',
+                'status': 'open'}, )

@@ -11,6 +11,7 @@ from edc_visit_tracking.form_validators import (
 
 from ..action_items import NAVIGATION_PLANS_ACTION
 from ..models import SubjectVisit
+from ..models import NavigationSummaryAndPlan
 
 
 class VisitFormValidator(BaseVisitFormValidator):
@@ -105,6 +106,19 @@ class VisitFormValidator(BaseVisitFormValidator):
         )
         if nav_actions.exists():
             raise forms.ValidationError('Complete navigation plans action item first')
+
+    def validate_navigation_updated(self):
+        """Raise an exception if the navigation plans has not been updated for visit 3000."""
+        appointment = self.cleaned_data.get('appointment')
+
+        if appointment.visit_code == '3000' and appointment.appt_status == 'in_progress':
+            try:
+                obj = NavigationSummaryAndPlan.objects.get(subject_identifier=appointment.subject_identifier)
+            except NavigationSummaryAndPlan.DoesNotExist:
+                raise forms.ValidationError('Please complete the navigation first.')
+            else:
+                if appointment.appt_datetime > obj.modified:
+                    raise forms.ValidationError('Please update the navigation plan for visit 3000 first')
 
 
 class SubjectVisitForm(SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
