@@ -470,7 +470,11 @@ def trigger_navigation_summary_reminder(instance):
     try:
         obj = NavigationSummaryAndPlan.objects.get(subject_identifier=instance.subject_identifier)
     except NavigationSummaryAndPlan.DoesNotExist:
-        pass
+        navigation_plan_cls = django_apps.get_model(
+                'potlako_subject.navigationsummaryandplan')
+        trigger_action_item(instance, 'appt_status', 'done',
+                            navigation_plan_cls, NAVIGATION_PLANS_ACTION,
+                            instance.subject_identifier)
     else:
         is_modified = obj.created > obj.modified
         if is_modified:
