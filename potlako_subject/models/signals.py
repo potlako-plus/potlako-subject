@@ -457,5 +457,6 @@ def create_or_update_locator_info(instance, field, response):
                 'assigned': instance.user_modified or instance.user_created,
                 'comment': 'Patient locator information has changed, please update the locator form.',
                 'user_created': instance.user_modified or instance.user_created,
+                'status': OPEN,
                 'action_priority': 'high'}, )
     
