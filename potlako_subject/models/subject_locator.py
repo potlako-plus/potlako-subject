@@ -1,5 +1,6 @@
 from potlako_subject.action_items import SUBJECT_LOCATOR_ACTION
 
+from django.apps import apps as django_apps
 from django.contrib.sites.models import Site
 from django.db import models
 from django.utils import timezone
@@ -14,6 +15,7 @@ from edc_base.model_validators.phone import CellNumber
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_consent.model_mixins import RequiresConsentFieldsModelMixin
 from edc_constants.choices import YES_NO_NA
+from edc_constants.constants import OPEN, CLOSED
 from edc_locator.model_mixins import LocatorModelMixin, LocatorManager
 
 from ..choices import YES_NO_DW
@@ -110,6 +112,11 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
 
     objects = LocatorManager()
 
+    def save(self, *args, **kwargs):
+        # Close data action item if locator information is updated
+        self.close_data_action_item()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return (f'{self.subject_identifier}')
 
@@ -118,5 +125,23 @@ class SubjectLocator(LocatorModelMixin, RequiresConsentFieldsModelMixin,
 
     natural_key.dependencies = ['sites.Site']
 
+    def close_data_action_item(self):
+        """ Update locator data action item to closed once the locator
+            information has been updated.
+        """
+        data_action_item_cls = django_apps.get_model(
+            'edc_data_manager.dataactionitem')
+        try:
+            action_item = data_action_item_cls.objects.get(
+                subject_identifier=self.subject_identifier,
+                subject='*Update the subject locator information*',
+                status=OPEN)
+        except data_action_item_cls.DoesNotExist:
+            pass
+        else:
+            if self.modified.date() >= action_item.action_date:
+                action_item.status = CLOSED
+                action_item.save()
+            
     class Meta:
         verbose_name = 'Subject Locator'

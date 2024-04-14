@@ -36,6 +36,7 @@ from .subject_locator import SubjectLocator
 from .subject_screening import SubjectScreening
 from .subject_visit import SubjectVisit
 from .verbal_consent import VerbalConsent
+from .navigation_summary_and_plan import NavigationSummaryAndPlan
 from ..action_items import NAVIGATION_PLANS_ACTION, SUBJECT_LOCATOR_ACTION
 
 
@@ -134,11 +135,9 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
                             screening_identifier=subject_consent.screening_identifier) == 'Intervention'):
                         create_unscheduled_appointment(instance=instance)
 
-        trigger_action_item(instance, 'patient_info_change', YES,
-                            SubjectLocator, SUBJECT_LOCATOR_ACTION,
-                            instance.subject_visit.appointment.subject_identifier,
-                            repeat=True)
-
+        # Create data action assigned to individual adding crf to update locator information if changed.
+        if getattr(instance, 'patient_info_change', None) == YES:
+            create_or_update_locator_info(instance, 'patient_info_change', YES)
 
 @receiver(post_save, weak=False, sender=MissedVisit,
           dispatch_uid='missed_visit_on_post_save')
@@ -249,16 +248,16 @@ def appointment_reminder_on_post_save(sender, instance, raw, created, using, **k
                     if consent and not is_soc_community_arm(consent):
                         schedule_sms(appt_datetime, instance, consent)
 
-        visit_codes = ['2000', '3000']
         consent = subject_consent(instance)
-        if consent and is_soc_community_arm(consent) and instance.visit_code in \
-                visit_codes:
+        if consent and is_soc_community_arm(consent) and instance.visit_code == '2000':
             navigation_plan_cls = django_apps.get_model(
                 'potlako_subject.navigationsummaryandplan')
             trigger_action_item(instance, 'appt_status', 'done',
                                 navigation_plan_cls, NAVIGATION_PLANS_ACTION,
-                                instance.subject_identifier,
-                                repeat=True)
+                                instance.subject_identifier)
+
+        if consent and is_soc_community_arm(consent) and instance.visit_code == '3000':
+            trigger_navigation_summary_reminder(instance)
 
 
 def subject_consent(instance=None):
@@ -435,3 +434,53 @@ def update_model_fields(instance=None, model_cls=None, fields=None):
         for field, value in fields:
             setattr(model_obj, field, value)
         model_obj.save_base(update_fields=[field[0] for field in fields])
+
+
+def create_or_update_locator_info(instance, field, response):
+    """ Checks if a subject locator instance exists, and creates a data action item
+        to notify user to update locator information; otherwise an action item is
+        created for user to add new locator.
+    """
+    data_action_item_cls = django_apps.get_model('edc_data_manager.dataactionitem')
+
+    try:
+        SubjectLocator.objects.get(subject_identifier=instance.subject_identifier)
+    except SubjectLocator.DoesNotExist:
+        trigger_action_item(instance, field, response,
+                            SubjectLocator, SUBJECT_LOCATOR_ACTION,
+                            instance.subject_visit.appointment.subject_identifier,
+                            trigger=True)
+    else:
+        data_action_item_cls.objects.update_or_create(
+            subject_identifier=instance.subject_identifier,
+            subject='*Update the subject locator information*',
+            defaults={
+                'assigned': instance.user_modified or instance.user_created,
+                'comment': 'Patient locator information has changed, please update the locator form.',
+                'user_created': instance.user_modified or instance.user_created,
+                'status': OPEN,
+                'action_priority': 'high'}, )
+
+
+def trigger_navigation_summary_reminder(instance):
+    """ Checks if a navigation summary had been updated and creates a data action item
+        to notify user to update a navigation summary plan for visit 3000
+    """
+    data_action_item_cls = django_apps.get_model('edc_data_manager.dataactionitem')
+
+    try:
+        NavigationSummaryAndPlan.objects.get(subject_identifier=instance.subject_identifier)
+    except NavigationSummaryAndPlan.DoesNotExist:
+        trigger_action_item(instance, 'appt_status', 'done',
+                            NavigationSummaryAndPlan, NAVIGATION_PLANS_ACTION,
+                            instance.subject_identifier)
+    else:
+        data_action_item_cls.objects.update_or_create(
+            subject_identifier=instance.subject_identifier,
+            subject='*Update the navigation plan summary*',
+            defaults={
+                'assigned': instance.user_modified or instance.user_created,
+                'comment': 'Update the navigation plan summary before visit 3000',
+                'user_created': instance.user_modified or instance.user_created,
+                'action_priority': 'high',
+                'status': 'open'}, )
