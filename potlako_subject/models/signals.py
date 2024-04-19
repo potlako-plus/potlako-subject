@@ -483,4 +483,4 @@ def trigger_navigation_summary_reminder(instance):
                 'comment': 'Update the navigation plan summary before visit 3000',
                 'user_created': instance.user_modified or instance.user_created,
                 'action_priority': 'high',
-                'status': 'open'}, )
+                'status': OPEN}, )
