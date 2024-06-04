@@ -18,7 +18,10 @@ class SymptomAndCareSeekingEndpointForm(SubjectModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
+
         subject_identifier =  self.initial.get('subject_identifier', None)
+        instance = kwargs.get("instance")
+    
 
         if subject_identifier:
             try:
@@ -28,9 +31,10 @@ class SymptomAndCareSeekingEndpointForm(SubjectModelFormMixin, forms.ModelForm):
             except self.symptoms_and_care_seeking_cls.DoesNotExist:
                 raise ValidationError('Symptom and Care seeking Assessment does not exist.')
             else:
-                self.initial['cancer_symptom_date'] = symptoms_and_care_seeking_obj.early_symptoms_date
-                self.initial['cancer_symptom_estimated'] = symptoms_and_care_seeking_obj.early_symptoms_date_estimated 
-                self.initial['cancer_symptom_estimation'] = symptoms_and_care_seeking_obj.early_symptoms_date_estimation
+                if instance == None:
+                    self.initial['cancer_symptom_date'] = symptoms_and_care_seeking_obj.early_symptoms_date
+                    self.initial['cancer_symptom_estimated'] = symptoms_and_care_seeking_obj.early_symptoms_date_estimated 
+                    self.initial['cancer_symptom_estimation'] = symptoms_and_care_seeking_obj.early_symptoms_date_estimation
 
     class Meta:
         model = SymptomsAndCareSeekingEndpoint
