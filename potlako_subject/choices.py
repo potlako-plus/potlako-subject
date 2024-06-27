@@ -494,16 +494,18 @@ SPECIALIST_CLINIC = (
     (OTHER, 'Other, specify'))
 
 STAGES = (
-    (0, 0),
-    (1, 1),
-    (2, 2),
-    (3, 3),
-    (4, 4))
+    ('0', '0'),
+    ('1', '1'),
+    ('2', '2'),
+    ('3', '3'),
+    ('4', '4'),
+    (UNKNOWN,UNKNOWN))
 
 METASTASIS_STAGES = (
-    (0, 0),
-    (1, 1),
-    (2, 2))
+    ('0', '0'),
+    ('1', '1'),
+    ('2', '2'),
+    (UNKNOWN,UNKNOWN))
 
 SUSPECTED_CANCER = (
     ('anal', 'Anal'),
