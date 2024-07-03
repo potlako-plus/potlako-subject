@@ -87,21 +87,24 @@ class CancerDxAndTxEndpoint(OffScheduleModelMixin, SiteModelMixin, BaseUuidModel
         blank=True,
         null=True)
 
-    tumor_stage = models.IntegerField(
+    tumor_stage = models.CharField(
         verbose_name='AJCC tumor stage',
         choices=STAGES,
         blank=True,
+        max_length=15,
         null=True)
 
-    nodal_stage = models.IntegerField(
+    nodal_stage = models.CharField(
         verbose_name='AJCC nodal stage',
         choices=STAGES,
+        max_length=15,
         blank=True,
         null=True)
 
-    distant_metastasis_stage = models.IntegerField(
+    distant_metastasis_stage = models.CharField(
         verbose_name='AJCC distant metastasis stage',
         choices=METASTASIS_STAGES,
+        max_length=15,
         blank=True,
         null=True)
 
