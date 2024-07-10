@@ -1,3 +1,4 @@
+from .appointment_form import AppointmentForm
 from .baseline_clinical_summary_form import BaselineClinicalSummaryForm
 from .baseline_roadmap_form import BaselineRoadMapForm
 from potlako_subject.forms.cancer_dx_and_tx_form import CancerDxAndTxAssessmentForm
