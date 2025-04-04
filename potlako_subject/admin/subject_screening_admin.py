@@ -40,6 +40,7 @@ class SubjectScreeningAdmin(
             'fields': (
                 'screening_identifier',
                 'enrollment_interest',
+                'unknown_reason',
                 'disinterest_reason',
                 'disinterest_reason_other',
                 'residency',

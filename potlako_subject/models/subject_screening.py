@@ -47,6 +47,13 @@ class SubjectScreening(
         max_length=8,
         choices=YES_NO_DECEASED)
 
+    unknown_reason = models.CharField(
+        verbose_name='If unknown, state reason',
+        max_length=50,
+        null=True,
+        blank=True
+    )
+
     disinterest_reason = models.CharField(
         verbose_name=('If no, reason patient does not wish to enroll'
                       ' into the study'),
@@ -127,7 +134,7 @@ class SubjectScreening(
 
     def get_search_slug_fields(self):
         fields = super().get_search_slug_fields()
-        fields.extend(['screening_identifier',])
+        fields.extend(['screening_identifier', ])
         return fields
 
     def save(self, *args, **kwargs):
@@ -137,7 +144,8 @@ class SubjectScreening(
             age_in_years=self.age_in_years,
             residency=self.residency,
             nationality=self.nationality,
-            enrollment_interest=self.enrollment_interest)
+            enrollment_interest=self.enrollment_interest,
+            unknown_reason=self.unknown_reason)
         self.is_eligible = eligibility_obj.is_eligible
         if eligibility_obj.reasons_ineligible:
             self.ineligibility = eligibility_obj.reasons_ineligible
