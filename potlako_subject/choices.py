@@ -649,7 +649,8 @@ YES_NO_AOTS = (
 YES_NO_DECEASED = (
     (YES, YES),
     (NO, NO),
-    ('deceased', 'Deceased')
+    ('deceased', 'Deceased'),
+    (UNKNOWN, 'Unknown')
 )
 
 MORE_INFO_EXIT = (

@@ -1,3 +1,4 @@
+from .appointment_admin import AppointmentAdmin
 from potlako_subject.admin.cancer_dx_and_tx_admin import CancerDxAndTxAssessmentAdmin
 from potlako_subject.admin.cancer_dx_and_tx_endpoint_admin import CancerDxAndTxAssessmentEndpointAdmin
 from potlako_subject.admin.navigation_summary_and_plan_admin import NavigationPlanAndSummaryAdmin

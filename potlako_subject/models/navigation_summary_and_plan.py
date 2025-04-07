@@ -7,7 +7,6 @@ from edc_base.model_validators import date_not_future
 from edc_base.sites import CurrentSiteManager, SiteModelMixin
 from edc_constants.choices import YES_NO
 from edc_identifier.managers import SubjectIdentifierManager
-from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 
 from ..action_items import NAVIGATION_PLANS_ACTION
 from ..choices import DONE_NOT_DONE

@@ -1,11 +1,12 @@
-from edc_constants.constants import NO
+from edc_constants.constants import NO, UNKNOWN
 
 
 class Eligibility:
 
     def __init__(self, cancer_status=None, age_in_years=None,
                  residency=None, nationality=None, consented_contact=None,
-                 enrollment_interest=None, verbal_consent=None):
+                 enrollment_interest=None, unknown_reason=None,
+                 verbal_consent=None):
         """checks if participant is eligible otherwise
             error message is the reason for eligibility test failed."""
 
@@ -27,6 +28,8 @@ class Eligibility:
         if enrollment_interest == 'deceased':
             self.reasons_ineligible.append(
                 'Patient deceased.')
+        if enrollment_interest == UNKNOWN:
+            self.reasons_ineligible.append(unknown_reason)
         if verbal_consent == NO:
             self.reasons_ineligible.append(
                 'Refused verbal consent.')
