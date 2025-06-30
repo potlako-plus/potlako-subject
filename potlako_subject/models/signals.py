@@ -128,8 +128,9 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
                 except SubjectConsent.DoesNotExist:
                     raise ValidationError('Subject screening object does not exist!')
                 else:
-                    appt_status = instance.subject_visit.appointment.next_by_timepoint.appt_status
-                    if appt_status == 'done':
+                    next_appt = instance.subject_visit.appointment.next_by_timepoint
+                    appt_status = getattr(next_appt, 'appt_status', None)
+                    if appt_status and appt_status == 'done':
                         pass
                     elif (instance.next_appointment_date and get_community_arm(
                             screening_identifier=subject_consent.screening_identifier) == 'Intervention'):
@@ -138,6 +139,7 @@ def patient_call_followup_on_post_save(sender, instance, raw, created, **kwargs)
         # Create data action assigned to individual adding crf to update locator information if changed.
         if getattr(instance, 'patient_info_change', None) == YES:
             create_or_update_locator_info(instance, 'patient_info_change', YES)
+
 
 @receiver(post_save, weak=False, sender=MissedVisit,
           dispatch_uid='missed_visit_on_post_save')
