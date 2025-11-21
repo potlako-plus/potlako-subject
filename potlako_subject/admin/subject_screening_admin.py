@@ -52,7 +52,7 @@ class SubjectScreeningAdmin(
             )}),
         audit_fieldset_tuple)
 
-    search_fields = ('subject_identifier',)
+    search_fields = ('subject_identifier', 'screening_identifier')
 
     radio_fields = {
         'residency': admin.VERTICAL,
