@@ -12,6 +12,10 @@ class CancerDxAndTxAssessmentEndpointForm(
 
     form_validator_cls = CancerDxAndTxEndpointFormValidator
 
+    subject_identifier = forms.CharField(
+        label='Subject Identifier',
+        widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+
     class Meta:
         model = CancerDxAndTxEndpoint
         fields = '__all__'
