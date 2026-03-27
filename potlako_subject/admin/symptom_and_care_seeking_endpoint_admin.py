@@ -52,6 +52,10 @@ class SymptomAndCareSeekingEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'symptoms_discussion': admin.VERTICAL,
                     }
 
+    search_fields = ['subject_identifier', ]
+
+    list_display = ('subject_identifier', 'cancer_symptom_date', )
+
     def redirect_url(self, request, obj, post_url_continue=None):
         redirect_url = super().redirect_url(
             request, obj, post_url_continue=post_url_continue)

@@ -12,6 +12,10 @@ class SymptomAndCareSeekingEndpointForm(SubjectModelFormMixin, forms.ModelForm):
     form_validator_cls = SymptomsAndCareSeekingEndpointFormValidator
     symptoms_and_care_seeking_model = 'potlako_subject.symptomandcareseekingassessment'
 
+    subject_identifier = forms.CharField(
+        label='Subject Identifier',
+        widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+
     @property
     def symptoms_and_care_seeking_cls(self):
         return django_apps.get_model(self.symptoms_and_care_seeking_model)
