@@ -85,9 +85,11 @@ class CancerDxAndTxAssessmentEndpointAdmin(ModelAdminMixin, admin.ModelAdmin):
                     'clinical_impression',
                     'final_cancer_diagnosis',
                     'non_cancer_diagnosis',
-                    'final_deposition',)
+                    'final_deposition', )
 
-    list_filter = 'final_deposition',
+    list_filter = ('final_deposition', )
+
+    search_fields = ['subject_identifier', ]
 
     def redirect_url(self, request, obj, post_url_continue=None):
         redirect_url = super().redirect_url(
